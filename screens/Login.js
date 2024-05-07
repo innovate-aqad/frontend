@@ -3,16 +3,20 @@ import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import CheckBox from 'react-native-check-box';
+import ToggleSwitch from 'toggle-switch-react-native';
 
 export default function Login(nav) {
-
   const [isEnabled, setIsEnabled] = React.useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const rememberMe = () => setIsEnabled(previousState => !previousState);
+
+  const redirect=()=>{
+    // nav.navigation.navigate('products')
+    nav.navigation.navigate('bottomTab')
+  }
+
   return (
     <View
-      className="flex p-5 flex-col justify-center h-full bg-gray-100 !text-black
-     "
+      className="flex p-5 flex-col justify-center h-full bg-gray-100 !text-black"
       style={{fontFamily: 'Poppins-Bold'}}>
       <View>
         <Text
@@ -61,13 +65,14 @@ export default function Login(nav) {
           className="flex flex-row items-center justify-between">
           <View className="flex flex-row items-center">
             <View style={{borderWidth: 0, borderColor: 'transparent'}}>
-              
-              <Switch
-                trackColor={{false: 'gray', true: '#00274D'}}
-                thumbColor={isEnabled ? 'white' : 'white'}
-                ios_backgroundColor="#00274D"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
+              <ToggleSwitch
+                isOn={isEnabled}
+                onColor="#00274D"
+                offColor="gray"
+                // label="Example label"
+                labelStyle={{color: 'black', fontWeight: '900'}}
+                size="small"
+                onToggle={isOn => rememberMe(isOn)}
               />
             </View>
 
@@ -84,10 +89,12 @@ export default function Login(nav) {
       </View>
       <View className="w-full">
         <View>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity  onPress={()=>redirect()} style={styles.button}>
             <Text
               className="text-white"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
+              style={{fontFamily: 'Poppins-SemiBold'}}
+             
+              >
               LOGIN
             </Text>
           </TouchableOpacity>
@@ -135,10 +142,14 @@ export default function Login(nav) {
       </View>
       <View className="flex flex-row items-center justify-center mt-8">
         <Text className="text-gray-400">New to AQAD ?</Text>
-        <Text className="px-5 text-[#F96900]" onPress={()=>nav.navigation.navigate("signup")}>Sign Up</Text>
+        <Text
+          className="px-5 text-[#F96900]"
+          onPress={() => nav.navigation.navigate('signup')}>
+          Sign Up
+        </Text>
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
