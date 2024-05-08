@@ -5,6 +5,7 @@ import Login from './Login';
 import Signup from './Signup';
 import Buttomtab from '../components';
 import Products from './Products';
+// import Orders from './Orderes';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -14,6 +15,8 @@ export default function Index() {
       <Stack.Screen name="signup" component={Signup} />
       <Stack.Screen name="bottomTab" component={Buttomtab} />
       <Stack.Screen name="products" component={Products} />
+      <Stack.Screen name="orders" component={Orders} />
+      {/* <Stack.Screen name="dashboard" component={Dashboard} /> */}
     </Stack.Navigator>
   );
 }

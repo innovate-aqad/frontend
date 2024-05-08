@@ -23,7 +23,7 @@ export default function Products() {
         <Text
           className="flex justify-center w-[80%] text-center text-[#00274d]"
           style={{fontFamily: 'Poppins-Bold'}}>
-          products
+          PRODUCTS
         </Text>
       </View>
       <View className="p-3 px-5 gap-y-3">

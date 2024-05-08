@@ -93,7 +93,7 @@ export default function Buttomtab() {
         },
         tabBarActiveTintColor: '#F96900',
 
-        
+        headerShadowVisible:false
         
       })}
       // screenOptions={{headerShown: false}}
