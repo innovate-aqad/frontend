@@ -9,10 +9,10 @@ export default function Login(nav) {
   const [isEnabled, setIsEnabled] = React.useState(false);
   const rememberMe = () => setIsEnabled(previousState => !previousState);
 
-  const redirect=()=>{
+  const redirect = () => {
     // nav.navigation.navigate('products')
-    nav.navigation.navigate('bottomTab')
-  }
+    nav.navigation.navigate('bottomTab');
+  };
 
   return (
     <View
@@ -89,12 +89,10 @@ export default function Login(nav) {
       </View>
       <View className="w-full">
         <View>
-          <TouchableOpacity  onPress={()=>redirect()} style={styles.button}>
+          <TouchableOpacity onPress={() => redirect()} style={styles.button}>
             <Text
               className="text-white"
-              style={{fontFamily: 'Poppins-SemiBold'}}
-             
-              >
+              style={{fontFamily: 'Poppins-SemiBold'}}>
               LOGIN
             </Text>
           </TouchableOpacity>
@@ -119,24 +117,24 @@ export default function Login(nav) {
         </View>
       </View>
       <View className="flex flex-col gap-y-2">
-        <TouchableOpacity className="flex-row items-center p-2 my-1 bg-white border !border-white rounded-2xl">
+        <TouchableOpacity className="flex-row items-center p-2 my-1 bg-white border border-white rounded-2xl">
           <AntDesign name="google" color={'black'} size={22} />
-          <Text className="pl-10 text-center text-[#00274D]">
-            Continue with Google
+          <Text className="pl-10 text-center text-[#00274D] flex-1">
+            Sign up with Google
           </Text>
         </TouchableOpacity>
         <TouchableOpacity className="flex-row items-center p-2 my-1 bg-white border !border-white rounded-2xl">
           <View>
             <AntDesign name="apple1" color={'black'} size={22} />
           </View>
-          <Text className="pl-10 text-center text-[#00274D]">
-            Continue with Apple
+          <Text className="pl-10 text-center text-[#00274D] flex-1">
+            Sign up with Apple
           </Text>
         </TouchableOpacity>
         <TouchableOpacity className="flex-row items-center p-2 my-1 bg-white border !border-white rounded-2xl">
           <Ionicons name="finger-print-outline" color={'black'} size={22} />
-          <Text className="pl-10 text-center text-[#00274D]">
-            Continue with UEA Pass
+          <Text className="pl-10 text-center text-[#00274D] flex-1">
+            Sign up with UEA Pass
           </Text>
         </TouchableOpacity>
       </View>
