@@ -86,8 +86,9 @@ export default function Signup(nav) {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.5}>
-          <View className="flex flex-row items-center w-full p-2 bg-white rounded-lg">
+        <TouchableOpacity indicatorStyle={"green"} className="flex flex-row items-center w-full p-2 bg-white rounded-lg" 
+         activeOpacity={0.5}>
+          {/* <View className="flex flex-row items-center w-full p-2 rounded-lg"> */}
             <View className="w-[12%]  flex flex-row items-center justify-center rounded-full">
             <Image
                 style={styles.tinyLogo}
@@ -102,7 +103,7 @@ export default function Signup(nav) {
                 45 BC, making it over 2000 years old.
               </Text>
             </View>
-          </View>
+          {/* </View> */}
         </TouchableOpacity>
       </View>
 

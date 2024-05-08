@@ -10,7 +10,7 @@ export default function Login(nav) {
   const rememberMe = () => setIsEnabled(previousState => !previousState);
 
   const redirect = () => {
-    nav.navigation.navigate('orders')
+    nav.navigation.navigate('productIndex')
     // nav.navigation.navigate('bottomTab');
   };
 

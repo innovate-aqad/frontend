@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {
   Image,
+  ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -56,58 +58,67 @@ export default function Products() {
             source={require('../Assets/image/drawable-hdpi/apps_sort.png')}
           />
         </View>
+        {/* <View style={styles.scrollViewConaner}>  */}
+        <ScrollView >
+          {/* <View className="h-[460px]"> */}
+            {[1, 2, 3, 4, 5]?.map((item, index) => {
+              return (
+                <View
+                  key={index}
+                  className="flex flex-row items-center justify-around p-3 mt-1.5 bg-white shadow rounded-xl">
+                  <View className="bg-[#FDEEE3] h-[50px] w-[50px] rounded-full border border-[#FDD7BC] p-3">
+                    <Image
+                      style={{height: 22, width: 29.5}}
+                      source={require('../Assets/image/drawable-xhdpi/pngwing_com_9.png')}
+                    />
+                  </View>
+                  <View>
+                    <Text
+                      className="text-[#5a607f] text-[13px]"
+                      style={{fontFamily: 'Poppins-Regular'}}>
+                      Product name
+                    </Text>
+                    <View className="flex flex-row gap-x-2">
+                      <Text
+                        className="text-[#5a607f] bg-[#e6e9f4] text-center h-[12px] rounded-full w-[55px] text-[7px]"
+                        style={{fontFamily: 'Poppins-SemiBold'}}>
+                        SKU : 575
+                      </Text>
+                      <Text
+                        className="text-[#5a607f] bg-[#e6e9f4] text-center h-[12px] rounded-full w-[55px] text-[7px]"
+                        style={{fontFamily: 'Poppins-SemiBold'}}>
+                        Grocery5
+                      </Text>
+                    </View>
+                  </View>
+                  <View>
+                    <Text
+                      className="text-[#f96900] pb-3 text-[13px]"
+                      style={{fontFamily: 'Poppins-Medium'}}>
+                      50 AED
+                    </Text>
+                  </View>
+                  <View>
+                    <Entypo
+                      name="dots-three-vertical"
+                      size={20}
+                      color="#cbcbcb"
+                    />
+                  </View>
+                </View>
+              );
+            })}
+          
+        </ScrollView>
+        {/* </View> */}
         <View>
-          {
-            [1,2,3,4,5,6]?.map((item,index)=>{
-              return(
-                <View key={index} className="flex flex-row items-center justify-around p-3 mt-1.5 bg-white shadow rounded-xl">
-            <View className="bg-[#FDEEE3] h-[50px] w-[50px] rounded-full border border-[#FDD7BC] p-3">
-              <Image
-                style={{height: 22, width: 29.5}}
-                source={require('../Assets/image/drawable-xhdpi/pngwing_com_9.png')}
-              />
-            </View>
-            <View>
-              <Text
-                className="text-[#5a607f] text-[13px]"
-                style={{fontFamily: 'Poppins-Regular'}}>
-                Product name
-              </Text>
-              <View className="flex flex-row gap-x-2">
-                <Text
-                  className="text-[#5a607f] bg-[#e6e9f4] text-center h-[12px] rounded-full w-[55px] text-[7px]"
-                  style={{fontFamily: 'Poppins-SemiBold'}}>
-                  SKU : 575
-                </Text>
-                <Text
-                  className="text-[#5a607f] bg-[#e6e9f4] text-center h-[12px] rounded-full w-[55px] text-[7px]"
-                  style={{fontFamily: 'Poppins-SemiBold'}}>
-                  Grocery5
-                </Text>
-              </View>
-            </View>
-            <View>
-              <Text
-                className="text-[#f96900] pb-3"
-                style={{fontFamily: 'Poppins-Medium'}}>
-                50 AED
-              </Text>
-            </View>
-            <View>
-              <Entypo name="dots-three-vertical" size={20} color="#cbcbcb" />
-            </View>
-          </View>
-              )
-            })
-          }
-        </View>
-        <View>
-        <TouchableOpacity className="mt-2 rounded-full"  onPress={()=>redirect()} style={styles.button}>
+          <TouchableOpacity
+            className="mt-2 rounded-full"
+            // onPress={() => redirect()}
+            style={styles.button}>
             <Text
               className="text-white"
-              style={{fontFamily: 'Poppins-SemiBold'}}
-             
-              >
+              style={{fontFamily: 'Poppins-SemiBold'}}>
               ADD PRODUCT
             </Text>
           </TouchableOpacity>
@@ -118,6 +129,10 @@ export default function Products() {
 }
 //
 const styles = StyleSheet.create({
+  scrollViewConaner: {
+    flex: 1,
+    paddingTop: StatusBar.currentHeight,
+  },
   container: {
     flexDirection: 'row',
     alignItems: 'center',

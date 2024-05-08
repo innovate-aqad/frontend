@@ -8,8 +8,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Header from './Header';
-import LiveOrder from '../Shared/LiveOrder';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CarouselHome from '../Shared/Carousel';
@@ -21,7 +19,6 @@ export default function Dashboard() {
   const handleSearch = () => {};
   return (
     <View className="flex flex-col pb-20">
-      <Header></Header>
       <ScrollView style={styles.scrollView}>
         <View className="p-3">
           <View className="flex flex-row w-full bg-gray-200 rounded-full">
@@ -59,8 +56,6 @@ export default function Dashboard() {
               <AntDesign name="search1" size={24} color="#cbcbcb" />
             </TouchableOpacity>
           </View>
-
-          <LiveOrder />
           <View className="flex flex-row justify-around w-full mt-1.5">
             <View className="flex flex-row items-center">
               <View className="w-[10px] h-[10px] bg-[#21d59b] rounded-full"></View>

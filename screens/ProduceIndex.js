@@ -1,29 +1,28 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Home from './Home';
-import FlexiTrade from './FlexiTrade';
-import MyAccount from './MyAccount';
-import Insights from './Insights';
-import Entypo from 'react-native-vector-icons/Entypo';
-import MarketPlace from './MarketPlace';
+import Dashboard from './Dashboard';
+import MyAccount from '../components/MyAccount';
+import Insights from '../components/Insights';
 import {Image} from 'react-native';
+import Orders from './Orderes';
+import Products from './Products';
 
 const Tab = createBottomTabNavigator();
-const home = 'Home';
-const trade = 'FlexiTrade';
+const product = 'Products';
+const trade = 'Dashboard';
 const account = 'MyAccount';
 const insights = 'Insights';
-const place = 'MarketPlace';
+const order = 'Orders';
 
-export default function Buttomtab() {
+export default function ProductIndex() {
   return (
     <Tab.Navigator
-      initialRouteName={home}
+      initialRouteName={product}
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
           let rn = route.name;
-          if (rn === home) {
+          if (rn === product) {
             iconName = focused ? 'home' : 'home';
           } else if (rn === trade) {
             iconName = focused ? 'list' : 'apps';
@@ -31,23 +30,22 @@ export default function Buttomtab() {
             iconName = focused ? 'list' : 'calendar-outline';
           } else if (rn === account) {
             iconName = focused ? 'list' : 'person';
-          } else if (rn === place) {
+          } else if (rn === order) {
             iconName = focused ? 'list' : 'person';
           }
-          if (rn === home) {
+          if (rn === product) {
             return (
-              <Entypo
-                name={iconName}
-                size={size}
-                color={(iconName = focused ? '#F96900' : color)}
+                <Image
+                style={{height: 23, width: 23.1,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
+                source={require('../Assets/image/drawable-hdpi/box_seam.png')}
               />
             );
             
           } else if (rn === trade) {
             return (
               <Image
-                style={{height: 24, width: 24,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
-                source={require('../Assets/image/drawable-hdpi/boxes.png')}
+                style={{height: 23, width: 22,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
+                source={require('../Assets/image/drawable-hdpi/group_271.png')}
               />
             );
           }
@@ -68,8 +66,8 @@ export default function Buttomtab() {
           } else {
             return (
               <Image
-                style={{height: 24, width: 24,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
-                source={require('../Assets/image/drawable-hdpi/marketplace.png')}
+                style={{height: 24, width: 20,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
+                source={require('../Assets/image/drawable-hdpi/memo_pad.png')}
               />
             );
           }
@@ -98,11 +96,13 @@ export default function Buttomtab() {
       })}
       // screenOptions={{headerShown: false}}
     >
-      <Tab.Screen name={home} component={Home} />
-      <Tab.Screen name={trade} component={FlexiTrade} />
+      <Tab.Screen name={trade} component={Dashboard} />
+      <Tab.Screen name={product} component={Products} />
+      
       <Tab.Screen name={account} component={MyAccount} />
       <Tab.Screen name={insights} component={Insights} />
-      <Tab.Screen name={place} component={MarketPlace} />
+      <Tab.Screen name={order} component={Orders} />
     </Tab.Navigator>
   );
 }
+
