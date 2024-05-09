@@ -8,6 +8,7 @@ import Products from './Products';
 import Orders from './Orderes';
 import Dashboard from './Dashboard';
 import ProductIndex from './ProduceIndex';
+import Forgot from './Forgot';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -18,6 +19,7 @@ export default function Index() {
       <Stack.Screen name="bottomTab" component={Buttomtab} />
       <Stack.Screen name="products" component={Products} />
       <Stack.Screen name="orders" component={Orders} />
+      <Stack.Screen name="forgot" component={Forgot} />
       {/* <Stack.Screen name="dashboard" component={Dashboard} /> */}
       <Stack.Screen name="productIndex" component={ProductIndex} />
     </Stack.Navigator>
