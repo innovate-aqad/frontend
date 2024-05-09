@@ -5,29 +5,18 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ToggleSwitch from 'toggle-switch-react-native';
 import axios from 'axios';
-import Icon from 'react-native-vector-icons/FontAwesome';
+
 // Make a request for a user with a given ID
 
-export default function Login(nav) {
+export default function Forgot(nav) {
   const [isEnabled, setIsEnabled] = React.useState(false);
   const rememberMe = () => setIsEnabled(previousState => !previousState);
   const [email,setEmail] = useState();
   const [password,setPassword] = useState();
 
-  // const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const gotoForgot=()=>{
-    nav.navigation.navigate('forgot');
-    
-  }
-
   const redirect = () => {
     // nav.navigation.navigate('productIndex')
+
     console.log(email,"emailemailemail")
     console.log(password,"passwordpasswordpasswordpassword")
 
@@ -38,7 +27,6 @@ export default function Login(nav) {
       25,
       50,
     );
-
 
 
     axios.get('/user?ID=12345')
@@ -66,7 +54,7 @@ export default function Login(nav) {
         <Text
           className="text-3xl text-[#00274D]"
           style={{fontFamily: 'Poppins-Bold'}}>
-          Welcome Back
+          Forget Back
         </Text>
         <Text
           className="text-xs text-gray-400"
@@ -90,33 +78,25 @@ export default function Login(nav) {
             className="!border-none pl-4 !border-white"
             borderRadius={18}
           />
-
-          
           <Text
             className="text-[#00274D] px-3 mt-3"
             style={{fontFamily: 'Poppins-SemiBold'}}>
             Password
           </Text>
-          
-
           <TextInput
-        style={styles.input}
-        onChangeText={setPassword}
-        value={password}
-        secureTextEntry={!showPassword}
-        placeholder="Enter your password"
-        keyboardType="default"
-        placeholderTextColor="rgb(210, 210, 210)"
-        className="!border-none pl-4 border-white"
-        borderRadius={18}
-      />
-      <TouchableOpacity onPress={toggleShowPassword} style={styles.icon}>
-        <Icon name={showPassword ? 'eye-slash' : 'eye'} size={20} color="black" />
-      </TouchableOpacity>
-      
+            style={styles.input}
+            onChangeText={setPassword}
+            // value={number}
+            secureTextEntry={true}
+            type="password"
+            name="tpassword"
+            placeholder="Enter your password"
+            keyboardType="default"
+            placeholderTextColor="rgb(210, 210, 210)"
+            className="!border-none pl-4 border-white"
+            borderRadius={18}
+          />
         </SafeAreaView>
-
-        
         <View
           style={styles.checkboxContainer}
           className="flex flex-row items-center justify-between">
@@ -139,12 +119,8 @@ export default function Login(nav) {
           </View>
           <Text
             className="text-[#00274D]"
-            style={{fontFamily: 'Poppins-SemiBold'}}
-            onPress={gotoForgot}
-            
-            >
+            style={{fontFamily: 'Poppins-SemiBold'}}>
             Forget Password ?
-            
           </Text>
         </View>
       </View>
