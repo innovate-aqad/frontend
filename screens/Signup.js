@@ -4,11 +4,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function Signup(nav) {
-  const [toggleBtn, setToggleBtn] = useState(false);
 
   const redirect = () => {
-    setToggleBtn(true);
+    nav.navigation.navigate("vendorPersonalInformation");
   };
+
 
   return (
     <View
@@ -29,7 +29,7 @@ export default function Signup(nav) {
       </View>
 
       <View className="flex flex-col !pt-5 gap-y-3">
-        <TouchableOpacity activeOpacity={0.5}>
+        <TouchableOpacity activeOpacity={0.5} onPress={redirect}>
           <View
             className={
               'flex flex-row items-center w-full p-2 bg-white rounded-lg '
@@ -41,7 +41,11 @@ export default function Signup(nav) {
               />
             </View>
             <View className="w-[88%] px-3">
-              <Text className="text-xl text-[#00274D]" style={styles.fontFamily}>Vendor</Text>
+              <Text
+                className="text-xl text-[#00274D]"
+                style={styles.fontFamily}>
+                Vendor
+              </Text>
               <Text className="pt-2 text-xs text-gray-300">
                 Contrary to popular belief, Lorem Ipsum is not simply random
                 text. It has roots in a piece of classical Latin literature from
@@ -53,13 +57,17 @@ export default function Signup(nav) {
         <TouchableOpacity activeOpacity={0.5}>
           <View className="flex flex-row items-center w-full p-2 bg-white rounded-lg">
             <View className="w-[12%] flex flex-row items-center justify-center rounded-full">
-            <Image
+              <Image
                 style={styles.tinyLogo}
                 source={require('../Assets/image/retailer.jpeg')}
               />
             </View>
             <View className="w-[88%] px-3">
-              <Text className="text-xl text-[#00274D]" style={styles.fontFamily}>Retail</Text>
+              <Text
+                className="text-xl text-[#00274D]"
+                style={styles.fontFamily}>
+                Retail
+              </Text>
               <Text className="pt-2 text-xs text-gray-300">
                 Contrary to popular belief, Lorem Ipsum is not simply random
                 text. It has roots in a piece of classical Latin literature from
@@ -71,13 +79,17 @@ export default function Signup(nav) {
         <TouchableOpacity activeOpacity={0.5}>
           <View className="flex flex-row items-center w-full p-2 bg-white rounded-lg">
             <View className="w-[12%] flex flex-row items-center justify-center rounded-full">
-            <Image
+              <Image
                 style={styles.tinyLogo}
                 source={require('../Assets/image/logistic.jpeg')}
               />
             </View>
             <View className="w-[88%] px-3">
-              <Text className="text-xl text-[#00274D]" style={styles.fontFamily}>Logistic Partner</Text>
+              <Text
+                className="text-xl text-[#00274D]"
+                style={styles.fontFamily}>
+                Logistic Partner
+              </Text>
               <Text className="pt-2 text-xs text-gray-300">
                 Contrary to popular belief, Lorem Ipsum is not simply random
                 text. It has roots in a piece of classical Latin literature from
@@ -86,29 +98,35 @@ export default function Signup(nav) {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity indicatorStyle={"green"} className="flex flex-row items-center w-full p-2 bg-white rounded-lg" 
-         activeOpacity={0.5}>
+        <TouchableOpacity
+          indicatorStyle={'green'}
+          className="flex flex-row items-center w-full p-2 bg-white rounded-lg"
+          activeOpacity={0.5}>
           {/* <View className="flex flex-row items-center w-full p-2 rounded-lg"> */}
-            <View className="w-[12%]  flex flex-row items-center justify-center rounded-full">
+          <View className="w-[12%]  flex flex-row items-center justify-center rounded-full">
             <Image
-                style={styles.tinyLogo}
-                source={require('../Assets/image/employee.jpeg')}
-              />
-            </View>
-            <View className="w-[88%] px-3">
-              <Text className="text-xl text-[#00274D]" style={styles.fontFamily}>Employee</Text>
-              <Text className="pt-2 text-xs text-gray-300">
-                Contrary to popular belief, Lorem Ipsum is not simply random
-                text. It has roots in a piece of classical Latin literature from
-                45 BC, making it over 2000 years old.
-              </Text>
-            </View>
+              style={styles.tinyLogo}
+              source={require('../Assets/image/employee.jpeg')}
+            />
+          </View>
+          <View className="w-[88%] px-3">
+            <Text className="text-xl text-[#00274D]" style={styles.fontFamily}>
+              Employee
+            </Text>
+            <Text className="pt-2 text-xs text-gray-300">
+              Contrary to popular belief, Lorem Ipsum is not simply random text.
+              It has roots in a piece of classical Latin literature from 45 BC,
+              making it over 2000 years old.
+            </Text>
+          </View>
           {/* </View> */}
         </TouchableOpacity>
       </View>
 
       <View className="flex flex-row items-center justify-center mt-8">
-        <Text className="text-[#00274D]" style={styles.fontFamily}>Already Signed Up ?</Text>
+        <Text className="text-[#00274D]" style={styles.fontFamily}>
+          Already Signed Up ?
+        </Text>
         <Text
           className="px-5 text-[#F96900] "
           onPress={() => nav.navigation.navigate('Login')}>
@@ -125,7 +143,7 @@ const styles = StyleSheet.create({
     height: 35,
     borderRadius: 11.5,
   },
-  fontFamily:{
-    fontFamily:"Poppins-medium"
-  }
+  fontFamily: {
+    fontFamily: 'Poppins-medium',
+  },
 });
