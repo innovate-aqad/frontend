@@ -50,9 +50,10 @@ Vendor
 <View style={styles.container} >
 
        {/* <Text>progress</Text> */}
-      <Animated.View style={[styles.bar,, { width: progress }]} />
+      <Animated.View style={[styles.bar, { width: progress }]} />
      
     </View>
+  
 
         {/* profile */}
         <View  className=" pt-10 "       style={styles.user}
@@ -75,7 +76,7 @@ Vendor
           <TextInput
             style={styles.input}
             placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Example@gmail.com"
+            placeholder="Enter your Name"
             className="!border-none pl-4 !border-white"
             borderRadius={10}
           />
@@ -100,7 +101,7 @@ Vendor
           <TextInput
             style={styles.input}
             placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Example@gmail.com"
+            placeholder="Enter your phone number"
             className="!border-none pl-4 !border-white"
             borderRadius={10}
           />
@@ -112,7 +113,7 @@ Vendor
           <TextInput
             style={styles.input}
             placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Example@gmail.com"
+            placeholder="Enter your Date of Birth"
             className="!border-none pl-4 !border-white"
             borderRadius={10}
           />
