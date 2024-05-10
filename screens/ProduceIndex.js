@@ -73,6 +73,7 @@ export default function ProductIndex() {
           }
         },
 
+        
         headerShown: false,
         headerTitle: 'Uber',
         headerTitleStyle: {
@@ -90,10 +91,12 @@ export default function ProductIndex() {
           shadowColor: 'black',
         },
         tabBarActiveTintColor: '#F96900',
-
+        
         headerShadowVisible:false
+      
         
       })}
+      
       // screenOptions={{headerShown: false}}
     >
       <Tab.Screen name={trade} component={Dashboard} />
