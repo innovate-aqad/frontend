@@ -7,7 +7,8 @@ import Buttomtab from '../components';
 import Products from './Products';
 import Orders from './Orderes';
 import VendorInfo from './VendorInfo';
-
+import VendorBusiness from './VendorBusiness';
+import VendorDocumet from './VendorDocumet';
 export default function Index() {
   const Stack = createNativeStackNavigator();
   return (
@@ -18,6 +19,8 @@ export default function Index() {
       <Stack.Screen name="products" component={Products} />
       <Stack.Screen name="orders" component={Orders} />
       <Stack.Screen name="vendor" component={VendorInfo} />
+      <Stack.Screen name="business" component={VendorBusiness} />
+      <Stack.Screen name="document" component={VendorDocumet} />
     </Stack.Navigator>
   );
 }

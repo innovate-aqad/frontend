@@ -25,14 +25,18 @@ export default function Dashboard() {
       <ScrollView style={styles.scrollView}>
         <View className="p-3">
           <View className="flex flex-row w-full bg-gray-200 rounded-full">
-            <TouchableOpacity className="w-[50%] h-[39px]" style={styles.button}>
+            <TouchableOpacity
+              className="w-[50%] h-[39px]"
+              style={styles.button}>
               <Text
                 className="text-white"
                 style={{fontFamily: 'Poppins-SemiBold', fontSize: 14}}>
                 Vendor
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity className="w-[50%] h-[39px]" style={styles.button1}>
+            <TouchableOpacity
+              className="w-[50%] h-[39px]"
+              style={styles.button1}>
               <Text
                 className="text-[#00274D]"
                 style={{fontFamily: 'Poppins-SemiBold', fontSize: 14}}>
@@ -47,13 +51,12 @@ export default function Dashboard() {
               underlineColorAndroid="transparent"
               value={searchText}
               // textColor='#cbcbcb'
-              placeholderTextColor={"#cbcbcb"}
+              placeholderTextColor={'#cbcbcb'}
               keyboardType="default"
               disableFullscreenUI={true}
               onChangeText={text => setSearchText(text)}
               onSubmitEditing={handleSearch}
             />
-            
 
             <TouchableOpacity onPress={handleSearch}>
               <AntDesign name="search1" size={24} color="#cbcbcb" />
@@ -64,19 +67,22 @@ export default function Dashboard() {
           <View className="flex flex-row justify-around w-full mt-1.5">
             <View className="flex flex-row items-center">
               <View className="w-[10px] h-[10px] bg-[#21d59b] rounded-full"></View>
-              <Text className={"text-[#00274d] text-[10px]"}> Retailer</Text>
+              <Text className={'text-[#00274d] text-[10px]'}> Retailer</Text>
             </View>
             <View className="flex flex-row items-center">
               <View className="w-[10px] h-[10px] bg-[#ffc700] rounded-full"></View>
-              <Text className={"text-[#00274d] text-[10px]"}> Product Category</Text>
+              <Text className={'text-[#00274d] text-[10px]'}>
+                {' '}
+                Product Category
+              </Text>
             </View>
             <View className="flex flex-row items-center">
               <View className="w-[10px] h-[10px] bg-[#7e84a3] rounded-full"></View>
-              <Text className={"text-[#00274d] text-[10px]"}> Total SKU</Text>
+              <Text className={'text-[#00274d] text-[10px]'}> Total SKU</Text>
             </View>
             <View className="flex flex-row items-center">
               <View className="w-[10px] h-[10px] bg-[#0058ff] rounded-full"></View>
-              <Text className={"text-[#00274d] text-[10px]"}> Orders</Text>
+              <Text className={'text-[#00274d] text-[10px]'}> Orders</Text>
             </View>
           </View>
           <View className="flex flex-row items-center justify-between mt-2">
@@ -97,11 +103,11 @@ export default function Dashboard() {
             <View className="flex flex-row items-center justify-around mt-3 gap-x-5">
               <View className="gap-y-1">
                 <View className="p-2 py-3 bg-white rounded shadow">
-                <Image
-                style={styles.categoryImage}
-                source={require('../Assets/image/drawable-xhdpi/froods.png')}
-              />
-              </View>
+                  <Image
+                    style={styles.categoryImage}
+                    source={require('../Assets/image/drawable-xhdpi/froods.png')}
+                  />
+                </View>
                 <Text
                   className="text-center text-[10px]"
                   style={styles.textColor}>
@@ -110,11 +116,11 @@ export default function Dashboard() {
               </View>
               <View className="gap-y-1">
                 <View className="p-2 py-3 bg-white rounded shadow">
-                <Image
-                style={styles.categoryImage}
-                source={require('../Assets/image/drawable-xhdpi/personal.png')}
-              />
-              </View>
+                  <Image
+                    style={styles.categoryImage}
+                    source={require('../Assets/image/drawable-xhdpi/personal.png')}
+                  />
+                </View>
                 <Text
                   className="text-center text-[10px]"
                   style={styles.textColor}>
@@ -123,11 +129,11 @@ export default function Dashboard() {
               </View>
               <View className="gap-y-1">
                 <View className="p-2 py-3 bg-white rounded shadow">
-                <Image
-                style={styles.categoryImage}
-                source={require('../Assets/image/drawable-xhdpi/mask_group_2.png')}
-              />
-              </View>
+                  <Image
+                    style={styles.categoryImage}
+                    source={require('../Assets/image/drawable-xhdpi/mask_group_2.png')}
+                  />
+                </View>
                 <Text
                   className="text-center text-[10px]"
                   style={styles.textColor}>
@@ -136,11 +142,11 @@ export default function Dashboard() {
               </View>
               <View className="gap-y-1">
                 <View className="p-2 py-3 bg-white rounded shadow">
-                <Image
-                style={styles.categoryImage}
-                source={require('../Assets/image/drawable-xhdpi/scroll_group_1.png')}
-              />
-              </View>
+                  <Image
+                    style={styles.categoryImage}
+                    source={require('../Assets/image/drawable-xhdpi/scroll_group_1.png')}
+                  />
+                </View>
                 <Text
                   className="text-center text-[10px]"
                   style={styles.textColor}>
@@ -151,11 +157,11 @@ export default function Dashboard() {
             <View className="flex flex-row items-center justify-around mt-3 gap-x-5">
               <View className="gap-y-1">
                 <View className="p-2 py-3 bg-white rounded shadow">
-                <Image
-                style={styles.categoryImage}
-                source={require('../Assets/image/drawable-xhdpi/health.png')}
-              />
-              </View>
+                  <Image
+                    style={styles.categoryImage}
+                    source={require('../Assets/image/drawable-xhdpi/health.png')}
+                  />
+                </View>
                 <Text
                   className="text-[10px] text-center"
                   style={styles.textColor}>
@@ -164,11 +170,11 @@ export default function Dashboard() {
               </View>
               <View className="gap-y-1">
                 <View className="p-2 py-3 bg-white rounded shadow">
-                <Image
-                style={styles.categoryImage}
-                source={require('../Assets/image/drawable-xhdpi/untitled_1.png')}
-              />
-              </View>
+                  <Image
+                    style={styles.categoryImage}
+                    source={require('../Assets/image/drawable-xhdpi/untitled_1.png')}
+                  />
+                </View>
                 <Text
                   className="text-[10px] text-center"
                   style={styles.textColor}>
@@ -177,11 +183,11 @@ export default function Dashboard() {
               </View>
               <View className="gap-y-1">
                 <View className="p-2 py-3 bg-white rounded shadow">
-                <Image
-                style={styles.categoryImage}
-                source={require('../Assets/image/drawable-xhdpi/pngwing_com_7.png')}
-              />
-              </View>
+                  <Image
+                    style={styles.categoryImage}
+                    source={require('../Assets/image/drawable-xhdpi/pngwing_com_7.png')}
+                  />
+                </View>
                 <Text
                   className="text-[10px] text-center"
                   style={styles.textColor}>
@@ -190,11 +196,11 @@ export default function Dashboard() {
               </View>
               <View className="gap-y-1">
                 <View className="p-2 py-3 bg-white rounded shadow">
-                <Image
-                style={styles.categoryImage}
-                source={require('../Assets/image/drawable-xhdpi/pngwing_com_8.png')}
-              />
-              </View>
+                  <Image
+                    style={styles.categoryImage}
+                    source={require('../Assets/image/drawable-xhdpi/pngwing_com_8.png')}
+                  />
+                </View>
                 <Text
                   className="text-[10px] text-center"
                   style={styles.textColor}>
@@ -228,7 +234,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderColor: 'white',
     paddingRight: 5,
-    color:"#cbcbcb",
+    color: '#cbcbcb',
     borderWidth: 2,
     marginLeft: 5,
   },
@@ -258,8 +264,8 @@ const styles = StyleSheet.create({
     // marginRight:10
     // borderRadius: 11.5,
   },
-  categoryImage:{
-    height:44,
-    width:65,
-  }
+  categoryImage: {
+    height: 44,
+    width: 65,
+  },
 });
