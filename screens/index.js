@@ -11,6 +11,9 @@ import ProductIndex from './ProduceIndex';
 import VendorPersonalInformation from './VendorPersonalInformation';
 import Forgot from './Forgot';
 
+import VendorInfo from './VendorInfo';
+import VendorBusiness from './VendorBusiness';
+import VendorDocumet from './VendorDocumet';
 export default function Index() {
   const Stack = createNativeStackNavigator();
   return (
@@ -24,6 +27,9 @@ export default function Index() {
       {/* <Stack.Screen name="dashboard" component={Dashboard} /> */}
       <Stack.Screen name="productIndex" component={ProductIndex} />
       <Stack.Screen name="vendorPersonalInformation" component={VendorPersonalInformation} />
+      <Stack.Screen name="vendor" component={VendorInfo} />
+      <Stack.Screen name="business" component={VendorBusiness} />
+      <Stack.Screen name="document" component={VendorDocumet} />
     </Stack.Navigator>
   );
 }
