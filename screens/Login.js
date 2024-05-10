@@ -1,20 +1,116 @@
-import {View, Text, TouchableOpacity, Button, Switch} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ToastAndroid,
+  ScrollView,
+} from 'react-native';
 import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ToggleSwitch from 'toggle-switch-react-native';
+import axios from 'axios';
+import Icon from 'react-native-vector-icons/FontAwesome';
+// Make a request for a user with a given ID
 
 export default function Login(nav) {
   const [isEnabled, setIsEnabled] = React.useState(false);
   const rememberMe = () => setIsEnabled(previousState => !previousState);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
-  const redirect = () => {
-    nav.navigation.navigate('productIndex')
-    // nav.navigation.navigate('bottomTab');
+  // const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
+  const gotoForgot = () => {
+    nav.navigation.navigate('forgot');
+  };
+
+
+  const handleEmail=(e)=>{
+    const emailVar =e.nativeEvent.text
+    console.log(emailVar);
+    setEmail(emailVar)
+    setEmailError(false);
+    if(/^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{1,}$/.test(emailVar)){
+      setEmail(emailVar)
+       setEmailError(true);
+    }
+  }
+  const handlePassword=(e)=>{
+    const passVar =e.nativeEvent.text
+    console.log(passVar);
+    setPassword(passVar)
+    setPasswordError(false);
+    if(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(passVar)){
+      setPassword(passVar)
+      setPasswordError(true);
+    }
+
+  }
+
+  const redirect = () => {
+   
+    // if (!passwordError) {
+    //   setPasswordError(true);
+    // } else {
+    //   setPasswordError(false);
+    // }
+    nav.navigation.navigate('productIndex');
+    // console.log(email, 'emailemailemail');
+    // console.log(password, 'passwordpasswordpasswordpassword');
+
+    if(emailError && passwordError){
+      setEmail("")
+      setPassword("")
+      nav.navigation.navigate('productIndex');
+      ToastAndroid.showWithGravityAndOffset(
+        'Login Success',
+        ToastAndroid.LONG,
+        ToastAndroid.CENTER,
+        25,
+        50,
+      );
+
+    }else{
+      ToastAndroid.showWithGravityAndOffset(
+        'Invalid email and passwords',
+        ToastAndroid.LONG,
+        ToastAndroid.CENTER,
+        25,
+        50,
+      );
+    }
+
+    // axios
+    //   .get('/user?ID=12345')
+    //   .then(function (response) {
+    //     // handle success
+    //     console.log(response);
+    //     // nav.navigation.navigate('productIndex')
+    //   })
+    //   .catch(function (error) {
+    //     // handle error
+    //     console.log(error);
+    //   })
+    //   .finally(function () {
+    //     // always executed
+    //   });
+  };
+
+
+
+  console.log(emailError,"emailError");
+
   return (
+    <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{flexGrow:1}} showsVerticalScrollIndicator={false}>
     <View
       className="flex p-5 flex-col justify-center h-full bg-gray-100 !text-black"
       style={{fontFamily: 'Poppins-Bold'}}>
@@ -37,29 +133,65 @@ export default function Login(nav) {
             style={{fontFamily: 'Poppins-SemiBold'}}>
             Your Email
           </Text>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Example@gmail.com"
-            className="!border-none pl-4 !border-white"
-            borderRadius={18}
-          />
+          <View>
+            <TextInput
+              name="temail"
+              onChange={e=>handleEmail(e)}
+              style={styles.input}
+              value={email}
+              
+              placeholderTextColor="rgb(210, 210, 210)"
+              placeholder="example@gmail.com"
+              className="!border-none pl-4 py-1.5 !border-white"
+              borderRadius={18}
+            />
+            
+            {email.length < 1 ? null : emailError==true ? null : (
+              <Text className="px-4 font-serif text-[10px] text-red-500">
+                Please enter valid email
+              </Text>
+            )}
+          </View>
+
           <Text
             className="text-[#00274D] px-3 mt-3"
             style={{fontFamily: 'Poppins-SemiBold'}}>
             Password
           </Text>
-          <TextInput
-            style={styles.input}
-            // onChangeText={onChangeNumber}
-            // value={number}
-            placeholder="Enter your password"
-            keyboardType="numeric"
-            placeholderTextColor="rgb(210, 210, 210)"
-            className="!border-none pl-4 border-white"
-            borderRadius={18}
-          />
+
+          <View>
+            <View style={styles.container1}>
+              <TextInput
+                style={styles.input1}
+                placeholder="Enter your password"
+                underlineColorAndroid="transparent"
+                onChange={e=>handlePassword(e)}
+                value={password}
+                maxLength={6}
+                secureTextEntry={!showPassword}
+                keyboardType="default"
+                disableFullscreenUI={true}
+                borderRadius={18}
+                placeholderTextColor="rgb(210, 210, 210)"
+              />
+
+              <TouchableOpacity onPress={toggleShowPassword}>
+                <Icon
+                  name={showPassword ? 'eye-slash' : 'eye'}
+                  size={24}
+                  color={showPassword ? '#00274D' : '#cbcbcb'}
+                />
+              </TouchableOpacity>
+            </View>
+            
+            {password.length < 1 ? null : passwordError==true ? null : (
+              <Text className="px-4 font-serif text-[10px] text-red-500">
+                Please enter valid password
+              </Text>
+            )}
+          </View>
         </SafeAreaView>
+
         <View
           style={styles.checkboxContainer}
           className="flex flex-row items-center justify-between">
@@ -82,7 +214,8 @@ export default function Login(nav) {
           </View>
           <Text
             className="text-[#00274D]"
-            style={{fontFamily: 'Poppins-SemiBold'}}>
+            style={{fontFamily: 'Poppins-SemiBold'}}
+            onPress={gotoForgot}>
             Forget Password ?
           </Text>
         </View>
@@ -117,23 +250,23 @@ export default function Login(nav) {
         </View>
       </View>
       <View className="flex flex-col gap-y-2">
-        <TouchableOpacity className="flex-row items-center p-2 my-1 bg-white border border-white rounded-2xl">
+        <TouchableOpacity className="flex-row items-center !px-4 py-2 my-1 bg-white border border-white rounded-full">
           <AntDesign name="google" color={'black'} size={22} />
-          <Text className="pl-10 text-center text-[#00274D] flex-1">
+          <Text className=" text-center text-[#00274D] flex-1">
             Sign up with Google
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity className="flex-row items-center p-2 my-1 bg-white border !border-white rounded-2xl">
+        <TouchableOpacity className="flex-row items-center !px-4 py-2 my-1 bg-white border !border-white rounded-full">
           <View>
             <AntDesign name="apple1" color={'black'} size={22} />
           </View>
-          <Text className="pl-10 text-center text-[#00274D] flex-1">
+          <Text className=" text-center text-[#00274D] flex-1">
             Sign up with Apple
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity className="flex-row items-center p-2 my-1 bg-white border !border-white rounded-2xl">
+        <TouchableOpacity className="flex-row !px-4 py-2 items-center my-1 bg-white border !border-white rounded-full">
           <Ionicons name="finger-print-outline" color={'black'} size={22} />
-          <Text className="pl-10 text-center text-[#00274D] flex-1">
+          <Text className=" text-center text-[#00274D] flex-1">
             Sign up with UEA Pass
           </Text>
         </TouchableOpacity>
@@ -147,19 +280,17 @@ export default function Login(nav) {
         </Text>
       </View>
     </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   input: {
-    height: 40,
-    margin: 3,
     borderWidth: 1,
-    // padding: 12,
     color: 'gray',
     backgroundColor: 'white',
-    // borderRadius: 20,
     fontFamily: 'Poppins-Light',
+    paddingHorizontal: 18,
   },
   checkboxContainer: {
     marginBottom: 10,
@@ -174,8 +305,30 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#F96900', // Default button color
     padding: 12,
-    borderRadius: 5,
+    paddingHorizontal:40,
+    borderRadius: 10,
     alignItems: 'center',
     color: 'red',
+  },
+
+  container1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: 'white',
+    backgroundColor: 'white',
+    borderRadius: 25,
+    paddingHorizontal: 18,
+    // marginHorizontal: 10,
+    borderBottomWidth: 0,
+  },
+  input1: {
+    flex: 1,
+    height: 40,
+    backgroundColor: 'white',
+    borderColor: 'white',
+    paddingRight: 5,
+    color: '#cbcbcb',
+    borderWidth: 2,
+    // marginLeft: 5,
   },
 });

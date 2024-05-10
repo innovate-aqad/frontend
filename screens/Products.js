@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {
   Image,
+  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -58,10 +59,9 @@ export default function Products() {
             source={require('../Assets/image/drawable-hdpi/apps_sort.png')}
           />
         </View>
-        {/* <View style={styles.scrollViewConaner}>  */}
-        <ScrollView >
-          {/* <View className="h-[460px]"> */}
-            {[1, 2, 3, 4, 5]?.map((item, index) => {
+        <SafeAreaView>
+          <ScrollView keyboardShouldPersistTaps="handled">
+            {[1, 2, 3, 4, 5,7]?.map((item, index) => {
               return (
                 <View
                   key={index}
@@ -76,7 +76,7 @@ export default function Products() {
                     <Text
                       className="text-[#5a607f] text-[13px]"
                       style={{fontFamily: 'Poppins-Regular'}}>
-                      Product name
+                      Product name {index}
                     </Text>
                     <View className="flex flex-row gap-x-2">
                       <Text
@@ -110,10 +110,11 @@ export default function Products() {
             })}
           
         </ScrollView>
+        </SafeAreaView>
         {/* </View> */}
-        <View>
+       
           <TouchableOpacity
-            className="mt-2 rounded-full"
+            className="z-50 rounded-full "
             // onPress={() => redirect()}
             style={styles.button}>
             <Text
@@ -122,7 +123,7 @@ export default function Products() {
               ADD PRODUCT
             </Text>
           </TouchableOpacity>
-        </View>
+        
       </View>
     </View>
   );
