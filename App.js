@@ -10,6 +10,7 @@ import Login from './screens/Login';
 import Index from './screens';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider as PaperProvider} from 'react-native-paper';
+import { MenuProvider } from 'react-native-popup-menu';
 
 // const Stack=createNativeStackNavigator()
 export default function App() {
@@ -17,9 +18,9 @@ export default function App() {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (
     <NavigationContainer>
-      <PaperProvider>
+      <MenuProvider>
         <Index />
-      </PaperProvider>
+      </MenuProvider>
     </NavigationContainer>
   );
 }

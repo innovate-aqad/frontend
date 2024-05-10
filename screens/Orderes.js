@@ -12,14 +12,17 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {Button, Dialog, Portal} from 'react-native-paper';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
+import PopoverExample from '../Shared/TextLine';
 
 export default function Orders() {
   const [tab, setTab] = useState('All Orders');
   const [searchText, setSearchText] = useState('');
-  const [visible, setVisible] = React.useState(false);
-  const hideDialog = () => setVisible(false);
-  const showDialog = () => setVisible(true);
 
   const handleSearch = () => {};
 
@@ -37,8 +40,7 @@ export default function Orders() {
   };
 
   return (
-    // <SafeAreaView>
-    //   <ScrollView keyboardShouldPersistTaps="handled">
+
     <View className="w-full h-full bg-[#f5f5f5]">
       <View className="relative top-0 flex flex-row items-center p-5 bg-white">
         <Image
@@ -153,110 +155,95 @@ export default function Orders() {
         </View>
         <SafeAreaView>
           <ScrollView keyboardShouldPersistTaps="handled">
-            <View className="mb-96">
-              {[1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13,14,15,16,17]?.map((item, index) => {
-                return (
-                  <View
-                    key={index}
-                    className="flex gap-y-2 flex-col p-1.5 pb-2 mt-1.5 bg-white shadow rounded-xl">
-                    <View className="flex flex-row justify-around ">
-                      <View className="bg-[#FDEEE3] h-[50px] w-[50px] rounded-full border border-[#FDD7BC] p-3">
-                        <Image
-                          style={{height: 22, width: 29.5}}
-                          source={require('../Assets/image/drawable-xhdpi/pngwing_com_9.png')}
-                        />
-                      </View>
-                      <View>
-                        <Text
-                          className="text-[#00274d] text-[13px]"
-                          style={{
-                            fontFamily: 'Poppins-Regular',
-                            letterSpacing: 0.08,
-                          }}>
-                          Product name {index}
-                        </Text>
+            <View className="">
+              {[1]?.map(
+                (item, index) => {
+                  return (
+                    <View
+                      key={index}
+                      className="flex gap-y-2 flex-col p-1.5 pb-2 mt-1.5 bg-white shadow rounded-xl">
+                      <View className="flex flex-row justify-around ">
+                        <View className="bg-[#FDEEE3] h-[50px] w-[50px] rounded-full border border-[#FDD7BC] p-3">
+                          <Image
+                            style={{height: 22, width: 29.5}}
+                            source={require('../Assets/image/drawable-xhdpi/pngwing_com_9.png')}
+                          />
+                        </View>
                         <View>
-                          <View className="flex flex-row gap-x-2">
-                            <Text
-                              className="text-[#7e84a3]  rounded-full text-[8px]"
-                              style={{fontFamily: 'Poppins-Regular'}}>
-                              #AQADORDER052
-                            </Text>
-                            <View className="flex flex-row items-center gap-1">
-                              <View className="bg-[#7e84a3] rounded-full h-[4px] w-[4px] "></View>
+                          <Text
+                            className="text-[#00274d] text-[13px]"
+                            style={{
+                              fontFamily: 'Poppins-Regular',
+                              letterSpacing: 0.08,
+                            }}>
+                            Product name {index}
+                          </Text>
+                          <View>
+                            <View className="flex flex-row gap-x-2">
                               <Text
                                 className="text-[#7e84a3]  rounded-full text-[8px]"
                                 style={{fontFamily: 'Poppins-Regular'}}>
-                                2m ago
+                                #AQADORDER052
+                              </Text>
+                              <View className="flex flex-row items-center gap-1">
+                                <View className="bg-[#7e84a3] rounded-full h-[4px] w-[4px] "></View>
+                                <Text
+                                  className="text-[#7e84a3]  rounded-full text-[8px]"
+                                  style={{fontFamily: 'Poppins-Regular'}}>
+                                  2m ago
+                                </Text>
+                              </View>
+                            </View>
+                            <View>
+                              <Text
+                                className="text-[#7e84a3]  rounded-full text-[8px]"
+                                style={{fontFamily: 'Poppins-Regular'}}>
+                                Per Unit :50 AED
                               </Text>
                             </View>
                           </View>
-                          <View>
-                            <Text
-                              className="text-[#7e84a3]  rounded-full text-[8px]"
-                              style={{fontFamily: 'Poppins-Regular'}}>
-                              Per Unit :50 AED
-                            </Text>
-                          </View>
                         </View>
+                        <View>
+                          <Text
+                            className="text-[#f96900] text-[13px] pb-3"
+                            style={{fontFamily: 'Poppins-Medium'}}>
+                            50 AED
+                          </Text>
+                        </View>
+                        {/* <TouchableOpacity> */}
+                          
+                          <View>
+                          <PopoverExample/>
+                          </View>
+                        {/* </TouchableOpacity> */}
                       </View>
-                      <View>
+                      <View className="flex flex-row px-3 gap-x-3">
                         <Text
-                          className="text-[#f96900] text-[13px] pb-3"
-                          style={{fontFamily: 'Poppins-Medium'}}>
-                          50 AED
+                          className="text-[#21d59b] bg-[#E9FBF5] text-center h-[12px] rounded-full w-[55px] text-[7px]"
+                          style={{fontFamily: 'Poppins-SemiBold'}}>
+                          {tab === 'All Orders' ? 'Order' : tab}
+                        </Text>
+                        <Text
+                          className="text-[#5a607f] bg-[#e6e9f4] text-center h-[12px] rounded-full w-[55px] text-[7px]"
+                          style={{fontFamily: 'Poppins-SemiBold'}}>
+                          SKU : 575
+                        </Text>
+                        <Text
+                          className="text-[#5a607f] bg-[#e6e9f4] text-center h-[12px] rounded-full w-[55px] text-[7px]"
+                          style={{fontFamily: 'Poppins-SemiBold'}}>
+                          Grocery
                         </Text>
                       </View>
-                      <TouchableOpacity onPress={() => showDialog()}>
-                        <Entypo
-                          name="dots-three-vertical"
-                          size={20}
-                          color="#cbcbcb"
-                        />
-                      </TouchableOpacity>
                     </View>
-                    <View className="flex flex-row px-3 gap-x-3">
-                      <Text
-                        className="text-[#21d59b] bg-[#E9FBF5] text-center h-[12px] rounded-full w-[55px] text-[7px]"
-                        style={{fontFamily: 'Poppins-SemiBold'}}>
-                        {tab === 'All Orders' ? 'Order' : tab}
-                      </Text>
-                      <Text
-                        className="text-[#5a607f] bg-[#e6e9f4] text-center h-[12px] rounded-full w-[55px] text-[7px]"
-                        style={{fontFamily: 'Poppins-SemiBold'}}>
-                        SKU : 575
-                      </Text>
-                      <Text
-                        className="text-[#5a607f] bg-[#e6e9f4] text-center h-[12px] rounded-full w-[55px] text-[7px]"
-                        style={{fontFamily: 'Poppins-SemiBold'}}>
-                        Grocery
-                      </Text>
-                    </View>
-                  </View>
-                );
-              })}
+                  );
+                },
+              )}
             </View>
           </ScrollView>
         </SafeAreaView>
       </View>
-      <Portal>
-        <Dialog
-          visible={visible}
-          onDismiss={hideDialog}
-          style={{backgroundColor: 'white'}}>
-          <Dialog.Actions className="flex flex-col gap-y-3 w-full !mx-auto">
-            <TouchableOpacity className="w-full p-3 text-center bg-green-500 rounded-full">
-              <Text className="font-bold text-center text-white"> UPDATE</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="w-full p-3 text-center bg-red-500 rounded-full">
-              <Text className="font-bold text-center text-white"> DELETE</Text>
-            </TouchableOpacity>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
+      {/* <PopoverExample/> */}
     </View>
-    //    </ScrollView>
-    // </SafeAreaView>
   );
 }
 //
@@ -285,7 +272,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   button: {
-    backgroundColor: '#F96900', 
+    backgroundColor: '#F96900',
     padding: 12,
     alignItems: 'center',
     color: 'red',
