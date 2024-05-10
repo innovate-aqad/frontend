@@ -21,9 +21,14 @@ export default function App() {
       <MenuProvider>
         <Index />
       </MenuProvider>
+
+
+
     </NavigationContainer>
   );
 }
+
+// https://meet.google.com/rex-hybz-why
 
 const styles = StyleSheet.create({
   input: {
