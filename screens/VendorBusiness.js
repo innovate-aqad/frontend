@@ -12,7 +12,7 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Badge, IconButton} from 'react-native-paper';
-export default function VendorBusiness() {
+export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
 
   useEffect(() => {

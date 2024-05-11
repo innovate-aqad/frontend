@@ -40,15 +40,15 @@ export default function VendorInfo(nav) {
         <Text
           className="text-3xl text-[#00274D]"
           style={{fontFamily: 'Poppins-bold'}}>
-          Vendor
+          Vendor Info
         </Text>
         <Text
-          className="text-xs pt-2 text-gray-400"
+          className="pt-2 text-xs text-gray-400"
           style={{fontFamily: 'Poppins-Light'}}>
           Pick the type of account that suits your business or personal needs.
         </Text>
       </View>
-      <View className=" pt-10 ">
+      <View className="pt-10 ">
         {/* progressbar */}
         <View style={styles.container}>
           {/* <Text>progress</Text> */}
@@ -64,8 +64,8 @@ export default function VendorInfo(nav) {
         </View>
 
         {/* profile */}
-        <View className=" pt-10 " style={styles.user}>
-          {/* <TouchableOpacity className="flex-row items-center p-2  bg-white border border-white rounded-2xl "> */}
+        <View className="pt-10 " style={styles.user}>
+          {/* <TouchableOpacity className="flex-row items-center p-2 bg-white border border-white rounded-2xl "> */}
 
           <FontAwesome6 name={'user'} size={30} />
           <Feather
