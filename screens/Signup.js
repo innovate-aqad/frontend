@@ -4,8 +4,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function Signup(nav) {
-  const redirect = () => {
+  const redirectVendor = () => {
     nav.navigation.navigate('vendor');
+  };
+  const redirectLogistic = () => {
+    nav.navigation.navigate('logistic');
   };
 
   return (
@@ -14,7 +17,7 @@ export default function Signup(nav) {
         className="flex flex-col px-4 justify-center h-full bg-gray-100 !text-black
     "
         style={{fontFamily: 'Poppins-Bold'}}>
-        <TouchableOpacity onPress={()=>nav.navigation.navigate('Login')}>
+        <TouchableOpacity onPress={() => nav.navigation.navigate('Login')}>
           <Image
             style={styles.topNavigation}
             source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
@@ -34,7 +37,7 @@ export default function Signup(nav) {
         </View>
 
         <View className="flex flex-col !pt-5 gap-y-3">
-          <TouchableOpacity activeOpacity={0.5} onPress={redirect}>
+          <TouchableOpacity activeOpacity={0.5} onPress={redirectVendor}>
             <View
               className={
                 'flex flex-row items-center w-full p-2 bg-white rounded-lg '
@@ -81,7 +84,7 @@ export default function Signup(nav) {
               </View>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.5}>
+          <TouchableOpacity activeOpacity={0.5} onPress={redirectLogistic}>
             <View className="flex flex-row items-center w-full p-2 bg-white rounded-lg">
               <View className="w-[12%] flex flex-row items-center justify-center rounded-full">
                 <Image

@@ -14,8 +14,8 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Badge, IconButton} from 'react-native-paper';
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
-  const redirectPorceed = () => {
-    nav.navigation.navigate('document');
+  const redirectBusiness = () => {
+    nav.navigation.navigate('business');
     // nav.navigation.navigate('bottomTab');
   };
 
@@ -130,7 +130,7 @@ export default function VendorInfo(nav) {
       </View>
       <View className="pt-5">
         <TouchableOpacity
-          onPress={() => redirectPorceed()}
+          onPress={() => redirectBusiness()}
           style={styles.button}>
           <Text
             className="text-white "
