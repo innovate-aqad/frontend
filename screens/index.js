@@ -14,6 +14,11 @@ import Forgot from './Forgot';
 import VendorInfo from './VendorInfo';
 import VendorBusiness from './VendorBusiness';
 import VendorDocumet from './VendorDocumet';
+import Logisticinfo from './Logisticinfo';
+import Logisticbusiness from './Logisticbusiness';
+import Logisticdocument from './Logisticdocument';
+import Addbutton from './Addbutton';
+
 export default function Index() {
   const Stack = createNativeStackNavigator();
   return (
@@ -26,10 +31,17 @@ export default function Index() {
       <Stack.Screen name="forgot" component={Forgot} />
       {/* <Stack.Screen name="dashboard" component={Dashboard} /> */}
       <Stack.Screen name="productIndex" component={ProductIndex} />
-      <Stack.Screen name="vendorPersonalInformation" component={VendorPersonalInformation} />
+      <Stack.Screen
+        name="vendorPersonalInformation"
+        component={VendorPersonalInformation}
+      />
       <Stack.Screen name="vendor" component={VendorInfo} />
       <Stack.Screen name="business" component={VendorBusiness} />
       <Stack.Screen name="document" component={VendorDocumet} />
+      <Stack.Screen name="logistic" component={Logisticinfo} />
+      <Stack.Screen name="logisbusiness" component={Logisticbusiness} />
+      <Stack.Screen name="logisdocument" component={Logisticdocument} />
+      <Stack.Screen name="addbutton" component={Addbutton} />
     </Stack.Navigator>
   );
 }

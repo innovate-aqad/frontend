@@ -12,12 +12,8 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Badge, IconButton} from 'react-native-paper';
-export default function VendorInfo(nav) {
+export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
-  const redirectBusiness = () => {
-    nav.navigation.navigate('business');
-    // nav.navigation.navigate('bottomTab');
-  };
 
   useEffect(() => {
     Animated.timing(progress, {
@@ -25,6 +21,10 @@ export default function VendorInfo(nav) {
       duration: 2000,
     }).start();
   }, []);
+  const redirectDocument = () => {
+    nav.navigation.navigate('addbutton');
+    // nav.navigation.navigate('bottomTab');
+  };
 
   return (
     <View
@@ -40,47 +40,36 @@ export default function VendorInfo(nav) {
         <Text
           className="text-3xl text-[#00274D]"
           style={{fontFamily: 'Poppins-bold'}}>
-          Vendor
+          Logistic Partner Info
         </Text>
         <Text
-          className="text-xs pt-2 text-gray-400"
+          className="pt-2 text-xs text-gray-400"
           style={{fontFamily: 'Poppins-Light'}}>
           Pick the type of account that suits your business or personal needs.
         </Text>
       </View>
-      <View className=" pt-10 ">
+      <View className="pt-10 ">
         {/* progressbar */}
         <View style={styles.container}>
           {/* <Text>progress</Text> */}
           <Animated.View style={[styles.bar, {width: progress}]} />
         </View>
+        {/* end of progressbar */}
 
+        {/* text */}
         <View>
           <Text
             className="text-2xl text-[#00274D] pt-3"
             style={{fontFamily: 'Poppins-bold'}}>
-            Personal Information
+            Business Information
           </Text>
         </View>
 
-        {/* profile */}
-        <View className=" pt-10 " style={styles.user}>
-          {/* <TouchableOpacity className="flex-row items-center p-2  bg-white border border-white rounded-2xl "> */}
-
-          <FontAwesome6 name={'user'} size={30} />
-          <Feather
-            name={'edit-2'}
-            style={{position: 'absolute', bottom: -6, right: -6}}
-          />
-
-          {/* </TouchableOpacity> */}
-        </View>
-        {/* input fields */}
         <SafeAreaView>
           <Text
             className="text-[#00274D] px-3"
             style={{fontFamily: 'Poppins-SemiBold'}}>
-            Full Name
+            Company Name
           </Text>
           <TextInput
             style={styles.input}
@@ -93,7 +82,7 @@ export default function VendorInfo(nav) {
           <Text
             className="text-[#00274D] px-3"
             style={{fontFamily: 'Poppins-SemiBold'}}>
-            Email
+            Designation
           </Text>
           <TextInput
             style={styles.input}
@@ -105,7 +94,7 @@ export default function VendorInfo(nav) {
           <Text
             className="text-[#00274D] px-3"
             style={{fontFamily: 'Poppins-SemiBold'}}>
-            Phone Number
+            Trade Licence Number
           </Text>
           <TextInput
             style={styles.input}
@@ -117,7 +106,7 @@ export default function VendorInfo(nav) {
           <Text
             className="text-[#00274D] px-3"
             style={{fontFamily: 'Poppins-SemiBold'}}>
-            Date of Birth
+            Company Address Line 1
           </Text>
           <TextInput
             style={styles.input}
@@ -126,11 +115,62 @@ export default function VendorInfo(nav) {
             className="!border-none pl-4 !border-white"
             borderRadius={10}
           />
+          <Text
+            className="text-[#00274D] px-3"
+            style={{fontFamily: 'Poppins-SemiBold'}}>
+            Company Address Line 2
+          </Text>
+          <TextInput
+            style={styles.input}
+            placeholderTextColor="rgb(210, 210, 210)"
+            placeholder="Enter your Name"
+            className="!border-none pl-4 !border-white"
+            borderRadius={10}
+          />
+          {/* side  */}
+          <View style={styles.containerside}>
+            <View style={styles.inputContainer}>
+              <Text
+                className="text-[#00274D] px-3"
+                style={{fontFamily: 'Poppins-SemiBold'}}>
+                Country
+              </Text>
+              <TextInput
+                style={[styles.input, {width: '100%'}]}
+                placeholder="Example@gmail.com"
+                placeholderTextColor="rgb(210, 210, 210)"
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text
+                className="text-[#00274D] px-3 pt-0"
+                style={{fontFamily: 'Poppins-SemiBold'}}>
+                PO Box
+              </Text>
+              <TextInput
+                style={[styles.input, {width: '100%'}]}
+                placeholder="Enter your phone number"
+                placeholderTextColor="rgb(210, 210, 210)"
+              />
+            </View>
+          </View>
+          {/* <Text
+            className="text-[#00274D] px-3"
+            style={{fontFamily: 'Poppins-SemiBold'}}>
+            Warehouse Address
+          </Text> */}
+          {/* <TextInput
+            style={styles.input}
+            placeholderTextColor="rgb(210, 210, 210)"
+            placeholder="Enter your Name"
+            className="!border-none pl-4 !border-white"
+            borderRadius={10}
+          /> */}
         </SafeAreaView>
       </View>
       <View className="pt-5">
         <TouchableOpacity
-          onPress={() => redirectBusiness()}
+          onPress={() => redirectDocument()}
           style={styles.button}>
           <Text
             className="text-white "
@@ -150,7 +190,7 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     margin: 3,
-    borderWidth: 1,
+    borderWidth: 0,
     // padding: 12,
     color: 'gray',
     backgroundColor: 'white',
@@ -177,5 +217,17 @@ const styles = StyleSheet.create({
     height: 15,
     backgroundColor: '#F96900',
     borderRadius: 10,
+  },
+  containerside: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+
+    marginTop: 20,
+  },
+  inputContainer: {
+    flex: 1,
+
+    marginRight: 20,
+    borderWidth: 0,
   },
 });

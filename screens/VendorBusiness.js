@@ -12,7 +12,7 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Badge, IconButton} from 'react-native-paper';
-export default function VendorBusiness() {
+export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
 
   useEffect(() => {
@@ -21,6 +21,10 @@ export default function VendorBusiness() {
       duration: 2000,
     }).start();
   }, []);
+  const redirectDocument = () => {
+    nav.navigation.navigate('document');
+    // nav.navigation.navigate('bottomTab');
+  };
 
   return (
     <View
@@ -150,29 +154,31 @@ export default function VendorBusiness() {
               />
             </View>
           </View>
-          <Text
+          {/* <Text
             className="text-[#00274D] px-3"
             style={{fontFamily: 'Poppins-SemiBold'}}>
             Warehouse Address
-          </Text>
-          <TextInput
+          </Text> */}
+          {/* <TextInput
             style={styles.input}
             placeholderTextColor="rgb(210, 210, 210)"
             placeholder="Enter your Name"
             className="!border-none pl-4 !border-white"
             borderRadius={10}
-          />
+          /> */}
         </SafeAreaView>
       </View>
-      {/* <View className="pt-5">
-          <TouchableOpacity onPress={() => redirect()} style={styles.button}>
-            <Text
-              className="text-white "
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-          PROCEED
-            </Text>
-          </TouchableOpacity>
-        </View> */}
+      <View className="pt-5">
+        <TouchableOpacity
+          onPress={() => redirectDocument()}
+          style={styles.button}>
+          <Text
+            className="text-white "
+            style={{fontFamily: 'Poppins-SemiBold'}}>
+            PROCEED
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

@@ -15,7 +15,7 @@ import {Badge, IconButton} from 'react-native-paper';
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const redirectBusiness = () => {
-    nav.navigation.navigate('business');
+    nav.navigation.navigate('logisbusiness');
     // nav.navigation.navigate('bottomTab');
   };
 
@@ -40,7 +40,7 @@ export default function VendorInfo(nav) {
         <Text
           className="text-3xl text-[#00274D]"
           style={{fontFamily: 'Poppins-bold'}}>
-          Vendor
+          Logistic Partner Info
         </Text>
         <Text
           className="text-xs pt-2 text-gray-400"
