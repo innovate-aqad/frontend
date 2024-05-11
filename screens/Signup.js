@@ -5,7 +5,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function Signup(nav) {
   const redirect = () => {
-    nav.navigation.navigate('vendorPersonalInformation');
+    nav.navigation.navigate('vendor');
   };
 
   return (
