@@ -8,10 +8,12 @@ import {
   SafeAreaView,
   View,
   Animated,
+  ScrollView
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Badge, IconButton} from 'react-native-paper';
+import Addbutton from './Addbutton';
 export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
 
@@ -27,159 +29,162 @@ export default function VendorBusiness(nav) {
   };
 
   return (
-    <View
-      className="flex flex-col p-4   h-full bg-gray-100 !text-black
-        ">
-      <View className="relative top-0 flex flex-row items-center p-5 ">
-        <Image
-          style={styles.topNavigation}
-          source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
-        />
-      </View>
-      <View>
-        <Text
-          className="text-3xl text-[#00274D]"
-          style={{fontFamily: 'Poppins-bold'}}>
-          VendorBusiness
-        </Text>
-        <Text
-          className="pt-2 text-xs text-gray-400"
-          style={{fontFamily: 'Poppins-Light'}}>
-          Pick the type of account that suits your business or personal needs.
-        </Text>
-      </View>
-      <View className="pt-10 ">
-        {/* progressbar */}
-        <View style={styles.container}>
-          {/* <Text>progress</Text> */}
-          <Animated.View style={[styles.bar, {width: progress}]} />
+    <ScrollView keyboardShouldPersistTaps="handled">
+      <View
+        className="flex flex-col p-4   h-full bg-gray-100 !text-black
+          ">
+        <View className="relative top-0 flex flex-row items-center p-5 ">
+          <Image
+            style={styles.topNavigation}
+            source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
+          />
         </View>
-        {/* end of progressbar */}
-
-        {/* text */}
         <View>
           <Text
-            className="text-2xl text-[#00274D] pt-3"
+            className="text-3xl text-[#00274D]"
             style={{fontFamily: 'Poppins-bold'}}>
-            Business Information
+            VendorBusiness
+          </Text>
+          <Text
+            className="pt-2 text-xs text-gray-400"
+            style={{fontFamily: 'Poppins-Light'}}>
+            Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
-
-        <SafeAreaView>
-          <Text
-            className="text-[#00274D] px-3"
-            style={{fontFamily: 'Poppins-SemiBold'}}>
-            Company Name
-          </Text>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Enter your Name"
-            className="!border-none pl-4 !border-white"
-            borderRadius={10}
-          />
-
-          <Text
-            className="text-[#00274D] px-3"
-            style={{fontFamily: 'Poppins-SemiBold'}}>
-            Designation
-          </Text>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Example@gmail.com"
-            className="!border-none pl-4 !border-white"
-            borderRadius={10}
-          />
-          <Text
-            className="text-[#00274D] px-3"
-            style={{fontFamily: 'Poppins-SemiBold'}}>
-            Trade Licence Number
-          </Text>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Enter your phone number"
-            className="!border-none pl-4 !border-white"
-            borderRadius={10}
-          />
-          <Text
-            className="text-[#00274D] px-3"
-            style={{fontFamily: 'Poppins-SemiBold'}}>
-            Company Address Line 1
-          </Text>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Enter your Date of Birth"
-            className="!border-none pl-4 !border-white"
-            borderRadius={10}
-          />
-          <Text
-            className="text-[#00274D] px-3"
-            style={{fontFamily: 'Poppins-SemiBold'}}>
-            Company Address Line 2
-          </Text>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Enter your Name"
-            className="!border-none pl-4 !border-white"
-            borderRadius={10}
-          />
-          {/* side  */}
-          <View style={styles.containerside}>
-            <View style={styles.inputContainer}>
-              <Text
-                className="text-[#00274D] px-3"
-                style={{fontFamily: 'Poppins-SemiBold'}}>
-                Country
-              </Text>
-              <TextInput
-                style={[styles.input, {width: '100%'}]}
-                placeholder="Example@gmail.com"
-                placeholderTextColor="rgb(210, 210, 210)"
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Text
-                className="text-[#00274D] px-3 pt-0"
-                style={{fontFamily: 'Poppins-SemiBold'}}>
-                PO Box
-              </Text>
-              <TextInput
-                style={[styles.input, {width: '100%'}]}
-                placeholder="Enter your phone number"
-                placeholderTextColor="rgb(210, 210, 210)"
-              />
-            </View>
+        <View className="pt-10 ">
+          {/* progressbar */}
+          <View style={styles.container}>
+            {/* <Text>progress</Text> */}
+            <Animated.View style={[styles.bar, {width: progress}]} />
           </View>
-          {/* <Text
-            className="text-[#00274D] px-3"
-            style={{fontFamily: 'Poppins-SemiBold'}}>
-            Warehouse Address
-          </Text> */}
-          {/* <TextInput
-            style={styles.input}
-            placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Enter your Name"
-            className="!border-none pl-4 !border-white"
-            borderRadius={10}
-          /> */}
-        </SafeAreaView>
+          {/* end of progressbar */}
+
+          {/* text */}
+          <View>
+            <Text
+              className="text-2xl text-[#00274D] pt-3"
+              style={{fontFamily: 'Poppins-bold'}}>
+              Business Information
+            </Text>
+          </View>
+
+          <SafeAreaView>
+            <Text
+              className="text-[#00274D] px-3"
+              style={{fontFamily: 'Poppins-SemiBold'}}>
+              Company Name
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholderTextColor="rgb(210, 210, 210)"
+              placeholder="Enter your Name"
+              className="!border-none pl-4 !border-white"
+              borderRadius={10}
+            />
+
+            <Text
+              className="text-[#00274D] px-3"
+              style={{fontFamily: 'Poppins-SemiBold'}}>
+              Designation
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholderTextColor="rgb(210, 210, 210)"
+              placeholder="Example@gmail.com"
+              className="!border-none pl-4 !border-white"
+              borderRadius={10}
+            />
+            <Text
+              className="text-[#00274D] px-3"
+              style={{fontFamily: 'Poppins-SemiBold'}}>
+              Trade Licence Number
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholderTextColor="rgb(210, 210, 210)"
+              placeholder="Enter your phone number"
+              className="!border-none pl-4 !border-white"
+              borderRadius={10}
+            />
+            <Text
+              className="text-[#00274D] px-3"
+              style={{fontFamily: 'Poppins-SemiBold'}}>
+              Company Address Line 1
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholderTextColor="rgb(210, 210, 210)"
+              placeholder="Enter your Date of Birth"
+              className="!border-none pl-4 !border-white"
+              borderRadius={10}
+            />
+            <Text
+              className="text-[#00274D] px-3"
+              style={{fontFamily: 'Poppins-SemiBold'}}>
+              Company Address Line 2
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholderTextColor="rgb(210, 210, 210)"
+              placeholder="Enter your Name"
+              className="!border-none pl-4 !border-white"
+              borderRadius={10}
+            />
+            {/* side  */}
+            <View style={styles.containerside}>
+              <View style={styles.inputContainer}>
+                <Text
+                  className="text-[#00274D] px-3"
+                  style={{fontFamily: 'Poppins-SemiBold'}}>
+                  Country
+                </Text>
+                <TextInput
+                  style={[styles.input, {width: '100%'}]}
+                  placeholder="Example@gmail.com"
+                  placeholderTextColor="rgb(210, 210, 210)"
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <Text
+                  className="text-[#00274D] px-3 pt-0"
+                  style={{fontFamily: 'Poppins-SemiBold'}}>
+                  PO Box
+                </Text>
+                <TextInput
+                  style={[styles.input, {width: '100%'}]}
+                  placeholder="Enter your phone number"
+                  placeholderTextColor="rgb(210, 210, 210)"
+                />
+              </View>
+            </View>
+            {/* <Text
+              className="text-[#00274D] px-3"
+              style={{fontFamily: 'Poppins-SemiBold'}}>
+              Warehouse Address
+            </Text> */}
+            {/* <TextInput
+              style={styles.input}
+              placeholderTextColor="rgb(210, 210, 210)"
+              placeholder="Enter your Name"
+              className="!border-none pl-4 !border-white"
+              borderRadius={10}
+            /> */}
+            <Addbutton/>
+          </SafeAreaView>
+        </View>
+        <View className="pt-5">
+          <TouchableOpacity
+            onPress={() => redirectDocument()}
+            style={styles.button}>
+            <Text
+              className="text-white "
+              style={{fontFamily: 'Poppins-SemiBold'}}>
+              PROCEED
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View className="pt-5">
-        <TouchableOpacity
-          onPress={() => redirectDocument()}
-          style={styles.button}>
-          <Text
-            className="text-white "
-            style={{fontFamily: 'Poppins-SemiBold'}}>
-            PROCEED
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({

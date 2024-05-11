@@ -8,7 +8,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 
-export default function VendorInfo() {
+export default function Addbutton() {
   const [inputs, setInputs] = useState([]);
 
   const handleAdd = () => {

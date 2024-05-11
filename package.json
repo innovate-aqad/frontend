@@ -25,6 +25,7 @@
     "react-native-flatlist-slider": "^1.0.6",
     "react-native-gesture-handler": "^2.16.1",
     "react-native-gifted-charts": "^1.4.10",
+    "react-native-image-crop-picker": "^0.41.1",
     "react-native-image-picker": "^7.1.2",
     "react-native-paper": "^5.12.3",
     "react-native-popup-menu": "^0.16.1",
