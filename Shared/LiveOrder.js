@@ -59,14 +59,12 @@ export default function LiveOrder() {
           
         }}
         
-        width={250} // from react-native
+        width={250} 
         height={144}
-        
-      
         yAxisLabel=""
         withShadow={false}
         yAxisSuffix=""
-        yAxisInterval={1} // optional, defaults to 1
+        yAxisInterval={1} 
         chartConfig={{
           backgroundColor: 'whihte',
           backgroundGradientFrom: 'white',

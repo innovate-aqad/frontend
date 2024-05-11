@@ -148,15 +148,15 @@ export default function VendorInfo(nav) {
         <Text
           className="text-3xl text-[#00274D]"
           style={{fontFamily: 'Poppins-bold'}}>
-          Vendor
+          Vendor Info
         </Text>
         <Text
-          className="text-xs pt-2 text-gray-400"
+          className="pt-2 text-xs text-gray-400"
           style={{fontFamily: 'Poppins-Light'}}>
           Pick the type of account that suits your business or personal needs.
         </Text>
       </View>
-      <View className=" pt-10 ">
+      <View className="pt-10 ">
         {/* progressbar */}
         <View style={styles.container}>
           {/* <Text>progress</Text> */}

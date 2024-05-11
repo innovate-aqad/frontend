@@ -22,7 +22,7 @@ export default function VendorBusiness(nav) {
     }).start();
   }, []);
   const redirectDocument = () => {
-    nav.navigation.navigate('document');
+    nav.navigation.navigate('addbutton');
     // nav.navigation.navigate('bottomTab');
   };
 
@@ -40,7 +40,7 @@ export default function VendorBusiness(nav) {
         <Text
           className="text-3xl text-[#00274D]"
           style={{fontFamily: 'Poppins-bold'}}>
-          VendorBusiness
+          Logistic Partner Info
         </Text>
         <Text
           className="pt-2 text-xs text-gray-400"
