@@ -8,7 +8,9 @@ import {
   SafeAreaView,
   View,
   Animated,
-  ScrollView
+  ScrollView,
+  ToastAndroid,
+
 } from 'react-native';
 import {Avatar} from 'react-native-paper';
 
@@ -23,6 +25,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 
 import axios from 'axios';
+import { userData } from '../getuserdata/GetUserData';
 
 
 export default function VendorInfo(nav) {
@@ -55,12 +58,10 @@ export default function VendorInfo(nav) {
       initialValues,
       validationSchema: VendorRegisterSchema,
       onSubmit: async (values, action) => {
-      
-        console.log("values",values)
-        // setIsLoading(true);
+
         const formdata = {
           name: values.fullName,
-          slide : 1,
+          slide : "1",
           user_type : "vendor",
           // image: values.image,
           email: values.email,
@@ -71,11 +72,24 @@ export default function VendorInfo(nav) {
         console.log(formdata,"llll");
         await axios({
           method: "post",
-          url: `http://192.168.0.101:2000/api/user/register`,
+          url: `http://3.29.2.101:2000/api/user/register`,
+        
+            headers :{
+              "Content-Type":"application/json"
+            }
+          ,
           data: formdata,
         })
           .then((response) => {
-            console.log("kkkkkkk",response.data,"hhhhhh")
+            console.log("kkkkkkk",response.data.data.message,response.data.message,"hhhhhh")
+            ToastAndroid.showWithGravityAndOffset(
+              response.data.message,
+              ToastAndroid.LONG,
+              ToastAndroid.CENTER,
+              25,
+              50,
+            );
+            nav.navigation.navigate('business');
             // Swal.fire({
             //   icon: "success",
             //   title:
@@ -88,8 +102,15 @@ export default function VendorInfo(nav) {
             // setData(JSON.stringify(response.data));
           })
           .catch((error) => {
-            console.log("error", error.message);
-            nav.navigation.navigate('business');
+            console.log("error...",error.response.data.message);
+            ToastAndroid.showWithGravityAndOffset(
+              error.response.data.message,
+              ToastAndroid.LONG,
+              ToastAndroid.CENTER,
+              25,
+              50,
+            );
+            // nav.navigation.navigate('business');
             // setIsLoading(false);
             // Swal.fire({
             //   icon: "error",
@@ -105,7 +126,19 @@ export default function VendorInfo(nav) {
       },
   });
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = formik
+  
 
+  const fetchData = async () => {
+    try {
+      const response = await userData();
+      console.log(response.data); // Assuming response.data contains the user data
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   
 
   // const pickImage = () => {
