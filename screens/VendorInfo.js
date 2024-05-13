@@ -20,7 +20,6 @@ import {Badge, IconButton} from 'react-native-paper';
 import { Formik, useFormik } from 'formik';
 import CountryPicker from 'react-native-country-picker-modal'
 import { VendorRegisterSchema } from '../schemas/VendorRegisterSchema';
-// import ImagePicker from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
 
 
@@ -59,29 +58,43 @@ export default function VendorInfo(nav) {
       validationSchema: VendorRegisterSchema,
       onSubmit: async (values, action) => {
 
-        const formdata = {
-          name: values.fullName,
-          slide : "1",
-          user_type : "vendor",
-          // image: values.image,
-          email: values.email,
-          country: values.isoCode,
-          phone: `${values.country}-${values?.number}`,
-          dob: values.dateOfBirth,
-        };
+        console.log("kkkeeee",values.image)
+        const formdata = new FormData();
+        formdata.append("name", values.fullName);
+        formdata.append("slide", "1");
+        formdata.append("user_type", "vendor");
+        formdata.append("profile_photo", {
+          uri: values.image.uri,
+          name: values.image.name,
+          type: values.image.type
+        });
+        formdata.append("email", values.email);
+        formdata.append("country",values.isoCode);
+        formdata.append("phone", `${values.country}-${values?.number}`); 
+        formdata.append("dob", values.dateOfBirth); 
+        // const formdata = {
+        //   name: values.fullName,
+        //   slide : "1",
+        //   user_type : "vendor",
+        //   image: values.image,
+        //   email: values.email,
+        //   country: values.isoCode,
+        //   phone: `${values.country}-${values?.number}`,
+        //   dob: values.dateOfBirth,
+        // };
         console.log(formdata,"llll");
         await axios({
           method: "post",
-          url: `http://3.29.2.101:2000/api/user/register`,
+          url: `http://3.29.209.107:2000/api/user/register`,
         
-            headers :{
-              "Content-Type":"application/json"
-            }
-          ,
-          data: formdata,
+          headers :{
+            "Content-Type":"multipart/form-data"
+          }
+        ,
+        data: formdata,
         })
           .then((response) => {
-            console.log("kkkkkkk",response.data.data.message,response.data.message,"hhhhhh")
+            console.log("kkkkkkk",response.data.data.id,response.data,"hhhhhh")
             ToastAndroid.showWithGravityAndOffset(
               response.data.message,
               ToastAndroid.LONG,
@@ -89,7 +102,7 @@ export default function VendorInfo(nav) {
               25,
               50,
             );
-            nav.navigation.navigate('business');
+            nav.navigation.navigate('business',{ id : response.data.data.id });
             // Swal.fire({
             //   icon: "success",
             //   title:
@@ -102,14 +115,14 @@ export default function VendorInfo(nav) {
             // setData(JSON.stringify(response.data));
           })
           .catch((error) => {
-            console.log("error...",error.response.data.message);
-            ToastAndroid.showWithGravityAndOffset(
-              error.response.data.message,
-              ToastAndroid.LONG,
-              ToastAndroid.CENTER,
-              25,
-              50,
-            );
+            console.log("error...",error,error?.message);
+            // ToastAndroid.showWithGravityAndOffset(
+            //   error.response.data.message,
+            //   ToastAndroid.LONG,
+            //   ToastAndroid.CENTER,
+            //   25,
+            //   50,
+            // );
             // nav.navigation.navigate('business');
             // setIsLoading(false);
             // Swal.fire({
@@ -119,9 +132,7 @@ export default function VendorInfo(nav) {
             // });
             // setError(error);
           });
-        // action.resetForm();
-        // setUpdateChecked(false);
-        // setAgreechecked(false);
+
 
       },
   });
@@ -131,7 +142,7 @@ export default function VendorInfo(nav) {
   const fetchData = async () => {
     try {
       const response = await userData();
-      console.log(response.data); // Assuming response.data contains the user data
+      // console.log(response); // Assuming response.data contains the user data
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
@@ -152,7 +163,7 @@ export default function VendorInfo(nav) {
 
   //   ImagePicker.showImagePicker(options, (response) => {
   //     if (response.didCancel) {
-  //       console.log('User cancelled image picker');
+  //       console.log('User cancelled picker');
   //     } else if (response.error) {
   //       console.log('ImagePicker Error: ', response.error);
   //     } else if (response.customButton) {
@@ -183,15 +194,23 @@ export default function VendorInfo(nav) {
       width: 400,
       height: 400,
       cropping: true,
-      includeBase64: true,
+      includeBase64: false,
       cropperCircleOverlay: true,
       avoidEmptySpaceAroundImage: true,
       freeStyleCropEnabled: true,
     }).then(image => {
-      console.log(image);
-      const data = `data:${image.mime};base64,${image.data}`;
-      formik.setFieldValue('image', data);
-      setImage(data);
+
+      if (image) {
+        const imageData = {
+          uri: Platform.OS === 'android' ? image.path : image.sourceURL,
+          name: Platform.OS === 'android' ? image.path.split('/').pop() : image.filename,
+          type: image.mime
+        };
+
+        formik.setFieldValue('image', imageData);
+        setImage(imageData.uri);
+      }
+    
     });
   };
 
@@ -241,11 +260,12 @@ export default function VendorInfo(nav) {
         {/* profile */}
         <View className=" pt-10 " style={styles.user}>
           <TouchableOpacity onPress={() => selectPhoto()}>
-            {/* <FontAwesome6 name={'user'} size={30} />
+            {/* <FontAwesome6 name={'user'} size={30} /> */}
             <Feather
               name={'edit-2'}
-              style={{position: 'absolute', bottom: -6, right: -6}}
-            /> */}
+              style={{position: 'absolute', top: 0, right: 30}}
+              
+            />
              <Avatar.Image
               size={140}
               style={styles.avatar}

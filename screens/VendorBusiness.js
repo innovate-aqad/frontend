@@ -17,10 +17,13 @@ import Addbutton from './Addbutton';
 import { useFormik } from 'formik';
 import { VendorRegisterSchema2 } from '../schemas/VendorRegiterSchema2';
 import { userData } from '../getuserdata/GetUserData';
+import axios from 'axios';
 export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [inputs, setInputs] = useState([{ address: '', po_box: '' }]);
+  const mainId = nav.route.params.id;
 
+  console.log("mainId",mainId)
 
   useEffect(() => {
     Animated.timing(progress, {
@@ -37,15 +40,12 @@ export default function VendorBusiness(nav) {
   const initialValues = {
     companyName: "",
     designation: "",
+    tradeLicenseNo : "",
     companyAddress : "",
+    companyAddressline2 : "",
     vendorPoBox : "",
+    country: "", 
     warehouse_addresses: [{ address: '', po_box: '' }],
-    // email:"",
-    // country:"",
-    // number :"",
-    // dateOfBirth: "",
-    // isoCode :"",
-    // image :""
   };
 
   let formik =  useFormik({
@@ -54,55 +54,69 @@ export default function VendorBusiness(nav) {
       onSubmit: async (values, action) => {
       
         console.log("values",values)
-        // nav.navigation.navigate('document');
-        // setIsLoading(true);
-
-
-        // const formdata = {
-        //   name: values.fullName,
-        //   slide : 1,
-        //   user_type : "vendor",
-        //   // image: values.image,
-        //   email: values.email,
-        //   country: values.isoCode,
-        //   phone: `${values.country}-${values?.number}`,
-        //   dob: values.dateOfBirth,
-        // };
-        // console.log(formdata,"llll");
-        // await axios({
-        //   method: "post",
-        //   url: `http://192.168.0.101:2000/api/user/register`,
-        //   data: formdata,
-        // })
-        //   .then((response) => {
-        //     console.log("kkkkkkk",response.data,"hhhhhh")
-        //     // Swal.fire({
-        //     //   icon: "success",
-        //     //   title:
-        //     //     "Please Check Your Mail, and verify Your Account in Floxy Travel",
-        //     //   timer: "1000",
-        //     // });
-        //     // socket.emit("user_registeration", response.data);
-        //     // // console.log("response", response.data);
-        //     // setIsLoading(false);
-        //     // setData(JSON.stringify(response.data));
-        //   })
-        //   .catch((error) => {
-        //     console.log("error", error.message);
-        //     nav.navigation.navigate('business');
-        //     // setIsLoading(false);
-        //     // Swal.fire({
-        //     //   icon: "error",
-        //     //   title: "Already have an account",
-        //     //   timer: "1000",
-        //     // });
-        //     // setError(error);
-        //   });
-
-
-        // action.resetForm();
-        // setUpdateChecked(false);
-        // setAgreechecked(false);
+        const formdata = {
+          company_name: values.companyName,
+          slide : "2",
+          user_type : "vendor",
+          designation: values.designation,
+          trade_license_number: values.tradeLicenseNo,
+          company_address: values.companyAddress,
+          company_address_line_2: values.companyAddressline2,
+          po_box : values.vendorPoBox,
+          country : values.country,
+          warehouse_addresses : values?.warehouse_addresses,
+          doc_id : mainId
+        };
+        console.log(formdata,"llll...");
+        await axios({
+          method: "post",
+          url: `http://3.29.209.107:2000/api/user/register`,
+        
+            headers :{
+              "Content-Type":"application/json"
+            }
+          ,
+          data: formdata,
+        })
+          .then((response) => {
+            console.log("kkkkkkk",response.data,"hhhhhh")
+            // ToastAndroid.showWithGravityAndOffset(
+            //   response.data.message,
+            //   ToastAndroid.LONG,
+            //   ToastAndroid.CENTER,
+            //   25,
+            //   50,
+            // );
+            // nav.navigation.navigate('business',{ id : response.data.data.id });
+            // Swal.fire({
+            //   icon: "success",
+            //   title:
+            //     "Please Check Your Mail, and verify Your Account in Floxy Travel",
+            //   timer: "1000",
+            // });
+            // socket.emit("user_registeration", response.data);
+            // // console.log("response", response.data);
+            // setIsLoading(false);
+            // setData(JSON.stringify(response.data));
+          })
+          .catch((error) => {
+            console.log("error...",error.response.data.message);
+            // ToastAndroid.showWithGravityAndOffset(
+            //   error.response.data.message,
+            //   ToastAndroid.LONG,
+            //   ToastAndroid.CENTER,
+            //   25,
+            //   50,
+            // );
+            // nav.navigation.navigate('business');
+            // setIsLoading(false);
+            // Swal.fire({
+            //   icon: "error",
+            //   title: "Already have an account",
+            //   timer: "1000",
+            // });
+            // setError(error);
+          });
 
       },
   });
@@ -135,7 +149,7 @@ export default function VendorBusiness(nav) {
 
   useEffect(async() => {
     const getUserData = await userData()
-    console.log("hhhhhhh",getUserData)
+    // console.log("hhhhhhh",getUserData)
   }, [])
   
   return (
@@ -230,7 +244,10 @@ export default function VendorBusiness(nav) {
               className="!border-none pl-4 !border-white"
               borderRadius={10}
 
-           
+              name="tradeLicenseNo"
+              value={values.tradeLicenseNo}
+              onChangeText={handleChange('tradeLicenseNo')}
+              onBlur={handleBlur('tradeLicenseNo')}
             />
 
 
@@ -265,7 +282,14 @@ export default function VendorBusiness(nav) {
               placeholder="Enter Address line 2"
               className="!border-none pl-4 !border-white"
               borderRadius={10}
+
+              name="companyAddressline2"
+              value={values.companyAddressline2}
+              onChangeText={handleChange('companyAddressline2')}
+              onBlur={handleBlur('companyAddressline2')}
             />
+            {errors.companyAddressline2 && touched.companyAddressline2 && <Text style={{ color: 'red' }}>{errors.companyAddressline2}</Text>}
+
             {/* side  */}
             <View style={styles.containerside}>
               <View style={styles.inputContainer}>
@@ -278,9 +302,14 @@ export default function VendorBusiness(nav) {
                   style={[styles.input, {width: '100%'}]}
                   placeholder="United Arab Emirates"
                   placeholderTextColor="rgb(210, 210, 210)"
-                  value='United Arab Emirates'
-                  readOnly
+                  
+                  name="country"
+                  value={values.country}
+                  onChangeText={handleChange('country')}
+                  onBlur={handleBlur('country')}
                 />
+              {errors.country && touched.country && <Text style={{ color: 'red' }}>{errors.country}</Text>}
+
               </View>
               <View style={styles.inputContainer}>
                 <Text
@@ -384,3 +413,6 @@ const styles = StyleSheet.create({
     borderWidth: 0,
   },
 });
+
+
+// {"navigation": { "route": {  "params": {"id": "bb0420261bde4d88b7c76fef46fc2cac"}}}qa
