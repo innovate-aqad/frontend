@@ -23,6 +23,7 @@ import PopoverExample from '../Shared/TextLine';
 export default function Orders() {
   const [tab, setTab] = useState('All Orders');
   const [searchText, setSearchText] = useState('');
+  const [show, setShow] = useState(false);
 
   const handleSearch = () => {};
 
@@ -39,8 +40,11 @@ export default function Orders() {
     }
   };
 
-  return (
+  const showMenu = () => {
+    setShow(true);
+  };
 
+  return (
     <View className="w-full h-full bg-[#f5f5f5]">
       <View className="relative top-0 flex flex-row items-center p-5 bg-white">
         <Image
@@ -156,12 +160,11 @@ export default function Orders() {
         <SafeAreaView>
           <ScrollView keyboardShouldPersistTaps="handled">
             <View className="">
-              {[1]?.map(
-                (item, index) => {
-                  return (
+              {[1,2,3,4,5,6,7,8,9]?.map((item, index) => {
+                return (
                     <View
                       key={index}
-                      className="flex gap-y-2 flex-col p-1.5 pb-2 mt-1.5 bg-white shadow rounded-xl">
+                      className="flex gap-y-2 flex-col p-1.5 pb-2 mt-1.5 bg-white  shadow rounded-xl">
                       <View className="flex flex-row justify-around ">
                         <View className="bg-[#FDEEE3] h-[50px] w-[50px] rounded-full border border-[#FDD7BC] p-3">
                           <Image
@@ -210,12 +213,15 @@ export default function Orders() {
                             50 AED
                           </Text>
                         </View>
-                        {/* <TouchableOpacity> */}
-                          
-                          <View>
-                          <PopoverExample/>
-                          </View>
-                        {/* </TouchableOpacity> */}
+                        {/* <PopoverExample /> */}
+
+                        <TouchableOpacity onPress={showMenu} className="mt-3">
+                          <Entypo
+                            name="dots-three-vertical"
+                            size={20}
+                            color="#cbcbcb"
+                          />
+                        </TouchableOpacity>
                       </View>
                       <View className="flex flex-row px-3 gap-x-3">
                         <Text
@@ -235,14 +241,12 @@ export default function Orders() {
                         </Text>
                       </View>
                     </View>
-                  );
-                },
-              )}
+                );
+              })}
             </View>
           </ScrollView>
         </SafeAreaView>
       </View>
-      {/* <PopoverExample/> */}
     </View>
   );
 }

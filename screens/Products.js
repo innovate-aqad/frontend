@@ -13,7 +13,7 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-export default function Products() {
+export default function Products(nav) {
   const [searchText, setSearchText] = useState('');
   const handleSearch = () => {};
   return (
@@ -115,7 +115,7 @@ export default function Products() {
        
           <TouchableOpacity
             className="z-50 rounded-full "
-            // onPress={() => redirect()}
+            onPress={() => nav.navigation.navigate("add_product")}
             style={styles.button}>
             <Text
               className="text-white"

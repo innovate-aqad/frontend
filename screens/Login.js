@@ -63,34 +63,35 @@ export default function Login(nav) {
     // } else {
     //   setPasswordError(false);
     // }
+    // nav.navigation.navigate('bottomTab');
     nav.navigation.navigate('productIndex');
     // console.log(email, 'emailemailemail');
     // console.log(password, 'passwordpasswordpasswordpassword');
 
-    if(emailError && passwordError){
-      setEmail("")
-      setPassword("")
-      nav.navigation.navigate('productIndex');
-      ToastAndroid.showWithGravityAndOffset(
-        'Login Success',
-        ToastAndroid.LONG,
-        ToastAndroid.CENTER,
-        25,
-        50,
-      );
+    // if(emailError && passwordError){
+    //   setEmail("")
+    //   setPassword("")
+    //   nav.navigation.navigate('productIndex');
+    //   ToastAndroid.showWithGravityAndOffset(
+    //     'Login Success',
+    //     ToastAndroid.LONG,
+    //     ToastAndroid.CENTER,
+    //     25,
+    //     50,
+    //   );
 
-    }else{
-      ToastAndroid.showWithGravityAndOffset(
-        'Invalid email and passwords',
-        ToastAndroid.LONG,
-        ToastAndroid.CENTER,
-        25,
-        50,
-      );
-    }
+    // }else{
+    //   ToastAndroid.showWithGravityAndOffset(
+    //     'Invalid email and passwords',
+    //     ToastAndroid.LONG,
+    //     ToastAndroid.CENTER,
+    //     25,
+    //     50,
+    //   );
+    // }
 
     // axios
-    //   .get('/user?ID=12345')
+    //   .get('http://localhost:7070/category')
     //   .then(function (response) {
     //     // handle success
     //     console.log(response);

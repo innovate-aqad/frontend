@@ -21,9 +21,6 @@ export default function App() {
       <MenuProvider>
         <Index />
       </MenuProvider>
-
-
-
     </NavigationContainer>
   );
 }

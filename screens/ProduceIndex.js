@@ -17,7 +17,7 @@ const order = 'Orders';
 export default function ProductIndex() {
   return (
     <Tab.Navigator
-      initialRouteName={product}
+      initialRouteName={trade}
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;

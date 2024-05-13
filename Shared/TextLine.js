@@ -1,74 +1,66 @@
-import {
-  Menu,
-  MenuProvider,
-  MenuOptions,
-  MenuTrigger,
-  renderers,
-} from 'react-native-popup-menu';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 
-const {Popover} = renderers;
+import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
+import Entypo from 'react-native-vector-icons/Entypo';
 
-const MyPopover = () => (
-  <Menu renderer={Popover} rendererProps={{preferredPlacement: 'bottom'}}>
-    <MenuTrigger style={styles.menuTrigger}>
-      <Text style={styles.triggerText}>{'\u263A'}</Text>
-    </MenuTrigger>
-    <MenuOptions style={styles.menuOptions}>
-      <TouchableOpacity className="bg-yellow-500">
-        <Text style={styles.contentText}>Hello world!</Text>
-      </TouchableOpacity>
-      <TouchableOpacity className="mt-3 bg-yellow-500">
-        <Text style={styles.contentText}>Hello world!</Text>
-      </TouchableOpacity>
-    </MenuOptions>
-  </Menu>
-);
+function PopoverExample() {
+  const [visible, setVisible] = useState(false);
 
-const Row = () => (
-  <View style={styles.row}>
-    <MyPopover />
-  </View>
-);
+  const hideMenu = () => setVisible(false);
 
-const PopoverExample = () => (
-  <MenuProvider
-    style={styles.container}
-    customStyles={{backdrop: styles.backdrop}}>
-    <Row />
-  </MenuProvider>
-);
+  const showMenu = () => setVisible(true);
 
-const styles = StyleSheet.create({
-  container: {
-    // flexDirection: 'column',
-    // justifyContent: 'space-between',
-    // backgroundColor: 'red',
-    // zIndex:1
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  backdrop: {},
-  menuOptions: {
-    padding: 10,
-    position: 'relative',
-    backgroundColor: 'green',
-  },
-  menuTrigger: {
-    padding: 5,
-  },
-  triggerText: {
-    fontSize: 20,
-    backgroundColor: 'red',
-    color: 'black',
-  },
-  contentText: {
-    fontSize: 18,
-    color: 'red',
-  },
-});
+  return (
+    <View
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 50,
+      }}>
+      <Menu
+        visible={visible}
+        style={{borderRadius: 15, paddingLeft: 4, paddingRight: 4}}
+        anchor={
+          <TouchableOpacity onPress={showMenu}>
+            <Entypo name="dots-three-vertical" size={20} color="#cbcbcb" />
+          </TouchableOpacity>
+        }
+        onRequestClose={hideMenu}>
+        <MenuItem onPress={hideMenu} className="">
+          <View className="flex flex-row items-center gap-x-2">
+            <View className="p-2 bg-blue-100 rounded-lg">
+            <Image
+              style={{tintColor: '#6d93f2', height: 17, width: 17}}
+              source={require('../Assets/image/pencil.png')}
+            />
+            </View>
+            <Text
+              className="text-[#6d93f2]"
+              style={{fontFamily: 'Poppins-semiBold'}}>
+              Edit
+            </Text>
+          </View>
+        </MenuItem>
+        <MenuDivider className="px-20" />
+        <MenuItem onPress={hideMenu}>
+          <View className="flex flex-row items-center gap-2">
+          <View className="p-2 bg-red-100 rounded-lg">
+            <Image
+              style={{tintColor: '#df6886', height: 17, width: 17}}
+              source={require('../Assets/image/trash.png')}
+            />
+            </View>
+            <Text
+              className="text-[#df6886]"
+              style={{fontFamily: 'Poppins-semiBold'}}>
+              Remove
+            </Text>
+          </View>
+        </MenuItem>
+      </Menu>
+    </View>
+  );
+}
 
 export default PopoverExample;

@@ -18,6 +18,7 @@ import Logisticinfo from './Logisticinfo';
 import Logisticbusiness from './Logisticbusiness';
 import Logisticdocument from './Logisticdocument';
 import Addbutton from './Addbutton';
+import AddProduct from '../components/AddProduct';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -29,7 +30,7 @@ export default function Index() {
       <Stack.Screen name="products" component={Products} />
       <Stack.Screen name="orders" component={Orders} />
       <Stack.Screen name="forgot" component={Forgot} />
-      {/* <Stack.Screen name="dashboard" component={Dashboard} /> */}
+      <Stack.Screen name="add_product" component={AddProduct} />
       <Stack.Screen name="productIndex" component={ProductIndex} />
       <Stack.Screen
         name="vendorPersonalInformation"
