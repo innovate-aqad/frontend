@@ -14,8 +14,7 @@ export default function Signup(nav) {
   return (
     <View>
       <View
-        className="flex flex-col px-4 justify-center h-full bg-gray-100 !text-black
-    "
+        className="flex flex-col px-4 justify-center h-full bg-gray-100 !text-black"
         style={{fontFamily: 'Poppins-Bold'}}>
         <TouchableOpacity onPress={() => nav.navigation.navigate('Login')}>
           <Image

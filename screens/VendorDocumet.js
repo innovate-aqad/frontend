@@ -14,6 +14,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Avatar, Card, IconButton} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
+import { useNavigation } from '@react-navigation/native';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -47,17 +48,20 @@ export default function VendorDocument(nav) {
     }
   };
 
-
+  const navigation = useNavigation();
   return (
+
     <ScrollView keyboardShouldPersistTaps="handled">
       <View
         className="flex flex-col justify-center p-4   h-full bg-gray-100 !text-black
         ">
         <View className="relative flex flex-row items-center top-3 ">
-          <Image
-            style={styles.topNavigation}
-            source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
-          />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+      <Image
+        style={{ width: 24, height: 24 }} // Adjust size as needed
+        source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
+      />
+    </TouchableOpacity>
         </View>
         <View className="mt-5">
           <Text
