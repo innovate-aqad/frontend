@@ -117,7 +117,6 @@ export default function Login(nav) {
       validationSchema: LoginSchema,
       onSubmit: async (values, action) => {
         console.log("values",values)
-        // setIsApiResponse(true);
         await axios({
           method: "post",
           url: `http://3.29.209.107:2000/api/user/login`,
@@ -348,7 +347,10 @@ export default function Login(nav) {
         <Text className="text-gray-400">New to AQAD ?</Text>
         <Text
           className="px-5 text-[#F96900]"
-          onPress={() => nav.navigation.navigate('signup')}>
+          onPress={() => {
+            // nav.navigation.navigate('document',{ id : "2e1e026b99724e698d4531e949484e5d" });
+            nav.navigation.navigate('signup')
+          }}>
           Sign Up
         </Text>
       </View>

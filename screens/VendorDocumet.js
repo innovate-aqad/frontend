@@ -16,13 +16,24 @@ import {Avatar, Card, IconButton} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
 import { useFormik } from 'formik';
 import { VendorRegisterSchema3 } from '../schemas/VendorRegisterSchema3';
+import axios from 'axios';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
-  const [selectedTradeLicense, setSelectedTradeLicenseName] = useState(null);
-  const [selectedCancelledCheque, setSelectedCancelledChequeName] = useState(null);
-  const [selectedVATCertificate, setSelectedVATCertificate] = useState(null);
-  const [selectedEmiratesDoc, setSelectedEmiratesDoc] = useState(null);
+  // const [selectedTradeLicense, setSelectedTradeLicenseName] = useState(null);
+  // const [selectedCancelledCheque, setSelectedCancelledChequeName] = useState(null);
+  // const [selectedVATCertificate, setSelectedVATCertificate] = useState(null);
+  // const [selectedEmiratesDoc, setSelectedEmiratesDoc] = useState(null);
+
+  const [selectedDocuments, setSelectedDocuments] = useState({
+    // tradeLicense: null,
+    // cancelledChequeDocument: null,
+    vatCertificateDocument: null,
+    // emiratesIDDocument: null
+  });
+
+  const mainId = nav.route.params.id;
+
   const redirectDocument = () => {
     nav.navigation.navigate('business');
     // nav.navigation.navigate('bottomTab');
@@ -32,6 +43,7 @@ export default function VendorDocument(nav) {
     Animated.timing(progress, {
       toValue: 330,
       duration: 2000,
+      useNativeDriver: false,
       
     }).start();
   }, []);
@@ -45,91 +57,185 @@ export default function VendorDocument(nav) {
     emiratesIDNumber: '',
   };
 
+
   let formik =  useFormik({
       initialValues,
       validationSchema: VendorRegisterSchema3,
       onSubmit: async (values, action) => {
       
         console.log("values",values,errors)
-        // nav.navigation.navigate('document');
-        // setIsLoading(true);
+        let formdata = new FormData();
+        // formdata.append("trade_license", {
+        //   uri: values.tradeLicense.uri,
+        //   type: values.tradeLicense.type,
+        //   name: values.tradeLicense.name
+        // });
+        // formdata.append("cheque_scan", {
+        //   uri: values.cancelledChequeDocument.uri,
+        //   type: values.cancelledChequeDocument.type,
+        //   name: values.cancelledChequeDocument.name
+        // });
+        // formdata.append("vat_certificate", {
+        //   uri: values.vatCertificateDocument.uri,
+        //   type: values.vatCertificateDocument.type,
+        //   name: values.vatCertificateDocument.name
+        // });
+        // formdata.append("emirate_id_pic", {
+        //   uri: values.emiratesIDDocument.uri,
+        //   type: values.emiratesIDDocument.type,
+        //   name: values.emiratesIDDocument.name
+        // });
+        Object.keys(values).forEach(key => {
+          if (values[key] && typeof values[key] === 'object') {
+            console.log("ffff111",key,"values[key]",values[key])
+            formdata.append(key, {
+              uri: values[key].uri,
+              type: values[key].type,
+              name: values[key].name
+            });
+          }
+        });
 
 
-        // const formdata = {
-        //   name: values.fullName,
-        //   slide : 1,
-        //   user_type : "vendor",
-        //   // image: values.image,
-        //   email: values.email,
-        //   country: values.isoCode,
-        //   phone: `${values.country}-${values?.number}`,
-        //   dob: values.dateOfBirth,
-        // };
-        // console.log(formdata,"llll");
-        // await axios({
-        //   method: "post",
-        //   url: `http://192.168.0.101:2000/api/user/register`,
-        //   data: formdata,
-        // })
-        //   .then((response) => {
-        //     console.log("kkkkkkk",response.data,"hhhhhh")
-        //     // Swal.fire({
-        //     //   icon: "success",
-        //     //   title:
-        //     //     "Please Check Your Mail, and verify Your Account in Floxy Travel",
-        //     //   timer: "1000",
-        //     // });
-        //     // socket.emit("user_registeration", response.data);
-        //     // // console.log("response", response.data);
-        //     // setIsLoading(false);
-        //     // setData(JSON.stringify(response.data));
-        //   })
-        //   .catch((error) => {
-        //     console.log("error", error.message);
-        //     nav.navigation.navigate('business');
-        //     // setIsLoading(false);
-        //     // Swal.fire({
-        //     //   icon: "error",
-        //     //   title: "Already have an account",
-        //     //   timer: "1000",
-        //     // });
-        //     // setError(error);
-        //   });
-
-
-        // action.resetForm();
-        // setUpdateChecked(false);
-        // setAgreechecked(false);
+        formdata.append("slide", "3");
+        formdata.append("user_type", "vendor");
+        formdata.append("doc_id", mainId);
+        formdata.append("cancelledChequeIBAN", values.cancelledChequeIBAN);
+        formdata.append("emiratesIDNumber", values.emiratesIDNumber);
+     
+        console.log(formdata,"dddddddddkkkkkk");
+        await axios({
+          method: "post",
+          url: `http://3.29.209.107:2000/api/user/register`,        
+          headers :{
+            "Content-Type":"multipart/form-data"
+          },
+          data: formdata,
+        })
+          .then((response) => {
+            console.log("wwwwwww",response.data.data.id,response.data,"hhhhhh")
+            ToastAndroid.showWithGravityAndOffset(
+              response.data.message,
+              ToastAndroid.LONG,
+              ToastAndroid.CENTER,
+              25,
+              50,
+            );
+            // nav.navigation.navigate('business',{ id : response.data.data.id });
+            // Swal.fire({
+            //   icon: "success",
+            //   title:
+            //     "Please Check Your Mail, and verify Your Account in Floxy Travel",
+            //   timer: "1000",
+            // });
+            // socket.emit("user_registeration", response.data);
+            // // console.log("response", response.data);
+            // setIsLoading(false);
+            // setData(JSON.stringify(response.data));
+          })
+          .catch((error) => {
+            console.log("error...slide 3",error,error?.message,error.response);
+            // ToastAndroid.showWithGravityAndOffset(
+            //   error.response.data.message,
+            //   ToastAndroid.LONG,
+            //   ToastAndroid.CENTER,
+            //   25,
+            //   50,
+            // );
+            // nav.navigation.navigate('business');
+            // setIsLoading(false);
+            // Swal.fire({
+            //   icon: "error",
+            //   title: "Already have an account",
+            //   timer: "1000",
+            // });
+            // setError(error);
+          });
 
       },
   });
 
-  const selectDocTradeLicense = async () => {
+  const selectDocument = async (documentType, formikField) => {
     try {
       const doc = await DocumentPicker.pick({
-        type: [DocumentPicker.types.pdf],
-        allowMultiSelection: true,
+        type: [DocumentPicker.types.pdf, DocumentPicker.types.images],
+        allowMultiSelection: false,
       });
 
-      formik.setFieldValue("tradeLicense", doc?.[0]?.uri);
-      setSelectedTradeLicenseName(doc?.[0]?.name);
+      if (doc && doc.length > 0) {
+        const selectedDoc = doc[0];
+        console.log("ffff",selectedDoc,documentType,formikField)
+        formik.setFieldValue(formikField, selectedDoc);
+        setSelectedDocuments(prev => ({
+          ...prev,
+          [documentType]: selectedDoc.name
+        }));
+      }
+    } catch (err) {
+      console.error('Error selecting document: ', err);
+    }
+  };
+  // const selectDocTradeLicense = async () => {
+  //   try {
+  //     const doc = await DocumentPicker.pick({
+  //       type: [DocumentPicker.types.pdf],
+  //       allowMultiSelection: true,
+  //     });
+
+  //     formik.setFieldValue("tradeLicense", doc?.[0]?.uri);
+  //     setSelectedTradeLicenseName(doc?.[0]?.name);
+  //   } catch (err) {
+  //     if (DocumentPicker.isCancel(err)) {
+  //       console.log('user cancelled the upload', err);
+  //     } else {
+  //       console.log(err);
+  //     }
+  //   }
+  // };
+  const selectDocTradeLicense = async () => {
+    try {
+      const docs = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf, DocumentPicker.types.images], // Allow both PDF and image files
+        allowMultiSelection: false,  // Change to false if you want only one file to be selectable
+      });
+  
+      if (docs && docs.length > 0) {
+        console.log("docs...",docs)
+        // Assuming you only want to handle the first selected document
+        const selectedDoc = docs[0];
+        if (selectedDoc.type === "application/pdf" || selectedDoc.type === "image/jpeg" || selectedDoc.type === "image/jpg") {
+          formik.setFieldValue("tradeLicense", selectedDoc);
+          setSelectedTradeLicenseName(selectedDoc.name);
+        } else {
+          alert("Please select a PDF, JPEG, or JPG file.");
+        }
+      }
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
-        console.log('user cancelled the upload', err);
+        console.log('User cancelled the upload', err);
       } else {
-        console.log(err);
+        console.log('Unknown error: ', err);
       }
     }
   };
   const selectDocCancelledChequeDocument = async () => {
     try {
-      const doc = await DocumentPicker.pick({
-        type: [DocumentPicker.types.pdf],
-        allowMultiSelection: true,
-      });
+      const docs = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf, DocumentPicker.types.images], // Allow both PDF and image files
+        allowMultiSelection: false,  // Change to false if you want only one file to be selectable
+      });      
 
-      formik.setFieldValue("cancelledChequeDocument", doc?.[0]?.uri);
-      setSelectedCancelledChequeName(doc?.[0]?.name);
+      if (docs && docs.length > 0) {
+        console.log("docs...",docs)
+        // Assuming you only want to handle the first selected document
+        const selectedDoc = docs[0];
+        if (selectedDoc.type === "application/pdf" || selectedDoc.type === "image/jpeg" || selectedDoc.type === "image/jpg") {
+          formik.setFieldValue("cancelledChequeDocument", selectedDoc);
+          setSelectedCancelledChequeName(selectedDoc.name);
+        } else {
+          alert("Please select a PDF, JPEG, or JPG file.");
+        }
+      }
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         console.log('user cancelled the upload', err);
@@ -139,15 +245,24 @@ export default function VendorDocument(nav) {
     }
   };
   const selectDocVATCertificate = async () => {
-    try {
-      const doc = await DocumentPicker.pick({
-        type: [DocumentPicker.types.pdf],
-        allowMultiSelection: true,
-      });
+    try {     
 
-      console.log("gggggg",doc)
-      formik.setFieldValue("vatCertificateDocument", doc?.[0]?.uri);
-      setSelectedVATCertificate(doc?.[0]?.name);
+      const docs = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf, DocumentPicker.types.images], // Allow both PDF and image files
+        allowMultiSelection: false,  // Change to false if you want only one file to be selectable
+      });      
+
+      if (docs && docs.length > 0) {
+        console.log("docs...vatCertificateDocument",docs)
+        // Assuming you only want to handle the first selected document
+        const selectedDoc = docs[0];
+        if (selectedDoc.type === "application/pdf" || selectedDoc.type === "image/jpeg" || selectedDoc.type === "image/jpg") {
+          formik.setFieldValue("vatCertificateDocument", selectedDoc);
+          setSelectedVATCertificate(selectedDoc.name);
+        } else {
+          alert("Please select a PDF, JPEG, or JPG file.");
+        }
+      }
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         console.log('user cancelled the upload', err);
@@ -158,13 +273,22 @@ export default function VendorDocument(nav) {
   };
   const selectEmiratesDoc = async () => {
     try {
-      const doc = await DocumentPicker.pick({
-        type: [DocumentPicker.types.pdf],
-        allowMultiSelection: true,
-      });
+    const docs = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf, DocumentPicker.types.images], // Allow both PDF and image files
+        allowMultiSelection: false,  // Change to false if you want only one file to be selectable
+      });      
 
-      formik.setFieldValue("emiratesIDDocument", doc?.[0]?.uri);
-      setSelectedEmiratesDoc(doc?.[0]?.name);
+      if (docs && docs.length > 0) {
+        console.log("docs...",docs)
+        // Assuming you only want to handle the first selected document
+        const selectedDoc = docs[0];
+        if (selectedDoc.type === "application/pdf" || selectedDoc.type === "image/jpeg" || selectedDoc.type === "image/jpg") {
+          formik.setFieldValue("emiratesIDDocument", selectedDoc);
+          setSelectedEmiratesDoc(selectedDoc.name);
+        } else {
+          alert("Please select a PDF, JPEG, or JPG file.");
+        }
+      }
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         console.log('user cancelled the upload', err);
@@ -230,10 +354,10 @@ export default function VendorDocument(nav) {
             <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
               Trade Licence
             </Text>
-            <TouchableOpacity className="h-[76px]" onPress={()=>selectDocTradeLicense()}>
+            <TouchableOpacity className="h-[76px]" onPress={() => selectDocument('tradeLicense', 'trade_license')}>
               <Card.Title
                 className="bg-white shadow rounded-xl"
-                title={selectedTradeLicense || "Click to Upload"}
+                title={selectedDocuments.tradeLicense || "Click to Upload"}
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{
@@ -255,12 +379,12 @@ export default function VendorDocument(nav) {
           </View>
           <View className="mt-3">
             <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
-              Cancelled Cheque / IBAN sdksdf
+              Cancelled Cheque / IBAN 
             </Text>
-            <TouchableOpacity className="h-[76px]" onPress={()=>selectDocCancelledChequeDocument()}>
+            <TouchableOpacity className="h-[76px]" onPress={() => selectDocument('cancelledChequeDocument', 'cheque_scan')}>
               <Card.Title
                 className="bg-white shadow rounded-xl"
-                title={selectedCancelledCheque || "Click to Upload"}
+                title={selectedDocuments.cancelledChequeDocument || "Click to Upload"}
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{
@@ -296,12 +420,12 @@ export default function VendorDocument(nav) {
               VAT Certificate
             </Text>
             <TouchableOpacity className="h-[76px]" 
-              onPress={()=>selectDocVATCertificate()} 
-              onBlur={handleBlur('vatCertificateDocument')}
+              onPress={() => selectDocument('vatCertificateDocument', 'vat_certificate')}
+              // onBlur={handleBlur('vatCertificateDocument')}
             >
               <Card.Title
                 className="bg-white shadow rounded-xl"
-                title={selectedVATCertificate || "Click to Upload"}
+                title={selectedDocuments.vatCertificateDocument || "Click to Upload"}
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{
@@ -328,10 +452,10 @@ export default function VendorDocument(nav) {
             <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
               Emirates ID
             </Text>
-            <TouchableOpacity className="h-[76px]" onPress={()=>selectEmiratesDoc()}>
+            <TouchableOpacity className="h-[76px]" onPress={()=> selectDocument('emiratesIDDocument', 'emirate_id_pic')}>
               <Card.Title
                 className="bg-white shadow rounded-xl"
-                title={selectedEmiratesDoc || "Click to Upload"}
+                title={selectedDocuments.emiratesIDDocument || "Click to Upload"}
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{

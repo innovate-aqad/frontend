@@ -8,7 +8,8 @@ import {
   SafeAreaView,
   View,
   Animated,
-  ScrollView
+  ScrollView,
+  ToastAndroid
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -23,18 +24,6 @@ export default function VendorBusiness(nav) {
   const [inputs, setInputs] = useState([{ address: '', po_box: '' }]);
   const mainId = nav.route.params.id;
 
-  console.log("mainId",mainId)
-
-  useEffect(() => {
-    Animated.timing(progress, {
-      toValue: 160,
-      duration: 2000,
-    }).start();
-  }, []);
-  const redirectDocument = () => {
-    nav.navigation.navigate('document');
-    // nav.navigation.navigate('bottomTab');
-  };
 
   
   const initialValues = {
@@ -79,35 +68,25 @@ export default function VendorBusiness(nav) {
           data: formdata,
         })
           .then((response) => {
-            console.log("kkkkkkk",response.data,"hhhhhh")
-            // ToastAndroid.showWithGravityAndOffset(
-            //   response.data.message,
-            //   ToastAndroid.LONG,
-            //   ToastAndroid.CENTER,
-            //   25,
-            //   50,
-            // );
-            // nav.navigation.navigate('business',{ id : response.data.data.id });
-            // Swal.fire({
-            //   icon: "success",
-            //   title:
-            //     "Please Check Your Mail, and verify Your Account in Floxy Travel",
-            //   timer: "1000",
-            // });
-            // socket.emit("user_registeration", response.data);
-            // // console.log("response", response.data);
-            // setIsLoading(false);
-            // setData(JSON.stringify(response.data));
+            console.log("565656556",response.data,"hhhhhh",response.data.data)
+            ToastAndroid.showWithGravityAndOffset(
+              response.data.message,
+              ToastAndroid.LONG,
+              ToastAndroid.CENTER,
+              25,
+              50,
+            );
+            nav.navigation.navigate('document',{ id : response.data.data.id });
           })
           .catch((error) => {
             console.log("error...",error.response.data.message);
-            // ToastAndroid.showWithGravityAndOffset(
-            //   error.response.data.message,
-            //   ToastAndroid.LONG,
-            //   ToastAndroid.CENTER,
-            //   25,
-            //   50,
-            // );
+            ToastAndroid.showWithGravityAndOffset(
+              error.response.data.message,
+              ToastAndroid.LONG,
+              ToastAndroid.CENTER,
+              25,
+              50,
+            );
             // nav.navigation.navigate('business');
             // setIsLoading(false);
             // Swal.fire({
@@ -150,6 +129,13 @@ export default function VendorBusiness(nav) {
   useEffect(async() => {
     const getUserData = await userData()
     // console.log("hhhhhhh",getUserData)
+
+
+    Animated.timing(progress, {
+      toValue: 160,
+      duration: 2000,
+      useNativeDriver: false,
+    }).start();
   }, [])
   
   return (
@@ -220,7 +206,7 @@ export default function VendorBusiness(nav) {
             <TextInput
               style={styles.input}
               placeholderTextColor="rgb(210, 210, 210)"
-              placeholder="Designation odf User"
+              placeholder="Designation"
               className="!border-none pl-4 !border-white"
               borderRadius={10}
 

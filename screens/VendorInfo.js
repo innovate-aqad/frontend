@@ -34,22 +34,14 @@ export default function VendorInfo(nav) {
   const [countryCode, setCountryCode] = useState('AE'); // Default country code
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  
-
-  useEffect(() => {
-    Animated.timing(progress, {
-      toValue: 75,
-      duration: 2000,
-    }).start();
-  }, []);
 
   const initialValues = {
     fullName: "",
     email:"",
-    country:"",
+    country:"+971",
     number :"",
     dateOfBirth: "",
-    isoCode :"",
+    isoCode :"AE",
     image :""
   };
 
@@ -63,30 +55,21 @@ export default function VendorInfo(nav) {
         formdata.append("name", values.fullName);
         formdata.append("slide", "1");
         formdata.append("user_type", "vendor");
-        formdata.append("profile_photo", {
-          uri: values.image.uri,
-          name: values.image.name,
-          type: values.image.type
-        });
+        if(values?.image){
+          formdata.append("profile_photo", {
+            uri: values.image.path,
+            type: values.image.mime,
+            name: `image.${values.image.mime.split('/')[1]}`
+          });
+        }      
         formdata.append("email", values.email);
         formdata.append("country",values.isoCode);
         formdata.append("phone", `${values.country}-${values?.number}`); 
         formdata.append("dob", values.dateOfBirth); 
-        // const formdata = {
-        //   name: values.fullName,
-        //   slide : "1",
-        //   user_type : "vendor",
-        //   image: values.image,
-        //   email: values.email,
-        //   country: values.isoCode,
-        //   phone: `${values.country}-${values?.number}`,
-        //   dob: values.dateOfBirth,
-        // };
         console.log(formdata,"llll");
         await axios({
           method: "post",
-          url: `http://3.29.209.107:2000/api/user/register`,
-        
+          url: `http://3.29.209.107:2000/api/user/register`,        
           headers :{
             "Content-Type":"multipart/form-data"
           }
@@ -116,13 +99,13 @@ export default function VendorInfo(nav) {
           })
           .catch((error) => {
             console.log("error...",error,error?.message);
-            // ToastAndroid.showWithGravityAndOffset(
-            //   error.response.data.message,
-            //   ToastAndroid.LONG,
-            //   ToastAndroid.CENTER,
-            //   25,
-            //   50,
-            // );
+            ToastAndroid.showWithGravityAndOffset(
+              error.response.data.message,
+              ToastAndroid.LONG,
+              ToastAndroid.CENTER,
+              25,
+              50,
+            );
             // nav.navigation.navigate('business');
             // setIsLoading(false);
             // Swal.fire({
@@ -149,31 +132,16 @@ export default function VendorInfo(nav) {
   };
   useEffect(() => {
     fetchData();
+
+    Animated.timing(progress, {
+      toValue: 75,
+      duration: 2000,
+      useNativeDriver: false,
+    }).start();
   }, []);
   
 
-  // const pickImage = () => {
-  //   const options = {
-  //     title: 'Select Image',
-  //     storageOptions: {
-  //       skipBackup: true,
-  //       path: 'images',
-  //     },
-  //   };
 
-  //   ImagePicker.showImagePicker(options, (response) => {
-  //     if (response.didCancel) {
-  //       console.log('User cancelled picker');
-  //     } else if (response.error) {
-  //       console.log('ImagePicker Error: ', response.error);
-  //     } else if (response.customButton) {
-  //       console.log('User tapped custom button: ', response.customButton);
-  //     } else {
-  //       // Image selected, do something with it (e.g., save to state)
-  //       console.log('Image URI: ', response.uri);
-  //     }
-  //   });
-  // };
 
   const onSelectCountry = (country) => {
 
@@ -182,11 +150,6 @@ export default function VendorInfo(nav) {
     
     formik.setFieldValue('isoCode', country.cca2);
     setCountryCode(country.cca2);
-  };
-
-  const redirectPorceed = () => {
-    nav.navigation.navigate('document');
-    // nav.navigation.navigate('bottomTab');
   };
 
   const selectPhoto = () => {
@@ -199,18 +162,8 @@ export default function VendorInfo(nav) {
       avoidEmptySpaceAroundImage: true,
       freeStyleCropEnabled: true,
     }).then(image => {
-
-      if (image) {
-        const imageData = {
-          uri: Platform.OS === 'android' ? image.path : image.sourceURL,
-          name: Platform.OS === 'android' ? image.path.split('/').pop() : image.filename,
-          type: image.mime
-        };
-
-        formik.setFieldValue('image', imageData);
-        setImage(imageData.uri);
-      }
-    
+      formik.setFieldValue('image', image);
+      setImage(image?.path);
     });
   };
 
@@ -243,9 +196,7 @@ export default function VendorInfo(nav) {
         </Text>
       </View>
       <View className="pt-10 ">
-        {/* progressbar */}
         <View style={styles.container}>
-          {/* <Text>progress</Text> */}
           <Animated.View style={[styles.bar, {width: progress}]} />
         </View>
 
@@ -257,7 +208,6 @@ export default function VendorInfo(nav) {
           </Text>
         </View>
 
-        {/* profile */}
         <View className=" pt-10 " style={styles.user}>
           <TouchableOpacity onPress={() => selectPhoto()}>
             {/* <FontAwesome6 name={'user'} size={30} /> */}
@@ -321,7 +271,6 @@ export default function VendorInfo(nav) {
             countryCode={countryCode}
             withFilter
             withFlag
-            // withCountryNameButton
             withCallingCodeButton
             withAlphaFilter
             withCallingCode

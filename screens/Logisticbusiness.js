@@ -19,6 +19,7 @@ export default function VendorBusiness(nav) {
     Animated.timing(progress, {
       toValue: 75,
       duration: 2000,
+      useNativeDriver: false,
     }).start();
   }, []);
   const redirectDocument = () => {
