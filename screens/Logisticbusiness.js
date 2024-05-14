@@ -22,7 +22,7 @@ export default function VendorBusiness(nav) {
     }).start();
   }, []);
   const redirectDocument = () => {
-    nav.navigation.navigate('addbutton');
+    nav.navigation.navigate('logisdocument');
     // nav.navigation.navigate('bottomTab');
   };
 
@@ -30,13 +30,13 @@ export default function VendorBusiness(nav) {
     <View
       className="flex flex-col p-4   h-full bg-gray-100 !text-black
         ">
-      <View className="relative top-0 flex flex-row items-center p-5 ">
+      <View className="relative  flex flex-row items-center top-3 ">
         <Image
           style={styles.topNavigation}
           source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
         />
       </View>
-      <View>
+      <View className="mt-5">
         <Text
           className="text-3xl text-[#00274D]"
           style={{fontFamily: 'Poppins-bold'}}>
@@ -49,9 +49,20 @@ export default function VendorBusiness(nav) {
         </Text>
       </View>
       <View className="pt-10 ">
-        {/* progressbar */}
-        <View style={styles.container}>
-          {/* <Text>progress</Text> */}
+        <View className="flex flex-col">
+          <View className="flex flex-row justify-between ">
+            <Text
+              className="text-[#F96900]"
+              style={{fontFamily: 'Poppins-Regular'}}>
+              Profile Upload (3/3)
+            </Text>
+            <Text
+              className="text-[#F96900]"
+              style={{fontFamily: 'Poppins-Regular'}}>
+              100%
+            </Text>
+          </View>
+
           <Animated.View style={[styles.bar, {width: progress}]} />
         </View>
         {/* end of progressbar */}
@@ -214,7 +225,7 @@ const styles = StyleSheet.create({
     // margin: 10,
   },
   bar: {
-    height: 15,
+    height: 5,
     backgroundColor: '#F96900',
     borderRadius: 10,
   },

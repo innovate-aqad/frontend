@@ -12,10 +12,13 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Badge, IconButton} from 'react-native-paper';
+import {Avatar, Card} from 'react-native-paper';
+import DocumentPicker from 'react-native-document-picker';
+
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const redirectBusiness = () => {
-    nav.navigation.navigate('business');
+    nav.navigation.navigate('logisbusiness');
     // nav.navigation.navigate('bottomTab');
   };
 
@@ -25,33 +28,61 @@ export default function VendorInfo(nav) {
       duration: 2000,
     }).start();
   }, []);
+  const selectDoc = async () => {
+    try {
+      const doc = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf],
+        allowMultiSelection: true,
+      });
+
+      console.log(doc, 'driver logt docs');
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        console.log('user cancelled the upload driver', err);
+      } else {
+        console.log(err);
+      }
+    }
+  };
 
   return (
     <View
       className="flex flex-col p-4   h-full bg-gray-100 !text-black
         ">
-      <View className="relative top-0 flex flex-row items-center p-5 ">
+      <View className="relative flex flex-row items-center top-3 ">
         <Image
           style={styles.topNavigation}
           source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
         />
       </View>
-      <View>
+      <View className="mt-5">
         <Text
           className="text-3xl text-[#00274D]"
           style={{fontFamily: 'Poppins-bold'}}>
-          Vendor Info
+          Logistic Partner Info
         </Text>
         <Text
-          className="pt-2 text-xs text-gray-400"
+          className="text-xs pt-2 text-gray-400"
           style={{fontFamily: 'Poppins-Light'}}>
           Pick the type of account that suits your business or personal needs.
         </Text>
       </View>
-      <View className="pt-10 ">
+      <View className=" pt-10 ">
         {/* progressbar */}
-        <View style={styles.container}>
-          {/* <Text>progress</Text> */}
+        <View className="flex flex-col">
+          <View className="flex flex-row justify-between ">
+            <Text
+              className="text-[#F96900]"
+              style={{fontFamily: 'Poppins-Regular'}}>
+              Profile Upload (3/3)
+            </Text>
+            <Text
+              className="text-[#F96900]"
+              style={{fontFamily: 'Poppins-Regular'}}>
+              100%
+            </Text>
+          </View>
+
           <Animated.View style={[styles.bar, {width: progress}]} />
         </View>
 
@@ -64,8 +95,8 @@ export default function VendorInfo(nav) {
         </View>
 
         {/* profile */}
-        <View className="pt-10 " style={styles.user}>
-          {/* <TouchableOpacity className="flex-row items-center p-2 bg-white border border-white rounded-2xl "> */}
+        <View className=" pt-10 " style={styles.user}>
+          {/* <TouchableOpacity className="flex-row items-center p-2  bg-white border border-white rounded-2xl "> */}
 
           <FontAwesome6 name={'user'} size={30} />
           <Feather
@@ -89,43 +120,33 @@ export default function VendorInfo(nav) {
             className="!border-none pl-4 !border-white"
             borderRadius={10}
           />
-
-          <Text
-            className="text-[#00274D] px-3"
-            style={{fontFamily: 'Poppins-SemiBold'}}>
-            Email
-          </Text>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Example@gmail.com"
-            className="!border-none pl-4 !border-white"
-            borderRadius={10}
-          />
-          <Text
-            className="text-[#00274D] px-3"
-            style={{fontFamily: 'Poppins-SemiBold'}}>
-            Phone Number
-          </Text>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Enter your phone number"
-            className="!border-none pl-4 !border-white"
-            borderRadius={10}
-          />
-          <Text
-            className="text-[#00274D] px-3"
-            style={{fontFamily: 'Poppins-SemiBold'}}>
-            Date of Birth
-          </Text>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Enter your Date of Birth"
-            className="!border-none pl-4 !border-white"
-            borderRadius={10}
-          />
+          <View className="mt-3">
+            <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
+              Trade Licence
+            </Text>
+            <TouchableOpacity className="h-[76px]" onPress={selectDoc}>
+              <Card.Title
+                className="bg-white shadow rounded-xl"
+                title="Click to Upload"
+                titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
+                subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
+                subtitleStyle={{
+                  color: 'black',
+                  paddingBottom: 4.5,
+                  color: '#7e84a3',
+                  fontSize: 10,
+                }}
+                left={props => (
+                  <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#D0DFFF] bg-[#E6EEFF]">
+                    <Image
+                      style={{height: 24, width: 20}}
+                      source={require('../Assets/image/file_upload.png')}
+                    />
+                  </View>
+                )}
+              />
+            </TouchableOpacity>
+          </View>
         </SafeAreaView>
       </View>
       <View className="pt-5">
@@ -174,7 +195,7 @@ const styles = StyleSheet.create({
     // margin: 10,
   },
   bar: {
-    height: 15,
+    height: 5,
     backgroundColor: '#F96900',
     borderRadius: 10,
   },

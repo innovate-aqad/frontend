@@ -8,118 +8,225 @@ import {
   SafeAreaView,
   View,
   Animated,
+  ScrollView,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Avatar, Card, IconButton} from 'react-native-paper';
+import DocumentPicker from 'react-native-document-picker';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
-  const redirectDocument = () => {
-    nav.navigation.navigate('business');
+  const redirectDriver = () => {
+    nav.navigation.navigate('logidrivdetail');
     // nav.navigation.navigate('bottomTab');
   };
 
   useEffect(() => {
     Animated.timing(progress, {
-      toValue: 75,
+      toValue: 330,
       duration: 2000,
     }).start();
   }, []);
 
+  const selectDoc = async () => {
+    try {
+      const doc = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf],
+        allowMultiSelection: true,
+      });
+
+      console.log(doc, 'correct docs');
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        console.log('user cancelled the upload', err);
+      } else {
+        console.log(err);
+      }
+    }
+  };
+
   return (
-    <View
-      className="flex flex-col p-4   h-full bg-gray-100 !text-black
+    <ScrollView keyboardShouldPersistTaps="handled">
+      <View
+        className="flex flex-col justify-center p-4   h-full bg-gray-100 !text-black
         ">
-      <View className="relative top-0 flex flex-row items-center p-5 ">
-        <Image
-          style={styles.topNavigation}
-          source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
-        />
-      </View>
-      <View>
-        <Text
-          className="text-3xl text-[#00274D]"
-          style={{fontFamily: 'Poppins-bold'}}>
-          Logistic Partner Info
-        </Text>
-        <Text
-          className="text-xs pt-2 text-gray-400"
-          style={{fontFamily: 'Poppins-Light'}}>
-          Pick the type of account that suits your business or personal needs.
-        </Text>
-      </View>
-      <View className=" pt-10 ">
-        {/* progressbar */}
-        <View style={styles.container}>
-          {/* <Text>progress</Text> */}
-          <Animated.View style={[styles.bar, {width: progress}]} />
+        <View className="relative flex flex-row items-center top-3 ">
+          <Image
+            style={styles.topNavigation}
+            source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
+          />
         </View>
-        {/* text */}
-        <View>
+        <View className="mt-5">
           <Text
-            className="text-2xl text-[#00274D] pt-3"
+            className="text-[35px] text-[#00274D]"
             style={{fontFamily: 'Poppins-bold'}}>
-            Document Verification
+            Logistic Partner Info
+          </Text>
+          <Text
+            className="pt-2 text-xs text-gray-400"
+            style={{fontFamily: 'Poppins-Light'}}>
+            Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
-        {/* cards */}
-        <Card.Title
-          className=" bg-white shadow rounded-xl"
-          title="Card Title"
-          subtitle="Card Subtitle"
-          left={props => <Avatar.Icon {...props} icon="folder" />}
-          // right={(props) => <IconButton {...props} icon="dots-vertical" onPress={() => {}} />}
-        />
-        <Card.Title
-          title="Card Title"
-          subtitle="Card Subtitle"
-          titleStyle={{color: 'red'}} // Custom color for the title
-          subtitleStyle={{color: 'blue'}} // Custom color for the subtitle
-          left={props => <Avatar.Icon {...props} icon="folder" />}
-          right={props => (
-            <IconButton {...props} icon="dots-vertical" onPress={() => {}} />
-          )}
-        />
+        <View className="pt-3 ">
+          {/* progressbar */}
+          <View className="flex flex-col">
+            <View className="flex flex-row justify-between ">
+              <Text
+                className="text-[#F96900]"
+                style={{fontFamily: 'Poppins-Regular'}}>
+                Profile Upload (3/3)
+              </Text>
+              <Text
+                className="text-[#F96900]"
+                style={{fontFamily: 'Poppins-Regular'}}>
+                100%
+              </Text>
+            </View>
 
-        {/* <View
-           
-                className="flex gap-y-2 flex-col  pb-2 mt-1.5 bg-white shadow rounded-xl">
-                <View className="flex flex-row justify-around ">
-                  <View className="bg-[#FDEEE3] h-[50px] w-[50px] rounded-full border border-[#FDD7BC] p-3">
+            <Animated.View style={[styles.bar, {width: progress}]} />
+          </View>
+          {/* text */}
+          <View>
+            <Text
+              className="text-2xl text-[#00274D] pt-3"
+              style={{fontFamily: 'Roboto-Medium'}}>
+              Document Verification
+            </Text>
+          </View>
+          <View className="mt-3">
+            <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
+              Trade Licence
+            </Text>
+            <TouchableOpacity className="h-[76px]" onPress={selectDoc}>
+              <Card.Title
+                className="bg-white shadow rounded-xl"
+                title="Click to Upload"
+                titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
+                subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
+                subtitleStyle={{
+                  color: 'black',
+                  paddingBottom: 4.5,
+                  color: '#7e84a3',
+                  fontSize: 10,
+                }}
+                left={props => (
+                  <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#D0DFFF] bg-[#E6EEFF]">
                     <Image
-                      style={{height: 22, width: 29.5}}
-                      source={require('../Assets/image/drawable-xhdpi/pngwing_com_9.png')}
+                      style={{height: 24, width: 20}}
+                      source={require('../Assets/image/file_upload.png')}
                     />
                   </View>
-                  <View>
-                    <Text
-                      className="text-[#00274d] text-[13px]"
-                      style={{
-                        fontFamily: 'Poppins-Regular',
-                        letterSpacing: 0.08,
-                      }}>
-                      Product name
-                    </Text>
-                    <View>
-                      <View className="flex flex-row gap-x-2">
-                        <Text
-                          className="text-[#7e84a3]  rounded-full text-[8px]"
-                          style={{fontFamily: 'Poppins-Regular'}}>
-                          #AQADORDER052
-                        </Text>
-                  
-                      </View>
-                   
-                    </View>
+                )}
+              />
+            </TouchableOpacity>
+          </View>
+          <View className="mt-3">
+            <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
+              Cancelled Cheque / IBAN sdksdf
+            </Text>
+            <TouchableOpacity className="h-[76px]" onPress={selectDoc}>
+              <Card.Title
+                className="bg-white shadow rounded-xl"
+                title="Click to Upload"
+                titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
+                subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
+                subtitleStyle={{
+                  color: 'black',
+                  paddingBottom: 4.5,
+                  color: '#7e84a3',
+                  fontSize: 10,
+                }}
+                left={props => (
+                  <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#cdddfe] bg-[#E6EEFF]">
+                    <Image
+                      style={{height: 24, width: 20}}
+                      source={require('../Assets/image/file_upload.png')}
+                    />
                   </View>
-         
-       
+                )}
+              />
+            </TouchableOpacity>
+            <TextInput
+              className="py-2"
+              style={styles.input}
+              placeholder="Enter IBAN"
+              placeholderTextColor={'#cbcbcb'}
+            />
+          </View>
+          <View className="mt-3">
+            <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
+              VAT Certificate
+            </Text>
+            <TouchableOpacity className="h-[76px]" onPress={selectDoc}>
+              <Card.Title
+                className="bg-white shadow rounded-xl"
+                title="Click to Upload"
+                titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
+                subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
+                subtitleStyle={{
+                  color: 'black',
+                  paddingBottom: 4.5,
+                  color: '#7e84a3',
+                  fontSize: 10,
+                }}
+                left={props => (
+                  <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#D0DFFF] bg-[#E6EEFF]">
+                    <Image
+                      style={{height: 24, width: 20}}
+                      source={require('../Assets/image/file_upload.png')}
+                    />
+                  </View>
+                )}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+        {/* emirates */}
+        <View className="mt-3">
+          <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
+            Cancelled2233 Cheque / IBAN sdksdf
+          </Text>
+          <TouchableOpacity className="h-[76px]" onPress={selectDoc}>
+            <Card.Title
+              className="bg-white shadow rounded-xl"
+              title="Click to Upload"
+              titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
+              subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
+              subtitleStyle={{
+                color: 'black',
+                paddingBottom: 4.5,
+                color: '#7e84a3',
+                fontSize: 10,
+              }}
+              left={props => (
+                <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#cdddfe] bg-[#E6EEFF]">
+                  <Image
+                    style={{height: 24, width: 20}}
+                    source={require('../Assets/image/file_upload.png')}
+                  />
                 </View>
-        
-              </View> */}
+              )}
+            />
+          </TouchableOpacity>
+          <TextInput
+            className="py-2"
+            style={styles.input}
+            placeholder="Enter IBAN"
+            placeholderTextColor={'#cbcbcb'}
+          />
+        </View>
+        <TouchableOpacity
+          className="mt-8"
+          onPress={() => redirectDriver()}
+          style={styles.button}>
+          <Text className="text-white" style={{fontFamily: 'Poppins-SemiBold'}}>
+            SUBMIT
+          </Text>
+        </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({
@@ -128,10 +235,11 @@ const styles = StyleSheet.create({
     width: 23.3,
   },
   input: {
-    height: 40,
     margin: 3,
-    borderWidth: 1,
-    // padding: 12,
+
+    borderWidth: 0,
+    borderRadius: 12,
+    paddingLeft: 12,
     color: 'gray',
     backgroundColor: 'white',
     // borderRadius: 20,
@@ -147,15 +255,17 @@ const styles = StyleSheet.create({
   user: {
     alignSelf: 'center',
   },
-  container: {
-    height: 15,
-    backgroundColor: '#ccc',
-    borderRadius: 10,
-    // margin: 10,
-  },
   bar: {
-    height: 15,
+    height: 5,
     backgroundColor: '#F96900',
     borderRadius: 10,
+  },
+  button: {
+    backgroundColor: '#F96900', // Default button color
+    padding: 12,
+    paddingHorizontal: 40,
+    borderRadius: 10,
+    alignItems: 'center',
+    color: 'red',
   },
 });

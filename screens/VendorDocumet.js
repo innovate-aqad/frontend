@@ -26,18 +26,17 @@ export default function VendorDocument(nav) {
     Animated.timing(progress, {
       toValue: 330,
       duration: 2000,
-      
     }).start();
   }, []);
 
-  const selectDoc = async (nav) => {
+  const selectDoc = async () => {
     try {
       const doc = await DocumentPicker.pick({
         type: [DocumentPicker.types.pdf],
         allowMultiSelection: true,
       });
 
-      console.log(doc);
+      console.log(doc, 'correct docs');
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         console.log('user cancelled the upload', err);
@@ -46,7 +45,6 @@ export default function VendorDocument(nav) {
       }
     }
   };
-
 
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
@@ -187,7 +185,7 @@ export default function VendorDocument(nav) {
         </View>
         <TouchableOpacity
           className="mt-8"
-          onPress={() => redirect()}
+          // onPress={() => redirect()}
           style={styles.button}>
           <Text className="text-white" style={{fontFamily: 'Poppins-SemiBold'}}>
             SUBMIT
