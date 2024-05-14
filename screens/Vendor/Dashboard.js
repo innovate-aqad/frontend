@@ -10,11 +10,10 @@ import {
 } from 'react-native';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import CarouselHome from '../Shared/Carousel';
+import CarouselHome from '../../Shared/Carousel';
 import {BarChart} from 'react-native-chart-kit';
-import LiveOrder from '../Shared/LiveOrder';
-import Header from '../components/Header';
-// import BarChartDashboard from '../Shared/BarChartDashboard';
+import LiveOrder from '../../Shared/LiveOrder';
+import Header from '../../components/Header';
 
 const data = {
   labels: ["Jan", "Feb", "Mar", "Apr", "May"],
@@ -113,7 +112,7 @@ export default function Dashboard() {
               <View className="p-2 py-3 h-[45px] w-[45px] flex flex-row items-center justify-center bg-[#E5EEFF] border  border-[#cedefc] rounded-full shadow">
                 <Image
                   style={styles.categoryImage}
-                  source={require('../Assets/image/vendor_dashboard_images/sales_today.jpeg')}
+                  source={require('../../Assets/image/vendor_dashboard_images/sales_today.jpeg')}
                 />
               </View>
             </View>
@@ -160,7 +159,7 @@ export default function Dashboard() {
               <View className="p-2 py-3 h-[45px] w-[45px] flex flex-row items-center justify-center bg-[#E8FBF5] border border-[#d7f8ee] rounded-full shadow">
                 <Image
                   style={{height: 18, width: 18}}
-                  source={require('../Assets/image/vendor_dashboard_images/sku.jpeg')}
+                  source={require('../../Assets/image/vendor_dashboard_images/sku.jpeg')}
                 />
               </View>
             </View>
@@ -211,7 +210,7 @@ export default function Dashboard() {
               <View className=" h-[45px] w-[45px] flex flex-row items-center justify-center bg-[#FFFAE6] border border-[#faf2d1] rounded-full shadow">
                 <Image
                   style={{height: 18, width: 15.4}}
-                  source={require('../Assets/image/vendor_dashboard_images/pending_orders.jpeg')}
+                  source={require('../../Assets/image/vendor_dashboard_images/pending_orders.jpeg')}
                 />
               </View>
             </View>
@@ -259,7 +258,7 @@ export default function Dashboard() {
               <View className=" h-[45px] w-[45px] flex flex-row items-center justify-center bg-[#F2F2F6] border-[#8c8c8d] rounded-full shadow">
                 <Image
                   style={{height: 20, width: 20}}
-                  source={require('../Assets/image/vendor_dashboard_images/cancel_orders.jpeg')}
+                  source={require('../../Assets/image/vendor_dashboard_images/cancel_orders.jpeg')}
                 />
               </View>
             </View>

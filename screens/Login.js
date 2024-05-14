@@ -91,18 +91,17 @@ export default function Login(nav) {
     // }
 
     // axios
-    //   .get('http://localhost:7070/category')
+    //   .get('http://10.0.2.2:7070/category')
     //   .then(function (response) {
-    //     // handle success
     //     console.log(response);
-    //     // nav.navigation.navigate('productIndex')
     //   })
     //   .catch(function (error) {
     //     // handle error
-    //     console.log(error);
+    //     console.log("error");
     //   })
     //   .finally(function () {
     //     // always executed
+    //     console.log("not");
     //   });
   };
 

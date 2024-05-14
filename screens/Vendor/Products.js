@@ -21,7 +21,7 @@ export default function Products(nav) {
       <View className="relative top-0 flex flex-row items-center p-5 bg-white">
         <Image
           style={styles.topNavigation}
-          source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
+          source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
         />
         <Text
           className="flex justify-center w-[80%] text-center text-[#00274d]"
@@ -56,7 +56,7 @@ export default function Products(nav) {
           </Text>
           <Image
             style={{height: 18, width: 18}}
-            source={require('../Assets/image/drawable-hdpi/apps_sort.png')}
+            source={require('../../Assets/image/drawable-hdpi/apps_sort.png')}
           />
         </View>
         <SafeAreaView>
@@ -69,7 +69,7 @@ export default function Products(nav) {
                   <View className="bg-[#FDEEE3] h-[50px] w-[50px] rounded-full border border-[#FDD7BC] p-3">
                     <Image
                       style={{height: 22, width: 29.5}}
-                      source={require('../Assets/image/drawable-xhdpi/pngwing_com_9.png')}
+                      source={require('../../Assets/image/drawable-xhdpi/pngwing_com_9.png')}
                     />
                   </View>
                   <View>

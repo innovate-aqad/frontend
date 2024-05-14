@@ -1,15 +1,32 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function Signup(nav) {
+  const [bgColor, setBgColor] = useState('bg-white');
+
+  // Function to toggle background color on press
+  const toggleColor = () => {
+    const newColor = bgColor === 'bg-white' ? 'bg-[#ffc094]' : 'bg-white';
+    setBgColor(newColor);
+  };
+
   const redirectVendor = () => {
-    nav.navigation.navigate('vendor');
+    // nav.navigation.navigate('vendor');
   };
   const redirectLogistic = () => {
     nav.navigation.navigate('logistic');
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setBgColor("bg-white");
+    }, 100);
+  
+    // Clear the timeout if the component unmounts or bgColor changes before the timeout is reached
+    return () => clearTimeout(timer);
+  }, [bgColor]);
 
   return (
     <View>
@@ -37,11 +54,15 @@ export default function Signup(nav) {
         </View>
 
         <View className="flex flex-col !pt-5 gap-y-3">
-          <TouchableOpacity activeOpacity={0.5} onPress={redirectVendor}>
+         
+
+          <TouchableOpacity activeOpacity={0.1}
+            onPress={() => {
+              redirectVendor()
+              toggleColor();
+            }}>
             <View
-              className={
-                'flex flex-row items-center w-full p-2 bg-white rounded-lg '
-              }>
+              className={`flex flex-row items-center w-full p-2 rounded-lg ${bgColor}`}>
               <View className="w-[12%] flex flex-row items-center justify-center rounded-full">
                 <Image
                   style={styles.tinyLogo}
@@ -62,6 +83,8 @@ export default function Signup(nav) {
               </View>
             </View>
           </TouchableOpacity>
+
+
           <TouchableOpacity activeOpacity={0.5}>
             <View className="flex flex-row items-center w-full p-2 bg-white rounded-lg">
               <View className="w-[12%] flex flex-row items-center justify-center rounded-full">
