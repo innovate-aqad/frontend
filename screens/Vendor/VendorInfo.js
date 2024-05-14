@@ -32,10 +32,10 @@ export default function VendorInfo(nav) {
       className="flex flex-col p-4   h-full bg-gray-100 !text-black
         ">
       <View className="relative flex flex-row items-center top-3 ">
-        {/* <Image
+        <Image
           style={styles.topNavigation}
-          source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
-        /> */}
+          source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+        />
       </View>
       <View className="mt-5">
         <Text

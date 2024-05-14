@@ -19,6 +19,7 @@ import Logisticbusiness from './Logisticbusiness';
 import Logisticdocument from './Logisticdocument';
 import Addbutton from './Addbutton';
 import Logidriverdetails from './Logidriverdetails';
+import Profile from './Vendor/Profile';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -36,7 +37,8 @@ export default function Index() {
         name="vendorPersonalInformation"
         component={VendorPersonalInformation}
       />
-      <Stack.Screen name="vendor" component={VendorInfo} />
+      {/* <Stack.Screen name="vendor" component={VendorInfo} /> */}
+      <Stack.Screen name="vendor" component={Profile} />
       <Stack.Screen name="business" component={VendorBusiness} />
       <Stack.Screen name="document" component={VendorDocumet} />
       <Stack.Screen name="logistic" component={Logisticinfo} />
