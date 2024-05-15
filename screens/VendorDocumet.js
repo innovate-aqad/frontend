@@ -9,6 +9,7 @@ import {
   View,
   Animated,
   ScrollView,
+  ToastAndroid,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -85,9 +86,14 @@ export default function VendorDocument(nav) {
         //   type: values.emiratesIDDocument.type,
         //   name: values.emiratesIDDocument.name
         // });
+        formdata.append("slide", "3");
+        formdata.append("user_type", "vendor");
+        formdata.append("doc_id", mainId);
+        formdata.append("cancelledChequeIBAN", values.cancelledChequeIBAN);
+        formdata.append("emiratesIDNumber", values.emiratesIDNumber);
+     
         Object.keys(values).forEach(key => {
           if (values[key] && typeof values[key] === 'object') {
-            console.log("ffff111",key,"values[key]",values[key])
             formdata.append(key, {
               uri: values[key].uri,
               type: values[key].type,
@@ -95,25 +101,15 @@ export default function VendorDocument(nav) {
             });
           }
         });
-
-
-        formdata.append("slide", "3");
-        formdata.append("user_type", "vendor");
-        formdata.append("doc_id", mainId);
-        formdata.append("cancelledChequeIBAN", values.cancelledChequeIBAN);
-        formdata.append("emiratesIDNumber", values.emiratesIDNumber);
-     
-        console.log(formdata,"dddddddddkkkkkk");
         await axios({
           method: "post",
-          url: `http://3.29.209.107:2000/api/user/register`,        
+          url: `http://localhost:2000/api/user/register`,        
           headers :{
             "Content-Type":"multipart/form-data"
           },
           data: formdata,
         })
           .then((response) => {
-            console.log("wwwwwww",response.data.data.id,response.data,"hhhhhh")
             ToastAndroid.showWithGravityAndOffset(
               response.data.message,
               ToastAndroid.LONG,
@@ -121,35 +117,17 @@ export default function VendorDocument(nav) {
               25,
               50,
             );
-            // nav.navigation.navigate('business',{ id : response.data.data.id });
-            // Swal.fire({
-            //   icon: "success",
-            //   title:
-            //     "Please Check Your Mail, and verify Your Account in Floxy Travel",
-            //   timer: "1000",
-            // });
-            // socket.emit("user_registeration", response.data);
-            // // console.log("response", response.data);
-            // setIsLoading(false);
-            // setData(JSON.stringify(response.data));
+            nav.navigation.navigate('Login');
+
           })
           .catch((error) => {
-            console.log("error...slide 3",error,error?.message,error.response);
-            // ToastAndroid.showWithGravityAndOffset(
-            //   error.response.data.message,
-            //   ToastAndroid.LONG,
-            //   ToastAndroid.CENTER,
-            //   25,
-            //   50,
-            // );
-            // nav.navigation.navigate('business');
-            // setIsLoading(false);
-            // Swal.fire({
-            //   icon: "error",
-            //   title: "Already have an account",
-            //   timer: "1000",
-            // });
-            // setError(error);
+            ToastAndroid.showWithGravityAndOffset(
+              error.response.data.message,
+              ToastAndroid.LONG,
+              ToastAndroid.CENTER,
+              25,
+              50,
+            );
           });
 
       },
@@ -164,7 +142,6 @@ export default function VendorDocument(nav) {
 
       if (doc && doc.length > 0) {
         const selectedDoc = doc[0];
-        console.log("ffff",selectedDoc,documentType,formikField)
         formik.setFieldValue(formikField, selectedDoc);
         setSelectedDocuments(prev => ({
           ...prev,
@@ -186,9 +163,7 @@ export default function VendorDocument(nav) {
   //     setSelectedTradeLicenseName(doc?.[0]?.name);
   //   } catch (err) {
   //     if (DocumentPicker.isCancel(err)) {
-  //       console.log('user cancelled the upload', err);
   //     } else {
-  //       console.log(err);
   //     }
   //   }
   // };
@@ -200,8 +175,6 @@ export default function VendorDocument(nav) {
       });
   
       if (docs && docs.length > 0) {
-        console.log("docs...",docs)
-        // Assuming you only want to handle the first selected document
         const selectedDoc = docs[0];
         if (selectedDoc.type === "application/pdf" || selectedDoc.type === "image/jpeg" || selectedDoc.type === "image/jpg") {
           formik.setFieldValue("tradeLicense", selectedDoc);
@@ -226,8 +199,6 @@ export default function VendorDocument(nav) {
       });      
 
       if (docs && docs.length > 0) {
-        console.log("docs...",docs)
-        // Assuming you only want to handle the first selected document
         const selectedDoc = docs[0];
         if (selectedDoc.type === "application/pdf" || selectedDoc.type === "image/jpeg" || selectedDoc.type === "image/jpg") {
           formik.setFieldValue("cancelledChequeDocument", selectedDoc);
@@ -253,7 +224,6 @@ export default function VendorDocument(nav) {
       });      
 
       if (docs && docs.length > 0) {
-        console.log("docs...vatCertificateDocument",docs)
         // Assuming you only want to handle the first selected document
         const selectedDoc = docs[0];
         if (selectedDoc.type === "application/pdf" || selectedDoc.type === "image/jpeg" || selectedDoc.type === "image/jpg") {
@@ -301,7 +271,6 @@ export default function VendorDocument(nav) {
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = formik
 
-  // console.log("fffffff",errors,values)
 
   return (
     <ScrollView keyboardShouldPersistTaps="handled">

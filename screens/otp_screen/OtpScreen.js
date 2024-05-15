@@ -25,7 +25,7 @@ import {
         onSubmit: async (values, action) => {
           await axios({
             method: "post",
-            url: `http://3.29.209.107:2000/api/user/login_with_otp`,
+            url: `http://localhost:2000/api/user/login_with_otp`,
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",

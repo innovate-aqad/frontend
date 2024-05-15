@@ -59,7 +59,7 @@ export default function VendorBusiness(nav) {
         console.log(formdata,"llll...");
         await axios({
           method: "post",
-          url: `http://3.29.209.107:2000/api/user/register`,
+          url: `http://localhost:2000/api/user/register`,
         
             headers :{
               "Content-Type":"application/json"

@@ -119,7 +119,7 @@ export default function Login(nav) {
         console.log("values",values)
         await axios({
           method: "post",
-          url: `http://3.29.209.107:2000/api/user/login`,
+          url: `http://localhost:2000/api/user/login`,
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",

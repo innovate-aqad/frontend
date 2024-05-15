@@ -69,7 +69,7 @@ export default function VendorInfo(nav) {
         console.log(formdata,"llll");
         await axios({
           method: "post",
-          url: `http://3.29.209.107:2000/api/user/register`,        
+          url: `http://localhost:2000/api/user/register`,        
           headers :{
             "Content-Type":"multipart/form-data"
           }
@@ -86,16 +86,6 @@ export default function VendorInfo(nav) {
               50,
             );
             nav.navigation.navigate('business',{ id : response.data.data.id });
-            // Swal.fire({
-            //   icon: "success",
-            //   title:
-            //     "Please Check Your Mail, and verify Your Account in Floxy Travel",
-            //   timer: "1000",
-            // });
-            // socket.emit("user_registeration", response.data);
-            // // console.log("response", response.data);
-            // setIsLoading(false);
-            // setData(JSON.stringify(response.data));
           })
           .catch((error) => {
             console.log("error...",error,error?.message);
@@ -106,14 +96,6 @@ export default function VendorInfo(nav) {
               25,
               50,
             );
-            // nav.navigation.navigate('business');
-            // setIsLoading(false);
-            // Swal.fire({
-            //   icon: "error",
-            //   title: "Already have an account",
-            //   timer: "1000",
-            // });
-            // setError(error);
           });
 
 
