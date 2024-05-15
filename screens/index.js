@@ -20,6 +20,9 @@ import Logisticdocument from './Logisticdocument';
 import Addbutton from './Addbutton';
 import Logidriverdetails from './Logidriverdetails';
 import Profile from './Vendor/Profile';
+import Retailerinfo from './Retailer/Retailerinfo';
+import Retailerbusiness from './Retailer/Retailerbusiness';
+import Retailerdocument from './Retailer/Retailerdocument';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -37,8 +40,8 @@ export default function Index() {
         name="vendorPersonalInformation"
         component={VendorPersonalInformation}
       />
-      {/* <Stack.Screen name="vendor" component={VendorInfo} /> */}
-      <Stack.Screen name="vendor" component={Profile} />
+      <Stack.Screen name="vendor" component={VendorInfo} />
+      {/* <Stack.Screen name="vendor" component={Profile} /> */}
       <Stack.Screen name="business" component={VendorBusiness} />
       <Stack.Screen name="document" component={VendorDocumet} />
       <Stack.Screen name="logistic" component={Logisticinfo} />
@@ -46,6 +49,9 @@ export default function Index() {
       <Stack.Screen name="logisdocument" component={Logisticdocument} />
       <Stack.Screen name="addbutton" component={Addbutton} />
       <Stack.Screen name="logidrivdetail" component={Logidriverdetails} />
+      <Stack.Screen name="retailer" component={Retailerinfo} />
+      <Stack.Screen name="retailerbusi" component={Retailerbusiness} />
+      <Stack.Screen name="reatilerdocs" component={Retailerdocument} />
     </Stack.Navigator>
   );
 }

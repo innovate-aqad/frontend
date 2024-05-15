@@ -142,7 +142,7 @@ const Profile = () => {
       console.log('fileSize -> ', response.fileSize);
       console.log('type -> ', response.type);
       console.log('fileName -> ', response.fileName);
-      setFilePath(response);
+      setFilePath(response.assets[0].uri);
     });
   };
 
@@ -154,12 +154,12 @@ const Profile = () => {
       <View style={styles.container}>
         <Image
           source={{
-            uri: 'file:///data/user/0/com.omino/cache/rn_image_picker_lib_temp_ca41e35a-f451-4dba-ab9f-abb65c6ddf31.jpg,',
+            uri: filePath,
           }}
           style={styles.imageStyle}
         />
-        <Image source={{uri: filePath.uri}} style={styles.imageStyle} />
-        <Text style={styles.textStyle}>{filePath.uri}</Text>
+        {/* <Image source={{uri: filePath.uri}} style={styles.imageStyle} /> */}
+        <Text style={styles.textStyle}>{filePath}hrlloo</Text>
         <TouchableOpacity
           activeOpacity={0.5}
           style={styles.buttonStyle}
