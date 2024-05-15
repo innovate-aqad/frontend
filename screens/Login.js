@@ -13,7 +13,11 @@ import ToggleSwitch from 'toggle-switch-react-native';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useFormik } from 'formik';
+<<<<<<< Updated upstream
 import { LoginSchema } from '../schemas/LoginSchema';
+=======
+// import { LoginSchema } from '../schemas/LoginSchema';
+>>>>>>> Stashed changes
 // Make a request for a user with a given ID
 
 export default function Login(nav) {
@@ -65,7 +69,11 @@ export default function Login(nav) {
     // } else {
     //   setPasswordError(false);
     // }
+<<<<<<< Updated upstream
     nav.navigation.navigate('productIndex');
+=======
+    // nav.navigation.navigate('productIndex');
+>>>>>>> Stashed changes
     // console.log(email, 'emailemailemail');
     // console.log(password, 'passwordpasswordpasswordpassword');
 
@@ -91,6 +99,7 @@ export default function Login(nav) {
       );
     }
 
+<<<<<<< Updated upstream
     // axios
     //   .get('/user?ID=12345')
     //   .then(function (response) {
@@ -105,6 +114,22 @@ export default function Login(nav) {
     //   .finally(function () {
     //     // always executed
     //   });
+=======
+    axios
+      .get('http://192.168.15.249:7070/category')
+      .then(function (response) {
+        // handle success
+        console.log(response,"Sdfjskdjlkjsdlk");
+        // nav.navigation.navigate('productIndex')
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error,"ksjdhfkjhfkjs");
+      })
+      .finally(function () {
+        // always executed
+      });
+>>>>>>> Stashed changes
   };
 
   const initialValues = {
@@ -114,7 +139,11 @@ export default function Login(nav) {
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
+<<<<<<< Updated upstream
       validationSchema: LoginSchema,
+=======
+      // validationSchema: LoginSchema,
+>>>>>>> Stashed changes
       onSubmit: async (values, action) => {
         console.log("values",values)
         await axios({
