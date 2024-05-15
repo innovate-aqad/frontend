@@ -104,16 +104,16 @@ export default function VendorInfo(nav) {
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = formik
   
 
-  const fetchData = async () => {
-    try {
-      const response = await userData();
-      // console.log(response); // Assuming response.data contains the user data
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-    }
-  };
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await userData();
+  //     // console.log(response); // Assuming response.data contains the user data
+  //   } catch (error) {
+  //     console.error('Error fetching user data:', error);
+  //   }
+  // };
   useEffect(() => {
-    fetchData();
+  //   fetchData();
 
     Animated.timing(progress, {
       toValue: 75,

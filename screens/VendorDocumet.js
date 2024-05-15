@@ -89,8 +89,8 @@ export default function VendorDocument(nav) {
         formdata.append("slide", "3");
         formdata.append("user_type", "vendor");
         formdata.append("doc_id", mainId);
-        formdata.append("cancelledChequeIBAN", values.cancelledChequeIBAN);
-        formdata.append("emiratesIDNumber", values.emiratesIDNumber);
+        formdata.append("iban", values.cancelledChequeIBAN);
+        formdata.append("emirates_id", values.emiratesIDNumber);
      
         Object.keys(values).forEach(key => {
           if (values[key] && typeof values[key] === 'object') {

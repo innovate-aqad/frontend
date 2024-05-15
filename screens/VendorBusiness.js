@@ -126,8 +126,8 @@ export default function VendorBusiness(nav) {
     });
   };
 
-  useEffect(async() => {
-    const getUserData = await userData()
+  useEffect(() => {
+    // const getUserData = await userData()
     // console.log("hhhhhhh",getUserData)
 
 
@@ -164,7 +164,6 @@ export default function VendorBusiness(nav) {
         <View className="pt-10 ">
           {/* progressbar */}
           <View style={styles.container}>
-            {/* <Text>progress</Text> */}
             <Animated.View style={[styles.bar, {width: progress}]} />
           </View>
           {/* end of progressbar */}
