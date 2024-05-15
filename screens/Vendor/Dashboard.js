@@ -43,7 +43,7 @@ const chartConfig = {
 };
 
 
-export default function Dashboard() {
+export default function Dashboard(nav) {
   const [searchText, setSearchText] = useState('');
   const handleSearch = () => {};
   return (

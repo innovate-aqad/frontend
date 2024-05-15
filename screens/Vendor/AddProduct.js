@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -10,8 +10,10 @@ import {
 import {Card} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import InputTextField from '../../Shared/InputTextField';
+const mockData = ['S', 'M', 'L', 'XL', 'XXL'];
 
 export default function AddProduct() {
+  const [size, setSize] = useState([]);
   const selectDoc = async nav => {
     try {
       const doc = await DocumentPicker.pick({
@@ -28,6 +30,16 @@ export default function AddProduct() {
       }
     }
   };
+
+  const handleSelect = index => {
+    if (size.includes(index)) {
+      setSize(size.filter(item => item !== index));
+    } else {
+      setSize([...size, index]);
+    }
+  };
+
+  console.log(size, 'sizeproduct');
   return (
     <View className="flex flex-col gap-y-2 h-full  bg-[#f5f5f5]">
       <View className="flex-row rounded-b-xl bg-[#f96900] p-4 pt-9 items-center">
@@ -210,21 +222,23 @@ export default function AddProduct() {
             <View className="w-full pr-1">
               <Text style={styles.textTitle}>Select Available Size</Text>
               <View className="flex flex-row justify-around">
-                <View className="px-3 py-2 bg-white rounded-lg">
-                  <Text className="text-black">S</Text>
-                </View>
-                <View className="px-3 py-2 bg-white rounded-lg">
-                  <Text className="text-black">M</Text>
-                </View>
-                <View className="px-3 py-2 bg-white rounded-lg">
-                  <Text className="text-black">L</Text>
-                </View>
-                <View className="px-3 py-2 bg-white rounded-lg">
-                  <Text className="text-black">XL</Text>
-                </View>
-                <View className="px-3 py-2 bg-white rounded-lg">
-                  <Text className="text-black">XXL</Text>
-                </View>
+                {mockData.map((item, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleSelect(index)}
+                    className={
+                      size.includes(index)
+                        ? 'px-3 py-2 bg-[#f96900] text-white rounded-lg'
+                        : 'px-3 py-2 bg-white rounded-lg'
+                    }>
+                    <Text
+                      className={
+                        size.includes(index) ? 'text-white' : 'text-[#cbcbcb]'
+                      }>
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
               </View>
             </View>
           </View>
@@ -258,10 +272,10 @@ const styles = StyleSheet.create({
     color: '#00274d',
   },
   button: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: '#F96900',
     padding: 12,
     alignItems: 'center',
     color: 'red',
-    marginTop: 4,
+    marginTop: 8,
   },
 });

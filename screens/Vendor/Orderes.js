@@ -3,7 +3,6 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -12,18 +11,12 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-} from 'react-native-popup-menu';
-import PopoverExample from '../../Shared/TextLine';
+import {useNavigation} from '@react-navigation/native';
 
 export default function Orders() {
   const [tab, setTab] = useState('All Orders');
   const [searchText, setSearchText] = useState('');
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState();
 
   const handleSearch = () => {};
 
@@ -40,21 +33,28 @@ export default function Orders() {
     }
   };
 
-  const showMenu = () => {
-    setShow(true);
+  const showMenu = index => {
+    if (show === index) {
+      setShow();
+    } else {
+      setShow(index);
+    }
   };
 
+  const navigation = useNavigation();
   return (
     <View className="w-full h-full bg-[#f5f5f5]">
-      <View className="relative top-0 flex flex-row items-center p-5 bg-white">
-        <Image
-          style={styles.topNavigation}
-          source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
-        />
+      <View className="flex-row rounded-b-xl bg-[#f96900] px-4 pb-2 pt-7 items-center">
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            style={styles.topNavigation}
+            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+          />
+        </TouchableOpacity>
         <Text
-          className="flex justify-center w-[80%] text-center text-[#00274d]"
+          className="flex-1 text-[20px] text-center text-white"
           style={{fontFamily: 'Poppins-Bold'}}>
-          ORDERS
+          ORDER
         </Text>
       </View>
       <View className="p-3 px-5 gap-y-3">
@@ -72,7 +72,7 @@ export default function Orders() {
             onSubmitEditing={handleSearch}
           />
 
-          <TouchableOpacity onPress={handleSearch}>
+          <TouchableOpacity className="pr-2" onPress={handleSearch}>
             <AntDesign name="search1" size={24} color="#cbcbcb" />
           </TouchableOpacity>
         </View>
@@ -146,107 +146,141 @@ export default function Orders() {
             </Text>
           </TouchableOpacity>
         </View>
-        <View className="flex flex-row justify-between px-3">
-          <Text
-            className="text-[#00274d] text-[13px]"
-            style={{fontFamily: 'Poppins-Bold'}}>
-            Orders History
-          </Text>
-          <Image
-            style={{height: 18, width: 18}}
-            source={require('../../Assets/image/drawable-hdpi/apps_sort.png')}
-          />
-        </View>
-        <SafeAreaView>
-          <ScrollView keyboardShouldPersistTaps="handled">
-            <View className="">
-              {[1,2,3,4,5,6,7,8,9]?.map((item, index) => {
-                return (
-                    <View
-                      key={index}
-                      className="flex gap-y-2 flex-col p-1.5 pb-2 mt-1.5 bg-white  shadow rounded-xl">
-                      <View className="flex flex-row justify-around ">
-                        <View className="bg-[#FDEEE3] h-[50px] w-[50px] rounded-full border border-[#FDD7BC] p-3">
-                          <Image
-                            style={{height: 22, width: 29.5}}
-                            source={require('../../Assets/image/drawable-xhdpi/pngwing_com_9.png')}
-                          />
-                        </View>
+      </View>
+      <View className="flex flex-row justify-between px-3">
+        <Text
+          className="text-[#00274d] text-[13px]"
+          style={{fontFamily: 'Poppins-Bold'}}>
+          Orders History
+        </Text>
+        <Image
+          style={{height: 18, width: 18}}
+          source={require('../../Assets/image/drawable-hdpi/apps_sort.png')}
+        />
+      </View>
+      <SafeAreaView>
+        <ScrollView keyboardShouldPersistTaps="handled">
+          <View className="">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9]?.map((item, index) => {
+              return (
+                <View
+                  key={index}
+                  className={
+                    !(show == index)
+                      ? 'flex flex-row mx-3 items-center justify-center'
+                      : 'flex flex-row items-center justify-center'
+                  }>
+                  <View
+                    className={
+                      !(show == index)
+                        ? 'flex w-full gap-y-2 flex-col p-1.5 pb-2 mt-1.5 bg-white shadow rounded-xl'
+                        : 'flex w-[90%] gap-y-2 flex-col p-1.5 pb-2 mt-1.5 bg-white relative left-[-12px] shadow rounded-xl'
+                    }>
+                    <View className="flex flex-row justify-around ">
+                      <View className="bg-[#FDEEE3] h-[50px] w-[50px] rounded-full border border-[#FDD7BC] p-3">
+                        <Image
+                          style={{height: 22, width: 29.5}}
+                          source={require('../../Assets/image/drawable-xhdpi/pngwing_com_9.png')}
+                        />
+                      </View>
+                      <View>
+                        <Text
+                          className="text-[#00274d] text-[13px]"
+                          style={{
+                            fontFamily: 'Poppins-Regular',
+                            letterSpacing: 0.08,
+                          }}>
+                          Product name {index}
+                        </Text>
                         <View>
-                          <Text
-                            className="text-[#00274d] text-[13px]"
-                            style={{
-                              fontFamily: 'Poppins-Regular',
-                              letterSpacing: 0.08,
-                            }}>
-                            Product name {index}
-                          </Text>
-                          <View>
-                            <View className="flex flex-row gap-x-2">
+                          <View className="flex flex-row gap-x-2">
+                            <Text
+                              className="text-[#7e84a3]  rounded-full text-[8px]"
+                              style={{fontFamily: 'Poppins-Regular'}}>
+                              #AQADORDER052
+                            </Text>
+                            <View className="flex flex-row items-center gap-1">
+                              <View className="bg-[#7e84a3] rounded-full h-[4px] w-[4px] "></View>
                               <Text
                                 className="text-[#7e84a3]  rounded-full text-[8px]"
                                 style={{fontFamily: 'Poppins-Regular'}}>
-                                #AQADORDER052
-                              </Text>
-                              <View className="flex flex-row items-center gap-1">
-                                <View className="bg-[#7e84a3] rounded-full h-[4px] w-[4px] "></View>
-                                <Text
-                                  className="text-[#7e84a3]  rounded-full text-[8px]"
-                                  style={{fontFamily: 'Poppins-Regular'}}>
-                                  2m ago
-                                </Text>
-                              </View>
-                            </View>
-                            <View>
-                              <Text
-                                className="text-[#7e84a3]  rounded-full text-[8px]"
-                                style={{fontFamily: 'Poppins-Regular'}}>
-                                Per Unit :50 AED
+                                2m ago
                               </Text>
                             </View>
                           </View>
+                          <View>
+                            <Text
+                              className="text-[#7e84a3]  rounded-full text-[8px]"
+                              style={{fontFamily: 'Poppins-Regular'}}>
+                              Per Unit :50 AED
+                            </Text>
+                          </View>
                         </View>
-                        <View>
-                          <Text
-                            className="text-[#f96900] text-[13px] pb-3"
-                            style={{fontFamily: 'Poppins-Medium'}}>
-                            50 AED
-                          </Text>
-                        </View>
-                        {/* <PopoverExample /> */}
+                      </View>
+                      <View>
+                        <Text
+                          className="text-[#f96900] text-[13px] pb-3"
+                          style={{fontFamily: 'Poppins-Medium'}}>
+                          50 AED
+                        </Text>
+                      </View>
+                      {/* <PopoverExample /> */}
 
-                        <TouchableOpacity onPress={showMenu} className="mt-3">
-                          <Entypo
-                            name="dots-three-vertical"
-                            size={20}
-                            color="#cbcbcb"
-                          />
-                        </TouchableOpacity>
-                      </View>
-                      <View className="flex flex-row px-3 gap-x-3">
-                        <Text
-                          className="text-[#21d59b] bg-[#E9FBF5] text-center h-[12px] rounded-full w-[55px] text-[7px]"
-                          style={{fontFamily: 'Poppins-SemiBold'}}>
-                          {tab === 'All Orders' ? 'Order' : tab}
-                        </Text>
-                        <Text
-                          className="text-[#5a607f] bg-[#e6e9f4] text-center h-[12px] rounded-full w-[55px] text-[7px]"
-                          style={{fontFamily: 'Poppins-SemiBold'}}>
-                          SKU : 575
-                        </Text>
-                        <Text
-                          className="text-[#5a607f] bg-[#e6e9f4] text-center h-[12px] rounded-full w-[55px] text-[7px]"
-                          style={{fontFamily: 'Poppins-SemiBold'}}>
-                          Grocery
-                        </Text>
-                      </View>
+                      <TouchableOpacity
+                        onPress={() => showMenu(index)}
+                        className="mt-3">
+                        <Entypo
+                          name="dots-three-vertical"
+                          size={20}
+                          color="#cbcbcb"
+                        />
+                      </TouchableOpacity>
                     </View>
-                );
-              })}
-            </View>
-          </ScrollView>
-        </SafeAreaView>
-      </View>
+                    <View className="flex flex-row px-3 gap-x-3">
+                      <Text
+                        className="text-[#21d59b] bg-[#E9FBF5] text-center h-[12px] rounded-full w-[55px] text-[7px]"
+                        style={{fontFamily: 'Poppins-SemiBold'}}>
+                        {tab === 'All Orders' ? 'Order' : tab}
+                      </Text>
+                      <Text
+                        className="text-[#5a607f] bg-[#e6e9f4] text-center h-[12px] rounded-full w-[55px] text-[7px]"
+                        style={{fontFamily: 'Poppins-SemiBold'}}>
+                        SKU : 575
+                      </Text>
+                      <Text
+                        className="text-[#5a607f] bg-[#e6e9f4] text-center h-[12px] rounded-full w-[55px] text-[7px]"
+                        style={{fontFamily: 'Poppins-SemiBold'}}>
+                        Grocery
+                      </Text>
+                    </View>
+                  </View>
+                  <View
+                    className={
+                      !(show == index) ? 'hidden' : 'flex flex-row mr-[80px] '
+                    }>
+                    <View className="flex flex-row items-center gap-x-2">
+                      <TouchableOpacity className="p-3 bg-blue-100 rounded-xl">
+                        <Image
+                          style={{tintColor: '#6d93f2', height: 17, width: 17}}
+                          source={require('../../Assets/image/pencil.png')}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <View className="flex flex-row items-center gap-2 ml-2">
+                      <TouchableOpacity className="p-3 bg-red-100 rounded-xl">
+                        <Image
+                          style={{tintColor: '#df6886', height: 17, width: 17}}
+                          source={require('../../Assets/image/trash.png')}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              );
+            })}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
     </View>
   );
 }
@@ -257,17 +291,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: 'white',
     backgroundColor: 'white',
-    borderRadius: 25,
+    borderRadius: 15,
     paddingHorizontal: 10,
     borderBottomWidth: 0,
   },
   topNavigation: {
     height: 15,
     width: 23.3,
+    tintColor: 'white',
   },
   input: {
     flex: 1,
-    height: 40,
+    height: 45,
     backgroundColor: 'white',
     borderColor: 'white',
     paddingRight: 5,

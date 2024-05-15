@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Dashboard from './Dashboard';
 import MyAccount from '../../components/MyAccount';
 import Insights from '../../components/Insights';
-import {Image} from 'react-native';
+import {Image, ScrollView} from 'react-native';
 import Orders from './Orderes';
 import Products from './Products';
 

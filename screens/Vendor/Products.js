@@ -29,6 +29,7 @@ export default function Products(nav) {
           PRODUCTS
         </Text>
       </View>
+      <ScrollView keyboardShouldPersistTaps="handled">
       <View className="p-3 px-5 gap-y-3">
         <View style={styles.container}>
           <TextInput
@@ -125,6 +126,7 @@ export default function Products(nav) {
           </TouchableOpacity>
         
       </View>
+      </ScrollView>
     </View>
   );
 }
