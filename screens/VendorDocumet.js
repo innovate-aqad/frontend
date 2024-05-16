@@ -18,6 +18,7 @@ import DocumentPicker from 'react-native-document-picker';
 import { useFormik } from 'formik';
 import { VendorRegisterSchema3 } from '../schemas/VendorRegisterSchema3';
 import axios from 'axios';
+import { environmentVariables } from '../config/Config';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -103,7 +104,7 @@ export default function VendorDocument(nav) {
         });
         await axios({
           method: "post",
-          url: `http://localhost:2000/api/user/register`,        
+          url: `${environmentVariables?.apiUrl}/api/user/register`,        
           headers :{
             "Content-Type":"multipart/form-data"
           },

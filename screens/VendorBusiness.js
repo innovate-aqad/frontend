@@ -19,6 +19,7 @@ import { useFormik } from 'formik';
 import { VendorRegisterSchema2 } from '../schemas/VendorRegiterSchema2';
 import { userData } from '../getuserdata/GetUserData';
 import axios from 'axios';
+import { environmentVariables } from '../config/Config';
 export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [inputs, setInputs] = useState([{ address: '', po_box: '' }]);
@@ -59,7 +60,7 @@ export default function VendorBusiness(nav) {
         console.log(formdata,"llll...");
         await axios({
           method: "post",
-          url: `http://localhost:2000/api/user/register`,
+          url: `${environmentVariables?.apiUrl}/api/user/register`,
         
             headers :{
               "Content-Type":"application/json"

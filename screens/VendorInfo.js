@@ -25,6 +25,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 import axios from 'axios';
 import { userData } from '../getuserdata/GetUserData';
+import { environmentVariables } from '../config/Config';
 
 
 export default function VendorInfo(nav) {
@@ -69,7 +70,7 @@ export default function VendorInfo(nav) {
         console.log(formdata,"llll");
         await axios({
           method: "post",
-          url: `http://localhost:2000/api/user/register`,        
+          url: `${environmentVariables?.apiUrl}/api/user/register`,        
           headers :{
             "Content-Type":"multipart/form-data"
           }

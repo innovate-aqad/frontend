@@ -14,6 +14,7 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useFormik } from 'formik';
 import { LoginSchema } from '../schemas/LoginSchema';
+import { environmentVariables } from '../config/Config';
 // Make a request for a user with a given ID
 
 export default function Login(nav) {
@@ -34,7 +35,6 @@ export default function Login(nav) {
   const gotoForgot = () => {
     nav.navigation.navigate('forgot');
   };
-
 
   const handleEmail=(e)=>{
     const emailVar =e.nativeEvent.text
@@ -119,7 +119,7 @@ export default function Login(nav) {
         console.log("values",values)
         await axios({
           method: "post",
-          url: `http://localhost:2000/api/user/login`,
+          url: `${environmentVariables?.apiUrl}/api/user/login`,
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",

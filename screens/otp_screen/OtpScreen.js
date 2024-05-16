@@ -11,6 +11,7 @@ import {
   import axios from 'axios';
   import { useFormik } from 'formik';
   import { OtpSchema } from '../../schemas/OtpSchema';
+import { environmentVariables } from '../../config/Config';
   
   export default function OtpScreen({ route }) {
     const { email } = route.params;
@@ -25,7 +26,7 @@ import {
         onSubmit: async (values, action) => {
           await axios({
             method: "post",
-            url: `http://localhost:2000/api/user/login_with_otp`,
+            url: `${environmentVariables?.apiUrl}/api/user/login_with_otp`,
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
