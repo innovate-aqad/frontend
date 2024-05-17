@@ -14,12 +14,11 @@ import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Avatar, Card, IconButton} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
-import {useNavigation} from '@react-navigation/native';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
-  const redirectDocument = () => {
-    nav.navigation.navigate('business');
+  const redirectDriver = () => {
+    nav.navigation.navigate('logidrivdetail');
     // nav.navigation.navigate('bottomTab');
   };
 
@@ -47,20 +46,16 @@ export default function VendorDocument(nav) {
     }
   };
 
-  const navigation = useNavigation();
-
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <View
         className="flex flex-col justify-center p-4   h-full bg-gray-100 !text-black
         ">
         <View className="relative flex flex-row items-center top-3 ">
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image
-              style={styles.topNavigation}
-              source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
-            />
-          </TouchableOpacity>
+          <Image
+            style={styles.topNavigation}
+            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+          />
         </View>
         <View className="mt-5">
           <Text
@@ -188,9 +183,43 @@ export default function VendorDocument(nav) {
             </TouchableOpacity>
           </View>
         </View>
+        {/* emirates */}
+        <View className="mt-3">
+          <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
+            Emirates ID
+          </Text>
+          <TouchableOpacity className="h-[76px]" onPress={selectDoc}>
+            <Card.Title
+              className="bg-white shadow rounded-xl"
+              title="Click to Upload"
+              titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
+              subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
+              subtitleStyle={{
+                color: 'black',
+                paddingBottom: 4.5,
+                color: '#7e84a3',
+                fontSize: 10,
+              }}
+              left={props => (
+                <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#cdddfe] bg-[#E6EEFF]">
+                  <Image
+                    style={{height: 24, width: 20}}
+                    source={require('../../Assets/image/file_upload.png')}
+                  />
+                </View>
+              )}
+            />
+          </TouchableOpacity>
+          <TextInput
+            className="py-2"
+            style={styles.input}
+            placeholder="Enter IBAN"
+            placeholderTextColor={'#cbcbcb'}
+          />
+        </View>
         <TouchableOpacity
           className="mt-8"
-          // onPress={() => redirect()}
+          onPress={() => redirectDriver()}
           style={styles.button}>
           <Text className="text-white" style={{fontFamily: 'Poppins-SemiBold'}}>
             SUBMIT

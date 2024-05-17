@@ -90,7 +90,7 @@ export default function VendorInfo(nav) {
           <Text
             className="text-2xl text-[#00274D] pt-3"
             style={{fontFamily: 'Poppins-bold'}}>
-            Personal Information123
+            Driver Details
           </Text>
         </View>
 

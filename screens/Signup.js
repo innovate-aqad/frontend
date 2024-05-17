@@ -86,7 +86,12 @@ export default function Signup(nav) {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.5}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => {
+              redirectRetailer();
+              toggleColor();
+            }}>
             <View className="flex flex-row items-center w-full p-2 bg-white rounded-lg">
               <View className="w-[12%] flex flex-row items-center justify-center rounded-full">
                 <Image

@@ -43,21 +43,21 @@ export default function VendorBusiness(nav) {
       <View
         className="flex flex-col p-4   h-full bg-gray-100 !text-black
         ">
-        <View className="relative top-0 flex flex-row items-center p-5 ">
+        <View className="relative flex flex-row items-center top-3  ">
           <Image
             style={styles.topNavigation}
             source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
           />
         </View>
 
-        <View className="pt-3 ">
+        <View className="mt-5">
           {/* progressbar */}
 
           <View className="mt-5">
             <Text
               className="text-3xl text-[#00274D]"
               style={{fontFamily: 'Poppins-bold'}}>
-              VendorBusiness
+              Vendor Business
             </Text>
             <Text
               className="pt-2 text-xs text-gray-400"
@@ -192,7 +192,7 @@ export default function VendorBusiness(nav) {
               {inputs.map((input, index) => (
                 <SafeAreaView key={index}>
                   <Text style={styles.label} className="text-[#00274D] px-3">
-                    Your Email
+                    Warehouse Address
                   </Text>
                   <TextInput
                     className="!border-none pl-4 !border-white"
@@ -207,7 +207,7 @@ export default function VendorBusiness(nav) {
                     }}
                   />
                   <Text style={styles.label} className="text-[#00274D] px-3">
-                    Password
+                    PO Box
                   </Text>
                   <TextInput
                     style={styles.input}
