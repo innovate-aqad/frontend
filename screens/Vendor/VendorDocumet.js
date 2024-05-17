@@ -16,9 +16,9 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Avatar, Card, IconButton} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
 import { useFormik } from 'formik';
-import { VendorRegisterSchema3 } from '../schemas/VendorRegisterSchema3';
+import { VendorRegisterSchema3 } from '../../schemas/VendorRegisterSchema3';
 import axios from 'axios';
-import { environmentVariables } from '../config/Config';
+import { environmentVariables } from '../../config/Config';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -442,7 +442,7 @@ export default function VendorDocument(nav) {
                   <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#cdddfe] bg-[#E6EEFF]">
                     <Image
                       style={{height: 24, width: 20}}
-                      source={require('../Assets/image/file_upload.png')}
+                      source={require('../../Assets/image/file_upload.png')}
                     />
                   </View>
                 )}

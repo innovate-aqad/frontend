@@ -19,13 +19,13 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Badge, IconButton} from 'react-native-paper';
 import { Formik, useFormik } from 'formik';
 import CountryPicker from 'react-native-country-picker-modal'
-import { VendorRegisterSchema } from '../schemas/VendorRegisterSchema';
+import { VendorRegisterSchema } from '../../schemas/VendorRegisterSchema';
 import ImagePicker from 'react-native-image-crop-picker';
 
 
 import axios from 'axios';
 import { userData } from '../getuserdata/GetUserData';
-import { environmentVariables } from '../config/Config';
+import { environmentVariables } from '../../config/Config';
 
 
 export default function VendorInfo(nav) {

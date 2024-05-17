@@ -14,12 +14,12 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Badge, IconButton} from 'react-native-paper';
-import Addbutton from './Addbutton';
+import Addbutton from '../Addbutton';
 import { useFormik } from 'formik';
-import { VendorRegisterSchema2 } from '../schemas/VendorRegiterSchema2';
+import { VendorRegisterSchema2 } from '../../schemas/VendorRegiterSchema2';
 import { userData } from '../getuserdata/GetUserData';
 import axios from 'axios';
-import { environmentVariables } from '../config/Config';
+import { environmentVariables } from '../../config/Config';
 export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [inputs, setInputs] = useState([{ address: '', po_box: '' }]);
@@ -147,7 +147,7 @@ export default function VendorBusiness(nav) {
         <View className="relative top-0 flex flex-row items-center p-5 ">
           <Image
             style={styles.topNavigation}
-            source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
+            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
           />
         </View>
         <View>
