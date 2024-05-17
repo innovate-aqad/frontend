@@ -43,11 +43,29 @@ export default function VendorBusiness(nav) {
       <View
         className="flex flex-col p-4   h-full bg-gray-100 !text-black
         ">
-        <View className="relative  flex flex-row items-center top-3 ">
-          <Image
-            style={styles.topNavigation}
-            source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
-          />
+      <View className="relative top-0 flex flex-row items-center p-5 ">
+        <Image
+          style={styles.topNavigation}
+          source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+        />
+      </View>
+      <View>
+        <Text
+          className="text-3xl text-[#00274D]"
+          style={{fontFamily: 'Poppins-bold'}}>
+          VendorBusiness
+        </Text>
+        <Text
+          className="pt-2 text-xs text-gray-400"
+          style={{fontFamily: 'Poppins-Light'}}>
+          Pick the type of account that suits your business or personal needs.
+        </Text>
+      </View>
+      <View className="pt-10 ">
+        {/* progressbar */}
+        <View style={styles.container}>
+          {/* <Text>progress</Text> */}
+          <Animated.View style={[styles.bar, {width: progress}]} />
         </View>
         <View className="mt-5">
           <Text

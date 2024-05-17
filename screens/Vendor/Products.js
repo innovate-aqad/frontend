@@ -13,7 +13,7 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-export default function Products() {
+export default function Products(nav) {
   const [searchText, setSearchText] = useState('');
   const handleSearch = () => {};
   return (
@@ -21,7 +21,7 @@ export default function Products() {
       <View className="relative top-0 flex flex-row items-center p-5 bg-white">
         <Image
           style={styles.topNavigation}
-          source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
+          source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
         />
         <Text
           className="flex justify-center w-[80%] text-center text-[#00274d]"
@@ -29,6 +29,7 @@ export default function Products() {
           PRODUCTS
         </Text>
       </View>
+      <ScrollView keyboardShouldPersistTaps="handled">
       <View className="p-3 px-5 gap-y-3">
         <View style={styles.container}>
           <TextInput
@@ -56,7 +57,7 @@ export default function Products() {
           </Text>
           <Image
             style={{height: 18, width: 18}}
-            source={require('../Assets/image/drawable-hdpi/apps_sort.png')}
+            source={require('../../Assets/image/drawable-hdpi/apps_sort.png')}
           />
         </View>
         <SafeAreaView>
@@ -69,7 +70,7 @@ export default function Products() {
                   <View className="bg-[#FDEEE3] h-[50px] w-[50px] rounded-full border border-[#FDD7BC] p-3">
                     <Image
                       style={{height: 22, width: 29.5}}
-                      source={require('../Assets/image/drawable-xhdpi/pngwing_com_9.png')}
+                      source={require('../../Assets/image/drawable-xhdpi/pngwing_com_9.png')}
                     />
                   </View>
                   <View>
@@ -115,7 +116,7 @@ export default function Products() {
        
           <TouchableOpacity
             className="z-50 rounded-full "
-            // onPress={() => redirect()}
+            onPress={() => nav.navigation.navigate("add_product")}
             style={styles.button}>
             <Text
               className="text-white"
@@ -125,6 +126,7 @@ export default function Products() {
           </TouchableOpacity>
         
       </View>
+      </ScrollView>
     </View>
   );
 }

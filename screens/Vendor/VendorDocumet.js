@@ -14,6 +14,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Avatar, Card, IconButton} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
+import {useNavigation} from '@react-navigation/native';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -46,16 +47,20 @@ export default function VendorDocument(nav) {
     }
   };
 
+  const navigation = useNavigation();
+
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <View
         className="flex flex-col justify-center p-4   h-full bg-gray-100 !text-black
         ">
         <View className="relative flex flex-row items-center top-3 ">
-          <Image
-            style={styles.topNavigation}
-            source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
-          />
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image
+              style={styles.topNavigation}
+              source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+            />
+          </TouchableOpacity>
         </View>
         <View className="mt-5">
           <Text
@@ -115,7 +120,7 @@ export default function VendorDocument(nav) {
                   <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#D0DFFF] bg-[#E6EEFF]">
                     <Image
                       style={{height: 24, width: 20}}
-                      source={require('../Assets/image/file_upload.png')}
+                      source={require('../../Assets/image/file_upload.png')}
                     />
                   </View>
                 )}
@@ -142,7 +147,7 @@ export default function VendorDocument(nav) {
                   <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#cdddfe] bg-[#E6EEFF]">
                     <Image
                       style={{height: 24, width: 20}}
-                      source={require('../Assets/image/file_upload.png')}
+                      source={require('../../Assets/image/file_upload.png')}
                     />
                   </View>
                 )}
@@ -175,7 +180,7 @@ export default function VendorDocument(nav) {
                   <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#D0DFFF] bg-[#E6EEFF]">
                     <Image
                       style={{height: 24, width: 20}}
-                      source={require('../Assets/image/file_upload.png')}
+                      source={require('../../Assets/image/file_upload.png')}
                     />
                   </View>
                 )}
