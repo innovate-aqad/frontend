@@ -13,7 +13,7 @@ export default function Signup(nav) {
   };
 
   const redirectVendor = () => {
-    // nav.navigation.navigate('vendor');
+    nav.navigation.navigate('vendor');
   };
   const redirectLogistic = () => {
     nav.navigation.navigate('logistic');

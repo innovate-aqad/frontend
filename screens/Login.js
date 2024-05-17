@@ -64,7 +64,8 @@ export default function Login(nav) {
     //   setPasswordError(false);
     // }
     // nav.navigation.navigate('bottomTab');
-    nav.navigation.navigate('productIndex');
+    nav.navigation.navigate('retailerIndex');
+    // nav.navigation.navigate('productIndex');
     // console.log(email, 'emailemailemail');
     // console.log(password, 'passwordpasswordpasswordpassword');
 
