@@ -34,7 +34,7 @@ export default function VendorBusiness(nav) {
     }).start();
   }, []);
   const redirectDocument = () => {
-    nav.navigation.navigate('document');
+    nav.navigation.navigate('logisdocument');
     // nav.navigation.navigate('bottomTab');
   };
 
@@ -57,7 +57,7 @@ export default function VendorBusiness(nav) {
             <Text
               className="text-3xl text-[#00274D]"
               style={{fontFamily: 'Poppins-bold'}}>
-              VendorBusiness
+              Logistic Business
             </Text>
             <Text
               className="pt-2 text-xs text-gray-400"
@@ -185,48 +185,6 @@ export default function VendorBusiness(nav) {
                 </View>
               </View>
               {/* add */}
-
-              <TouchableOpacity onPress={handleAdd} style={styles.buttonadd}>
-                <Text>Add</Text>
-              </TouchableOpacity>
-              {inputs.map((input, index) => (
-                <SafeAreaView key={index}>
-                  <Text style={styles.label} className="text-[#00274D] px-3">
-                    Your Email
-                  </Text>
-                  <TextInput
-                    className="!border-none pl-4 !border-white"
-                    placeholderTextColor="rgb(210, 210, 210)"
-                    style={styles.input}
-                    placeholder="Example@gmail.com"
-                    value={input.email}
-                    onChangeText={text => {
-                      const updatedInputs = [...inputs];
-                      updatedInputs[index].email = text;
-                      setInputs(updatedInputs);
-                    }}
-                  />
-                  <Text style={styles.label} className="text-[#00274D] px-3">
-                    Password
-                  </Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholderTextColor="rgb(210, 210, 210)"
-                    placeholder="Enter your password"
-                    value={input.password}
-                    onChangeText={text => {
-                      const updatedInputs = [...inputs];
-                      updatedInputs[index].password = text;
-                      setInputs(updatedInputs);
-                    }}
-                  />
-                  <TouchableOpacity
-                    onPress={() => handleDelete(index)}
-                    style={styles.deleteButton}>
-                    <Text>Delete</Text>
-                  </TouchableOpacity>
-                </SafeAreaView>
-              ))}
             </SafeAreaView>
           </View>
           <View className="pt-5">

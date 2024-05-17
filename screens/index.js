@@ -11,17 +11,18 @@ import ProductIndex from './Vendor/ProductIndex';
 import Forgot from './Forgot';
 
 import VendorInfo from './Vendor/VendorInfo';
-import VendorBusiness from './VendorBusiness';
-import VendorDocumet from './VendorDocumet';
-import Logisticinfo from './Logisticinfo';
-import Logisticbusiness from './Logisticbusiness';
-import Logisticdocument from './Logisticdocument';
+import VendorBusiness from './Vendor/VendorBusiness';
+import VendorDocumet from './Vendor/VendorDocumet';
+import Logisticinfo from './logistic/Logisticinfo';
+import Logisticbusiness from './logistic/Logisticbusiness';
+import Logisticdocument from './logistic/Logisticdocument';
 import Addbutton from './Addbutton';
-import Logidriverdetails from './Logidriverdetails';
+import Logidriverdetails from './logistic/Logidriverdetails';
 import Profile from './Vendor/Profile';
 import Retailerinfo from './Retailer/Retailerinfo';
 import Retailerbusiness from './Retailer/Retailerbusiness';
 import Retailerdocument from './Retailer/Retailerdocument';
+import AddProduct from './Vendor/AddProduct';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();

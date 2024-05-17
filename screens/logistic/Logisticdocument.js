@@ -54,7 +54,7 @@ export default function VendorDocument(nav) {
         <View className="relative flex flex-row items-center top-3 ">
           <Image
             style={styles.topNavigation}
-            source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
+            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
           />
         </View>
         <View className="mt-5">
@@ -115,7 +115,7 @@ export default function VendorDocument(nav) {
                   <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#D0DFFF] bg-[#E6EEFF]">
                     <Image
                       style={{height: 24, width: 20}}
-                      source={require('../Assets/image/file_upload.png')}
+                      source={require('../../Assets/image/file_upload.png')}
                     />
                   </View>
                 )}
@@ -142,7 +142,7 @@ export default function VendorDocument(nav) {
                   <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#cdddfe] bg-[#E6EEFF]">
                     <Image
                       style={{height: 24, width: 20}}
-                      source={require('../Assets/image/file_upload.png')}
+                      source={require('../../Assets/image/file_upload.png')}
                     />
                   </View>
                 )}
@@ -175,7 +175,7 @@ export default function VendorDocument(nav) {
                   <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#D0DFFF] bg-[#E6EEFF]">
                     <Image
                       style={{height: 24, width: 20}}
-                      source={require('../Assets/image/file_upload.png')}
+                      source={require('../../Assets/image/file_upload.png')}
                     />
                   </View>
                 )}
@@ -186,7 +186,7 @@ export default function VendorDocument(nav) {
         {/* emirates */}
         <View className="mt-3">
           <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
-            Cancelled2233 Cheque / IBAN sdksdf
+            Emirates ID
           </Text>
           <TouchableOpacity className="h-[76px]" onPress={selectDoc}>
             <Card.Title
@@ -204,7 +204,7 @@ export default function VendorDocument(nav) {
                 <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#cdddfe] bg-[#E6EEFF]">
                   <Image
                     style={{height: 24, width: 20}}
-                    source={require('../Assets/image/file_upload.png')}
+                    source={require('../../Assets/image/file_upload.png')}
                   />
                 </View>
               )}

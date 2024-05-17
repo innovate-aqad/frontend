@@ -12,17 +12,16 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Badge, IconButton} from 'react-native-paper';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
-  const redirectBusiness = () => {
+  const redirectPorceed = () => {
     nav.navigation.navigate('business');
     // nav.navigation.navigate('bottomTab');
   };
 
   useEffect(() => {
     Animated.timing(progress, {
-      toValue: 200,
+      toValue: 75,
       duration: 2000,
     }).start();
   }, []);
@@ -32,10 +31,12 @@ export default function VendorInfo(nav) {
       className="flex flex-col p-4   h-full bg-gray-100 !text-black
         ">
       <View className="relative flex flex-row items-center top-3 ">
-        <Image
-          style={styles.topNavigation}
-          source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
-        />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            style={styles.topNavigation}
+            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+          />
+        </TouchableOpacity>
       </View>
       <View className="mt-5">
         <Text
@@ -49,23 +50,10 @@ export default function VendorInfo(nav) {
           Pick the type of account that suits your business or personal needs.
         </Text>
       </View>
-
-      <View className="pt-10 ">
+      <View className=" pt-10 ">
         {/* progressbar */}
-        <View className="flex flex-col">
-          <View className="flex flex-row justify-between ">
-            <Text
-              className="text-[#F96900]"
-              style={{fontFamily: 'Poppins-Regular'}}>
-              Profile Upload (3/3)
-            </Text>
-            <Text
-              className="text-[#F96900]"
-              style={{fontFamily: 'Poppins-Regular'}}>
-              100%
-            </Text>
-          </View>
-
+        <View style={styles.container}>
+          {/* <Text>progress</Text> */}
           <Animated.View style={[styles.bar, {width: progress}]} />
         </View>
 
@@ -78,10 +66,8 @@ export default function VendorInfo(nav) {
         </View>
 
         {/* profile */}
-        <View
-          className="pt-10 flex-row items-center !px-4 py-4 my-1 bg-white border border-white rounded-full mt-3 "
-          style={styles.user}>
-          {/* <TouchableOpacity className="flex-row items-center p-2 bg-white border border-white rounded-2xl "> */}
+        <View className=" pt-10 " style={styles.user}>
+          {/* <TouchableOpacity className="flex-row items-center p-2  bg-white border border-white rounded-2xl "> */}
 
           <FontAwesome6 name={'user'} size={30} />
           <Feather
@@ -123,17 +109,13 @@ export default function VendorInfo(nav) {
             style={{fontFamily: 'Poppins-SemiBold'}}>
             Phone Number
           </Text>
-          <View className="flex-row items-center !px-4   bg-white border border-white ">
-            <AntDesign name="google" color={'black'} size={16} />
-            <TextInput
-              style={styles.input}
-              placeholderTextColor="rgb(210, 210, 210)"
-              placeholder="Enter your phone number"
-              className="!border-none pl-4 !border-white"
-              borderRadius={10}
-            />
-          </View>
-
+          <TextInput
+            style={styles.input}
+            placeholderTextColor="rgb(210, 210, 210)"
+            placeholder="Enter your phone number"
+            className="!border-none pl-4 !border-white"
+            borderRadius={10}
+          />
           <Text
             className="text-[#00274D] px-3"
             style={{fontFamily: 'Poppins-SemiBold'}}>
@@ -150,7 +132,7 @@ export default function VendorInfo(nav) {
       </View>
       <View className="pt-5">
         <TouchableOpacity
-          onPress={() => redirectBusiness()}
+          onPress={() => redirectPorceed()}
           style={styles.button}>
           <Text
             className="text-white "
@@ -194,7 +176,7 @@ const styles = StyleSheet.create({
     // margin: 10,
   },
   bar: {
-    height: 5,
+    height: 15,
     backgroundColor: '#F96900',
     borderRadius: 10,
   },
