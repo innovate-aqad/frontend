@@ -163,7 +163,7 @@ export default function VendorInfo(nav) {
       <View className="relative top-0 flex flex-row items-center p-5 ">
         <Image
           style={styles.topNavigation}
-          source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
+          source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
         />
       </View>
       <View>
