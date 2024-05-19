@@ -51,18 +51,18 @@ export default function VendorInfo(nav) {
       <View className=" pt-10 ">
         {/* progressbar */}
         <View className="flex flex-col">
-          <View className="flex flex-row justify-between ">
+          {/* <View className="flex flex-row justify-between ">
             <Text
               className="text-[#F96900]"
               style={{fontFamily: 'Poppins-Regular'}}>
-              Profile Upload (3/3)
+              Profile Upload (1/3)
             </Text>
             <Text
               className="text-[#F96900]"
               style={{fontFamily: 'Poppins-Regular'}}>
               100%
             </Text>
-          </View>
+          </View> */}
 
           <Animated.View style={[styles.bar, {width: progress}]} />
         </View>
