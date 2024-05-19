@@ -20,9 +20,7 @@ export default function App() {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (
     <NavigationContainer>
-      <MenuProvider>
-        <AppStack />
-      </MenuProvider>
+      <AppStack />
     </NavigationContainer>
   );
 }

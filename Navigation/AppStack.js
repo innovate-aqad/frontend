@@ -6,8 +6,8 @@ import Homescreen from '../screens/Drawermenu/Homescreen';
 export default function AppStack() {
   const Drawer = createDrawerNavigator();
   return (
-    <Drawer.Navigator>
-      <Drawer.Screen name="Article" component={Homescreen} />
+    <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Screen name="Home" component={Homescreen} />
     </Drawer.Navigator>
   );
 }
