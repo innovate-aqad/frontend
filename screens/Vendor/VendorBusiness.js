@@ -141,39 +141,11 @@ export default function VendorBusiness(nav) {
     <View
       className="flex flex-col p-4   h-full bg-gray-100 !text-black
         ">
-      <View className="relative top-0 flex flex-row items-center p-5 ">
-        <Image
-          style={styles.topNavigation}
-          source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
-        />
-      </View>
-      <View>
-        <Text
-          className="text-3xl text-[#00274D]"
-          style={{fontFamily: 'Poppins-bold'}}>
-          VendorBusiness
-        </Text>
-        <Text
-          className="pt-2 text-xs text-gray-400"
-          style={{fontFamily: 'Poppins-Light'}}>
-          Pick the type of account that suits your business or personal needs.
-        </Text>
-      </View>
-      <View className="pt-10 ">
-        {/* progressbar */}
-        <View style={styles.container}>
-          {/* <Text>progress</Text> */}
-          <Animated.View style={[styles.bar, {width: progress}]} />
-        </View>
-        {/* end of progressbar */}
-
-        {/* text */}
-        <View>
-          <Text
-            className="text-2xl text-[#00274D] pt-3"
-            style={{fontFamily: 'Poppins-bold'}}>
-            Business Information
-          </Text>
+        <View className="relative flex flex-row items-center top-3  ">
+          <Image
+            style={styles.topNavigation}
+            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+          />
         </View>
 
         <SafeAreaView>
@@ -276,7 +248,7 @@ export default function VendorBusiness(nav) {
               <Text
                 className="text-[#00274D] px-3"
                 style={{fontFamily: 'Poppins-SemiBold'}}>
-                Country
+                Company Name
               </Text>
               <TextInput
                 style={[styles.input, {width: '100%'}]}
@@ -293,9 +265,9 @@ export default function VendorBusiness(nav) {
             </View>
             <View style={styles.inputContainer}>
               <Text
-                className="text-[#00274D] px-3 pt-0"
+                className="text-[#00274D] px-3"
                 style={{fontFamily: 'Poppins-SemiBold'}}>
-                PO Box
+                Designation
               </Text>
               <TextInput
                style={[styles.input, {width: '100%'}]}
@@ -340,11 +312,14 @@ export default function VendorBusiness(nav) {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
     </ScrollView>
   );
 }
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
   topNavigation: {
     height: 15,
     width: 23.3,
@@ -366,6 +341,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     color: 'red',
   },
+  buttonadd: {
+    backgroundColor: '#F96900', // Default button color
+    padding: 12,
+    borderRadius: 5,
+    alignItems: 'center',
+    color: 'red',
+    width: 120,
+    marginBottom: 10,
+    marginTop: 10,
+  },
   user: {
     alignSelf: 'center',
   },
@@ -376,7 +361,7 @@ const styles = StyleSheet.create({
     // margin: 10,
   },
   bar: {
-    height: 15,
+    height: 5,
     backgroundColor: '#F96900',
     borderRadius: 10,
   },
@@ -391,6 +376,14 @@ const styles = StyleSheet.create({
 
     marginRight: 20,
     borderWidth: 0,
+  },
+  deleteButton: {
+    alignItems: 'center',
+    backgroundColor: 'gray',
+    padding: 10,
+    marginTop: 10,
+    borderRadius: 5,
+    width: 120,
   },
 });
 

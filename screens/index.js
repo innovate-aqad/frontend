@@ -13,10 +13,15 @@ import Forgot from './Forgot';
 import VendorInfo from './Vendor/VendorInfo';
 import VendorBusiness from './Vendor/VendorBusiness';
 import VendorDocumet from './Vendor/VendorDocumet';
-import Logisticinfo from './Logisticinfo';
-import Logisticbusiness from './Logisticbusiness';
-import Logisticdocument from './Logisticdocument';
+import Logisticinfo from './logistic/Logisticinfo';
+import Logisticbusiness from './logistic/Logisticbusiness';
+import Logisticdocument from './logistic/Logisticdocument';
 import Addbutton from './Addbutton';
+import Logidriverdetails from './logistic/Logidriverdetails';
+import Profile from './Vendor/Profile';
+import Retailerinfo from './Retailer/Retailerinfo';
+import Retailerbusiness from './Retailer/Retailerbusiness';
+import Retailerdocument from './Retailer/Retailerdocument';
 import AddProduct from './Vendor/AddProduct';
 import RetailerIndex from './Retailer';
 import OtpScreen from '../otp_screen/OtpScreen';
@@ -35,6 +40,7 @@ export default function Index() {
       <Stack.Screen name="add_product" component={AddProduct} />
       <Stack.Screen name="productIndex" component={ProductIndex} />
       <Stack.Screen name="vendor" component={VendorInfo} />
+      {/* <Stack.Screen name="vendor" component={Profile} /> */}
       <Stack.Screen name="business" component={VendorBusiness} />
       <Stack.Screen name="document" component={VendorDocumet} />
       <Stack.Screen name="logistic" component={Logisticinfo} />
@@ -44,6 +50,10 @@ export default function Index() {
       <Stack.Screen name="otpscreen" component={OtpScreen} />
 
       <Stack.Screen name="retailerIndex" component={RetailerIndex} />
+      <Stack.Screen name="logidrivdetail" component={Logidriverdetails} />
+      <Stack.Screen name="retailer" component={Retailerinfo} />
+      <Stack.Screen name="retailerbusi" component={Retailerbusiness} />
+      <Stack.Screen name="reatilerdocs" component={Retailerdocument} />
     </Stack.Navigator>
   );
 }

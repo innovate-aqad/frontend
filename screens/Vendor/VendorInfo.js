@@ -160,15 +160,17 @@ export default function VendorInfo(nav) {
     <View
       className="flex flex-col p-4   h-full bg-gray-100 !text-black
         ">
-      <View className="relative top-0 flex flex-row items-center p-5 ">
-        <Image
-          style={styles.topNavigation}
-          source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
-        />
+      <View className="relative flex flex-row items-center top-3 ">
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            style={styles.topNavigation}
+            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+          />
+        </TouchableOpacity>
       </View>
-      <View>
+      <View className="mt-5">
         <Text
-          className="text-3xl text-[#00274D]"
+          className="text-[35px] text-[#00274D]"
           style={{fontFamily: 'Poppins-bold'}}>
           Vendor Info
         </Text>

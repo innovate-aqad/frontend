@@ -18,12 +18,15 @@ export default function Signup(nav) {
   const redirectLogistic = () => {
     nav.navigation.navigate('logistic');
   };
+  const redirectRetailer = () => {
+    nav.navigation.navigate('retailer');
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setBgColor("bg-white");
+      setBgColor('bg-white');
     }, 100);
-  
+
     // Clear the timeout if the component unmounts or bgColor changes before the timeout is reached
     return () => clearTimeout(timer);
   }, [bgColor]);
@@ -55,11 +58,10 @@ export default function Signup(nav) {
         </View>
 
         <View className="flex flex-col !pt-5 gap-y-3">
-         
-
-          <TouchableOpacity activeOpacity={0.1}
+          <TouchableOpacity
+            activeOpacity={0.1}
             onPress={() => {
-              redirectVendor()
+              redirectVendor();
               toggleColor();
             }}>
             <View
@@ -85,8 +87,12 @@ export default function Signup(nav) {
             </View>
           </TouchableOpacity>
 
-
-          <TouchableOpacity activeOpacity={0.5}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => {
+              redirectRetailer();
+              toggleColor();
+            }}>
             <View className="flex flex-row items-center w-full p-2 bg-white rounded-lg">
               <View className="w-[12%] flex flex-row items-center justify-center rounded-full">
                 <Image
