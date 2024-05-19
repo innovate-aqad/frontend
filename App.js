@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 import {View, Text, TouchableOpacity, Button, Switch} from 'react-native';
 import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CheckBox from 'react-native-check-box';
@@ -19,9 +20,13 @@ export default function App() {
   const [isEnabled, setIsEnabled] = React.useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (
-    <NavigationContainer>
-      <AppStack />
-    </NavigationContainer>
+    <SafeAreaView style={{flex: 1}}>
+      <NavigationContainer>
+        <MenuProvider>
+          <AppStack />
+        </MenuProvider>
+      </NavigationContainer>
+    </SafeAreaView>
   );
 }
 
