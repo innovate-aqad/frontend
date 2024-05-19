@@ -71,12 +71,12 @@ export default function VendorBusiness(nav) {
               <Text
                 className="text-[#F96900]"
                 style={{fontFamily: 'Poppins-Regular'}}>
-                Profile Upload (3/3)
+                Profile Upload (2/3)
               </Text>
               <Text
                 className="text-[#F96900]"
                 style={{fontFamily: 'Poppins-Regular'}}>
-                100%
+                66%
               </Text>
             </View>
 
