@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View, ScrollView} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -29,6 +29,7 @@ export default function Signup(nav) {
   }, [bgColor]);
 
   return (
+    <ScrollView>
     <View>
       <View
         className="flex flex-col px-4 justify-center h-full bg-gray-100 !text-black
@@ -168,6 +169,7 @@ export default function Signup(nav) {
         </View>
       </View>
     </View>
+    </ScrollView>
   );
 }
 

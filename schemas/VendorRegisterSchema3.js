@@ -9,3 +9,5 @@ export const VendorRegisterSchema3 = Yup.object({
   // emiratesIDDocument: Yup.string(),
   emiratesIDNumber: Yup.string(),
 });
+
+

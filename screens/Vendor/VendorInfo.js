@@ -156,7 +156,7 @@ export default function VendorInfo(nav) {
     );
   };
   return (
-    <ScrollView keyboardShouldPersistTaps="handled">
+    <ScrollView >
     <View
       className="flex flex-col p-4   h-full bg-gray-100 !text-black
         ">
