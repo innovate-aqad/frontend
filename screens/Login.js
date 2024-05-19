@@ -12,6 +12,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import ToggleSwitch from 'toggle-switch-react-native';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useFormik } from 'formik';
+import { LoginSchema } from '../schemas/LoginSchema';
+import { environmentVariables } from '../config/Config';
 // Make a request for a user with a given ID
 
 export default function Login(nav) {
@@ -106,6 +109,81 @@ export default function Login(nav) {
     //   });
   };
 
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues,
+      validationSchema: LoginSchema,
+      onSubmit: async (values, action) => {
+        console.log("values",values)
+        await axios({
+          method: "post",
+          url: `${environmentVariables?.apiUrl}/api/user/login`,
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          data: {
+            email: values.email,
+            password: values.password,
+          },
+        })
+          .then((response) => {
+            console.log(response.data, "loginres");
+            action.resetForm();
+            ToastAndroid.showWithGravityAndOffset(
+              response.data.message,
+              ToastAndroid.LONG,
+              ToastAndroid.CENTER,
+              25,
+              50,
+            );
+            nav.navigation.navigate('otpscreen',{ email: values.email })
+
+            
+
+            // setIsApiResponse(false);
+            // if (response.data.message === "User is not verified") {
+            //   Swal.fire({
+            //     icon: "error",
+            //     title: "Email is not verified",
+            //   });
+            // } else {
+            //   const expirationTime = 1 * 60 * 1000; // 1 hour in milliseconds
+            //   const expirationTimestamp = new Date().getTime() + expirationTime;
+            //   const { data } = response;
+            //   localStorage.setItem(
+            //     "authdata",
+            //     JSON.stringify({ data, expirationTimestamp })
+            //   );
+
+            //   setAuthData({ data, expirationTimestamp });
+
+            //   Swal.fire({
+            //     icon: "success",
+            //     text: "Successfully Login",
+            //     // title: "Successfully Login",
+            //     timer: "1000",
+            //   });
+            //   setShowPopup(false);
+            // }
+          })
+          .catch((error) => {
+            console.log("error", error.message);
+            ToastAndroid.showWithGravityAndOffset(
+              error.response.data.message,
+              ToastAndroid.LONG,
+              ToastAndroid.CENTER,
+              25,
+              50,
+            );
+          });
+      },
+    });
+
 
 
   console.log(emailError,"emailError");
@@ -136,10 +214,12 @@ export default function Login(nav) {
           </Text>
           <View>
             <TextInput
-              name="temail"
-              onChange={e=>handleEmail(e)}
+              name="email"
               style={styles.input}
-              value={email}
+
+              value={values.email}
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
               
               placeholderTextColor="rgb(210, 210, 210)"
               placeholder="example@gmail.com"
@@ -147,11 +227,8 @@ export default function Login(nav) {
               borderRadius={18}
             />
             
-            {email.length < 1 ? null : emailError==true ? null : (
-              <Text className="px-4 font-serif text-[10px] text-red-500">
-                Please enter valid email
-              </Text>
-            )}
+            {errors.email && touched.email && <Text style={{ color: 'red' }}>{errors.email}</Text>}
+
           </View>
 
           <Text
@@ -163,17 +240,20 @@ export default function Login(nav) {
           <View>
             <View style={styles.container1}>
               <TextInput
-                style={styles.input1}
-                placeholder="Enter your password"
-                underlineColorAndroid="transparent"
-                onChange={e=>handlePassword(e)}
-                value={password}
-                maxLength={6}
-                secureTextEntry={!showPassword}
-                keyboardType="default"
-                disableFullscreenUI={true}
-                borderRadius={18}
-                placeholderTextColor="rgb(210, 210, 210)"
+                  style={styles.input1}
+                  placeholder="Enter your password"
+                  underlineColorAndroid="transparent"
+                  // maxLength={6}
+                  secureTextEntry={!showPassword}
+                  keyboardType="default"
+                  disableFullscreenUI={true}
+                  borderRadius={18}
+                  placeholderTextColor="rgb(210, 210, 210)"
+  
+                  name="password"
+                  value={values.password}
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
               />
 
               <TouchableOpacity onPress={toggleShowPassword}>
@@ -185,11 +265,8 @@ export default function Login(nav) {
               </TouchableOpacity>
             </View>
             
-            {password.length < 1 ? null : passwordError==true ? null : (
-              <Text className="px-4 font-serif text-[10px] text-red-500">
-                Please enter valid password
-              </Text>
-            )}
+            {errors.password && touched.password && <Text style={{ color: 'red' }}>{errors.password}</Text>}
+
           </View>
         </SafeAreaView>
 
@@ -223,7 +300,7 @@ export default function Login(nav) {
       </View>
       <View className="w-full">
         <View>
-          <TouchableOpacity onPress={() => redirect()} style={styles.button}>
+          <TouchableOpacity onPress={() => handleSubmit()} style={styles.button}>
             <Text
               className="text-white"
               style={{fontFamily: 'Poppins-SemiBold'}}>

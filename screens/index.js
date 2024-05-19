@@ -19,6 +19,7 @@ import Logisticdocument from './Logisticdocument';
 import Addbutton from './Addbutton';
 import AddProduct from './Vendor/AddProduct';
 import RetailerIndex from './Retailer';
+import OtpScreen from '../otp_screen/OtpScreen';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -30,6 +31,7 @@ export default function Index() {
       <Stack.Screen name="products" component={Products} />
       <Stack.Screen name="orders" component={Orders} />
       <Stack.Screen name="forgot" component={Forgot} />
+      <Stack.Screen name="dashboard" component={Dashboard} />
       <Stack.Screen name="add_product" component={AddProduct} />
       <Stack.Screen name="productIndex" component={ProductIndex} />
       <Stack.Screen name="vendor" component={VendorInfo} />
@@ -39,6 +41,8 @@ export default function Index() {
       <Stack.Screen name="logisbusiness" component={Logisticbusiness} />
       <Stack.Screen name="logisdocument" component={Logisticdocument} />
       <Stack.Screen name="addbutton" component={Addbutton} />
+      <Stack.Screen name="otpscreen" component={OtpScreen} />
+
       <Stack.Screen name="retailerIndex" component={RetailerIndex} />
     </Stack.Navigator>
   );
