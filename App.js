@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import {View, Text, TouchableOpacity, Button, Switch} from 'react-native';
 import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
@@ -10,7 +11,8 @@ import Login from './screens/Login';
 import Index from './screens';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider as PaperProvider} from 'react-native-paper';
-import { MenuProvider } from 'react-native-popup-menu';
+import {MenuProvider} from 'react-native-popup-menu';
+import AppStack from './Navigation/AppStack';
 
 // const Stack=createNativeStackNavigator()
 export default function App() {
@@ -19,7 +21,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <MenuProvider>
-        <Index />
+        <AppStack />
       </MenuProvider>
     </NavigationContainer>
   );
