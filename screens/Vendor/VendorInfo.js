@@ -67,7 +67,7 @@ export default function VendorInfo(nav) {
         formdata.append("country",values.isoCode);
         formdata.append("phone", `${values.country}-${values?.number}`); 
         formdata.append("dob", values.dateOfBirth); 
-        console.log(formdata,"llll");
+        console.log(formdata,"llll",environmentVariables?.apiUrl);
         await axios({
           method: "post",
           url: `${environmentVariables?.apiUrl}/api/user/register`,        

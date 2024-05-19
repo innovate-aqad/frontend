@@ -9,34 +9,155 @@ import {
   View,
   Animated,
   ScrollView,
+  ToastAndroid,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Badge, IconButton} from 'react-native-paper';
+import { useFormik } from 'formik';
+import { RetailerRegisterSchema2 } from '../../schemas/RetailerRegisterSchema2';
+import AddbuttonForRetailer from '../AddButton/AddbuttonForRetailer';
+import axios from 'axios';
+import { environmentVariables } from '../../config/Config';
 export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
-  const [inputs, setInputs] = useState([]);
+  // const [inputs, setInputs] = useState([]);
 
-  const handleAdd = () => {
-    setInputs([...inputs, {email: '', password: ''}]);
+  // const handleAdd = () => {
+  //   setInputs([...inputs, {email: '', password: ''}]);
+  // };
+
+  // const handleDelete = index => {
+  //   const updatedInputs = [...inputs];
+  //   updatedInputs.splice(index, 1);
+  //   setInputs(updatedInputs);
+  // };
+
+  // useEffect(() => {
+  //   Animated.timing(progress, {
+  //     toValue: 200,
+  //     duration: 2000,
+  //   }).start();
+  // }, []);
+  // const redirectDocument = () => {
+  //   nav.navigation.navigate('reatilerdocs');
+  //   // nav.navigation.navigate('bottomTab');
+  // };
+
+  const [inputs, setInputs] = useState([{ address: '', po_box: '' }]);
+  const mainId = nav.route.params.id;
+
+  const initialValues = {
+    companyName: "",
+    designation: "",
+    tradeLicenseNo : "",
+    companyAddress : "",
+    companyAddressline2 : "",
+    vendorPoBox : "",
+    country: "", 
+    outlet_addresses: [{ address: '', po_box: '' }],
   };
 
-  const handleDelete = index => {
-    const updatedInputs = [...inputs];
-    updatedInputs.splice(index, 1);
-    setInputs(updatedInputs);
+  let formik =  useFormik({
+      initialValues,
+      validationSchema: RetailerRegisterSchema2,
+      onSubmit: async (values, action) => {
+      
+        console.log("values",values)
+        const formdata = {
+          company_name: values.companyName,
+          slide : "2",
+          user_type : "seller",
+          designation: values.designation,
+          trade_license_number: values.tradeLicenseNo,
+          company_address: values.companyAddress,
+          company_address_line_2: values.companyAddressline2,
+          po_box : values.vendorPoBox,
+          country : values.country,
+          outlet_addresses : values?.outlet_addresses,
+          doc_id : mainId
+        };
+        console.log(formdata,"llll...");
+        await axios({
+          method: "post",
+          url: `${environmentVariables?.apiUrl}/api/user/register`,
+        
+            headers :{
+              "Content-Type":"application/json"
+            }
+          ,
+          data: formdata,
+        })
+          .then((response) => {
+            console.log("565656556",response.data,"hhhhhh",response.data.data)
+            ToastAndroid.showWithGravityAndOffset(
+              response.data.message,
+              ToastAndroid.LONG,
+              ToastAndroid.CENTER,
+              25,
+              50,
+            );
+            nav.navigation.navigate('reatilerdocs',{ id : response.data.data.id });
+          })
+          .catch((error) => {
+            console.log("error...",error.response.data.message);
+            ToastAndroid.showWithGravityAndOffset(
+              error.response.data.message,
+              ToastAndroid.LONG,
+              ToastAndroid.CENTER,
+              25,
+              50,
+            );
+            // nav.navigation.navigate('business');
+            // setIsLoading(false);
+            // Swal.fire({
+            //   icon: "error",
+            //   title: "Already have an account",
+            //   timer: "1000",
+            // });
+            // setError(error);
+          });
+
+      },
+  });
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = formik
+
+  const handleAddPair = () => {
+    formik.setValues({
+      ...values,
+      outlet_addresses: [...values.outlet_addresses, { address: '', po_box: '' }],
+    });
+  };
+
+  const handleDeletePair = index => {
+    const updatedPairs = [...values.outlet_addresses];
+    updatedPairs.splice(index, 1);
+    formik.setValues({
+      ...values,
+      outlet_addresses: updatedPairs,
+    });
+  };
+
+  const handlePairInputChange = (text, index, field) => {
+    const updatedPairs = [...values.outlet_addresses];
+    updatedPairs[index][field] = text;
+    formik.setValues({
+      ...values,
+      outlet_addresses: updatedPairs,
+    });
   };
 
   useEffect(() => {
+    // const getUserData = await userData()
+    // console.log("hhhhhhh",getUserData)
+
+
     Animated.timing(progress, {
-      toValue: 200,
+      toValue: 160,
       duration: 2000,
+      useNativeDriver: false,
     }).start();
-  }, []);
-  const redirectDocument = () => {
-    nav.navigation.navigate('document');
-    // nav.navigation.navigate('bottomTab');
-  };
+  }, [])
 
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
@@ -73,12 +194,12 @@ export default function VendorBusiness(nav) {
                 <Text
                   className="text-[#F96900]"
                   style={{fontFamily: 'Poppins-Regular'}}>
-                  Profile Upload (3/3)
+                  Profile Upload (2/3)
                 </Text>
                 <Text
                   className="text-[#F96900]"
                   style={{fontFamily: 'Poppins-Regular'}}>
-                  100%
+                  66%
                 </Text>
               </View>
 
@@ -107,7 +228,13 @@ export default function VendorBusiness(nav) {
                 placeholder="Enter your Name"
                 className="!border-none pl-4 !border-white"
                 borderRadius={10}
+
+                name="companyName"
+                value={values.companyName}
+                onChangeText={handleChange('companyName')}
+                onBlur={handleBlur('companyName')}
               />
+            {errors.companyName && touched.companyName && <Text style={{ color: 'red' }}>{errors.companyName}</Text>}
 
               <Text
                 className="text-[#00274D] px-3"
@@ -120,7 +247,14 @@ export default function VendorBusiness(nav) {
                 placeholder="Example@gmail.com"
                 className="!border-none pl-4 !border-white"
                 borderRadius={10}
+
+                name="designation"
+                value={values.designation}
+                onChangeText={handleChange('designation')}
+                onBlur={handleBlur('designation')}
               />
+              {errors.designation && touched.designation && <Text style={{ color: 'red' }}>{errors.designation}</Text>}
+
               <Text
                 className="text-[#00274D] px-3"
                 style={{fontFamily: 'Poppins-SemiBold'}}>
@@ -132,6 +266,11 @@ export default function VendorBusiness(nav) {
                 placeholder="Enter your phone number"
                 className="!border-none pl-4 !border-white"
                 borderRadius={10}
+
+                name="tradeLicenseNo"
+                value={values.tradeLicenseNo}
+                onChangeText={handleChange('tradeLicenseNo')}
+                onBlur={handleBlur('tradeLicenseNo')}
               />
               <Text
                 className="text-[#00274D] px-3"
@@ -144,7 +283,14 @@ export default function VendorBusiness(nav) {
                 placeholder="Enter your Date of Birth"
                 className="!border-none pl-4 !border-white"
                 borderRadius={10}
+
+                name="companyAddress"
+                value={values.companyAddress}
+                onChangeText={handleChange('companyAddress')}
+                onBlur={handleBlur('companyAddress')}
               />
+              {errors.companyAddress && touched.companyAddress && <Text style={{ color: 'red' }}>{errors.companyAddress}</Text>}
+
               <Text
                 className="text-[#00274D] px-3"
                 style={{fontFamily: 'Poppins-SemiBold'}}>
@@ -156,7 +302,14 @@ export default function VendorBusiness(nav) {
                 placeholder="Enter your Name"
                 className="!border-none pl-4 !border-white"
                 borderRadius={10}
+
+                name="companyAddressline2"
+                value={values.companyAddressline2}
+                onChangeText={handleChange('companyAddressline2')}
+                onBlur={handleBlur('companyAddressline2')}
               />
+              {errors.companyAddressline2 && touched.companyAddressline2 && <Text style={{ color: 'red' }}>{errors.companyAddressline2}</Text>}
+
               {/* side  */}
               <View style={styles.containerside}>
                 <View style={styles.inputContainer}>
@@ -169,7 +322,14 @@ export default function VendorBusiness(nav) {
                     style={[styles.input, {width: '100%'}]}
                     placeholder="Example@gmail.com"
                     placeholderTextColor="rgb(210, 210, 210)"
+
+                    name="country"
+                    value={values.country}
+                    onChangeText={handleChange('country')}
+                    onBlur={handleBlur('country')}
                   />
+                {errors.country && touched.country && <Text style={{ color: 'red' }}>{errors.country}</Text>}
+
                 </View>
                 <View style={styles.inputContainer}>
                   <Text
@@ -181,57 +341,25 @@ export default function VendorBusiness(nav) {
                     style={[styles.input, {width: '100%'}]}
                     placeholder="Enter your phone number"
                     placeholderTextColor="rgb(210, 210, 210)"
+
+                    name="vendorPoBox"
+                    value={values.vendorPoBox}
+                    onChangeText={handleChange('vendorPoBox')}
+                    onBlur={handleBlur('vendorPoBox')}
                   />
+                {errors.vendorPoBox && touched.vendorPoBox && <Text style={{ color: 'red' }}>{errors.vendorPoBox}</Text>}
+
                 </View>
               </View>
-              {/* add */}
-
-              <TouchableOpacity onPress={handleAdd} style={styles.buttonadd}>
-                <Text>Add</Text>
-              </TouchableOpacity>
-              {inputs.map((input, index) => (
-                <SafeAreaView key={index}>
-                  <Text style={styles.label} className="text-[#00274D] px-3">
-                    Outlet Address
-                  </Text>
-                  <TextInput
-                    className="!border-none pl-4 !border-white"
-                    placeholderTextColor="rgb(210, 210, 210)"
-                    style={styles.input}
-                    placeholder="Example@gmail.com"
-                    value={input.email}
-                    onChangeText={text => {
-                      const updatedInputs = [...inputs];
-                      updatedInputs[index].email = text;
-                      setInputs(updatedInputs);
-                    }}
-                  />
-                  <Text style={styles.label} className="text-[#00274D] px-3">
-                    PO Box
-                  </Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholderTextColor="rgb(210, 210, 210)"
-                    placeholder="Enter your password"
-                    value={input.password}
-                    onChangeText={text => {
-                      const updatedInputs = [...inputs];
-                      updatedInputs[index].password = text;
-                      setInputs(updatedInputs);
-                    }}
-                  />
-                  <TouchableOpacity
-                    onPress={() => handleDelete(index)}
-                    style={styles.deleteButton}>
-                    <Text>Delete</Text>
-                  </TouchableOpacity>
-                </SafeAreaView>
-              ))}
+              <AddbuttonForRetailer inputs={inputs} setInputs={setInputs} errors={errors} handleAddPair={handleAddPair} handleDeletePair={handleDeletePair} handlePairInputChange={handlePairInputChange} values={values}/>
+              {errors.outlet_addresses && (
+                <Text style={{ color: 'red' }}>At least one pair of Outlet address and PO Box is required</Text>
+              )}
             </SafeAreaView>
           </View>
           <View className="pt-5">
             <TouchableOpacity
-              onPress={() => redirectDocument()}
+              onPress={() => handleSubmit()}
               style={styles.button}>
               <Text
                 className="text-white "

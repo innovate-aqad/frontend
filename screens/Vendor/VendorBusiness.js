@@ -147,7 +147,45 @@ export default function VendorBusiness(nav) {
             source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
           />
         </View>
+        
+        <View className="mt-5">
+            <Text
+              className="text-3xl text-[#00274D]"
+              style={{fontFamily: 'Poppins-bold'}}>
+              Vendor Info
+            </Text>
+            <Text
+              className="pt-2 text-xs text-gray-400"
+              style={{fontFamily: 'Poppins-Light'}}>
+              Pick the type of account that suits your business or personal
+              needs.
+            </Text>
+          </View>
 
+        <View>
+          <View className="flex flex-col">
+            <View className="flex flex-row justify-between ">
+              <Text
+                className="text-[#F96900]"
+                style={{fontFamily: 'Poppins-Regular'}}>
+                Profile Upload (2/3)
+              </Text>
+              <Text
+                className="text-[#F96900]"
+                style={{fontFamily: 'Poppins-Regular'}}>
+                66%
+              </Text>
+            </View>
+
+            <Animated.View style={[styles.bar, {width: progress}]} />
+          </View>
+
+          <Text
+            className="text-2xl text-[#00274D] pt-3"
+            style={{fontFamily: 'Poppins-bold'}}>
+            Business Information
+          </Text>
+        </View>
         <SafeAreaView>
           <Text
             className="text-[#00274D] px-3"
@@ -248,7 +286,7 @@ export default function VendorBusiness(nav) {
               <Text
                 className="text-[#00274D] px-3"
                 style={{fontFamily: 'Poppins-SemiBold'}}>
-                Company Name
+                Country
               </Text>
               <TextInput
                 style={[styles.input, {width: '100%'}]}
@@ -267,7 +305,7 @@ export default function VendorBusiness(nav) {
               <Text
                 className="text-[#00274D] px-3"
                 style={{fontFamily: 'Poppins-SemiBold'}}>
-                Designation
+                Po Box
               </Text>
               <TextInput
                style={[styles.input, {width: '100%'}]}
@@ -300,18 +338,19 @@ export default function VendorBusiness(nav) {
               <Text style={{ color: 'red' }}>At least one pair of warehouse address and PO Box is required</Text>
             )}
         </SafeAreaView>
+        <View className="pt-5">
+          <TouchableOpacity
+            onPress={() => handleSubmit()}
+            style={styles.button}>
+            <Text
+              className="text-white "
+              style={{fontFamily: 'Poppins-SemiBold'}}>
+              PROCEED
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View className="pt-5">
-        <TouchableOpacity
-          onPress={() => handleSubmit()}
-          style={styles.button}>
-          <Text
-            className="text-white "
-            style={{fontFamily: 'Poppins-SemiBold'}}>
-            PROCEED
-          </Text>
-        </TouchableOpacity>
-      </View>
+      
     </ScrollView>
   );
 }
