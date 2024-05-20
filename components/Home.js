@@ -61,6 +61,7 @@ export default function Home() {
           </View>
 
           <LiveOrder />
+
           <View className="flex flex-row justify-around w-full mt-1.5">
             <View className="flex flex-row items-center">
               <View className="w-[10px] h-[10px] bg-[#21d59b] rounded-full"></View>
@@ -79,6 +80,7 @@ export default function Home() {
               <Text className={"text-[#00274d] text-[10px]"}> Orders</Text>
             </View>
           </View>
+
           <View className="flex flex-row items-center justify-between mt-2">
             <Text className="text-[13px] font-bold" style={styles.textColor}>
               Category Tiles
@@ -90,7 +92,6 @@ export default function Home() {
                 style={styles.tinyLogo}
                 source={require('../Assets/image/drawable-hdpi/group_186.png')}
               />
-              {/* </Text> */}
             </View>
           </View>
           <View className="flex flex-col items-center">
@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: 'white',
     backgroundColor: 'white',
-    borderRadius: 25,
+    borderRadius: 15,
     paddingHorizontal: 10,
     // marginHorizontal: 10,
     borderBottomWidth: 0,

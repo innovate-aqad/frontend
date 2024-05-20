@@ -1,39 +1,39 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Dashboard from './Dashboard';
-import Insights from '../../components/Insights';
-import {Image, ScrollView} from 'react-native';
-import Orders from './Orderes';
-import Products from './Products';
+import {Image} from 'react-native';
+import Orders from './Orders';
+import Wholesales from './Wholesales';
 import MyAccount from './MyAccount';
+import Dashboard from './Dashboard';
+import Cart from './Cart';
 
 const Tab = createBottomTabNavigator();
-const product = 'Products';
-const trade = 'Dashboard';
+const wholesales = 'Wholesales';
+const dashboard = 'Dashboard';
 const account = 'MyAccount';
-const insights = 'Insights';
+const cart = 'Cart';
 const order = 'Orders';
 
-export default function ProductIndex() {
+export default function RetailerIndex() {
   return (
     <Tab.Navigator
-      initialRouteName={trade}
+      initialRouteName={dashboard}
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
           let rn = route.name;
-          if (rn === product) {
+          if (rn === wholesales) {
             iconName = focused ? 'home' : 'home';
-          } else if (rn === trade) {
+          } else if (rn === dashboard) {
             iconName = focused ? 'list' : 'apps';
-          } else if (rn === insights) {
+          } else if (rn === cart) {
             iconName = focused ? 'list' : 'calendar-outline';
           } else if (rn === account) {
             iconName = focused ? 'list' : 'person';
           } else if (rn === order) {
             iconName = focused ? 'list' : 'person';
           }
-          if (rn === product) {
+          if (rn === wholesales) {
             return (
                 <Image
                 style={{height: 23, width: 23.1,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
@@ -41,7 +41,7 @@ export default function ProductIndex() {
               />
             );
             
-          } else if (rn === trade) {
+          } else if (rn === dashboard) {
             return (
               <Image
                 style={{height: 23, width: 22,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
@@ -56,7 +56,7 @@ export default function ProductIndex() {
                 source={require('../../Assets/image/drawable-hdpi/user.png')}
               />
             );
-          } else if (rn === insights) {
+          } else if (rn === cart) {
             return (
               <Image
                 style={{height: 24, width: 24,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
@@ -99,11 +99,11 @@ export default function ProductIndex() {
       
       // screenOptions={{headerShown: false}}
     >
-      <Tab.Screen name={trade} component={Dashboard} />
-      <Tab.Screen name={product} component={Products} />
+      <Tab.Screen name={dashboard} component={Dashboard} />
+      <Tab.Screen name={wholesales} component={Wholesales} />
       
       <Tab.Screen name={account} component={MyAccount} />
-      <Tab.Screen name={insights} component={Insights} />
+      <Tab.Screen name={cart} component={Cart} />
       <Tab.Screen name={order} component={Orders} />
     </Tab.Navigator>
   );
