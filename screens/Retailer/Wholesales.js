@@ -56,6 +56,8 @@ export default function Wholesales() {
     }
   };
 
+
+
   return (
     <View className="w-full h-full bg-[#f5f5f5]">
       <View className="relative top-0 flex flex-row items-center px-5 pt-7 pb-2 bg-[#f96900] rounded-b-[15px]">
@@ -142,6 +144,7 @@ export default function Wholesales() {
           {name: 'Popular'},
         ].map((item, index) => (
           <TouchableOpacity
+            key={index}
             onPress={() => tabNavigatePage(item.name)}
             className={
               tab == item.name
@@ -219,25 +222,25 @@ export default function Wholesales() {
             },
           ].map((item, index) => (
             <View
-            key={index}
+              key={index}
               className={
                 index === 0
                   ? 'h-12'
-                  : index ==2 ? "relative top-24 bg-white shadow rounded-xl" : 'flex flex-col bg-white shadow rounded-xl'
+                  : 'flex flex-col bg-white shadow rounded-[12px]'
               }>
               {index === 0 ? (
-                <View className="w-40 h-20">
-                  <Text className="text-[#f96900] text-[20px] font-[Poppins-Bold]">
-                    Popular
+                <View className="w-40 h-20 mt-2">
+                  <Text className="text-[#f96900] text-[20px] font-[Poppins-Bold]" style={{lineHeight:23}}>
+                    Populars
                   </Text>
-                  <Text className="text-[#f96900] text-[20px] font-[Poppins-Bold]">
-                    Products
+                  <Text className="text-[#f96900] text-[20px] font-[Poppins-Bold]" style={{lineHeight:23}}>
+                    Products 
                   </Text>
                 </View>
               ) : (
                 <View>
                   <Image
-                    style={{height: 115, width: 160}}
+                    style={{height: 115, width: 160, borderTopRightRadius:12,borderTopLeftRadius:12}}
                     className=""
                     source={require('../../Assets/image/drawable-hdpi/mask_group_2.png')}
                   />

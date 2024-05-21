@@ -19,11 +19,13 @@ import Logisticdocument from './Logisticdocument';
 import Addbutton from './Addbutton';
 import AddProduct from './Vendor/AddProduct';
 import RetailerIndex from './Retailer';
+import TextLine from '../Shared/TextLine';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
+      {/* <Stack.Screen name="test" component={TextLine} /> */}
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="signup" component={Signup} />
       <Stack.Screen name="bottomTab" component={Buttomtab} />

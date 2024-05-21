@@ -5,7 +5,7 @@ import Orders from './Orders';
 import Wholesales from './Wholesales';
 import MyAccount from './MyAccount';
 import Dashboard from './Dashboard';
-import Cart from './Cart';
+import Cart from './CartScreen/index';
 
 const Tab = createBottomTabNavigator();
 const wholesales = 'Wholesales';
@@ -37,7 +37,7 @@ export default function RetailerIndex() {
             return (
                 <Image
                 style={{height: 23, width: 23.1,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
-                source={require('../../Assets/image/drawable-hdpi/box_seam.png')}
+                source={require('../../Assets/image/box_alt.png')}
               />
             );
             
@@ -60,7 +60,7 @@ export default function RetailerIndex() {
             return (
               <Image
                 style={{height: 24, width: 24,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
-                source={require('../../Assets/image/drawable-hdpi/chart_histogram.png')}
+                source={require('../../Assets/image/shopping_cart_1.png')}
               />
             );
           } else {
@@ -103,8 +103,9 @@ export default function RetailerIndex() {
       <Tab.Screen name={wholesales} component={Wholesales} />
       
       <Tab.Screen name={account} component={MyAccount} />
-      <Tab.Screen name={cart} component={Cart} />
+      
       <Tab.Screen name={order} component={Orders} />
+      <Tab.Screen name={cart} component={Cart} />
     </Tab.Navigator>
   );
 }

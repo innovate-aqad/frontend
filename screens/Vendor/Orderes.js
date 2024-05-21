@@ -224,7 +224,6 @@ export default function Orders() {
                           50 AED
                         </Text>
                       </View>
-                      {/* <PopoverExample /> */}
 
                       <TouchableOpacity
                         onPress={() => showMenu(index)}
