@@ -15,9 +15,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Avatar, Card, IconButton} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
-import { useNavigation } from '@react-navigation/native';
 import { useFormik } from 'formik';
-import { VendorRegisterSchema3 } from '../../schemas/VendorRegisterSchema3';
+import { RetailerRegisterSchema3 } from '../../schemas/RetailerRegisterSchema3';
 import axios from 'axios';
 import { environmentVariables } from '../../config/Config';
 
@@ -59,11 +58,9 @@ export default function VendorDocument(nav) {
     emiratesIDDocument: '',
     emiratesIDNumber: '',
   };
-
-
   let formik =  useFormik({
       initialValues,
-      validationSchema: VendorRegisterSchema3,
+      validationSchema: RetailerRegisterSchema3,
       onSubmit: async (values, action) => {
       
         console.log("values",values,errors)
@@ -89,7 +86,7 @@ export default function VendorDocument(nav) {
         //   name: values.emiratesIDDocument.name
         // });
         formdata.append("slide", "3");
-        formdata.append("user_type", "vendor");
+        formdata.append("user_type", "seller");
         formdata.append("doc_id", mainId);
         formdata.append("iban", values.cancelledChequeIBAN);
         formdata.append("emirates_id", values.emiratesIDNumber);
@@ -273,6 +270,8 @@ export default function VendorDocument(nav) {
 
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = formik
+  console.log("ffff",errors)
+
 
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
@@ -289,7 +288,7 @@ export default function VendorDocument(nav) {
           <Text
             className="text-[35px] text-[#00274D]"
             style={{fontFamily: 'Poppins-bold'}}>
-            Vendor Info
+            Retailer Info
           </Text>
           <Text
             className="pt-2 text-xs text-gray-400"
@@ -327,7 +326,7 @@ export default function VendorDocument(nav) {
             <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
               Trade Licence
             </Text>
-            <TouchableOpacity className="h-[76px]" onPress={() => selectDocument('tradeLicense', 'trade_license')}>
+            <TouchableOpacity className="h-[76px]"  onPress={() => selectDocument('tradeLicense', 'trade_license')}>
               <Card.Title
                 className="bg-white shadow rounded-xl"
                 title={selectedDocuments.tradeLicense || "Click to Upload"}
@@ -354,7 +353,7 @@ export default function VendorDocument(nav) {
             <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
               Cancelled Cheque / IBAN sdksdf
             </Text>
-            <TouchableOpacity className="h-[76px]" onPress={() => selectDocument('cancelledChequeDocument', 'cheque_scan')}>
+            <TouchableOpacity className="h-[76px]"  onPress={() => selectDocument('cancelledChequeDocument', 'cheque_scan')}>
               <Card.Title
                 className="bg-white shadow rounded-xl"
                 title={selectedDocuments.cancelledChequeDocument || "Click to Upload"}
@@ -392,15 +391,10 @@ export default function VendorDocument(nav) {
             <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
               VAT Certificate
             </Text>
-            <TouchableOpacity className="h-[76px]"  onPress={() => selectDocument('vatCertificateDocument', 'vat_certificate')}
-             onChangeText={handleChange('vatCertificateDocument')}
-             onBlur={handleBlur('vatCertificateDocument')}
-             name="vatCertificateDocument"
-             value={values?.vatCertificateDocument}>
+            <TouchableOpacity className="h-[76px]" onPress={() => selectDocument('vatCertificateDocument', 'vat_certificate')}>
               <Card.Title
                 className="bg-white shadow rounded-xl"
                 title={selectedDocuments.vatCertificateDocument || "Click to Upload"}
-               
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{
@@ -463,7 +457,6 @@ export default function VendorDocument(nav) {
             />
           </View>
         </View>
-    
         <TouchableOpacity
           className="mt-8"
           onPress={() => handleSubmit()}

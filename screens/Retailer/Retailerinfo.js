@@ -11,71 +11,53 @@ import {
   ScrollView,
   ToastAndroid,
 } from 'react-native';
-import {Avatar} from 'react-native-paper';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Feather from 'react-native-vector-icons/Feather';
+import {Avatar} from 'react-native-paper';
+import CountryPicker from 'react-native-country-picker-modal';
+import ImagePicker from 'react-native-image-crop-picker';
+
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Badge, IconButton} from 'react-native-paper';
-import {Formik, useFormik} from 'formik';
-import CountryPicker from 'react-native-country-picker-modal';
-import {VendorRegisterSchema} from '../../schemas/VendorRegisterSchema';
-import ImagePicker from 'react-native-image-crop-picker';
-import moment from 'moment';
-
+import {useFormik} from 'formik';
+import {RetailerRegisterSchema} from '../../schemas/RetailerRegisterSchema';
 import axios from 'axios';
-import {userData} from '../getuserdata/GetUserData';
 import {environmentVariables} from '../../config/Config';
-
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [image, setImage] = useState('');
-
   const [countryCode, setCountryCode] = useState('AE'); // Default country code
-  const [phoneNumber, setPhoneNumber] = useState('');
 
-  // date
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [workDate, setWorkDate] = useState(new Date());
-  const [dateSelected, setDateSelected] = useState('select Date');
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
+  const redirectPorceed = () => {
+    nav.navigation.navigate('retailerbusi');
+    // nav.navigation.navigate('bottomTab');
   };
 
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
+  useEffect(() => {
+    Animated.timing(progress, {
+      toValue: 75,
+      duration: 2000,
+    }).start();
+  }, []);
 
-  const handleConfirm = date => {
-    console.warn('A date has been picked: ', date);
-    setWorkDate(moment(date).format('YYYY-MM-DD'));
-    setDateSelected(moment(date).format('YYYY-MM-DD'));
-    hideDatePicker();
-  };
-
-  const dateFunction = value => {
-    setDateSelected(moment(value).format('YYYY-MM-DD'));
-    setDataWork(value);
-  };
-  console.log(workDate, 'workDateworkDate==');
   const initialValues = {
     fullName: '',
     email: '',
     country: '+971',
     number: '',
-    dateOfBirth: workDate,
+    dateOfBirth: '',
     isoCode: 'AE',
     image: '',
   };
 
   let formik = useFormik({
     initialValues,
-    validationSchema: VendorRegisterSchema,
+    validationSchema: RetailerRegisterSchema,
     onSubmit: async (values, action) => {
       console.log('kkkeeee', values.image);
       const formdata = new FormData();
       formdata.append('name', values.fullName);
       formdata.append('slide', '1');
-      formdata.append('user_type', 'vendor');
+      formdata.append('user_type', 'seller');
       if (values?.image) {
         formdata.append('profile_photo', {
           uri: values.image.path,
@@ -87,7 +69,7 @@ export default function VendorInfo(nav) {
       formdata.append('country', values.isoCode);
       formdata.append('phone', `${values.country}-${values?.number}`);
       formdata.append('dob', values.dateOfBirth);
-      console.log(formdata, 'llll', environmentVariables?.apiUrl);
+      console.log(formdata, 'llll');
       await axios({
         method: 'post',
         url: `${environmentVariables?.apiUrl}/api/user/register`,
@@ -98,7 +80,7 @@ export default function VendorInfo(nav) {
       })
         .then(response => {
           console.log(
-            'kkkkkkk',
+            'res_retail',
             response.data.data.id,
             response.data,
             'hhhhhh',
@@ -110,10 +92,14 @@ export default function VendorInfo(nav) {
             25,
             50,
           );
-          nav.navigation.navigate('business', {id: response.data.data.id});
+          nav.navigation.navigate('retailerbusi', {id: response.data.data.id});
         })
         .catch(error => {
-          console.log('error...', error, error?.message);
+          console.log(
+            'err_retail...',
+            error.response.data.message,
+            error?.message,
+          );
           ToastAndroid.showWithGravityAndOffset(
             error.response.data.message,
             ToastAndroid.LONG,
@@ -126,24 +112,6 @@ export default function VendorInfo(nav) {
   });
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     formik;
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await userData();
-  //     // console.log(response); // Assuming response.data contains the user data
-  //   } catch (error) {
-  //     console.error('Error fetching user data:', error);
-  //   }
-  // };
-  useEffect(() => {
-    //   fetchData();
-
-    Animated.timing(progress, {
-      toValue: 75,
-      duration: 2000,
-      useNativeDriver: false,
-    }).start();
-  }, []);
 
   const onSelectCountry = country => {
     const callingCodeWithPlus = `+${country.callingCode[0]}`;
@@ -171,6 +139,7 @@ export default function VendorInfo(nav) {
   const renderCountry = country => {
     return <Text>{country.callingCode}</Text>;
   };
+
   return (
     <ScrollView>
       <View
@@ -188,7 +157,7 @@ export default function VendorInfo(nav) {
           <Text
             className="text-[35px] text-[#00274D]"
             style={{fontFamily: 'Poppins-bold'}}>
-            Vendor Info
+            Retailer Info
           </Text>
           <Text
             className="pt-2 text-xs text-gray-400"
@@ -196,8 +165,10 @@ export default function VendorInfo(nav) {
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
-        <View className="pt-10 ">
+        <View className=" pt-10 ">
+          {/* progressbar */}
           <View style={styles.container}>
+            {/* <Text>progress</Text> */}
             <Animated.View style={[styles.bar, {width: progress}]} />
           </View>
 
@@ -209,6 +180,7 @@ export default function VendorInfo(nav) {
             </Text>
           </View>
 
+          {/* profile */}
           <View className=" pt-10 " style={styles.user}>
             <TouchableOpacity onPress={() => selectPhoto()}>
               {/* <FontAwesome6 name={'user'} size={30} /> */}
@@ -228,6 +200,7 @@ export default function VendorInfo(nav) {
               />
             </TouchableOpacity>
           </View>
+          {/* input fields */}
           <SafeAreaView>
             <Text
               className="text-[#00274D] px-3"
@@ -248,6 +221,7 @@ export default function VendorInfo(nav) {
             {errors.fullName && touched.fullName && (
               <Text style={{color: 'red'}}>{errors.fullName}</Text>
             )}
+
             <Text
               className="text-[#00274D] px-3"
               style={{fontFamily: 'Poppins-SemiBold'}}>
@@ -312,39 +286,17 @@ export default function VendorInfo(nav) {
               style={{fontFamily: 'Poppins-SemiBold'}}>
               Date of Birth
             </Text>
-            {/* <TextInput
-            style={styles.input}
-            placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Enter your Date of Birth"
-            className="!border-none pl-4 !border-white"
-            borderRadius={10}
-
-            name="dateOfBirth"
-            value={values.dateOfBirth}
-            onChangeText={handleChange('dateOfBirth')}
-            onBlur={handleBlur('dateOfBirth')}
-
-          /> */}
-
-            <View>
-              <TouchableOpacity
-                style={styles.input}
-                onPress={showDatePicker}
-                title="Show date picker!">
-                <Text style={{paddingRight: 270}}> {dateSelected}</Text>
-                <DateTimePickerModal
-                  isVisible={isDatePickerVisible}
-                  mode="date"
-                  onConfirm={handleConfirm}
-                  onChange={dateFunction}
-                  onCancel={hideDatePicker}
-                  customStyles={{
-                    datePicker: styles.datePicker,
-                    datePickerContainer: styles.datePickerContainer,
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
+            <TextInput
+              style={styles.input}
+              placeholderTextColor="rgb(210, 210, 210)"
+              placeholder="Enter your Date of Birth"
+              className="!border-none pl-4 !border-white"
+              borderRadius={10}
+              name="dateOfBirth"
+              value={values.dateOfBirth}
+              onChangeText={handleChange('dateOfBirth')}
+              onBlur={handleBlur('dateOfBirth')}
+            />
           </SafeAreaView>
         </View>
         <View className="pt-5">
@@ -397,22 +349,5 @@ const styles = StyleSheet.create({
     height: 15,
     backgroundColor: '#F96900',
     borderRadius: 10,
-  },
-  containerDate: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 250, // Adjust width here
-    height: 250,
-  },
-  datePicker: {
-    backgroundColor: 'red',
-    borderRadius: 10,
-    width: 250, // Adjust width here
-    height: 250, // Adjust height here
-  },
-  datePickerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });

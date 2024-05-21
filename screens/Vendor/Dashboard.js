@@ -47,6 +47,7 @@ export default function Dashboard(nav) {
   const [searchText, setSearchText] = useState('');
   const handleSearch = () => {};
   return (
+    <ScrollView>
     <View className="flex flex-col pb-20">
       <Header></Header>
       <View className="p-3 px-5 gap-y-2">
@@ -290,6 +291,7 @@ export default function Dashboard(nav) {
         
       </View>
     </View>
+    </ScrollView>
   );
 }
 
