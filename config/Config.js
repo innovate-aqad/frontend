@@ -1,5 +1,5 @@
-import {API_KEY} from '@env';
+// import {API_KEY} from '@env';
 
 export const environmentVariables = {
-  apiUrl: API_KEY,
+  apiUrl: 'http://localhost:2000',
 };
