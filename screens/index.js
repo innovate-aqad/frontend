@@ -25,6 +25,7 @@ import Retailerdocument from './Retailer/Retailerdocument';
 import AddProduct from './Vendor/AddProduct';
 import RetailerIndex from './Retailer';
 import OtpScreen from '../otp_screen/OtpScreen';
+import Datepicker from './Datepicker';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -54,6 +55,7 @@ export default function Index() {
       <Stack.Screen name="retailer" component={Retailerinfo} />
       <Stack.Screen name="retailerbusi" component={Retailerbusiness} />
       <Stack.Screen name="reatilerdocs" component={Retailerdocument} />
+      <Stack.Screen name="datepick" component={Datepicker} />
     </Stack.Navigator>
   );
 }
