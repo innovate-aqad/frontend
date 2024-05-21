@@ -19,7 +19,7 @@ import Logisticdocument from './Logisticdocument';
 import Addbutton from './Addbutton';
 import AddProduct from './Vendor/AddProduct';
 import RetailerIndex from './Retailer';
-import TextLine from '../Shared/TextLine';
+// import TextLine from '../Shared/TextLine';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
