@@ -57,7 +57,7 @@ export default function VendorInfo(nav) {
       const formdata = new FormData();
       formdata.append('name', values.fullName);
       formdata.append('slide', '1');
-      formdata.append('user_type', 'seller');
+      formdata.append('user_type', 'logistic');
       if (values?.image) {
         formdata.append('profile_photo', {
           uri: values.image.path,
