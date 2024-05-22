@@ -24,7 +24,6 @@ import Retailerbusiness from './Retailer/Retailerbusiness';
 import Retailerdocument from './Retailer/Retailerdocument';
 import AddProduct from './Vendor/AddProduct';
 import RetailerIndex from './Retailer';
-// import TextLine from '../Shared/TextLine';
 import OtpScreen from '../otp_screen/OtpScreen';
 import Datepicker from './Datepicker';
 
@@ -32,7 +31,6 @@ export default function Index() {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      {/* <Stack.Screen name="test" component={TextLine} /> */}
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="signup" component={Signup} />
       <Stack.Screen name="bottomTab" component={Buttomtab} />

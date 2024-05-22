@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {Avatar} from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import Feather from 'react-native-vector-icons/Feather';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Badge, IconButton} from 'react-native-paper';
 import {Formik, useFormik} from 'formik';
@@ -25,6 +25,8 @@ import moment from 'moment';
 import axios from 'axios';
 import {userData} from '../getuserdata/GetUserData';
 import {environmentVariables} from '../../config/Config';
+import Index from '..';
+import {fontScale} from 'nativewind';
 
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -36,7 +38,7 @@ export default function VendorInfo(nav) {
   // date
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [workDate, setWorkDate] = useState(new Date());
-  const [dateSelected, setDateSelected] = useState('select Date');
+  const [dateSelected, setDateSelected] = useState('');
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -46,7 +48,6 @@ export default function VendorInfo(nav) {
   };
 
   const handleConfirm = date => {
-    console.warn('A date has been picked: ', date);
     setWorkDate(moment(date).format('YYYY-MM-DD'));
     setDateSelected(moment(date).format('YYYY-MM-DD'));
     hideDatePicker();
@@ -56,7 +57,6 @@ export default function VendorInfo(nav) {
     setDateSelected(moment(value).format('YYYY-MM-DD'));
     setDataWork(value);
   };
-  console.log(workDate, 'workDateworkDate==');
   const initialValues = {
     fullName: '',
     email: '',
@@ -71,7 +71,8 @@ export default function VendorInfo(nav) {
     initialValues,
     validationSchema: VendorRegisterSchema,
     onSubmit: async (values, action) => {
-      console.log('kkkeeee', values.image);
+
+      console.log("hello 75",values);
       const formdata = new FormData();
       formdata.append('name', values.fullName);
       formdata.append('slide', '1');
@@ -87,7 +88,8 @@ export default function VendorInfo(nav) {
       formdata.append('country', values.isoCode);
       formdata.append('phone', `${values.country}-${values?.number}`);
       formdata.append('dob', values.dateOfBirth);
-      console.log(formdata, 'llll', environmentVariables?.apiUrl);
+      
+      console.log(environmentVariables,values,"right======>");
       await axios({
         method: 'post',
         url: `${environmentVariables?.apiUrl}/api/user/register`,
@@ -97,31 +99,28 @@ export default function VendorInfo(nav) {
         data: formdata,
       })
         .then(response => {
-          console.log(
-            'kkkkkkk',
-            response.data.data.id,
-            response.data,
-            'hhhhhh',
-          );
-          ToastAndroid.showWithGravityAndOffset(
-            response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
-          nav.navigation.navigate('business', {id: response.data.data.id});
+          console.log(response,"hello 103 success");
+          // ToastAndroid.showWithGravityAndOffset(
+          //   response.data.message,
+          //   ToastAndroid.LONG,
+          //   ToastAndroid.CENTER,
+          //   25,
+          //   50,
+          // );
+          // nav.navigation.navigate('business', {id: response.data.data.id});
         })
         .catch(error => {
-          console.log('error...', error, error?.message);
-          ToastAndroid.showWithGravityAndOffset(
-            error.response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+          console.log(error,"error");
+          // ToastAndroid.showWithGravityAndOffset(
+          //   error.response.data.message,
+          //   ToastAndroid.LONG,
+          //   ToastAndroid.CENTER,
+          //   25,
+          //   50,
+          // );
+          
         });
+      
     },
   });
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
@@ -139,7 +138,7 @@ export default function VendorInfo(nav) {
     //   fetchData();
 
     Animated.timing(progress, {
-      toValue: 75,
+      toValue: 150,
       duration: 2000,
       useNativeDriver: false,
     }).start();
@@ -172,22 +171,23 @@ export default function VendorInfo(nav) {
     return <Text>{country.callingCode}</Text>;
   };
   return (
-    <ScrollView>
+    <ScrollView keyboardShouldPersistTaps="handled">
       <View
         className="flex flex-col p-4   h-full bg-gray-100 !text-black
         ">
         <View className="relative flex flex-row items-center top-3 ">
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => nav.navigation.navigate('signup')}>
             <Image
               style={styles.topNavigation}
               source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
             />
           </TouchableOpacity>
         </View>
-        <View className="mt-5">
+        <View className="mt-8">
           <Text
             className="text-[35px] text-[#00274D]"
-            style={{fontFamily: 'Poppins-bold'}}>
+            style={{fontFamily: 'Roboto-Bold'}}
+            >
             Vendor Info
           </Text>
           <Text
@@ -196,29 +196,39 @@ export default function VendorInfo(nav) {
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
-        <View className="pt-10 ">
-          <View style={styles.container}>
-            <Animated.View style={[styles.bar, {width: progress}]} />
+        <View className="pt-5">
+          <View className="flex flex-col">
+            <View className="flex flex-row justify-between ">
+              <Text
+                className="text-[#F96900]"
+                style={{fontFamily: 'Poppins-Regular'}}>
+                Profile Upload (1/3)
+              </Text>
+              <Text
+                className="text-[#F96900]"
+                style={{fontFamily: 'Poppins-Regular'}}>
+                36%
+              </Text>
+            </View>
+
+            <View className="bg-[#F6E0D1] rounded-[10px]">
+              <Animated.View style={[styles.bar, {width: progress}]} />
+            </View>
           </View>
 
           <View>
             <Text
-              className="text-2xl text-[#00274D] pt-3"
-              style={{fontFamily: 'Poppins-bold'}}>
+              className="text-[20px] text-[#00274D] pt-3"
+              style={{fontFamily: 'Roboto-Medium'}}>
               Personal Information
             </Text>
           </View>
 
-          <View className=" pt-10 " style={styles.user}>
+          <View className="pt-6" style={styles.user}>
             <TouchableOpacity onPress={() => selectPhoto()}>
-              {/* <FontAwesome6 name={'user'} size={30} /> */}
-              <Feather
-                name={'edit-2'}
-                style={{position: 'absolute', top: 0, right: 30}}
-              />
               <Avatar.Image
-                size={140}
-                style={styles.avatar}
+                size={80}
+                style={{backgroundColor: 'red'}}
                 source={{
                   uri:
                     image == '' || image == null
@@ -226,12 +236,29 @@ export default function VendorInfo(nav) {
                       : image,
                 }}
               />
+
+              <View className="relative top-[-12px] ">
+                <MaterialIcons
+                  name={'edit'}
+                  style={{
+                    position: 'absolute',
+                    backgroundColor: '#E6E9F4',
+                    color:"blue",
+                    borderRadius: 100,
+                    padding: 6,
+                    Index: 1,
+                    top: -7,
+                    right: -3,
+                    fontSize: 15,
+                  }}
+                />
+              </View>
             </TouchableOpacity>
           </View>
           <SafeAreaView>
             <Text
               className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
+              style={{fontFamily: 'Poppins-Medium'}}>
               Full Name
             </Text>
             <TextInput
@@ -246,11 +273,11 @@ export default function VendorInfo(nav) {
               onBlur={handleBlur('fullName')}
             />
             {errors.fullName && touched.fullName && (
-              <Text style={{color: 'red'}}>{errors.fullName}</Text>
+              <Text style={styles.errorHandle}>{errors.fullName}</Text>
             )}
             <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
+              className="text-[#00274D] px-3 mt-2"
+              style={{fontFamily: 'Poppins-Medium'}}>
               Email
             </Text>
             <TextInput
@@ -265,10 +292,19 @@ export default function VendorInfo(nav) {
               onBlur={handleBlur('email')}
             />
             {errors.email && touched.email && (
-              <Text style={{color: 'red'}}>{errors.email}</Text>
+              <Text style={styles.errorHandle}>{errors.email}</Text>
             )}
 
-            <View>
+            {/* {errors.country && touched.country && (
+              <Text style={{color: 'red'}}>{errors.country}</Text>
+            )} */}
+
+            <Text
+              className="text-[#00274D] px-3 mt-2"
+              style={{fontFamily: 'Poppins-Medium'}}>
+              Phone Number
+            </Text>
+            <View className="flex flex-row items-center pl-2 w-full bg-white rounded-[10px] py-0">
               <CountryPicker
                 countryCode={countryCode}
                 withFilter
@@ -282,56 +318,54 @@ export default function VendorInfo(nav) {
                 onBlur={handleBlur('country')}
                 renderCountry={renderCountry}
               />
+              <Text className="pl-2 text-xl text-[#cbcbcb]">|</Text>
+              <View className="flex flex-row items-center justify-between w-[70%]">
+              <TextInput
+                placeholderTextColor="rgb(210, 210, 210)"
+                placeholder="Enter your phone number"
+                className="!border-none py-1.5 pl-2  !border-white text-[#cbcbcb]"
+                name="number"
+                value={values.number}
+                onChangeText={handleChange('number')}
+                onBlur={handleBlur('number')}
+                maxLength={14}
+              />
+              <Text className={values.number.length>=10 ? "text-[10px] text-[#21d59b]" : "text-[10px] text-[#f96900]"}>{values.number.length>=10 ? "Verified" : "Invalid"}</Text>
+              </View>
             </View>
-            {errors.country && touched.country && (
-              <Text style={{color: 'red'}}>{errors.country}</Text>
-            )}
 
-            <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Phone Number
-            </Text>
-            <TextInput
-              style={styles.input}
-              placeholderTextColor="rgb(210, 210, 210)"
-              placeholder="Enter your phone number"
-              className="!border-none pl-4 !border-white"
-              borderRadius={10}
-              name="number"
-              value={values.number}
-              onChangeText={handleChange('number')}
-              onBlur={handleBlur('number')}
-            />
             {errors.number && touched.number && (
-              <Text style={{color: 'red'}}>{errors.number}</Text>
+              <Text style={styles.errorHandle}>{errors.number}</Text>
             )}
 
             <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
+              className="text-[#00274D] px-3 mt-2"
+              style={{fontFamily: 'Poppins-Medium'}}>
               Date of Birth
             </Text>
-            {/* <TextInput
-            style={styles.input}
-            placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Enter your Date of Birth"
-            className="!border-none pl-4 !border-white"
-            borderRadius={10}
-
-            name="dateOfBirth"
-            value={values.dateOfBirth}
-            onChangeText={handleChange('dateOfBirth')}
-            onBlur={handleBlur('dateOfBirth')}
-
-          /> */}
-
-            <View>
+            <View className="w-full ">
               <TouchableOpacity
-                style={styles.input}
+                className="flex flex-row w-full"
+                style={[
+                  styles.input,
+                  {
+                    borderWidth: 0,
+                    borderRadius: 10,
+                    paddingVertical: 8,
+                    width: '100%',
+                  },
+                ]}
                 onPress={showDatePicker}
                 title="Show date picker!">
-                <Text style={{paddingRight: 270}}> {dateSelected}</Text>
+                <View className="">
+                  <Text
+                    className="flex flex-row w-full font-[Poppins-Light] text-[13px]"
+                    style={{color: '#cbcbcb', paddingHorizontal: 10, flex: 1}}>
+                      {
+                        dateSelected ?
+                      moment(dateSelected).format('DD / MM / YYYY') : 'DD / MM / YYYY'}
+                  </Text>
+                </View>
                 <DateTimePickerModal
                   isVisible={isDatePickerVisible}
                   mode="date"
@@ -340,6 +374,7 @@ export default function VendorInfo(nav) {
                   onCancel={hideDatePicker}
                   customStyles={{
                     datePicker: styles.datePicker,
+
                     datePickerContainer: styles.datePickerContainer,
                   }}
                 />
@@ -352,8 +387,8 @@ export default function VendorInfo(nav) {
             onPress={() => handleSubmit()}
             style={styles.button}>
             <Text
-              className="text-white "
-              style={{fontFamily: 'Poppins-SemiBold'}}>
+              className="text-white text-[18px]"
+              style={{fontFamily: 'Roboto-Regular'}}>
               PROCEED
             </Text>
           </TouchableOpacity>
@@ -368,17 +403,15 @@ const styles = StyleSheet.create({
     width: 23.3,
   },
   input: {
-    height: 40,
+    paddingVertical: 4,
     margin: 3,
     borderWidth: 1,
-    // padding: 12,
     color: 'gray',
     backgroundColor: 'white',
-    // borderRadius: 20,
     fontFamily: 'Poppins-Light',
   },
   button: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: '#F96900', 
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -391,10 +424,9 @@ const styles = StyleSheet.create({
     height: 15,
     backgroundColor: '#ccc',
     borderRadius: 10,
-    // margin: 10,
   },
   bar: {
-    height: 15,
+    height: 5,
     backgroundColor: '#F96900',
     borderRadius: 10,
   },
@@ -402,17 +434,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    width: 250, // Adjust width here
+    width: 250,
     height: 250,
   },
   datePicker: {
     backgroundColor: 'red',
     borderRadius: 10,
-    width: 250, // Adjust width here
-    height: 250, // Adjust height here
+    width: 250, 
+    height: 250, 
   },
   datePickerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  errorHandle: {
+    color: 'red',
+    paddingLeft: 20,
+    fontSize: 12,
   },
 });

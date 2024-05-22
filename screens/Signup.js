@@ -26,7 +26,7 @@ export default function Signup(nav) {
     nav.navigation.navigate('logistic');
   };
   const redirectRetailer = () => {
-    nav.navigation.navigate('retailer');
+    nav.navigation.navigate('bottomTab');
   };
 
   useEffect(() => {
@@ -39,7 +39,10 @@ export default function Signup(nav) {
   }, [bgColor]);
 
   return (
-    <ScrollView>
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{flexGrow: 1}}
+      showsVerticalScrollIndicator={false}>
       <View>
         <View
           className="flex flex-col px-4 justify-center h-full bg-gray-100 !text-black
@@ -54,7 +57,7 @@ export default function Signup(nav) {
           <View>
             <Text
               className="text-3xl text-[#00274D]"
-              style={{fontFamily: 'Poppins-bold'}}>
+              style={{fontFamily: 'Roboto-Bold'}}>
               Get Started As
             </Text>
             <Text
@@ -172,11 +175,11 @@ export default function Signup(nav) {
           </View>
 
           <View className="flex flex-row items-center justify-center mt-8">
-            <Text className="text-[#00274D]" style={styles.fontFamily}>
+            <Text className="text-[#00274D] font-[Roboto-Regular]">
               Already Signed Up ?
             </Text>
             <Text
-              className="px-5 text-[#F96900] "
+              className="px-5 text-[#F96900] font-[Roboto-Regular]"
               onPress={() => nav.navigation.navigate('Login')}>
               Login
             </Text>
@@ -194,7 +197,7 @@ const styles = StyleSheet.create({
     borderRadius: 11.5,
   },
   fontFamily: {
-    fontFamily: 'Poppins-medium',
+    fontFamily: 'Roboto-Regular',
   },
   topNavigation: {
     height: 15,

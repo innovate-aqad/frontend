@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
-import DrawerHome from '../Shared/DrawerHome';
+// import  from '../Shared/DrawerHome';
 
 //
 
@@ -9,12 +9,12 @@ export default function Header() {
   return (
     <View className="flex flex-row items-center justify-between p-3 px-5 bg-white">
       <View className="">
-        {/* <Image
+        <Image
           style={{height: 21, width: 24,tintColor:"#7e84a3"}}
           className=""
-          source={require('../Assets/image/bars-sort.png')} */}
-        {/* /> */}
-        <DrawerHome/>
+          source={require('../Assets/image/bars-sort.png')}
+        />
+        {/* <DrawerHome/> */}
       </View>
       <View className="flex flex-col items-center gap-x-3">
         <Image
