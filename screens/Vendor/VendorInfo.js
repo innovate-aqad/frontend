@@ -47,13 +47,15 @@ export default function VendorInfo(nav) {
 
   const handleConfirm = date => {
     console.warn('A date has been picked: ', date);
-    setWorkDate(moment(date).format('YYYY-MM-DD'));
+    // setWorkDate(moment(date).format('YYYY-MM-DD'));
     setDateSelected(moment(date).format('YYYY-MM-DD'));
+    formik.setFieldValue('dateOfBirth', moment(date).format('YYYY-MM-DD'));
     hideDatePicker();
   };
 
   const dateFunction = value => {
     setDateSelected(moment(value).format('YYYY-MM-DD'));
+    console.log('dddd', value);
     setDataWork(value);
   };
   console.log(workDate, 'workDateworkDate==');
@@ -62,7 +64,7 @@ export default function VendorInfo(nav) {
     email: '',
     country: '+971',
     number: '',
-    dateOfBirth: workDate,
+    dateOfBirth: '',
     isoCode: 'AE',
     image: '',
   };
@@ -71,7 +73,6 @@ export default function VendorInfo(nav) {
     initialValues,
     validationSchema: VendorRegisterSchema,
     onSubmit: async (values, action) => {
-      console.log('kkkeeee', values.image);
       const formdata = new FormData();
       formdata.append('name', values.fullName);
       formdata.append('slide', '1');
@@ -87,7 +88,13 @@ export default function VendorInfo(nav) {
       formdata.append('country', values.isoCode);
       formdata.append('phone', `${values.country}-${values?.number}`);
       formdata.append('dob', values.dateOfBirth);
-      console.log(formdata, 'llll', environmentVariables?.apiUrl);
+      console.log(
+        formdata,
+        'llll',
+        environmentVariables?.apiUrl,
+        '////////',
+        values.dateOfBirth,
+      );
       await axios({
         method: 'post',
         url: `${environmentVariables?.apiUrl}/api/user/register`,
@@ -97,25 +104,20 @@ export default function VendorInfo(nav) {
         data: formdata,
       })
         .then(response => {
-          console.log(
-            'kkkkkkk',
-            response.data.data.id,
-            response.data,
-            'hhhhhh',
-          );
+          console.log('kkkkkkk', response.data, 'hhhhhh');
           ToastAndroid.showWithGravityAndOffset(
-            response.data.message,
+            response?.data?.message,
             ToastAndroid.LONG,
             ToastAndroid.CENTER,
             25,
             50,
           );
-          nav.navigation.navigate('business', {id: response.data.data.id});
+          nav.navigation.navigate('business', {id: response?.data?.data?.id});
         })
         .catch(error => {
-          console.log('error...', error, error?.message);
+          console.log('error...');
           ToastAndroid.showWithGravityAndOffset(
-            error.response.data.message,
+            error?.response?.data?.message || error?.message,
             ToastAndroid.LONG,
             ToastAndroid.CENTER,
             25,
@@ -336,7 +338,7 @@ export default function VendorInfo(nav) {
                   isVisible={isDatePickerVisible}
                   mode="date"
                   onConfirm={handleConfirm}
-                  onChange={dateFunction}
+                  // onChange={dateFunction}
                   onCancel={hideDatePicker}
                   customStyles={{
                     datePicker: styles.datePicker,
