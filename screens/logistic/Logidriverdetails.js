@@ -20,12 +20,19 @@ import {Badge, IconButton} from 'react-native-paper';
 import {Avatar, Card} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
 import {useFormik} from 'formik';
+import {Picker} from '@react-native-picker/picker';
 
 export default function VendorInfo(nav) {
   const [image, setImage] = useState('');
 
   const [progress, setProgress] = useState(new Animated.Value(0));
-  const [inputsVehicle, setInputsVehicle] = useState([{brand: '', number: ''}]);
+  const [inputs, setInputs] = useState([
+    {image: '', name: '', license: '', licenseNo: ''},
+  ]);
+
+  const [inputsVehicle, setInputsVehicle] = useState([
+    {brand: '', number: '', vehicleType: ''},
+  ]);
 
   // const handleAdd = () => {
   //   setInputs([...inputs, {email: '', password: ''}]);
@@ -38,14 +45,24 @@ export default function VendorInfo(nav) {
   // };
   // vehicle add
   const handleAddVehicle = () => {
-    const newVehicles = [...formik.values.vehicles, {brand: '', number: ''}];
-    formik.setFieldValue('vehicles', newVehicles);
-    setInputsVehicle(newVehicles);
+    formik.setFieldValue('vehicles', [
+      ...inputsVehicle,
+      {brand: '', number: '', vehicleType: ''},
+    ]);
+    setInputsVehicle([
+      ...inputsVehicle,
+      {brand: '', number: '', vehicleType: ''},
+    ]);
   };
   const handleDeleteVehicle = index => {
-    const newVehicles = formik.values.vehicles.filter((_, i) => i !== index);
-    formik.setFieldValue('vehicles', newVehicles);
-    setInputsVehicle(newVehicles);
+    // const newVehicles = formik.values.vehicles.filter((_, i) => i !== index);
+    // formik.setFieldValue('vehicles', newVehicles);
+    // setInputsVehicle(newVehicles);
+
+    const updatedInputs = [...inputsVehicle];
+    updatedInputs.splice(index, 1);
+    setInputsVehicle(updatedInputs);
+    formik.setFieldValue('vehicles', updatedInputs);
   };
   const redirectBusiness = () => {
     nav.navigation.navigate('logisbusiness');
@@ -68,8 +85,14 @@ export default function VendorInfo(nav) {
       const updatedInputs = [...inputs];
       updatedInputs[index].license = selectedDoc.uri;
       setInputs(updatedInputs);
-      console.log('rrrr', selectedDoc);
-      formik.setFieldValue(`drivers[${index}].license`, selectedDoc.name);
+      const imageDetails = {
+        uri: selectedDoc.uri,
+        type: selectedDoc.type,
+        name: selectedDoc?.name,
+      };
+      console.log('rrrr111', imageDetails);
+
+      formik.setFieldValue(`drivers[${index}].license`, imageDetails);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         console.log('User cancelled the document picker');
@@ -94,8 +117,6 @@ export default function VendorInfo(nav) {
   //   });
   // };
 
-  const [inputs, setInputs] = useState([{image: '', name: '', license: ''}]);
-
   const selectPhoto = index => {
     ImagePicker.openPicker({
       width: 400,
@@ -109,15 +130,22 @@ export default function VendorInfo(nav) {
       const updatedInputs = [...inputs];
       updatedInputs[index].image = image.path;
       setInputs(updatedInputs);
-      formik.setFieldValue(`drivers[${index}].image`, image.path);
+
+      console.log('image1122', image);
+      const imageDetails = {
+        uri: image.path,
+        type: image.mime,
+        name: image.path.split('/').pop(),
+      };
+      formik.setFieldValue(`drivers[${index}].image`, imageDetails);
     });
   };
 
   const handleAdd = () => {
-    setInputs([...inputs, {image: '', name: '', license: ''}]);
+    setInputs([...inputs, {image: '', name: '', license: '', licenseNo: ''}]);
     formik.setFieldValue('drivers', [
       ...inputs,
-      {image: '', name: '', license: ''},
+      {image: '', name: '', license: '', licenseNo: ''},
     ]);
   };
 
@@ -131,22 +159,39 @@ export default function VendorInfo(nav) {
   const LogisticRegisterSchema = Yup.object().shape({
     drivers: Yup.array().of(
       Yup.object().shape({
-        image: Yup.string(),
+        image: Yup.object()
+          .shape({
+            uri: Yup.string().required('Image is required'),
+            type: Yup.string().required('Image type is required'),
+            name: Yup.string().required('Image name is required'),
+          })
+          .required('Driver image is required'),
         name: Yup.string().required("Driver's name is required"),
-        license: Yup.string().required('Driving license is required'),
+        // license: Yup.string().required('Driving license is required'),
+
+        license: Yup.object()
+          .shape({
+            uri: Yup.string().required('Image is required'),
+            type: Yup.string().required('Image type is required'),
+            name: Yup.string().required('Image name is required'),
+          })
+          .required('Driver image is required'),
+
+        licenseNo: Yup.string().required('Driving license Number is required'),
       }),
     ),
     vehicles: Yup.array().of(
       Yup.object().shape({
         brand: Yup.string().required('Vehicle brand is required'),
         number: Yup.string().required('Vehicle number is required'),
+        vehicleType: Yup.string().required('Vehicle Type is required'),
       }),
     ),
   });
 
   const initialValues = {
-    drivers: [{image: '', name: '', license: ''}],
-    vehicles: [{brand: '', number: ''}],
+    drivers: [{image: '', name: '', license: '', licenseNo: ''}],
+    vehicles: [{brand: '', number: '', vehicleType: ''}],
   };
 
   const formik = useFormik({
@@ -154,52 +199,73 @@ export default function VendorInfo(nav) {
     validationSchema: LogisticRegisterSchema,
     onSubmit: async (values, action) => {
       console.log('Form values:', values);
-      const formData = new FormData();
+
+      const formdata = new FormData();
+
       values.drivers.forEach((driver, index) => {
-        if (driver.image) {
-          formData.append(`drivers[${index}][image]`, {
-            uri: driver.image,
-            type: 'image/jpeg',
-            name: `driver_${index}.jpg`,
-          });
-        }
-        formData.append(`drivers[${index}][name]`, driver.name);
-        formData.append(`drivers[${index}][license]`, driver.license);
+        formdata.append(`drivers[${index}].name`, driver.name);
+        formdata.append(`drivers[${index}].licenseNo`, driver.licenseNo);
+        formdata.append(`drivers[${index}].driving_license`, driver.license);
+        formdata.append(`drivers[${index}].driver_images`, driver.image);
+
+        // console.log('9999', driver);
+        // if (driver.image) {
+        //   formdata.append(`drivers[${index}].image`, {
+        //     uri: driver.image.uri,
+        //     type: driver.image.type,
+        //     name: driver.image.name,
+        //   });
+        // }
       });
 
-      await axios({
-        method: 'post',
-        url: 'https://example.com/api/submit', // replace with your API endpoint
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        data: formData,
-      })
-        .then(response => {
-          console.log('Response:', response.data);
-          ToastAndroid.showWithGravityAndOffset(
-            'Form submitted successfully!',
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
-        })
-        .catch(error => {
-          console.log('Error:', error.response.data);
-          ToastAndroid.showWithGravityAndOffset(
-            'Error submitting form',
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
-        });
+      console.log('FormData:', formdata?._parts);
+      // const formData = new FormData();
+      // values.drivers.forEach((driver, index) => {
+      //   if (driver.image) {
+      //     formData.append(`drivers[${index}][image]`, {
+      //       uri: driver.image,
+      //       type: 'image/jpeg',
+      //       name: `driver_${index}.jpg`,
+      //     });
+      //   }
+      //   formData.append(`drivers[${index}][name]`, driver.name);
+      //   formData.append(`drivers[${index}][license]`, driver.license);
+      // });
+
+      // await axios({
+      //   method: 'post',
+      //   url: 'https://example.com/api/submit', // replace with your API endpoint
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data',
+      //   },
+      //   data: formData,
+      // })
+      //   .then(response => {
+      //     console.log('Response:', response.data);
+      //     ToastAndroid.showWithGravityAndOffset(
+      //       'Form submitted successfully!',
+      //       ToastAndroid.LONG,
+      //       ToastAndroid.CENTER,
+      //       25,
+      //       50,
+      //     );
+      //   })
+      //   .catch(error => {
+      //     console.log('Error:', error.response.data);
+      //     ToastAndroid.showWithGravityAndOffset(
+      //       'Error submitting form',
+      //       ToastAndroid.LONG,
+      //       ToastAndroid.CENTER,
+      //       25,
+      //       50,
+      //     );
+      //   });
     },
   });
 
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     formik;
+  console.log('error', errors?.drivers);
 
   return (
     <ScrollView>
@@ -374,9 +440,12 @@ export default function VendorInfo(nav) {
             ))} */}
 
             {inputs.map((input, index) => (
-              <View key={index} style={styles.driverContainer}>
+              <View key={index}>
                 <View className=" pt-10 " style={styles.user}>
-                  <TouchableOpacity onPress={() => selectPhoto(index)}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      selectPhoto(index, 'image', 'driver_images')
+                    }>
                     <Feather
                       name={'edit-2'}
                       style={{position: 'absolute', top: 0, right: 30}}
@@ -387,7 +456,7 @@ export default function VendorInfo(nav) {
                       source={{
                         uri: input.image
                           ? input.image
-                          : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQMAAADCCAMAAAB6zFdcAAAqgVjf8WvhfLhkfaPnFt/di8zq6XNbfIczMqsHDW3xTdrYPFvrP7kiUsVMV4ODAAAAAElFTkSuQmCC',
+                          : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQMAAADCCAMAAAB6zFdcAAAAM1BMVEXFzeD////Byt7L0uPByd7Q1+b7/P3j5/Dv8fbe4+3r7vTFzuDL0+P19/rn6/LZ3urW2+lU+LHUAAAFLklEQVR4nO2dC3arMAxEQXwCcfjsf7XPkLw2tEka5AEziu8CeuKpJVmyLLIskUgkEkdFbsT+HXEQKbNqOPWN59y72D9nd/z/vWqbOv/mozSY9n116vIl1acYg1++G9v+5/rzvMs+QwL/7x/O9a/lT5zL2D9uF7wAzcP1e+pP2AQi4/mZAJ6TfQ3EtY9N4D+jdQ2k6F8K4OltayDFKyP4cghmI6PzVvDnHrDuEqR9UwFPY1IEufw+C72yh8LeIUFOaxSY6K0dFt2qTXDDVJCUi0IBT2vHHmTUSWAnPjgZtBJ4p2BjJ4RIYCSHlCpEAi+CAXMowiSwIIJoguKSE7k5rD8aPWDg3gnKg8EPLrGXEUL5tGC2ijr2OkIIjAlfEJdVBLMNcmprQEnAW09YUzT5C9aNADgbfMGaPQlOgrwj1cAlDZIGGVYD2ktIpAasiRNQgzxpkOektoCMjUkDT+zFaEFqwNqohtSgiL0YHcHlVAMaoCooM6SJo/qK7RGk+yBpkGVBl2w2NAi7aEwamNEAWE5MGiQNkgZJg6RB0sCEBoj+C3YN0j5IGkyks3LKnSegdaSkQdIgaUCtwcf7RJHy02OjVG3/+knvSlxJd+uK7Emb6eqOrQVBoJvgCtu16xYasF23QXsPWDVI+yArN9CALTyW6LhAqAE8NuaEcQH2fOMbtkNS+e7IC8MaYIuJM3TnRGwxcYbvPQ+0eDBD95TFIRv3rwyx17Qa/EGRbmqSAz1xvSP2ktaDvW3MOV9xoJ0i43tftEPgc4n4U1Ls9ajAbgTOkSCh02AW1GxJ4w2gCKwSIAspF0pLmIB5BNaXvhnwnMSXMn6DqrBzBoUrqKoiXdp8B6qqWMVeSADyzijhNyDeBiinyOwSUc95uAemYZ66sl0wLYGcFPmK6gsgCTRzZJxAlJe5TQFyQiA3hQxRVuSOChPBXrEW2trBf/RDts1sg+C8iXZA1oKwc9IY++dDCDojUKcKd5T67JF6ou4C9SHBhjO4os2hiWupv1Hm0JY00LpFKx5xQmsLpjRQdisy19R/om3MsaSB9rxsSgOdBKY00E5SZOxBeoa2kGJJA+01gyEN1JmjJQ20jxnYq+p3qPNGQxqo66qtHQ3UfUlJA0MalKJ+8NnyPfh/hFzOnbpFr6vP7JeNGaALw0BJMfzemT4+IhqSYq8hFESDInNj3ky4BPSXroieLPZDAuI7nuROsUS84iAvqKmT5gWxVxEIQgJuY8BsA+6NgPmyMXVkQHXuM+cMuBEIjO98Z4K78r5pOFtVpWiRn7Qd+aop5QU9AqJuMyYVRKoNJkT58OD/cuy1vYUX4LTBvLgrzVAcXwYpthPgSjcc2ybkgjoRvKQvjqrCVl7gEU11RJMQGTeYFvicbjyaCnsrMFG3R1JBsnZjR/hEhf4gJiHi0NOg1nCOL8OejvAJ3RBTBScy7O4GHlCfXCwV4hrBkvMlQmYpZXQjWLJ7sJTyEEawZNfMsowUC/+m38kxiNtgbDCMZgfHIMUuaVEA3cYnBnx5aAu8e9xMASkYFJjoNpo/K+7oVnBPg68xuKw8zoHoPXp0pCzHg0bDV0CTa3EsjmBJjUunsB9u35Ua08wkGecmuIEIEVIReoIFwTf38JHhEQgcxuqOlx4qCBFBCnY7uKH/uhV0SHRU9CNFUO1EB0A9TMKIIczoggP+QxpRUQ0cM+MMrmiezG7x0bmoKDYCZhLqgVjf8WvhfLhkfaPnFt/di8zq6XNbfIczMqsHDW3xTdrYPFvrP7kiUsVMV4ODAAAAAElFTkSuQmCC',
                       }}
                     />
                   </TouchableOpacity>
@@ -414,8 +483,32 @@ export default function VendorInfo(nav) {
                       {errors.drivers[index].name}
                     </Text>
                   )}
+                <Text
+                  className="text-[#00274D] px-3"
+                  style={{fontFamily: 'Poppins-SemiBold'}}>
+                  Driver License Number
+                </Text>
+                <TextInput
+                  style={styles.input}
+                  placeholderTextColor="rgb(210, 210, 210)"
+                  placeholder="Enter Driver's Number"
+                  className="!border-none pl-4 !border-white"
+                  borderRadius={10}
+                  onChangeText={handleChange(`drivers[${index}].licenseNo`)}
+                  onBlur={handleBlur(`drivers[${index}].licenseNo`)}
+                  value={values.drivers[index].licenseNo}
+                />
+                {errors.drivers &&
+                  errors.drivers[index] &&
+                  errors.drivers[index].licenseNo && (
+                    <Text style={styles.errorText}>
+                      {errors.drivers[index].licenseNo}
+                    </Text>
+                  )}
                 <View className="mt-3">
-                  <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
+                  <Text
+                    className="text-[#00274D] px-3"
+                    style={{fontFamily: 'Poppins-SemiBold'}}>
                     Driving Licence
                   </Text>
                   <TouchableOpacity
@@ -424,11 +517,11 @@ export default function VendorInfo(nav) {
                     style={styles.uploadButton}>
                     <Card.Title
                       className="bg-white shadow rounded-xl"
-                      title={
-                        values.drivers[index].license
-                          ? values.drivers[index].license.split('/').pop()
-                          : 'Click to Upload'
-                      }
+                      // title={
+                      //   values.drivers[index].license
+                      //     ? values.drivers[index].license.split('/').pop()
+                      //     : 'Click to Upload'
+                      // }
                       titleStyle={{
                         color: '#0058ff',
                         fontSize: 13,
@@ -518,8 +611,37 @@ export default function VendorInfo(nav) {
 
             {/* add-2 */}
 
-            {values?.vehicles?.map((inputVehicle, indexVehicle) => (
+            {inputsVehicle?.map((inputVehicle, indexVehicle) => (
               <SafeAreaView key={indexVehicle}>
+                <Text
+                  className="text-[#00274D] px-3"
+                  style={{fontFamily: 'Poppins-SemiBold'}}>
+                  Vehicle Type
+                </Text>
+                <Picker
+                  selectedValue={values.vehicles[indexVehicle].vehicleType}
+                  style={styles.input} // Apply your input style here
+                  onValueChange={itemValue =>
+                    handleChange(`vehicles[${indexVehicle}].vehicleType`)(
+                      itemValue,
+                    )
+                  }
+                  onBlur={handleBlur(`vehicles[${indexVehicle}].vehicleType`)}>
+                  <Picker.Item label="Select Vehicle Type" value="" />
+                  <Picker.Item label="Mini Truck" value="mini_truck" />
+                  <Picker.Item label="Medium Truck" value="medium_truck" />
+                  <Picker.Item label="Large Truck" value="large_truck" />
+                </Picker>
+                {touched.vehicles &&
+                  touched.vehicles[indexVehicle] &&
+                  errors.vehicles &&
+                  errors.vehicles[indexVehicle] &&
+                  errors.vehicles[indexVehicle].vehicleType && (
+                    <Text style={styles.errorText}>
+                      {errors.vehicles[indexVehicle].vehicleType}
+                    </Text>
+                  )}
+
                 <Text
                   className="text-[#00274D] px-3"
                   style={{fontFamily: 'Poppins-SemiBold'}}>
@@ -648,7 +770,7 @@ export default function VendorInfo(nav) {
         </View>
         <View className="pt-5">
           <TouchableOpacity
-            onPress={() => redirectBusiness()}
+            onPress={() => handleSubmit()}
             style={styles.button}>
             <Text
               className="text-white "
