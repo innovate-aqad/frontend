@@ -175,7 +175,7 @@ export default function VendorInfo(nav) {
             type: Yup.string().required('Image type is required'),
             name: Yup.string().required('Image name is required'),
           })
-          .required('Driver image is required'),
+          .required('Driver license is required'),
 
         licenseNo: Yup.string().required('Driving license Number is required'),
       }),
