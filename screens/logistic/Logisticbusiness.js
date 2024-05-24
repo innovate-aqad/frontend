@@ -48,7 +48,6 @@ export default function VendorBusiness(nav) {
         po_box: values.vendorPoBox,
         country: values.country,
         doc_id: mainId,
-        outlet_addresses:[{address:"mm",po_box:"nn"}]
       };
       console.log(formdata, 'llll...');
       await axios({
