@@ -43,7 +43,7 @@ export default function Dashboard(nav) {
   useEffect(() => {
     const interval = setInterval(() => {
       if (scrollViewRef.current) {
-        scrollOffset += scrollWidth; // Adjust this value based on the width of your screen or items
+        scrollOffset += scrollWidth; 
         if (scrollOffset > contentWidth) {
           scrollOffset = 0;
         }
