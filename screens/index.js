@@ -27,6 +27,14 @@ import RetailerIndex from './Retailer';
 import OtpScreen from '../otp_screen/OtpScreen';
 import Datepicker from './Datepicker';
 import LogisticIndex from './logistic';
+import FlexiTrade from '../components/FlexiTrade';
+import OrderList from './OrderDetails/OrderList';
+import CardOpen from '../components/VendorCard/CardOpen';
+import OrderDetails from './OrderDetails/OrderDetails';
+import OrderSummary from './OrderDetails/OrderSummary';
+import DriverDetails from './DriverDetails/DriverDetails';
+import AddVendor from './FlexiFlat/AddVendor';
+import WareHouseCard from './WareHouseCard';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -58,6 +66,14 @@ export default function Index() {
       <Stack.Screen name="retailerbusi" component={Retailerbusiness} />
       <Stack.Screen name="reatilerdocs" component={Retailerdocument} />
       <Stack.Screen name="datepick" component={Datepicker} />
+      <Stack.Screen name="flexi" component={FlexiTrade} />
+      {/* <Stack.Screen name="cardopen" component={OrderList} /> */}
+      <Stack.Screen name="cardopen" component={CardOpen} />
+      <Stack.Screen name="orderdetails" component={OrderDetails} />
+      <Stack.Screen name="ordersummarycard" component={OrderSummary} />
+      <Stack.Screen name="driverdetails" component={DriverDetails} />
+      <Stack.Screen name="flexiadd" component={AddVendor} />
+      <Stack.Screen name="warehousecard" component={WareHouseCard} />
     </Stack.Navigator>
   );
 }
