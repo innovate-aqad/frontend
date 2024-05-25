@@ -12,7 +12,7 @@ import {
 import {Divider} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-export default function Wholesales() {
+export default function Wholesales(nav) {
   const [searchText, setSearchText] = useState('');
   const [tab, setTab] = useState('All');
   const handleSearch = () => {};
@@ -60,17 +60,17 @@ export default function Wholesales() {
 
   return (
     <View className="w-full h-full bg-[#f5f5f5]">
-      <View className="relative top-0 flex flex-row items-center px-5 pt-7 pb-2 bg-[#f96900] rounded-b-[15px]">
+      {/* <View className="relative top-0 flex flex-row items-center px-5 pt-7 pb-2 bg-[#f96900] rounded-b-[15px]">
         <Image
           style={styles.topNavigation}
-          source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+          source={require('../../../Assets/image/drawable-xhdpi/arrow_left.png')}
         />
         <Text
           className="flex justify-center w-[80%] text-center text-white"
           style={{fontFamily: 'Poppins-Bold', fontSize: 20}}>
           WHOLESALES
         </Text>
-      </View>
+      </View> */}
       <View className="px-3">
         <View style={styles.container}>
           <TextInput
@@ -93,9 +93,11 @@ export default function Wholesales() {
       </View>
 
       <View className="mt-3">
-        <Text className="text-[#00274d]  px-3 font-[Poppins-Bold]">
-          Categories
-        </Text>
+        <TouchableOpacity>
+          <Text className="text-[#00274d]  px-3 font-[Poppins-Bold]">
+            Categories
+          </Text>
+        </TouchableOpacity>
         <ScrollView
           ref={scrollViewRef}
           horizontal
@@ -118,7 +120,7 @@ export default function Wholesales() {
                 <Image
                   style={{height: 74, width: 74}}
                   className=""
-                  source={require('../../Assets/image/drawable-hdpi/mask_group_2.png')}
+                  source={require('../../../Assets/image/drawable-hdpi/mask_group_2.png')}
                 />
               </View>
               <Text
@@ -230,19 +232,28 @@ export default function Wholesales() {
               }>
               {index === 0 ? (
                 <View className="w-40 h-20 mt-2">
-                  <Text className="text-[#f96900] text-[20px] font-[Poppins-Bold]" style={{lineHeight:23}}>
+                  <Text
+                    className="text-[#f96900] text-[20px] font-[Poppins-Bold]"
+                    style={{lineHeight: 23}}>
                     Populars
                   </Text>
-                  <Text className="text-[#f96900] text-[20px] font-[Poppins-Bold]" style={{lineHeight:23}}>
-                    Products 
+                  <Text
+                    className="text-[#f96900] text-[20px] font-[Poppins-Bold]"
+                    style={{lineHeight: 23}}>
+                    Products
                   </Text>
                 </View>
               ) : (
-                <View>
+                <TouchableOpacity onPress={()=>{nav.navigation.navigate('productDetails')}}>
                   <Image
-                    style={{height: 115, width: 160, borderTopRightRadius:12,borderTopLeftRadius:12}}
+                    style={{
+                      height: 115,
+                      width: 160,
+                      borderTopRightRadius: 12,
+                      borderTopLeftRadius: 12,
+                    }}
                     className=""
-                    source={require('../../Assets/image/drawable-hdpi/mask_group_2.png')}
+                    source={require('../../../Assets/image/drawable-hdpi/mask_group_2.png')}
                   />
                   <View className="flex flex-col pt-2 after:pl-2">
                     <Text className="text-[#7e84a3] text-[10px] font-[Poppins-Light]">
@@ -255,7 +266,7 @@ export default function Wholesales() {
                       {item.price}
                     </Text>
                   </View>
-                </View>
+                </TouchableOpacity>
               )}
             </View>
           ))}

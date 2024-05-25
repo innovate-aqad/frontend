@@ -1,0 +1,27 @@
+<svg id="Group_16309" data-name="Group 16309" xmlns="http://www.w3.org/2000/svg" width="28.834" height="29.559" viewBox="0 0 28.834 29.559">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #7e84a3;
+        stroke-linecap: round;
+        stroke-width: 1.5px;
+      }
+
+      .cls-2 {
+        fill: #7e84a3;
+      }
+    </style>
+  </defs>
+  <g id="Group_16308" data-name="Group 16308">
+    <g id="Group_16301" data-name="Group 16301" transform="translate(13.095 8.351)">
+      <line id="Line_110" data-name="Line 110" class="cls-1" y2="5.578" transform="translate(2.789)"/>
+      <line id="Line_111" data-name="Line 111" class="cls-1" x2="5.578" transform="translate(0 2.789)"/>
+    </g>
+    <g id="shopping-cart_1_" data-name="shopping-cart (1)">
+      <path id="Path_588" data-name="Path 588" class="cls-2" d="M27.974,5.021a3.686,3.686,0,0,0-2.836-1.326H5.225l-.052-.432A3.7,3.7,0,0,0,1.505,0H1.232a1.232,1.232,0,0,0,0,2.463h.273A1.232,1.232,0,0,1,2.728,3.551l1.695,14.41a6.158,6.158,0,0,0,6.116,5.44H23.4a1.232,1.232,0,0,0,0-2.463H10.539a3.7,3.7,0,0,1-3.473-2.463H21.747a6.158,6.158,0,0,0,6.061-5.066l.967-5.362a3.688,3.688,0,0,0-.8-3.025ZM26.357,7.609l-.968,5.363a3.7,3.7,0,0,1-3.642,3.04H6.674L5.515,6.158H25.138a1.232,1.232,0,0,1,1.219,1.451Z"/>
+      <circle id="Ellipse_18" data-name="Ellipse 18" class="cls-2" cx="2.463" cy="2.463" r="2.463" transform="translate(6.158 24.633)"/>
+      <circle id="Ellipse_19" data-name="Ellipse 19" class="cls-2" cx="2.463" cy="2.463" r="2.463" transform="translate(18.475 24.633)"/>
+    </g>
+  </g>
+</svg>

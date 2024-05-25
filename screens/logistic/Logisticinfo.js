@@ -15,9 +15,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import {Avatar} from 'react-native-paper';
 import CountryPicker from 'react-native-country-picker-modal';
 import ImagePicker from 'react-native-image-crop-picker';
-
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import {Badge, IconButton} from 'react-native-paper';
 import {useFormik} from 'formik';
 import {LogisticRegisterSchema} from '../../schemas/LogisticRegisterSchema';
 import axios from 'axios';
@@ -158,12 +155,12 @@ export default function VendorInfo(nav) {
             Logistic Partner Info
           </Text>
           <Text
-            className="text-xs pt-2 text-gray-400"
+            className="pt-2 text-xs text-gray-400"
             style={{fontFamily: 'Poppins-Light'}}>
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
-        <View className=" pt-10 ">
+        <View className="pt-10 ">
           {/* progressbar */}
           <View className="flex flex-col">
             {/* <View className="flex flex-row justify-between ">
@@ -191,7 +188,7 @@ export default function VendorInfo(nav) {
           </View>
 
           {/* profile */}
-          <View className=" pt-10 " style={styles.user}>
+          <View className="pt-10 " style={styles.user}>
             <TouchableOpacity onPress={() => selectPhoto()}>
               {/* <FontAwesome6 name={'user'} size={30} /> */}
               <Feather

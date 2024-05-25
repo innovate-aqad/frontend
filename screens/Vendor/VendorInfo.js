@@ -27,6 +27,7 @@ import {userData} from '../getuserdata/GetUserData';
 import {environmentVariables} from '../../config/Config';
 import Index from '..';
 import {fontScale} from 'nativewind';
+import ToastManager, { Toast } from 'toastify-react-native';
 
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -74,7 +75,7 @@ export default function VendorInfo(nav) {
     initialValues,
     validationSchema: VendorRegisterSchema,
     onSubmit: async (values, action) => {
-
+      Toast.success('Promise if Resolved');
       console.log("hello 75",values);
       const formdata = new FormData();
       formdata.append('name', values.fullName);
@@ -107,7 +108,8 @@ export default function VendorInfo(nav) {
         data: formdata,
       })
         .then(response => {
-          console.log('kkkkkkk', response.data, 'hhhhhh');
+
+          Toast.success('User First Step Register Success');
           ToastAndroid.showWithGravityAndOffset(
             response?.data?.message,
             ToastAndroid.LONG,
@@ -118,7 +120,8 @@ export default function VendorInfo(nav) {
           nav.navigation.navigate('business', {id: response?.data?.data?.id});
         })
         .catch(error => {
-          console.log('error...');
+          Toast.error('User Register Error..!');
+          console.log(error,'error...');
           ToastAndroid.showWithGravityAndOffset(
             error?.response?.data?.message || error?.message,
             ToastAndroid.LONG,
@@ -133,17 +136,7 @@ export default function VendorInfo(nav) {
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     formik;
 
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await userData();
-  //     // console.log(response); // Assuming response.data contains the user data
-  //   } catch (error) {
-  //     console.error('Error fetching user data:', error);
-  //   }
-  // };
   useEffect(() => {
-    //   fetchData();
-
     Animated.timing(progress, {
       toValue: 150,
       duration: 2000,

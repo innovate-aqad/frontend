@@ -1,47 +1,45 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Image} from 'react-native';
-import Orders from './Orders';
 import Dashboard from './Dashboard';
-import Cart from './CartScreen/index';
-import WholesalesIndex from './WholesalesPage';
-import AccountIndex from './Account';
+import {Image, ScrollView} from 'react-native';
+import Support from './Support';
+import Deliveries from './Deliveries';
+import MyAccount from './MyAccount';
+import headset from '../../Assets/image/myaccount/headset.svg';
+import SvgUri from 'react-native-svg-uri';
 
 const Tab = createBottomTabNavigator();
-const wholesales = 'Wholesales';
-const dashboard = 'Dashboard';
-const account = 'My Account';
-const cart = 'Cart';
-const order = 'Orders';
+const support = 'Support';
+const trade = 'Dashboard';
 
-export default function RetailerIndex() {
+const deliveries = 'Deliveries';
+const account = 'My Account';
+
+export default function LogisticIndex() {
   return (
     <Tab.Navigator
-      initialRouteName={dashboard}
+      initialRouteName={trade}
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
           let rn = route.name;
-          if (rn === wholesales) {
+          if (rn === support) {
             iconName = focused ? 'home' : 'home';
-          } else if (rn === dashboard) {
+          } else if (rn === trade) {
             iconName = focused ? 'list' : 'apps';
-          } else if (rn === cart) {
+          } else if (rn === deliveries) {
             iconName = focused ? 'list' : 'calendar-outline';
           } else if (rn === account) {
             iconName = focused ? 'list' : 'person';
           } else if (rn === order) {
             iconName = focused ? 'list' : 'person';
           }
-          if (rn === wholesales) {
+          if (rn === support) {
             return (
-                <Image
-                style={{height: 23, width: 23.1,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
-                source={require('../../Assets/image/box_alt.png')}
-              />
+                <SvgUri width={28} height={28} fill={iconName = focused ?"#f96900" :"#cbcbcb"} source={headset} />
             );
             
-          } else if (rn === dashboard) {
+          } else if (rn === trade) {
             return (
               <Image
                 style={{height: 23, width: 22,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
@@ -56,14 +54,8 @@ export default function RetailerIndex() {
                 source={require('../../Assets/image/drawable-hdpi/user.png')}
               />
             );
-          } else if (rn === cart) {
-            return (
-              <Image
-                style={{height: 24, width: 24,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
-                source={require('../../Assets/image/shopping_cart_1.png')}
-              />
-            );
-          } else {
+          }
+           else {
             return (
               <Image
                 style={{height: 24, width: 20,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
@@ -99,13 +91,11 @@ export default function RetailerIndex() {
       
       // screenOptions={{headerShown: false}}
     >
-      <Tab.Screen name={dashboard} component={Dashboard} />
-      <Tab.Screen name={wholesales} component={WholesalesIndex} />
+      <Tab.Screen name={trade} component={Dashboard} />
+      <Tab.Screen name={support} component={Support} />
+      <Tab.Screen name={deliveries} component={Deliveries} />
+      <Tab.Screen name={account} component={MyAccount} />
       
-      <Tab.Screen name={account} component={AccountIndex} />
-      
-      <Tab.Screen name={order} component={Orders} />
-      <Tab.Screen name={cart} component={Cart} />
     </Tab.Navigator>
   );
 }

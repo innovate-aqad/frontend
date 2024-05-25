@@ -26,6 +26,7 @@ import AddProduct from './Vendor/AddProduct';
 import RetailerIndex from './Retailer';
 import OtpScreen from '../otp_screen/OtpScreen';
 import Datepicker from './Datepicker';
+import LogisticIndex from './logistic';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -51,6 +52,7 @@ export default function Index() {
       <Stack.Screen name="otpscreen" component={OtpScreen} />
 
       <Stack.Screen name="retailerIndex" component={RetailerIndex} />
+      <Stack.Screen name="logisticIndex" component={LogisticIndex} />
       <Stack.Screen name="logidrivdetail" component={Logidriverdetails} />
       <Stack.Screen name="retailer" component={Retailerinfo} />
       <Stack.Screen name="retailerbusi" component={Retailerbusiness} />

@@ -1,25 +1,25 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Card} from 'react-native-paper';
-import setting from '../../Assets/image/myaccount/settings.svg';
-import briefcase from '../../Assets/image/myaccount/briefcase.svg';
-import credit_card from '../../Assets/image/myaccount/credit_card.svg';
-import feedback_review from '../../Assets/image/myaccount/feedback_review.svg';
-import headset from '../../Assets/image/myaccount/headset.svg';
-import language from '../../Assets/image/myaccount/language.svg';
-import assept_document from '../../Assets/image/myaccount/assept_document.svg';
-import greater from '../../Assets/image/myaccount/greater.svg';
+import setting from '../../../Assets/image/myaccount/settings.svg';
+import briefcase from '../../../Assets/image/myaccount/briefcase.svg';
+import credit_card from '../../../Assets/image/myaccount/credit_card.svg';
+import feedback_review from '../../../Assets/image/myaccount/feedback_review.svg';
+import headset from '../../../Assets/image/myaccount/headset.svg';
+import language from '../../../Assets/image/myaccount/language.svg';
+import assept_document from '../../../Assets/image/myaccount/assept_document.svg';
+import greater from '../../../Assets/image/myaccount/greater.svg';
 
-import angle from '../../Assets/image/angle-small-right.png';
+import angle from '../../../Assets/image/angle-small-right.png';
 import SvgUri from 'react-native-svg-uri';
 
-export default function MyAccount() {
+export default function MyAccount(nav) {
   return (
     <View className="flex flex-col gap-y-2 h-full p-5 py-8 bg-[#f5f5f5]">
       <View className="flex-row items-center">
         <Image
           style={styles.topNavigation}
-          source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+          source={require('../../../Assets/image/drawable-xhdpi/arrow_left.png')}
         />
         <Text
           className="flex-1 text-[20px] text-center text-[#00274d]"
@@ -29,7 +29,9 @@ export default function MyAccount() {
       </View>
 
       <View className="pt-5 pb-3">
-        <TouchableOpacity className="">
+        <TouchableOpacity
+          className=""
+          onPress={() => nav.navigation.navigate('personalInfo')}>
           <Card.Title
             className="px-3 h-[110px] bg-white shadow rounded-xl"
             title="Jone Deo"
@@ -49,15 +51,15 @@ export default function MyAccount() {
               <View className="flex flex-row items-center rounded-full pr-7 ">
                 <Image
                   style={{height: 80, width: 80, borderRadius: 40}}
-                  source={require('../../Assets/image/ram.png')}
+                  source={require('../../../Assets/image/ram.png')}
                 />
               </View>
             )}
             right={props => (
               <Image
-              style={{height: 25, width: 13, tintColor: '#7e84a3'}}
-              source={require('../../Assets/image/angle-small-right.png')}
-            />
+                style={{height: 25, width: 13, tintColor: '#7e84a3'}}
+                source={require('../../../Assets/image/angle-small-right.png')}
+              />
             )}
           />
         </TouchableOpacity>
@@ -73,19 +75,19 @@ export default function MyAccount() {
                 borderRadius: 40,
                 tintColor: '#7e84a3',
               }}
-              source={require('../../Assets/image/drawable-hdpi/user.png')}
+              source={require('../../../Assets/image/drawable-hdpi/user.png')}
             />
             <Text
-              className="text-[#00274d] text-[13px]"
+              className="text-[#00274d] pl-4 text-[13px]"
               style={{fontFamily: 'Poppins-Regular'}}>
-              Personal Details dd
+              Personal Details
             </Text>
           </View>
 
           <Image
-              style={{height: 25, width: 13, tintColor: '#7e84a3'}}
-              source={require('../../Assets/image/angle-small-right.png')}
-            />
+            style={{height: 25, width: 13, tintColor: '#7e84a3'}}
+            source={require('../../../Assets/image/angle-small-right.png')}
+          />
         </View>
       </TouchableOpacity>
       <TouchableOpacity className="">
@@ -100,9 +102,9 @@ export default function MyAccount() {
           </View>
 
           <Image
-              style={{height: 25, width: 13, tintColor: '#7e84a3'}}
-              source={require('../../Assets/image/angle-small-right.png')}
-            />
+            style={{height: 25, width: 13, tintColor: '#7e84a3'}}
+            source={require('../../../Assets/image/angle-small-right.png')}
+          />
         </View>
       </TouchableOpacity>
       <TouchableOpacity className="">
@@ -118,7 +120,7 @@ export default function MyAccount() {
 
           <Image
             style={{height: 25, width: 13, tintColor: '#7e84a3'}}
-            source={require('../../Assets/image/angle-small-right.png')}
+            source={require('../../../Assets/image/angle-small-right.png')}
           />
         </View>
       </TouchableOpacity>
@@ -137,7 +139,7 @@ export default function MyAccount() {
             <Text className="text-[#f96900] text-[13px]">English</Text>
             <Image
               style={{height: 25, width: 13, tintColor: '#7e84a3'}}
-              source={require('../../Assets/image/angle-small-right.png')}
+              source={require('../../../Assets/image/angle-small-right.png')}
             />
           </View>
         </View>
@@ -154,9 +156,9 @@ export default function MyAccount() {
           </View>
 
           <Image
-              style={{height: 25, width: 13, tintColor: '#7e84a3'}}
-              source={require('../../Assets/image/angle-small-right.png')}
-            />
+            style={{height: 25, width: 13, tintColor: '#7e84a3'}}
+            source={require('../../../Assets/image/angle-small-right.png')}
+          />
         </View>
       </TouchableOpacity>
       <TouchableOpacity className="">
@@ -171,15 +173,18 @@ export default function MyAccount() {
           </View>
 
           <Image
-              style={{height: 25, width: 13, tintColor: '#7e84a3'}}
-              source={require('../../Assets/image/angle-small-right.png')}
-            />
+            style={{height: 25, width: 13, tintColor: '#7e84a3'}}
+            source={require('../../../Assets/image/angle-small-right.png')}
+          />
         </View>
       </TouchableOpacity>
       <TouchableOpacity className="">
         <View className="flex flex-row items-center justify-between p-2 pl-6 pr-4 bg-white rounded-lg">
           <View className="flex flex-row items-center rounded-full gap-x-4 pr-7 ">
-            <SvgUri width={24} height={24} source={feedback_review} />
+            <SvgUri
+              style={StyleSheet.flatten([{height: 24, width: 24}])}
+              source={feedback_review}
+            />
             <Text
               className="text-[#00274d] text-[13px]"
               style={{fontFamily: 'Roboto-Regular'}}>
@@ -188,15 +193,17 @@ export default function MyAccount() {
           </View>
 
           <Image
-              style={{height: 25, width: 13, tintColor: '#7e84a3'}}
-              source={require('../../Assets/image/angle-small-right.png')}
-            />
+            style={{height: 25, width: 13, tintColor: '#7e84a3'}}
+            source={require('../../../Assets/image/angle-small-right.png')}
+          />
         </View>
       </TouchableOpacity>
       <TouchableOpacity className="">
         <View className="flex flex-row items-center justify-between p-2 pl-6 pr-4 bg-white rounded-lg">
           <View className="flex flex-row items-center rounded-full gap-x-4 pr-7 ">
-            <SvgUri width={24} height={24} source={assept_document} />
+            <SvgUri 
+            
+            width={24} height={24} source={assept_document} />
             <Text
               className="text-[#00274d] text-[13px]"
               style={{fontFamily: 'Roboto-Regular'}}>
@@ -205,9 +212,9 @@ export default function MyAccount() {
           </View>
 
           <Image
-              style={{height: 25, width: 13, tintColor: '#7e84a3'}}
-              source={require('../../Assets/image/angle-small-right.png')}
-            />
+            style={{height: 25, width: 13, tintColor: '#7e84a3'}}
+            source={require('../../../Assets/image/angle-small-right.png')}
+          />
         </View>
       </TouchableOpacity>
     </View>
