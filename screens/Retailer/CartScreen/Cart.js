@@ -5,6 +5,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Divider} from 'react-native-paper';
 
 export default function Cart(nav) {
+  const [value, setValue] = React.useState('left');
   return (
     <View className="w-full h-full bg-[#f5f5f5]">
       {/* <View className="relative top-0 flex flex-row items-center px-5 pt-7 pb-2 bg-[#f96900] rounded-b-[15px]">
@@ -20,14 +21,28 @@ export default function Cart(nav) {
       </View> */}
       <View className="p-4">
         <View className="flex flex-row w-full bg-gray-200 rounded-full">
-          <TouchableOpacity className="w-[50%] h-[39px]" style={styles.button}>
+          <TouchableOpacity
+            onPress={() => setValue('left')}
+            className="w-[50%] h-[39px]"
+            //  style={styles.button}
+
+            style={[
+              styles.button,
+              value === 'left' && styles.selectedToggleButton,
+            ]}>
             <Text
-              className="text-white"
+              className="text-[#00274D]"
               style={{fontFamily: 'Poppins-SemiBold', fontSize: 14}}>
               All (4)
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity className="w-[50%] h-[39px]" style={styles.button1}>
+          <TouchableOpacity
+            className="w-[50%] h-[39px]"
+            onPress={() => setValue('right')}
+            style={[
+              styles.button1,
+              value === 'right' && styles.selectedToggleButton,
+            ]}>
             <Text
               className="text-[#00274D]"
               style={{fontFamily: 'Poppins-SemiBold', fontSize: 14}}>
@@ -174,7 +189,7 @@ const styles = StyleSheet.create({
     tintColor: 'white',
   },
   button: {
-    backgroundColor: '#F96900',
+    // backgroundColor: '#F96900',
     padding: 10,
     borderRadius: 30,
     alignItems: 'center',
@@ -186,5 +201,9 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: 'center',
     color: 'red',
+  },
+  selectedToggleButton: {
+    backgroundColor: '#F96900',
+    borderColor: '#F96900',
   },
 });

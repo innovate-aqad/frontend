@@ -26,7 +26,7 @@ export default function Signup(nav) {
     nav.navigation.navigate('logistic');
   };
   const redirectRetailer = () => {
-    nav.navigation.navigate('retailer');
+    nav.navigation.navigate('retailerIndex');
   };
 
   useEffect(() => {
