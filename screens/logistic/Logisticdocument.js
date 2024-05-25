@@ -9,14 +9,29 @@ import {
   View,
   Animated,
   ScrollView,
+  ToastAndroid,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Avatar, Card, IconButton} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
+import {useFormik} from 'formik';
+import {LogisticRegisterSchema3} from '../../schemas/LogisticRegisterSchema3';
+import axios from 'axios';
+import { environmentVariables } from '../../config/Config';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
+
+  const [selectedDocuments, setSelectedDocuments] = useState({
+    // tradeLicense: null,
+    // cancelledChequeDocument: null,
+    vatCertificateDocument: null,
+    // emiratesIDDocument: null
+  });
+
+  const mainId = nav.route.params.id;
+
   const redirectDriver = () => {
     nav.navigation.navigate('logidrivdetail');
     // nav.navigation.navigate('bottomTab');
@@ -29,22 +44,89 @@ export default function VendorDocument(nav) {
     }).start();
   }, []);
 
-  const selectDoc = async () => {
+  const initialValues = {
+    tradeLicense: '',
+    cancelledChequeDocument: '',
+    cancelledChequeIBAN: '',
+    vatCertificateDocument: '',
+    emiratesIDDocument: '',
+    emiratesIDNumber: '',
+  };
+
+  let formik = useFormik({
+    initialValues,
+    validationSchema: LogisticRegisterSchema3,
+    onSubmit: async (values, action) => {
+      console.log('values', values, errors);
+      let formdata = new FormData();
+      formdata.append('slide', '3');
+      formdata.append('user_type', 'logistic');
+      formdata.append('doc_id', mainId);
+      formdata.append('iban', values.cancelledChequeIBAN);
+      formdata.append('emirates_id', values.emiratesIDNumber);
+
+      Object.keys(values).forEach(key => {
+        if (values[key] && typeof values[key] === 'object') {
+          formdata.append(key, {
+            uri: values[key].uri,
+            type: values[key].type,
+            name: values[key].name,
+          });
+        }
+      });
+      await axios({
+        method: 'post',
+        url: `${environmentVariables?.apiUrl}/api/user/register`,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        data: formdata,
+      })
+        .then(response => {
+          ToastAndroid.showWithGravityAndOffset(
+            response.data.message,
+            ToastAndroid.LONG,
+            ToastAndroid.CENTER,
+            25,
+            50,
+          );
+          nav.navigation.navigate('logidrivdetail', {
+            id: response.data.data.id,
+          });
+        })
+        .catch(error => {
+          console.log('error', error.response.data.message);
+          ToastAndroid.showWithGravityAndOffset(
+            error.response.data.message,
+            ToastAndroid.LONG,
+            ToastAndroid.CENTER,
+            25,
+            50,
+          );
+        });
+    },
+  });
+  const selectDocument = async (documentType, formikField) => {
     try {
       const doc = await DocumentPicker.pick({
-        type: [DocumentPicker.types.pdf],
-        allowMultiSelection: true,
+        type: [DocumentPicker.types.pdf, DocumentPicker.types.images],
+        allowMultiSelection: false,
       });
 
-      console.log(doc, 'correct docs');
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        console.log('user cancelled the upload', err);
-      } else {
-        console.log(err);
+      if (doc && doc.length > 0) {
+        const selectedDoc = doc[0];
+        formik.setFieldValue(formikField, selectedDoc);
+        setSelectedDocuments(prev => ({
+          ...prev,
+          [documentType]: selectedDoc.name,
+        }));
       }
+    } catch (err) {
+      console.error('Error selecting document: ', err);
     }
   };
+  const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
+    formik;
 
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
@@ -99,10 +181,12 @@ export default function VendorDocument(nav) {
             <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
               Trade Licence
             </Text>
-            <TouchableOpacity className="h-[76px]" onPress={selectDoc}>
+            <TouchableOpacity
+              className="h-[76px]"
+              onPress={() => selectDocument('tradeLicense', 'trade_license')}>
               <Card.Title
                 className="bg-white shadow rounded-xl"
-                title="Click to Upload"
+                title={selectedDocuments.tradeLicense || 'Click to Upload'}
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{
@@ -126,10 +210,16 @@ export default function VendorDocument(nav) {
             <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
               Cancelled Cheque / IBAN sdksdf
             </Text>
-            <TouchableOpacity className="h-[76px]" onPress={selectDoc}>
+            <TouchableOpacity
+              className="h-[76px]"
+              onPress={() =>
+                selectDocument('cancelledChequeDocument', 'cheque_scan')
+              }>
               <Card.Title
                 className="bg-white shadow rounded-xl"
-                title="Click to Upload"
+                title={
+                  selectedDocuments.cancelledChequeDocument || 'Click to Upload'
+                }
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{
@@ -153,16 +243,30 @@ export default function VendorDocument(nav) {
               style={styles.input}
               placeholder="Enter IBAN"
               placeholderTextColor={'#cbcbcb'}
+              name="cancelledChequeIBAN"
+              value={values?.cancelledChequeIBAN}
+              onChangeText={handleChange('cancelledChequeIBAN')}
+              onBlur={handleBlur('cancelledChequeIBAN')}
             />
           </View>
           <View className="mt-3">
             <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
               VAT Certificate
             </Text>
-            <TouchableOpacity className="h-[76px]" onPress={selectDoc}>
+            <TouchableOpacity
+              className="h-[76px]"
+              onPress={() =>
+                selectDocument('vatCertificateDocument', 'vat_certificate')
+              }
+              onChangeText={handleChange('vatCertificateDocument')}
+              onBlur={handleBlur('vatCertificateDocument')}
+              name="vatCertificateDocument"
+              value={values?.vatCertificateDocument}>
               <Card.Title
                 className="bg-white shadow rounded-xl"
-                title="Click to Upload"
+                title={
+                  selectedDocuments.vatCertificateDocument || 'Click to Upload'
+                }
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{
@@ -181,6 +285,12 @@ export default function VendorDocument(nav) {
                 )}
               />
             </TouchableOpacity>
+            {errors.vatCertificateDocument &&
+              touched.vatCertificateDocument && (
+                <Text style={{color: 'red'}}>
+                  {errors.vatCertificateDocument}
+                </Text>
+              )}
           </View>
         </View>
         {/* emirates */}
@@ -188,10 +298,14 @@ export default function VendorDocument(nav) {
           <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
             Emirates ID
           </Text>
-          <TouchableOpacity className="h-[76px]" onPress={selectDoc}>
+          <TouchableOpacity
+            className="h-[76px]"
+            onPress={() =>
+              selectDocument('emiratesIDDocument', 'emirate_id_pic')
+            }>
             <Card.Title
               className="bg-white shadow rounded-xl"
-              title="Click to Upload"
+              title={selectedDocuments.emiratesIDDocument || 'Click to Upload'}
               titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
               subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
               subtitleStyle={{
@@ -215,11 +329,15 @@ export default function VendorDocument(nav) {
             style={styles.input}
             placeholder="Enter IBAN"
             placeholderTextColor={'#cbcbcb'}
+            name="emiratesIDNumber"
+            value={values?.emiratesIDNumber}
+            onChangeText={handleChange('emiratesIDNumber')}
+            onBlur={handleBlur('emiratesIDNumber')}
           />
         </View>
         <TouchableOpacity
           className="mt-8"
-          onPress={() => redirectDriver()}
+          onPress={() => handleSubmit()}
           style={styles.button}>
           <Text className="text-white" style={{fontFamily: 'Poppins-SemiBold'}}>
             SUBMIT

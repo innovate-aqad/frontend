@@ -12,15 +12,19 @@ import {
   ToastAndroid,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
+import CountryPicker from 'react-native-country-picker-modal';
+
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Badge, IconButton} from 'react-native-paper';
-import { useFormik } from 'formik';
-import { RetailerRegisterSchema2 } from '../../schemas/RetailerRegisterSchema2';
+import {useFormik} from 'formik';
+import {RetailerRegisterSchema2} from '../../schemas/RetailerRegisterSchema2';
 import AddbuttonForRetailer from '../AddButton/AddbuttonForRetailer';
 import axios from 'axios';
-import { environmentVariables } from '../../config/Config';
+import {environmentVariables} from '../../config/Config';
 export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
+  const [countryCode, setCountryCode] = useState('AE'); // Default country code
+
   // const [inputs, setInputs] = useState([]);
 
   // const handleAdd = () => {
@@ -44,88 +48,86 @@ export default function VendorBusiness(nav) {
   //   // nav.navigation.navigate('bottomTab');
   // };
 
-  const [inputs, setInputs] = useState([{ address: '', po_box: '' }]);
+  const [inputs, setInputs] = useState([{address: '', po_box: ''}]);
   const mainId = nav.route.params.id;
 
   const initialValues = {
-    companyName: "",
-    designation: "",
-    tradeLicenseNo : "",
-    companyAddress : "",
-    companyAddressline2 : "",
-    vendorPoBox : "",
-    country: "", 
-    outlet_addresses: [{ address: '', po_box: '' }],
+    companyName: '',
+    designation: '',
+    tradeLicenseNo: '',
+    companyAddress: '',
+    companyAddressline2: '',
+    vendorPoBox: '',
+    country: 'AE',
+    outlet_addresses: [{address: '', po_box: ''}],
   };
 
-  let formik =  useFormik({
-      initialValues,
-      validationSchema: RetailerRegisterSchema2,
-      onSubmit: async (values, action) => {
-      
-        console.log("values",values)
-        const formdata = {
-          company_name: values.companyName,
-          slide : "2",
-          user_type : "seller",
-          designation: values.designation,
-          trade_license_number: values.tradeLicenseNo,
-          company_address: values.companyAddress,
-          company_address_line_2: values.companyAddressline2,
-          po_box : values.vendorPoBox,
-          country : values.country,
-          outlet_addresses : values?.outlet_addresses,
-          doc_id : mainId
-        };
-        console.log(formdata,"llll...");
-        await axios({
-          method: "post",
-          url: `${environmentVariables?.apiUrl}/api/user/register`,
-        
-            headers :{
-              "Content-Type":"application/json"
-            }
-          ,
-          data: formdata,
-        })
-          .then((response) => {
-            console.log("565656556",response.data,"hhhhhh",response.data.data)
-            ToastAndroid.showWithGravityAndOffset(
-              response.data.message,
-              ToastAndroid.LONG,
-              ToastAndroid.CENTER,
-              25,
-              50,
-            );
-            nav.navigation.navigate('reatilerdocs',{ id : response.data.data.id });
-          })
-          .catch((error) => {
-            console.log("error...",error.response.data.message);
-            ToastAndroid.showWithGravityAndOffset(
-              error.response.data.message,
-              ToastAndroid.LONG,
-              ToastAndroid.CENTER,
-              25,
-              50,
-            );
-            // nav.navigation.navigate('business');
-            // setIsLoading(false);
-            // Swal.fire({
-            //   icon: "error",
-            //   title: "Already have an account",
-            //   timer: "1000",
-            // });
-            // setError(error);
-          });
+  let formik = useFormik({
+    initialValues,
+    validationSchema: RetailerRegisterSchema2,
+    onSubmit: async (values, action) => {
+      console.log('values', values);
+      const formdata = {
+        company_name: values.companyName,
+        slide: '2',
+        user_type: 'seller',
+        designation: values.designation,
+        trade_license_number: values.tradeLicenseNo,
+        company_address: values.companyAddress,
+        company_address_line_2: values.companyAddressline2,
+        po_box: values.vendorPoBox,
+        country: values.country,
+        outlet_addresses: values?.outlet_addresses,
+        doc_id: mainId,
+      };
+      console.log(formdata, 'llll...');
+      await axios({
+        method: 'post',
+        url: `${environmentVariables?.apiUrl}/api/user/register`,
 
-      },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: formdata,
+      })
+        .then(response => {
+          console.log('565656556', response.data, 'hhhhhh', response.data.data);
+          ToastAndroid.showWithGravityAndOffset(
+            response.data.message,
+            ToastAndroid.LONG,
+            ToastAndroid.CENTER,
+            25,
+            50,
+          );
+          nav.navigation.navigate('reatilerdocs', {id: response.data.data.id});
+        })
+        .catch(error => {
+          console.log('error...', error.response.data.message);
+          ToastAndroid.showWithGravityAndOffset(
+            error.response.data.message,
+            ToastAndroid.LONG,
+            ToastAndroid.CENTER,
+            25,
+            50,
+          );
+          // nav.navigation.navigate('business');
+          // setIsLoading(false);
+          // Swal.fire({
+          //   icon: "error",
+          //   title: "Already have an account",
+          //   timer: "1000",
+          // });
+          // setError(error);
+        });
+    },
   });
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = formik
+  const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
+    formik;
 
   const handleAddPair = () => {
     formik.setValues({
       ...values,
-      outlet_addresses: [...values.outlet_addresses, { address: '', po_box: '' }],
+      outlet_addresses: [...values.outlet_addresses, {address: '', po_box: ''}],
     });
   };
 
@@ -151,14 +153,27 @@ export default function VendorBusiness(nav) {
     // const getUserData = await userData()
     // console.log("hhhhhhh",getUserData)
 
-
     Animated.timing(progress, {
       toValue: 160,
       duration: 2000,
       useNativeDriver: false,
     }).start();
-  }, [])
+  }, []);
 
+  const onSelectCountry = country => {
+    console.log('ppp', country);
+    const callingCodeWithPlus = `+${country.callingCode[0]}`;
+    formik.setFieldValue('country', country.cca2);
+
+    // formik.setFieldValue('isoCode', country.cca2);
+    setCountryCode(country.cca2);
+  };
+
+  const renderCountry = country => {
+    return <Text>{country.callingCode}</Text>;
+  };
+
+  console.log('999', errors);
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <View
@@ -228,13 +243,14 @@ export default function VendorBusiness(nav) {
                 placeholder="Enter your Name"
                 className="!border-none pl-4 !border-white"
                 borderRadius={10}
-
                 name="companyName"
                 value={values.companyName}
                 onChangeText={handleChange('companyName')}
                 onBlur={handleBlur('companyName')}
               />
-            {errors.companyName && touched.companyName && <Text style={{ color: 'red' }}>{errors.companyName}</Text>}
+              {errors.companyName && touched.companyName && (
+                <Text style={{color: 'red'}}>{errors.companyName}</Text>
+              )}
 
               <Text
                 className="text-[#00274D] px-3"
@@ -247,13 +263,14 @@ export default function VendorBusiness(nav) {
                 placeholder="Example@gmail.com"
                 className="!border-none pl-4 !border-white"
                 borderRadius={10}
-
                 name="designation"
                 value={values.designation}
                 onChangeText={handleChange('designation')}
                 onBlur={handleBlur('designation')}
               />
-              {errors.designation && touched.designation && <Text style={{ color: 'red' }}>{errors.designation}</Text>}
+              {errors.designation && touched.designation && (
+                <Text style={{color: 'red'}}>{errors.designation}</Text>
+              )}
 
               <Text
                 className="text-[#00274D] px-3"
@@ -266,7 +283,6 @@ export default function VendorBusiness(nav) {
                 placeholder="Enter your phone number"
                 className="!border-none pl-4 !border-white"
                 borderRadius={10}
-
                 name="tradeLicenseNo"
                 value={values.tradeLicenseNo}
                 onChangeText={handleChange('tradeLicenseNo')}
@@ -283,13 +299,14 @@ export default function VendorBusiness(nav) {
                 placeholder="Enter your Date of Birth"
                 className="!border-none pl-4 !border-white"
                 borderRadius={10}
-
                 name="companyAddress"
                 value={values.companyAddress}
                 onChangeText={handleChange('companyAddress')}
                 onBlur={handleBlur('companyAddress')}
               />
-              {errors.companyAddress && touched.companyAddress && <Text style={{ color: 'red' }}>{errors.companyAddress}</Text>}
+              {errors.companyAddress && touched.companyAddress && (
+                <Text style={{color: 'red'}}>{errors.companyAddress}</Text>
+              )}
 
               <Text
                 className="text-[#00274D] px-3"
@@ -302,13 +319,14 @@ export default function VendorBusiness(nav) {
                 placeholder="Enter your Name"
                 className="!border-none pl-4 !border-white"
                 borderRadius={10}
-
                 name="companyAddressline2"
                 value={values.companyAddressline2}
                 onChangeText={handleChange('companyAddressline2')}
                 onBlur={handleBlur('companyAddressline2')}
               />
-              {errors.companyAddressline2 && touched.companyAddressline2 && <Text style={{ color: 'red' }}>{errors.companyAddressline2}</Text>}
+              {errors.companyAddressline2 && touched.companyAddressline2 && (
+                <Text style={{color: 'red'}}>{errors.companyAddressline2}</Text>
+              )}
 
               {/* side  */}
               <View style={styles.containerside}>
@@ -318,18 +336,31 @@ export default function VendorBusiness(nav) {
                     style={{fontFamily: 'Poppins-SemiBold'}}>
                     Country
                   </Text>
-                  <TextInput
+                  {/* <TextInput
                     style={[styles.input, {width: '100%'}]}
                     placeholder="Example@gmail.com"
                     placeholderTextColor="rgb(210, 210, 210)"
-
                     name="country"
                     value={values.country}
                     onChangeText={handleChange('country')}
                     onBlur={handleBlur('country')}
+                  /> */}
+                  <CountryPicker
+                    countryCode={countryCode}
+                    withFilter
+                    withFlag
+                    withCountryNameButton
+                    withAlphaFilter
+                    withCallingCode
+                    onSelect={onSelectCountry}
+                    name="country"
+                    value={values.country}
+                    onBlur={handleBlur('country')}
+                    renderCountry={renderCountry}
                   />
-                {errors.country && touched.country && <Text style={{ color: 'red' }}>{errors.country}</Text>}
-
+                  {errors.country && touched.country && (
+                    <Text style={{color: 'red'}}>{errors.country}</Text>
+                  )}
                 </View>
                 <View style={styles.inputContainer}>
                   <Text
@@ -341,19 +372,29 @@ export default function VendorBusiness(nav) {
                     style={[styles.input, {width: '100%'}]}
                     placeholder="Enter your phone number"
                     placeholderTextColor="rgb(210, 210, 210)"
-
                     name="vendorPoBox"
                     value={values.vendorPoBox}
                     onChangeText={handleChange('vendorPoBox')}
                     onBlur={handleBlur('vendorPoBox')}
                   />
-                {errors.vendorPoBox && touched.vendorPoBox && <Text style={{ color: 'red' }}>{errors.vendorPoBox}</Text>}
-
+                  {errors.vendorPoBox && touched.vendorPoBox && (
+                    <Text style={{color: 'red'}}>{errors.vendorPoBox}</Text>
+                  )}
                 </View>
               </View>
-              <AddbuttonForRetailer inputs={inputs} setInputs={setInputs} errors={errors} handleAddPair={handleAddPair} handleDeletePair={handleDeletePair} handlePairInputChange={handlePairInputChange} values={values}/>
+              <AddbuttonForRetailer
+                inputs={inputs}
+                setInputs={setInputs}
+                errors={errors}
+                handleAddPair={handleAddPair}
+                handleDeletePair={handleDeletePair}
+                handlePairInputChange={handlePairInputChange}
+                values={values}
+              />
               {errors.outlet_addresses && (
-                <Text style={{ color: 'red' }}>At least one pair of Outlet address and PO Box is required</Text>
+                <Text style={{color: 'red'}}>
+                  At least one pair of Outlet address and PO Box is required
+                </Text>
               )}
             </SafeAreaView>
           </View>
