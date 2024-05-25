@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,17 +11,21 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import { markers, mapDarkStyle, mapStandardStyle } from './MapData';
+import {markers, mapDarkStyle, mapStandardStyle} from './MapData';
 import StarRating from './StartRating';
-import { useTheme } from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
+import {Divider} from 'react-native-paper';
+import phone from '../../Assets/image/google_map/phone_flip.svg';
+import message from '../../Assets/image/google_map/comment.svg';
+import SvgUri from 'react-native-svg-uri';
 
-const { width, height } = Dimensions.get('window');
-const CARD_HEIGHT = 220;
-const CARD_WIDTH = width * 0.8;
+const {width, height} = Dimensions.get('window');
+const CARD_HEIGHT = 180;
+const CARD_WIDTH = width * 0.85;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 export default function Support() {
@@ -84,7 +88,7 @@ export default function Support() {
   let regionTimeout;
 
   useEffect(() => {
-    mapAnimation.addListener(({ value }) => {
+    mapAnimation.addListener(({value}) => {
       let index = Math.floor(value / CARD_WIDTH + 0.3);
       if (index >= state.markers.length) {
         index = state.markers.length - 1;
@@ -98,7 +102,7 @@ export default function Support() {
       regionTimeout = setTimeout(() => {
         if (mapIndex !== index) {
           mapIndex = index;
-          const { coordinate } = state.markers[index];
+          const {coordinate} = state.markers[index];
           _map.current.animateToRegion(
             {
               ...coordinate,
@@ -111,7 +115,12 @@ export default function Support() {
       }, 10);
     });
     return () => mapAnimation.removeAllListeners();
-  }, [mapAnimation, state.markers, state.region.latitudeDelta, state.region.longitudeDelta]);
+  }, [
+    mapAnimation,
+    state.markers,
+    state.region.latitudeDelta,
+    state.region.longitudeDelta,
+  ]);
 
   const interpolations = state.markers.map((marker, index) => {
     const inputRange = [
@@ -126,27 +135,39 @@ export default function Support() {
       extrapolate: 'clamp',
     });
 
-    return { scale };
+    return {scale};
   });
 
-  const onMarkerPress = (mapEventData) => {
+  const onMarkerPress = mapEventData => {
     const markerID = mapEventData._targetInst.return.key;
     let x = markerID * CARD_WIDTH + markerID * 20;
     if (Platform.OS === 'ios') {
       x -= SPACING_FOR_CARD_INSET;
     }
-    _scrollView.current.scrollTo({ x, y: 0, animated: true });
+    _scrollView.current.scrollTo({x, y: 0, animated: true});
   };
 
   return (
     <View style={styles.container}>
+      <View className="flex-row rounded-b-xl bg-[#f96900] px-4 pb-2 pt-7 items-center">
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            style={{height: 15, width: 23.3, tintColor: 'white'}}
+            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+          />
+        </TouchableOpacity>
+        <Text
+          className="flex-1 text-[20px] text-center text-white"
+          style={{fontFamily: 'Poppins-Bold'}}>
+          CURRENT DELIVERY
+        </Text>
+      </View>
       <MapView
         ref={_map}
         initialRegion={state.region}
         style={styles.container}
         provider={PROVIDER_GOOGLE}
-        customMapStyle={theme.dark ? mapDarkStyle : mapStandardStyle}
-      >
+        customMapStyle={theme.dark ? mapDarkStyle : mapStandardStyle}>
         {state.markers.map((marker, index) => {
           const scaleStyle = {
             transform: [
@@ -172,16 +193,16 @@ export default function Support() {
           // );
         })}
       </MapView>
-      <View style={styles.searchBox}>
+      {/* <View style={styles.searchBox}>
         <TextInput
           placeholder="Search here"
           placeholderTextColor="#000"
           autoCapitalize="none"
-          style={{ flex: 1, padding: 0 }}
+          style={{flex: 1, padding: 0}}
         />
         <Ionicons name="ios-search" size={20} />
-      </View>
-      <ScrollView
+      </View> */}
+      {/* <ScrollView
         horizontal
         scrollEventThrottle={1}
         showsHorizontalScrollIndicator={false}
@@ -195,22 +216,23 @@ export default function Support() {
         }}
         contentContainerStyle={{
           paddingRight: Platform.OS === 'android' ? 20 : 0,
-        }}
-      >
+        }}>
         {state.categories.map((category, index) => (
           <TouchableOpacity key={index} style={styles.chipsItem}>
             {category.icon}
             <Text>{category.name}</Text>
           </TouchableOpacity>
         ))}
-      </ScrollView>
+      </ScrollView> */}
+
       <Animated.ScrollView
         ref={_scrollView}
-        horizontal
+        // horizontal
+        // showsHorizontalScrollIndicator
         pagingEnabled
         scrollEventThrottle={1}
-        showsHorizontalScrollIndicator={false}
-        snapToInterval={CARD_WIDTH + 20}
+        showsHorizontalScrollIndicator={true}
+        // snapToInterval={CARD_WIDTH + 20}
         snapToAlignment="center"
         style={styles.scrollView}
         contentInset={{
@@ -220,7 +242,8 @@ export default function Support() {
           right: SPACING_FOR_CARD_INSET,
         }}
         contentContainerStyle={{
-          paddingHorizontal: Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
+          paddingHorizontal:
+            Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
         }}
         onScroll={Animated.event(
           [
@@ -232,46 +255,128 @@ export default function Support() {
               },
             },
           ],
-          { useNativeDriver: true }
-        )}
-      >
+          {useNativeDriver: true},
+        )}>
+        {state.markers.map((marker, index) => (
+          // <View style={styles.card1} key={index}>
+            <View key={index} className="p-3 my-3 bg-white rounded-lg shadow">
+            <View className="flex flex-row items-center justify-between">
+              <Text className="text-[#00274d]  font-[Poppins-SemiBold]">
+                Current Order ID #2564712
+              </Text>
+              <Text className="text-[#21d59b] bg-[#e2f3ed] px-3 py-1 rounded-full text-[7px]  font-[Poppins-SemiBold]">
+                In Transit
+              </Text>
+            </View>
+            <Divider className="my-2 bg-[#e6e9f4]"></Divider>
+            <View className="flex flex-row mt-1 gap-x-2">
+              <View className="flex flex-col relative right-2 justify-between mb-11 border-r border-dashed border-[#f96900]">
+                <View className="w-3 relative bg-white left-1.5 h-3 border-2 border-[#f96900] rounded-full"></View>
+                <View className="w-3 h-3 relative left-1.5  bg-[#f96900] rounded-full"></View>
+                <View className="w-3 h-3 relative left-1.5  bg-[#f96900] rounded-full"></View>
+              </View>
+
+              <View className="flex flex-col gap-y-1">
+                <View className="flex flex-col ">
+                  <Text className="text-[#f96900] text-[10px]  font-[Poppins-SemiBold]">
+                    Pickup Point
+                  </Text>
+                  <Text className="text-[#7e84a3] text-[13px]  font-[Poppins-Light]">
+                    Forest Hills South Side, Pasthal, Boisar, 401504
+                  </Text>
+                </View>
+                <View className="flex flex-col ">
+                  <Text className="text-[#f96900] text-[10px]  font-[Poppins-SemiBold]">
+                  Delivery Point - 1
+                  </Text>
+                  <Text className="text-[#7e84a3] text-[13px]  font-[Poppins-Light]">
+                    Forest Hills South Side, Pasthal, Boisar, 401504
+                  </Text>
+                </View>
+                <View className="flex flex-col ">
+                  <Text className="text-[#f96900] text-[10px]  font-[Poppins-SemiBold]">
+                  Delivery Point - 2
+                  </Text>
+                  <Text className="text-[#7e84a3] text-[13px]  font-[Poppins-Light]">
+                    Forest Hills South Side, Pasthal, Boisar, 401504
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <Divider className="my-2 bg-[#e6e9f4]"></Divider>
+            <View className="flex flex-row items-center justify-between">
+              <Text className="text-[#7e84a3] text-[10px] font-[Poppins-Regular]">
+                Order Date : May 16, 2024
+              </Text>
+              <Text className="text-[#7e84a3] text-[10px] font-[Poppins-Regular]">
+                Delivery Date : May 19, 2024
+              </Text>
+            </View>
+          </View>
+          // </View>
+        ))}
         {state.markers.map((marker, index) => (
           <View style={styles.card} key={index}>
-            <Image
-              source={marker.image}
-              style={styles.cardImage}
-              resizeMode="cover"
-            />
-            <View style={styles.textContent}>
-              <Text numberOfLines={1} style={styles.cardTitle}>
-                {marker.title}
+            <View className="flex flex-row items-center justify-between">
+              <Text className="text-[#00274d]  font-[Poppins-SemiBold]">
+                Contact Details
               </Text>
-              <StarRating ratings={marker.rating} reviews={marker.reviews} />
-              <Text numberOfLines={1} style={styles.cardDescription}>
-                {marker.description}
-              </Text>
-              <View style={styles.button}>
-                <TouchableOpacity
-                  onPress={() => {}}
-                  style={[
-                    styles.signIn,
-                    {
-                      borderColor: '#FF6347',
-                      borderWidth: 1,
-                    },
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.textSign,
-                      {
-                        color: '#FF6347',
-                      },
-                    ]}
-                  >
-                    Order Now
+            </View>
+            <Divider className="my-2 bg-[#e6e9f4]"></Divider>
+            <View className="flex flex-col justify-between gap-y-2">
+              <View className="flex flex-row items-center justify-between">
+                <View className="">
+                  <Text className="text-[#f96900] text-[10px]  font-[Poppins-SemiBold]">
+                    Pickup
                   </Text>
-                </TouchableOpacity>
+                  <Text className="text-[#00274d] text-[10px]  font-[Poppins-Regular]">
+                    Altenwerth Keara
+                  </Text>
+                </View>
+                <View className="flex flex-row items-center gap-x-3">
+                  <Text className="p-1.5 bg-blue-100 border border-[#87b1ff] rounded-full">
+                    <SvgUri source={message} />
+                  </Text>
+                  <Text className="p-1.5 bg-[#faebe1] border border-[#fbac74] rounded-full">
+                    <SvgUri source={phone} />
+                  </Text>
+                </View>
+              </View>
+              <View className="flex flex-row items-center justify-between">
+                <View className="">
+                  <Text className="text-[#f96900] text-[10px]  font-[Poppins-SemiBold]">
+                  Dropoff
+                  </Text>
+                  <Text className="text-[#00274d] text-[10px]  font-[Poppins-Regular]">
+                  Christiansen Gustave
+                  </Text>
+                </View>
+                <View className="flex flex-row items-center gap-x-3">
+                  <Text className="p-1.5 bg-blue-100 border border-[#87b1ff] rounded-full">
+                    <SvgUri source={message} />
+                  </Text>
+                  <Text className="p-1.5 bg-[#faebe1] border border-[#fbac74] rounded-full">
+                    <SvgUri source={phone} />
+                  </Text>
+                </View>
+              </View>
+              <View className="flex flex-row items-center justify-between">
+                <View className="">
+                  <Text className="text-[#f96900] text-[10px]  font-[Poppins-SemiBold]">
+                  Support
+                  </Text>
+                  <Text className="text-[#00274d] text-[10px]  font-[Poppins-Regular]">
+                  AQAD Support Team
+                  </Text>
+                </View>
+                <View className="flex flex-row items-center gap-x-3">
+                  <Text className="p-1.5 bg-blue-100 border border-[#87b1ff] rounded-full">
+                    <SvgUri source={message} />
+                  </Text>
+                  <Text className="p-1.5 bg-[#faebe1] border border-[#fbac74] rounded-full">
+                    <SvgUri source={phone} />
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
@@ -295,7 +400,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     shadowColor: '#ccc',
-    shadowOffset: { width: 0, height: 3 },
+    shadowOffset: {width: 0, height: 3},
     shadowOpacity: 0.5,
     shadowRadius: 5,
     elevation: 10,
@@ -317,7 +422,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     height: 35,
     shadowColor: '#ccc',
-    shadowOffset: { width: 0, height: 3 },
+    shadowOffset: {width: 0, height: 3},
     shadowOpacity: 0.5,
     shadowRadius: 5,
     elevation: 10,
@@ -332,20 +437,35 @@ const styles = StyleSheet.create({
   endPadding: {
     paddingRight: width - CARD_WIDTH,
   },
-  card: {
+  card1: {
     elevation: 2,
     backgroundColor: '#FFF',
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-    marginHorizontal: 10,
+    borderRadius: 15,
+    // marginHorizontal: 10,
     shadowColor: '#000',
     shadowRadius: 5,
     shadowOpacity: 0.3,
-    marginBottom:60,
-    shadowOffset: { x: 2, y: -2 },
+    marginBottom: 10,
+    shadowOffset: {x: 2, y: -2},
     height: CARD_HEIGHT,
     width: CARD_WIDTH,
     overflow: 'hidden',
+    padding: 10,
+  },
+  card: {
+    elevation: 2,
+    backgroundColor: '#FFF',
+    borderRadius: 15,
+    // marginHorizontal: 10,
+    shadowColor: '#000',
+    shadowRadius: 5,
+    shadowOpacity: 0.3,
+    marginBottom: 60,
+    shadowOffset: {x: 2, y: -2},
+    height: CARD_HEIGHT,
+    width: CARD_WIDTH,
+    overflow: 'hidden',
+    padding: 10,
   },
   cardImage: {
     flex: 3,
