@@ -165,7 +165,7 @@ export default function VendorInfo(nav) {
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
-        <View className=" pt-10 ">
+        <View className="pt-10 ">
           {/* progressbar */}
           <View style={styles.container}>
             {/* <Text>progress</Text> */}
@@ -181,7 +181,7 @@ export default function VendorInfo(nav) {
           </View>
 
           {/* profile */}
-          <View className=" pt-10 " style={styles.user}>
+          <View className="pt-10 " style={styles.user}>
             <TouchableOpacity onPress={() => selectPhoto()}>
               {/* <FontAwesome6 name={'user'} size={30} /> */}
               <Feather

@@ -1,10 +1,9 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {Button, View} from 'react-native';
-import {Text} from 'react-native-svg';
 import Cart from './Cart';
 import Checkout from './Checkout';
 import Outlet from './Outlet';
+import ProductDetails from '../WholesalesPage/ProductDetails';
 
 const stack = createNativeStackNavigator();
 
@@ -64,6 +63,28 @@ export default function CartScreen() {
           headerTitleStyle: {
             fontWeight: 'bold',
             color: 'white',
+          },
+        }}
+      />
+
+      <stack.Screen
+        name="details"
+        component={ProductDetails}
+        options={{
+          headerShown: true,
+          title: 'PRODUCT DETAILS',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+            fontFamily: 'Roboto-Bold',
+            fontSize: 20,
+            
           },
         }}
       />

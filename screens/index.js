@@ -24,15 +24,22 @@ import Retailerbusiness from './Retailer/Retailerbusiness';
 import Retailerdocument from './Retailer/Retailerdocument';
 import AddProduct from './Vendor/AddProduct';
 import RetailerIndex from './Retailer';
-// import TextLine from '../Shared/TextLine';
 import OtpScreen from '../otp_screen/OtpScreen';
 import Datepicker from './Datepicker';
+import LogisticIndex from './logistic';
+import FlexiTrade from '../components/FlexiTrade';
+import OrderList from './OrderDetails/OrderList';
+import CardOpen from '../components/VendorCard/CardOpen';
+import OrderDetails from './OrderDetails/OrderDetails';
+import OrderSummary from './OrderDetails/OrderSummary';
+import DriverDetails from './DriverDetails/DriverDetails';
+import AddVendor from './FlexiFlat/AddVendor';
+import WareHouseCard from './WareHouseCard';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      {/* <Stack.Screen name="test" component={TextLine} /> */}
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="signup" component={Signup} />
       <Stack.Screen name="bottomTab" component={Buttomtab} />
@@ -53,11 +60,20 @@ export default function Index() {
       <Stack.Screen name="otpscreen" component={OtpScreen} />
 
       <Stack.Screen name="retailerIndex" component={RetailerIndex} />
+      <Stack.Screen name="logisticIndex" component={LogisticIndex} />
       <Stack.Screen name="logidrivdetail" component={Logidriverdetails} />
       <Stack.Screen name="retailer" component={Retailerinfo} />
       <Stack.Screen name="retailerbusi" component={Retailerbusiness} />
       <Stack.Screen name="reatilerdocs" component={Retailerdocument} />
       <Stack.Screen name="datepick" component={Datepicker} />
+      <Stack.Screen name="flexi" component={FlexiTrade} />
+      {/* <Stack.Screen name="cardopen" component={OrderList} /> */}
+      <Stack.Screen name="cardopen" component={CardOpen} />
+      <Stack.Screen name="orderdetails" component={OrderDetails} />
+      <Stack.Screen name="ordersummarycard" component={OrderSummary} />
+      <Stack.Screen name="driverdetails" component={DriverDetails} />
+      <Stack.Screen name="flexiadd" component={AddVendor} />
+      <Stack.Screen name="warehousecard" component={WareHouseCard} />
     </Stack.Navigator>
   );
 }

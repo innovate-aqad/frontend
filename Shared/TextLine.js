@@ -1,36 +1,39 @@
-import * as React from 'react';
-import { Button, View } from 'react-native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
+import { FlatList, Text, View, StyleSheet } from 'react-native';
 
-function HomeScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button
-        onPress={() => navigation.navigate('Notifications')}
-        title="Go to notifications"
-      />
+const data = [
+  { id: '1', title: 'Item 1' },
+  { id: '2', title: 'Item 2' },
+  { id: '3', title: 'Item 3' },
+  // Add more items
+];
+
+const TextLine = () => {
+  const renderItem = ({ item }) => (
+    <View style={styles.item}>
+      <Text style={styles.title}>{item.title}</Text>
     </View>
   );
-}
 
-function NotificationsScreen({ navigation }) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button onPress={() => navigation.goBack()} title="Go back home" />
-    </View>
+    <FlatList
+      data={data}
+      renderItem={renderItem}
+      keyExtractor={item => item.id}
+    />
   );
-}
+};
 
-const Drawer = createDrawerNavigator();
+const styles = StyleSheet.create({
+  item: {
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    backgroundColor: '#f9c2ff',
+  },
+  title: {
+    fontSize: 32,
+  },
+});
 
-export default function TextLine() {
-  return (
-    <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
-      </Drawer.Navigator>
-    </NavigationContainer>
-  );
-}
+export default TextLine;

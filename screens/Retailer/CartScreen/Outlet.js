@@ -12,7 +12,7 @@ import SvgUri from 'react-native-svg-uri';
 import {Divider} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default function Outlet() {
+export default function Outlet(nav) {
   const [select, setSelect] = useState(0);
 
   const changeAddress = index => {
@@ -244,7 +244,7 @@ export default function Outlet() {
 
           <TouchableOpacity
             className="z-50 mt-10 rounded-xl "
-            // onPress={() => nav.navigation.navigate('outlet')}
+            onPress={() => nav.navigation.navigate('details')}
             style={styles.button}>
             <Text
               className="text-white text-[20px]"

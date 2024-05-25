@@ -2,15 +2,15 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Image} from 'react-native';
 import Orders from './Orders';
-import Wholesales from './Wholesales';
-import MyAccount from './MyAccount';
 import Dashboard from './Dashboard';
 import Cart from './CartScreen/index';
+import WholesalesIndex from './WholesalesPage';
+import AccountIndex from './Account';
 
 const Tab = createBottomTabNavigator();
 const wholesales = 'Wholesales';
 const dashboard = 'Dashboard';
-const account = 'MyAccount';
+const account = 'My Account';
 const cart = 'Cart';
 const order = 'Orders';
 
@@ -100,9 +100,9 @@ export default function RetailerIndex() {
       // screenOptions={{headerShown: false}}
     >
       <Tab.Screen name={dashboard} component={Dashboard} />
-      <Tab.Screen name={wholesales} component={Wholesales} />
+      <Tab.Screen name={wholesales} component={WholesalesIndex} />
       
-      <Tab.Screen name={account} component={MyAccount} />
+      <Tab.Screen name={account} component={AccountIndex} />
       
       <Tab.Screen name={order} component={Orders} />
       <Tab.Screen name={cart} component={Cart} />
