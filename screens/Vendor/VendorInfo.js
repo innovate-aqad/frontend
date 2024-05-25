@@ -27,7 +27,7 @@ import {userData} from '../getuserdata/GetUserData';
 import {environmentVariables} from '../../config/Config';
 import Index from '..';
 import {fontScale} from 'nativewind';
-import ToastManager, { Toast } from 'toastify-react-native';
+import ToastManager, {Toast} from 'toastify-react-native';
 
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -76,7 +76,7 @@ export default function VendorInfo(nav) {
     validationSchema: VendorRegisterSchema,
     onSubmit: async (values, action) => {
       Toast.success('Promise if Resolved');
-      console.log("hello 75",values);
+      console.log('hello 75', values);
       const formdata = new FormData();
       formdata.append('name', values.fullName);
       formdata.append('slide', '1');
@@ -108,7 +108,6 @@ export default function VendorInfo(nav) {
         data: formdata,
       })
         .then(response => {
-
           Toast.success('User First Step Register Success');
           ToastAndroid.showWithGravityAndOffset(
             response?.data?.message,
@@ -121,7 +120,7 @@ export default function VendorInfo(nav) {
         })
         .catch(error => {
           Toast.error('User Register Error..!');
-          console.log(error,'error...');
+          console.log(error, 'error...');
           ToastAndroid.showWithGravityAndOffset(
             error?.response?.data?.message || error?.message,
             ToastAndroid.LONG,
@@ -130,7 +129,6 @@ export default function VendorInfo(nav) {
             50,
           );
         });
-      
     },
   });
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
@@ -168,8 +166,9 @@ export default function VendorInfo(nav) {
   };
 
   const renderCountry = country => {
-    return <Text>{country.callingCode}</Text>;
+    return <Text>{country.cca2}</Text>;
   };
+
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <View
@@ -186,8 +185,7 @@ export default function VendorInfo(nav) {
         <View className="mt-8">
           <Text
             className="text-[35px] text-[#00274D]"
-            style={{fontFamily: 'Roboto-Bold'}}
-            >
+            style={{fontFamily: 'Roboto-Bold'}}>
             Vendor Info
           </Text>
           <Text
@@ -243,7 +241,7 @@ export default function VendorInfo(nav) {
                   style={{
                     position: 'absolute',
                     backgroundColor: '#E6E9F4',
-                    color:"blue",
+                    color: 'blue',
                     borderRadius: 100,
                     padding: 6,
                     Index: 1,
@@ -304,6 +302,7 @@ export default function VendorInfo(nav) {
               style={{fontFamily: 'Poppins-Medium'}}>
               Phone Number
             </Text>
+
             <View className="flex flex-row items-center pl-2 w-full bg-white rounded-[10px] py-0">
               <CountryPicker
                 countryCode={countryCode}
@@ -320,17 +319,24 @@ export default function VendorInfo(nav) {
               />
               <Text className="pl-2 text-xl text-[#cbcbcb]">|</Text>
               <View className="flex flex-row items-center justify-between w-[70%]">
-              <TextInput
-                placeholderTextColor="rgb(210, 210, 210)"
-                placeholder="Enter your phone number"
-                className="!border-none py-1.5 pl-2  !border-white text-[#cbcbcb]"
-                name="number"
-                value={values.number}
-                onChangeText={handleChange('number')}
-                onBlur={handleBlur('number')}
-                maxLength={14}
-              />
-              <Text className={values.number.length>=10 ? "text-[10px] text-[#21d59b]" : "text-[10px] text-[#f96900]"}>{values.number.length>=10 ? "Verified" : "Invalid"}</Text>
+                <TextInput
+                  placeholderTextColor="rgb(210, 210, 210)"
+                  placeholder="Enter your phone number"
+                  className="!border-none py-1.5 pl-2  !border-white text-[#cbcbcb]"
+                  name="number"
+                  value={values.number}
+                  onChangeText={handleChange('number')}
+                  onBlur={handleBlur('number')}
+                  maxLength={14}
+                />
+                <Text
+                  className={
+                    values.number.length >= 10
+                      ? 'text-[10px] text-[#21d59b]'
+                      : 'text-[10px] text-[#f96900]'
+                  }>
+                  {values.number.length >= 10 ? 'Verified' : 'Invalid'}
+                </Text>
               </View>
             </View>
 
@@ -361,9 +367,9 @@ export default function VendorInfo(nav) {
                   <Text
                     className="flex flex-row w-full font-[Poppins-Light] text-[13px]"
                     style={{color: '#cbcbcb', paddingHorizontal: 10, flex: 1}}>
-                      {
-                        dateSelected ?
-                      moment(dateSelected).format('DD / MM / YYYY') : 'DD / MM / YYYY'}
+                    {dateSelected
+                      ? moment(dateSelected).format('DD / MM / YYYY')
+                      : 'DD / MM / YYYY'}
                   </Text>
                 </View>
                 <DateTimePickerModal
@@ -411,7 +417,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Light',
   },
   button: {
-    backgroundColor: '#F96900', 
+    backgroundColor: '#F96900',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -440,8 +446,8 @@ const styles = StyleSheet.create({
   datePicker: {
     backgroundColor: 'red',
     borderRadius: 10,
-    width: 250, 
-    height: 250, 
+    width: 250,
+    height: 250,
   },
   datePickerContainer: {
     justifyContent: 'center',

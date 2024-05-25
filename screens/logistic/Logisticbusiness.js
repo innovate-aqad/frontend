@@ -13,6 +13,8 @@ import {
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import CountryPicker from 'react-native-country-picker-modal';
+
 import {Badge, IconButton} from 'react-native-paper';
 import {useFormik} from 'formik';
 import {LogisticRegisterSchema2} from '../../schemas/LogisticRegisterSchema2';
@@ -20,6 +22,8 @@ import {environmentVariables} from '../../config/Config';
 import axios from 'axios';
 export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
+  const [countryCode, setCountryCode] = useState('AE'); // Default country code
+
   const mainId = nav.route.params.id;
 
   const initialValues = {
@@ -29,7 +33,7 @@ export default function VendorBusiness(nav) {
     companyAddress: '',
     companyAddressline2: '',
     vendorPoBox: '',
-    country: '',
+    country: 'AE',
   };
 
   let formik = useFormik({
@@ -94,7 +98,7 @@ export default function VendorBusiness(nav) {
     formik;
 
   const handleAdd = () => {
-    setInputs([...inputs, {email: '', password: ''}]);
+    setInputs([...inputs, {address: '', po_box: ''}]);
   };
 
   const handleDelete = index => {
@@ -112,6 +116,19 @@ export default function VendorBusiness(nav) {
   const redirectDocument = () => {
     nav.navigation.navigate('logisdocument');
     // nav.navigation.navigate('bottomTab');
+  };
+
+  const onSelectCountry = country => {
+    console.log('ppp', country);
+    const callingCodeWithPlus = `+${country.callingCode[0]}`;
+    formik.setFieldValue('country', country.cca2);
+
+    // formik.setFieldValue('isoCode', country.cca2);
+    setCountryCode(country.cca2);
+  };
+
+  const renderCountry = country => {
+    return <Text>{country.callingCode}</Text>;
   };
 
   return (
@@ -274,14 +291,18 @@ export default function VendorBusiness(nav) {
                   style={{fontFamily: 'Poppins-SemiBold'}}>
                   Country
                 </Text>
-                <TextInput
-                  style={[styles.input, {width: '100%'}]}
-                  placeholder="United Arab Emirates"
-                  placeholderTextColor="rgb(210, 210, 210)"
+                <CountryPicker
+                  countryCode={countryCode}
+                  withFilter
+                  withFlag
+                  withCountryNameButton
+                  withAlphaFilter
+                  withCallingCode
+                  onSelect={onSelectCountry}
                   name="country"
                   value={values.country}
-                  onChangeText={handleChange('country')}
                   onBlur={handleBlur('country')}
+                  renderCountry={renderCountry}
                 />
                 {errors.country && touched.country && (
                   <Text style={{color: 'red'}}>{errors.country}</Text>
