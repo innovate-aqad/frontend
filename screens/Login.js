@@ -370,9 +370,10 @@ export default function Login(nav) {
             className="px-5 text-[#F96900] font-[Roboto-Regular]"
             onPress={() => {
               // nav.navigation.navigate('signup');
-              nav.navigation.navigate('logidrivdetail', {
-                id: 'd3c410d0a9c54ee39f1a70057cb6df6d',
-              });
+              // nav.navigation.navigate('logidrivdetail', {
+              //   id: 'd3c410d0a9c54ee39f1a70057cb6df6d',
+              // });
+              nav.navigation.navigate('add_product');
             }}>
             Sign Up
           </Text>
