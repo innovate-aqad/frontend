@@ -24,12 +24,18 @@ import {useFormik} from 'formik';
 import {LogisticRegisterSchema} from '../../schemas/LogisticRegisterSchema';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
+import {SendOtpSchema} from '../../schemas/SendOtpSchema';
+import OtpPopup from '../OtpPopup/OtpPopup';
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [image, setImage] = useState('');
   const [countryCode, setCountryCode] = useState('AE'); // Default country code
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [dateSelected, setDateSelected] = useState('');
+
+  const [errorValue, setErrorValue] = useState('');
+  const [openPopup, setOpenPopup] = useState(false);
+  const [verified, setVerified] = useState(false);
 
   const redirectPorceed = () => {
     nav.navigation.navigate('retailerbusi');
@@ -130,8 +136,15 @@ export default function VendorInfo(nav) {
         });
     },
   });
-  const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
-    formik;
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    isValid,
+  } = formik;
 
   const onSelectCountry = country => {
     const callingCodeWithPlus = `+${country.callingCode[0]}`;
@@ -158,6 +171,26 @@ export default function VendorInfo(nav) {
 
   const renderCountry = country => {
     return <Text>{country.callingCode}</Text>;
+  };
+
+  const sendOtp = async email => {
+    try {
+      await SendOtpSchema.validate({email});
+      // console.log('oooo', responseData);
+      setErrorValue('');
+
+      const response = await axios.get(
+        `${environmentVariables?.apiUrl}/api/user/send_otp_to_email?email=${email}`,
+      );
+      console.log('response', response?.data?.success);
+      if (response?.data?.success) {
+        setOpenPopup(true);
+      } else {
+        setOpenPopup(false);
+      }
+    } catch (validationError) {
+      setErrorValue(validationError.message);
+    }
   };
 
   return (
@@ -267,19 +300,35 @@ export default function VendorInfo(nav) {
               style={{fontFamily: 'Poppins-SemiBold'}}>
               Email
             </Text>
-            <TextInput
-              style={styles.input}
-              placeholderTextColor="rgb(210, 210, 210)"
-              placeholder="Example@gmail.com"
-              className="!border-none pl-4 !border-white"
-              borderRadius={10}
-              name="email"
-              value={values.email}
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('email')}
-            />
-            {errors.email && touched.email && (
-              <Text style={{color: 'red'}}>{errors.email}</Text>
+            <View className="flex flex-row items-center pr-1.5 justify-between w-full bg-white rounded-[10px] py-0">
+              <TextInput
+                style={styles.input}
+                placeholderTextColor="rgb(210, 210, 210)"
+                placeholder="Example@gmail.com"
+                className="!border-none pl-4 !border-white"
+                borderRadius={10}
+                name="email"
+                value={values.email}
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+              />
+              {verified ? (
+                <Text className="text-[10px] text-[#21d59b]">Verified</Text>
+              ) : (
+                <Text
+                  className="text-[10px] text-[#f96900]"
+                  onPress={() => sendOtp(values.email)}>
+                  Verify
+                </Text>
+              )}
+            </View>
+            {errorValue ? (
+              <Text style={{color: 'red'}}>{errorValue}</Text>
+            ) : (
+              errors.email &&
+              touched.email && (
+                <Text style={{color: 'red'}}>{errors.email}</Text>
+              )
             )}
 
             <Text
@@ -384,7 +433,11 @@ export default function VendorInfo(nav) {
         <View className="pt-5">
           <TouchableOpacity
             onPress={() => handleSubmit()}
-            style={styles.button}>
+            disabled={!verified || !isValid}
+            style={[
+              styles.button,
+              (!verified || !isValid) && styles.disabledButton,
+            ]}>
             <Text
               className="text-white "
               style={{fontFamily: 'Poppins-SemiBold'}}>
@@ -392,6 +445,14 @@ export default function VendorInfo(nav) {
             </Text>
           </TouchableOpacity>
         </View>
+        {openPopup && (
+          <OtpPopup
+            openPopup={openPopup}
+            setOpenPopup={setOpenPopup}
+            setVerified={setVerified}
+            email={values?.email}
+          />
+        )}
       </View>
     </ScrollView>
   );
@@ -431,5 +492,9 @@ const styles = StyleSheet.create({
     height: 5,
     backgroundColor: '#F96900',
     borderRadius: 10,
+  },
+  disabledButton: {
+    backgroundColor: '#F96900',
+    opacity: 0.5, // Add opacity to make it look blurred
   },
 });
