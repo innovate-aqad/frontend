@@ -75,7 +75,6 @@ export default function VendorInfo(nav) {
     initialValues,
     validationSchema: VendorRegisterSchema,
     onSubmit: async (values, action) => {
-      Toast.success('Promise if Resolved');
       console.log('hello 75', values);
       const formdata = new FormData();
       formdata.append('name', values.fullName);
@@ -108,7 +107,7 @@ export default function VendorInfo(nav) {
         data: formdata,
       })
         .then(response => {
-          Toast.success('User First Step Register Success');
+          // Toast.success(response?.data?.message);
           ToastAndroid.showWithGravityAndOffset(
             response?.data?.message,
             ToastAndroid.LONG,
@@ -119,8 +118,8 @@ export default function VendorInfo(nav) {
           nav.navigation.navigate('business', {id: response?.data?.data?.id});
         })
         .catch(error => {
-          Toast.error('User Register Error..!');
-          console.log(error, 'error...');
+          // Toast.error(error?.response?.data?.message || error?.message);
+          // console.log(error, 'error...');
           ToastAndroid.showWithGravityAndOffset(
             error?.response?.data?.message || error?.message,
             ToastAndroid.LONG,
