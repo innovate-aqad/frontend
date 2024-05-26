@@ -10,6 +10,7 @@ import {
   Animated,
   ScrollView,
   ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import {useFormik} from 'formik';
 import CountryPicker from 'react-native-country-picker-modal';
@@ -17,11 +18,12 @@ import {VendorRegisterSchema2} from '../../schemas/VendorRegiterSchema2';
 import Addbutton from '../AddButton/Addbutton';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
-import { Divider } from 'react-native-paper';
+import {Divider} from 'react-native-paper';
 export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [inputs, setInputs] = useState([{address: '', po_box: ''}]);
-  const [countryCode, setCountryCode] = useState('AE'); // Default country code
+  const [countryCode, setCountryCode] = useState('AE');
+  const [toggle, setToggle] = useState(true);
 
   const mainId = nav.route.params.id;
 
@@ -40,7 +42,7 @@ export default function VendorBusiness(nav) {
     initialValues,
     validationSchema: VendorRegisterSchema2,
     onSubmit: async (values, action) => {
-      console.log('values', values);
+      setToggle(false);
       const formdata = {
         company_name: values.companyName,
         slide: '2',
@@ -65,7 +67,7 @@ export default function VendorBusiness(nav) {
         data: formdata,
       })
         .then(response => {
-          console.log('565656556', response.data, 'hhhhhh', response.data.data);
+          setToggle(true);
           ToastAndroid.showWithGravityAndOffset(
             response.data.message,
             ToastAndroid.LONG,
@@ -76,7 +78,7 @@ export default function VendorBusiness(nav) {
           nav.navigation.navigate('document', {id: response.data.data.id});
         })
         .catch(error => {
-          console.log('error...', error.response.data.message);
+          setToggle(true);
           ToastAndroid.showWithGravityAndOffset(
             error.response.data.message,
             ToastAndroid.LONG,
@@ -158,10 +160,12 @@ export default function VendorBusiness(nav) {
         className="flex flex-col p-4   h-full bg-gray-100 !text-black
         ">
         <View className="relative flex flex-row items-center top-3 ">
-          <Image
-            style={styles.topNavigation}
-            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
-          />
+          <TouchableOpacity onPress={() => nav.navigation.navigate('vendor')}>
+            <Image
+              style={styles.topNavigation}
+              source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+            />
+          </TouchableOpacity>
         </View>
 
         <View className="mt-8">
@@ -277,10 +281,7 @@ export default function VendorBusiness(nav) {
             onBlur={handleBlur('companyAddress')}
           />
           {errors.companyAddress && touched.companyAddress && (
-            <Text
-              style={styles.errorHandle}>
-              {errors.companyAddress}
-            </Text>
+            <Text style={styles.errorHandle}>{errors.companyAddress}</Text>
           )}
 
           <Text
@@ -304,7 +305,7 @@ export default function VendorBusiness(nav) {
           )}
 
           {/* side  */}
-          <View  className="flex flex-row justify-between gap-x-2">
+          <View className="flex flex-row justify-between gap-x-2">
             <View style={styles.inputContainer}>
               <Text
                 className="text-[#00274D] pl-1"
@@ -312,19 +313,19 @@ export default function VendorBusiness(nav) {
                 Country
               </Text>
               <View className="p-1.5 bg-white rounded-[10px]">
-              <CountryPicker
-                countryCode={countryCode}
-                withFilter
-                withFlag
-                withCallingCodeButton
-                withAlphaFilter
-                withCallingCode
-                onSelect={onSelectCountry}
-                name="country"
-                value={values.country}
-                onBlur={handleBlur('country')}
-                renderCountry={renderCountry}
-              />
+                <CountryPicker
+                  countryCode={countryCode}
+                  withFilter
+                  withFlag
+                  withCallingCodeButton
+                  withAlphaFilter
+                  withCallingCode
+                  onSelect={onSelectCountry}
+                  name="country"
+                  value={values.country}
+                  onBlur={handleBlur('country')}
+                  renderCountry={renderCountry}
+                />
               </View>
               {errors.country && touched.country && (
                 <Text style={styles.errorHandle}>{errors.country}</Text>
@@ -337,7 +338,16 @@ export default function VendorBusiness(nav) {
                 PO Box
               </Text>
               <TextInput
-                style={[{backgroundColor:"white",paddingVertical:6,paddingLeft:10,borderRadius:10}, {width: '100%'}]}
+                style={[
+                  {
+                    backgroundColor: 'white',
+                    paddingVertical: 6,
+                    paddingLeft: 10,
+                    borderRadius: 10,
+                    color:"#cbcbcb"
+                  },
+                  {width: '100%'},
+                ]}
                 placeholder="Enter PO"
                 placeholderTextColor="rgb(210, 210, 210)"
                 name="vendorPoBox"
@@ -368,13 +378,18 @@ export default function VendorBusiness(nav) {
         </SafeAreaView>
         <View className="pt-5">
           <TouchableOpacity
-            onPress={() => handleSubmit()}
-            style={styles.button}>
+            onPress={() => {
+              toggle ? handleSubmit() : null;
+            }}
+            style={toggle ? styles.button : styles.button1}
+            className="flex flex-row items-center justify-center gap-x-2">
             <Text
-              className="text-white "
-              style={{fontFamily: 'Poppins-SemiBold'}}>
+              className="text-white flex flex-row  text-[19px]"
+              style={{fontFamily: 'Roboto-Regular'}}>
               PROCEED
             </Text>
+            {toggle ?null :
+              <ActivityIndicator size="small" color="#00274d" />}
           </TouchableOpacity>
         </View>
       </View>
@@ -399,14 +414,21 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Light',
   },
   button: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: '#F96900',
+    padding: 12,
+    borderRadius: 5,
+    alignItems: 'center',
+    color: 'red',
+  },
+  button1: {
+    backgroundColor: '#F6E0D1',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
     color: 'red',
   },
   buttonadd: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: '#F96900',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',

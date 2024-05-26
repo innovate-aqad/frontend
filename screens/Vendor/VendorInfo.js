@@ -10,36 +10,26 @@ import {
   Animated,
   ScrollView,
   ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import {Avatar} from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import {Badge, IconButton} from 'react-native-paper';
 import {Formik, useFormik} from 'formik';
 import CountryPicker from 'react-native-country-picker-modal';
 import {VendorRegisterSchema} from '../../schemas/VendorRegisterSchema';
 import ImagePicker from 'react-native-image-crop-picker';
 import moment from 'moment';
-
 import axios from 'axios';
-import {userData} from '../getuserdata/GetUserData';
 import {environmentVariables} from '../../config/Config';
-import Index from '..';
-import {fontScale} from 'nativewind';
-import ToastManager, {Toast} from 'toastify-react-native';
 
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [image, setImage] = useState('');
-
-  const [countryCode, setCountryCode] = useState('AE'); // Default country code
-  const [phoneNumber, setPhoneNumber] = useState('');
-
-  // date
+  const [countryCode, setCountryCode] = useState('AE');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [workDate, setWorkDate] = useState(new Date());
   const [dateSelected, setDateSelected] = useState('');
+  const [toggle,setToggle]=useState(true)
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -49,17 +39,9 @@ export default function VendorInfo(nav) {
   };
 
   const handleConfirm = date => {
-    // console.warn('A date has been picked: ', date);
-    // setWorkDate(moment(date).format('YYYY-MM-DD'));
     setDateSelected(moment(date).format('YYYY-MM-DD'));
     formik.setFieldValue('dateOfBirth', moment(date).format('YYYY-MM-DD'));
     hideDatePicker();
-  };
-
-  const dateFunction = value => {
-    setDateSelected(moment(value).format('YYYY-MM-DD'));
-    console.log('dddd', value);
-    setDataWork(value);
   };
   const initialValues = {
     fullName: '',
@@ -75,7 +57,7 @@ export default function VendorInfo(nav) {
     initialValues,
     validationSchema: VendorRegisterSchema,
     onSubmit: async (values, action) => {
-      console.log('hello 75', values);
+      setToggle(false)
       const formdata = new FormData();
       formdata.append('name', values.fullName);
       formdata.append('slide', '1');
@@ -91,13 +73,6 @@ export default function VendorInfo(nav) {
       formdata.append('country', values.isoCode);
       formdata.append('phone', `${values.country}-${values?.number}`);
       formdata.append('dob', values.dateOfBirth);
-      console.log(
-        formdata,
-        'llll',
-        environmentVariables?.apiUrl,
-        '////////',
-        values.dateOfBirth,
-      );
       await axios({
         method: 'post',
         url: `${environmentVariables?.apiUrl}/api/user/register`,
@@ -107,22 +82,21 @@ export default function VendorInfo(nav) {
         data: formdata,
       })
         .then(response => {
-          // Toast.success(response?.data?.message);
           ToastAndroid.showWithGravityAndOffset(
             response?.data?.message,
-            ToastAndroid.LONG,
+            ToastAndroid.TOP,
             ToastAndroid.CENTER,
             25,
             50,
           );
+          setToggle(true)
           nav.navigation.navigate('business', {id: response?.data?.data?.id});
         })
         .catch(error => {
-          // Toast.error(error?.response?.data?.message || error?.message);
-          // console.log(error, 'error...');
+          setToggle(true)
           ToastAndroid.showWithGravityAndOffset(
             error?.response?.data?.message || error?.message,
-            ToastAndroid.LONG,
+            ToastAndroid.TOP,
             ToastAndroid.CENTER,
             25,
             50,
@@ -375,7 +349,6 @@ export default function VendorInfo(nav) {
                   isVisible={isDatePickerVisible}
                   mode="date"
                   onConfirm={handleConfirm}
-                  // onChange={dateFunction}
                   onCancel={hideDatePicker}
                   customStyles={{
                     datePicker: styles.datePicker,
@@ -389,13 +362,18 @@ export default function VendorInfo(nav) {
         </View>
         <View className="pt-5">
           <TouchableOpacity
-            onPress={() => handleSubmit()}
-            style={styles.button}>
+            onPress={() => {
+              toggle ? handleSubmit() : null;
+            }}
+            style={toggle ? styles.button : styles.button1}
+            className="flex flex-row items-center justify-center gap-x-2">
             <Text
-              className="text-white text-[18px]"
+              className="text-white flex flex-row  text-[18px]"
               style={{fontFamily: 'Roboto-Regular'}}>
               PROCEED
             </Text>
+            {toggle ?null :
+              <ActivityIndicator size="small" color="#00274d" />}
           </TouchableOpacity>
         </View>
       </View>
@@ -417,6 +395,13 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#F96900',
+    padding: 12,
+    borderRadius: 5,
+    alignItems: 'center',
+    color: 'red',
+  },
+  button1: {
+    backgroundColor: '#F6E0D1',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
