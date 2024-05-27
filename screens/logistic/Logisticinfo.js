@@ -10,13 +10,11 @@ import {
   Animated,
   ToastAndroid,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import moment from 'moment';
-
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-
-import Feather from 'react-native-vector-icons/Feather';
 import {Avatar} from 'react-native-paper';
 import CountryPicker from 'react-native-country-picker-modal';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -30,11 +28,7 @@ export default function VendorInfo(nav) {
   const [countryCode, setCountryCode] = useState('AE'); // Default country code
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [dateSelected, setDateSelected] = useState('');
-
-  const redirectPorceed = () => {
-    nav.navigation.navigate('retailerbusi');
-    // nav.navigation.navigate('bottomTab');
-  };
+  const [toggle, setToggle] = useState(true);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -45,8 +39,6 @@ export default function VendorInfo(nav) {
   };
 
   const handleConfirm = date => {
-    // console.warn('A date has been picked: ', date);
-    // setWorkDate(moment(date).format('YYYY-MM-DD'));
     setDateSelected(moment(date).format('YYYY-MM-DD'));
     formik.setFieldValue('dateOfBirth', moment(date).format('YYYY-MM-DD'));
     hideDatePicker();
@@ -54,7 +46,7 @@ export default function VendorInfo(nav) {
 
   useEffect(() => {
     Animated.timing(progress, {
-      toValue: 75,
+      toValue: 100,
       duration: 2000,
     }).start();
   }, []);
@@ -73,7 +65,7 @@ export default function VendorInfo(nav) {
     initialValues,
     validationSchema: LogisticRegisterSchema,
     onSubmit: async (values, action) => {
-      console.log('kkkeeee', values.image);
+      setToggle(false);
       const formdata = new FormData();
       formdata.append('name', values.fullName);
       formdata.append('slide', '1');
@@ -99,12 +91,7 @@ export default function VendorInfo(nav) {
         data: formdata,
       })
         .then(response => {
-          console.log(
-            'res_retail',
-            response.data.data.id,
-            response.data,
-            'hhhhhh',
-          );
+          setToggle(true);
           ToastAndroid.showWithGravityAndOffset(
             response.data.message,
             ToastAndroid.LONG,
@@ -115,11 +102,7 @@ export default function VendorInfo(nav) {
           nav.navigation.navigate('logisbusiness', {id: response.data.data.id});
         })
         .catch(error => {
-          console.log(
-            'err_retail...',
-            error.response.data.message,
-            error?.message,
-          );
+          setToggle(true);
           ToastAndroid.showWithGravityAndOffset(
             error.response.data.message,
             ToastAndroid.LONG,
@@ -166,15 +149,17 @@ export default function VendorInfo(nav) {
         className="flex flex-col p-4   h-full bg-gray-100 !text-black
         ">
         <View className="relative flex flex-row items-center top-3 ">
-          <Image
-            style={styles.topNavigation}
-            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
-          />
+          <TouchableOpacity onPress={() => nav.navigation.navigate('signup')}>
+            <Image
+              style={styles.topNavigation}
+              source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+            />
+          </TouchableOpacity>
         </View>
-        <View className="mt-5">
+        <View className="mt-8">
           <Text
-            className="text-3xl text-[#00274D]"
-            style={{fontFamily: 'Poppins-bold'}}>
+            className="text-[35px] text-[#00274D]"
+            style={{fontFamily: 'Roboto-Bold'}}>
             Logistic Partner Info
           </Text>
           <Text
@@ -183,29 +168,30 @@ export default function VendorInfo(nav) {
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
-        <View className="pt-10 ">
-          {/* progressbar */}
+        <View className="mt-5">
           <View className="flex flex-col">
-            {/* <View className="flex flex-row justify-between ">
-            <Text
-              className="text-[#F96900]"
-              style={{fontFamily: 'Poppins-Regular'}}>
-              Profile Upload (1/3)
-            </Text>
-            <Text
-              className="text-[#F96900]"
-              style={{fontFamily: 'Poppins-Regular'}}>
-              100%
-            </Text>
-          </View> */}
+            <View className="flex flex-row justify-between ">
+              <Text
+                className="text-[#F96900]"
+                style={{fontFamily: 'Poppins-Regular'}}>
+                Profile Upload (1/4)
+              </Text>
+              <Text
+                className="text-[#F96900]"
+                style={{fontFamily: 'Poppins-Regular'}}>
+                36%
+              </Text>
+            </View>
 
-            <Animated.View style={[styles.bar, {width: progress}]} />
+            <View className="bg-[#F6E0D1] rounded-[10px]">
+              <Animated.View style={[styles.bar, {width: progress}]} />
+            </View>
           </View>
 
           <View>
             <Text
-              className="text-2xl text-[#00274D] pt-3"
-              style={{fontFamily: 'Poppins-bold'}}>
+              className="text-[20px] text-[#00274D] pt-3"
+              style={{fontFamily: 'Roboto-Medium'}}>
               Personal Information
             </Text>
           </View>
@@ -259,7 +245,7 @@ export default function VendorInfo(nav) {
               onBlur={handleBlur('fullName')}
             />
             {errors.fullName && touched.fullName && (
-              <Text style={{color: 'red'}}>{errors.fullName}</Text>
+              <Text style={styles.errorHandle}>{errors.fullName}</Text>
             )}
 
             <Text
@@ -279,7 +265,7 @@ export default function VendorInfo(nav) {
               onBlur={handleBlur('email')}
             />
             {errors.email && touched.email && (
-              <Text style={{color: 'red'}}>{errors.email}</Text>
+              <Text style={styles.errorHandle}>{errors.email}</Text>
             )}
 
             <Text
@@ -324,24 +310,14 @@ export default function VendorInfo(nav) {
               </View>
             </View>
             {errors.number && touched.number && (
-              <Text style={{color: 'red'}}>{errors.number}</Text>
+              <Text style={styles.errorHandle}>{errors.number}</Text>
             )}
             <Text
               className="text-[#00274D] px-3 mt-2"
               style={{fontFamily: 'Poppins-SemiBold'}}>
               Date of Birth
             </Text>
-            {/* <TextInput
-              style={styles.input}
-              placeholderTextColor="rgb(210, 210, 210)"
-              placeholder="Enter your Date of Birth"
-              className="!border-none pl-4 !border-white"
-              borderRadius={10}
-              name="dateOfBirth"
-              value={values.dateOfBirth}
-              onChangeText={handleChange('dateOfBirth')}
-              onBlur={handleBlur('dateOfBirth')}
-            /> */}
+            
             <View className="w-full ">
               <TouchableOpacity
                 className="flex flex-row w-full"
@@ -383,13 +359,18 @@ export default function VendorInfo(nav) {
         </View>
         <View className="pt-5">
           <TouchableOpacity
-            onPress={() => handleSubmit()}
-            style={styles.button}>
+            onPress={() => {
+              toggle ? handleSubmit() : null;
+            }}
+            style={toggle ? styles.button : styles.button1}
+            className="flex flex-row items-center justify-center">
             <Text
-              className="text-white "
-              style={{fontFamily: 'Poppins-SemiBold'}}>
+              className="text-white flex flex-row  text-[18px]"
+              style={{fontFamily: 'Roboto-Regular'}}>
               PROCEED
             </Text>
+            {toggle ?null :
+              <ActivityIndicator size="small" className="ml-5" color="#00274d" />}
           </TouchableOpacity>
         </View>
       </View>
@@ -401,14 +382,19 @@ const styles = StyleSheet.create({
     height: 15,
     width: 23.3,
   },
+  button1: {
+    backgroundColor: '#F6E0D1',
+    padding: 12,
+    borderRadius: 5,
+    alignItems: 'center',
+    color: 'red',
+  },
   input: {
-    height: 40,
+    paddingVertical: 4,
     margin: 3,
     borderWidth: 1,
-    // padding: 12,
     color: 'gray',
     backgroundColor: 'white',
-    // borderRadius: 20,
     fontFamily: 'Poppins-Light',
   },
   button: {
@@ -431,5 +417,10 @@ const styles = StyleSheet.create({
     height: 5,
     backgroundColor: '#F96900',
     borderRadius: 10,
+  },
+  errorHandle: {
+    color: 'red',
+    paddingLeft: 20,
+    fontSize: 12,
   },
 });

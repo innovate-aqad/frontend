@@ -10,6 +10,7 @@ import {
   Animated,
   ScrollView,
   ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -18,11 +19,11 @@ import DocumentPicker from 'react-native-document-picker';
 import {useFormik} from 'formik';
 import {LogisticRegisterSchema3} from '../../schemas/LogisticRegisterSchema3';
 import axios from 'axios';
-import { environmentVariables } from '../../config/Config';
+import {environmentVariables} from '../../config/Config';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
-
+  const [toggle, setToggle] = useState(true);
   const [selectedDocuments, setSelectedDocuments] = useState({
     // tradeLicense: null,
     // cancelledChequeDocument: null,
@@ -39,7 +40,7 @@ export default function VendorDocument(nav) {
 
   useEffect(() => {
     Animated.timing(progress, {
-      toValue: 330,
+      toValue: 240,
       duration: 2000,
     }).start();
   }, []);
@@ -57,7 +58,7 @@ export default function VendorDocument(nav) {
     initialValues,
     validationSchema: LogisticRegisterSchema3,
     onSubmit: async (values, action) => {
-      console.log('values', values, errors);
+      setToggle(false);
       let formdata = new FormData();
       formdata.append('slide', '3');
       formdata.append('user_type', 'logistic');
@@ -83,6 +84,7 @@ export default function VendorDocument(nav) {
         data: formdata,
       })
         .then(response => {
+          setToggle(true);
           ToastAndroid.showWithGravityAndOffset(
             response.data.message,
             ToastAndroid.LONG,
@@ -95,7 +97,7 @@ export default function VendorDocument(nav) {
           });
         })
         .catch(error => {
-          console.log('error', error.response.data.message);
+          setToggle(true);
           ToastAndroid.showWithGravityAndOffset(
             error.response.data.message,
             ToastAndroid.LONG,
@@ -158,7 +160,7 @@ export default function VendorDocument(nav) {
               <Text
                 className="text-[#F96900]"
                 style={{fontFamily: 'Poppins-Regular'}}>
-                Profile Upload (3/3)
+                Profile Upload (3/4)
               </Text>
               <Text
                 className="text-[#F96900]"
@@ -167,7 +169,9 @@ export default function VendorDocument(nav) {
               </Text>
             </View>
 
-            <Animated.View style={[styles.bar, {width: progress}]} />
+            <View className="bg-[#F6E0D1] rounded-[10px]">
+              <Animated.View style={[styles.bar, {width: progress}]} />
+            </View>
           </View>
           {/* text */}
           <View>
@@ -335,19 +339,32 @@ export default function VendorDocument(nav) {
             onBlur={handleBlur('emiratesIDNumber')}
           />
         </View>
+
         <TouchableOpacity
-          className="mt-8"
-          onPress={() => handleSubmit()}
-          style={styles.button}>
-          <Text className="text-white" style={{fontFamily: 'Poppins-SemiBold'}}>
+          onPress={() => {
+            toggle ? handleSubmit() : null;
+          }}
+          style={toggle ? styles.button : styles.button1}
+          className="flex flex-row items-center justify-center mt-8 gap-x-2">
+          <Text
+            className="text-white flex flex-row  text-[19px]"
+            style={{fontFamily: 'Roboto-Regular'}}>
             SUBMIT
           </Text>
+          {toggle ? null : <ActivityIndicator size="small" color="#00274d" />}
         </TouchableOpacity>
       </View>
     </ScrollView>
   );
 }
 const styles = StyleSheet.create({
+  button1: {
+    backgroundColor: '#F6E0D1',
+    padding: 12,
+    borderRadius: 5,
+    alignItems: 'center',
+    color: 'red',
+  },
   topNavigation: {
     height: 15,
     width: 23.3,

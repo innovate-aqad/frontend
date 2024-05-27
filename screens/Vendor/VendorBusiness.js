@@ -70,7 +70,7 @@ export default function VendorBusiness(nav) {
           setToggle(true);
           ToastAndroid.showWithGravityAndOffset(
             response.data.message,
-            ToastAndroid.LONG,
+            ToastAndroid.TOP,
             ToastAndroid.CENTER,
             25,
             50,
@@ -81,7 +81,7 @@ export default function VendorBusiness(nav) {
           setToggle(true);
           ToastAndroid.showWithGravityAndOffset(
             error.response.data.message,
-            ToastAndroid.LONG,
+            ToastAndroid.TOP,
             ToastAndroid.CENTER,
             25,
             50,
@@ -160,7 +160,7 @@ export default function VendorBusiness(nav) {
         className="flex flex-col p-4   h-full bg-gray-100 !text-black
         ">
         <View className="relative flex flex-row items-center top-3 ">
-          <TouchableOpacity onPress={() => nav.navigation.navigate('vendor')}>
+          <TouchableOpacity onPress={() => nav.navigation.navigate('retailer')}>
             <Image
               style={styles.topNavigation}
               source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
@@ -331,6 +331,7 @@ export default function VendorBusiness(nav) {
                 <Text style={styles.errorHandle}>{errors.country}</Text>
               )}
             </View>
+            
             <View style={styles.inputContainer}>
               <Text
                 className="text-[#00274D]"

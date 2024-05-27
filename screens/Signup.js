@@ -23,11 +23,13 @@ export default function Signup(nav) {
     nav.navigation.navigate('vendor');
   };
   const redirectLogistic = () => {
+    // nav.navigation.navigate('logidrivdetail');
     nav.navigation.navigate('logistic');
   };
   const redirectRetailer = () => {
     nav.navigation.navigate('retailer');
   };
+  
 
   useEffect(() => {
     const timer = setTimeout(() => {

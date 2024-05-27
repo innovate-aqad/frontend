@@ -10,6 +10,7 @@ import {
   Animated,
   ScrollView,
   ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -23,6 +24,7 @@ import axios from 'axios';
 export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [countryCode, setCountryCode] = useState('AE'); // Default country code
+  const [toggle, setToggle] = useState(true);
 
   const mainId = nav.route.params.id;
 
@@ -40,7 +42,7 @@ export default function VendorBusiness(nav) {
     initialValues,
     validationSchema: LogisticRegisterSchema2,
     onSubmit: async (values, action) => {
-      console.log('values', values);
+      setToggle(false);
       const formdata = {
         company_name: values.companyName,
         slide: '2',
@@ -64,7 +66,7 @@ export default function VendorBusiness(nav) {
         data: formdata,
       })
         .then(response => {
-          console.log('565656556', response.data, 'hhhhhh', response.data.data);
+          setToggle(true);
           ToastAndroid.showWithGravityAndOffset(
             response.data.message,
             ToastAndroid.LONG,
@@ -75,7 +77,7 @@ export default function VendorBusiness(nav) {
           nav.navigation.navigate('logisdocument', {id: response.data.data.id});
         })
         .catch(error => {
-          console.log('error...slide2_seller', error.response.data.message);
+          setToggle(true);
           ToastAndroid.showWithGravityAndOffset(
             error.response.data.message,
             ToastAndroid.LONG,
@@ -83,47 +85,23 @@ export default function VendorBusiness(nav) {
             25,
             50,
           );
-          // nav.navigation.navigate('business');
-          // setIsLoading(false);
-          // Swal.fire({
-          //   icon: "error",
-          //   title: "Already have an account",
-          //   timer: "1000",
-          // });
-          // setError(error);
         });
     },
   });
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     formik;
 
-  const handleAdd = () => {
-    setInputs([...inputs, {address: '', po_box: ''}]);
-  };
-
-  const handleDelete = index => {
-    const updatedInputs = [...inputs];
-    updatedInputs.splice(index, 1);
-    setInputs(updatedInputs);
-  };
-
   useEffect(() => {
     Animated.timing(progress, {
-      toValue: 200,
+      toValue: 180,
       duration: 2000,
     }).start();
   }, []);
-  const redirectDocument = () => {
-    nav.navigation.navigate('logisdocument');
-    // nav.navigation.navigate('bottomTab');
-  };
 
   const onSelectCountry = country => {
     console.log('ppp', country);
     const callingCodeWithPlus = `+${country.callingCode[0]}`;
     formik.setFieldValue('country', country.cca2);
-
-    // formik.setFieldValue('isoCode', country.cca2);
     setCountryCode(country.cca2);
   };
 
@@ -137,18 +115,18 @@ export default function VendorBusiness(nav) {
         className="flex flex-col p-4   h-full bg-gray-100 !text-black
         ">
         <View className="relative flex flex-row items-center top-3 ">
-          <Image
-            style={styles.topNavigation}
-            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
-          />
+          <TouchableOpacity onPress={() => nav.navigation.navigate('logistic')}>
+            <Image
+              style={styles.topNavigation}
+              source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+            />
+          </TouchableOpacity>
         </View>
 
-        {/* progressbar */}
-
-        <View className="mt-5">
+        <View className="mt-8">
           <Text
-            className="text-3xl text-[#00274D]"
-            style={{fontFamily: 'Poppins-bold'}}>
+            className="text-[35px] text-[#00274D]"
+            style={{fontFamily: 'Roboto-Bold'}}>
             Logistic Business
           </Text>
           <Text
@@ -164,7 +142,7 @@ export default function VendorBusiness(nav) {
               <Text
                 className="text-[#F96900]"
                 style={{fontFamily: 'Poppins-Regular'}}>
-                Profile Upload (2/3)
+                Profile Upload (2/4)
               </Text>
               <Text
                 className="text-[#F96900]"
@@ -173,29 +151,22 @@ export default function VendorBusiness(nav) {
               </Text>
             </View>
 
-            <Animated.View style={[styles.bar, {width: progress}]} />
+            <View className="bg-[#F6E0D1] rounded-[10px]">
+              <Animated.View style={[styles.bar, {width: progress}]} />
+            </View>
           </View>
-          {/* end of progressbar */}
+          <Text
+            className="text-[20px] text-[#00274D] pt-5"
+            style={{fontFamily: 'Roboto-Medium'}}>
+            Business Information
+          </Text>
 
-          {/* text */}
-          <View>
-            <Text
-              className="text-2xl text-[#00274D] pt-3"
-              style={{fontFamily: 'Poppins-bold'}}>
-              Business Information
-            </Text>
-          </View>
-
-          <SafeAreaView>
-            <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Company Name
-            </Text>
+          <SafeAreaView className="mt-2.5">
+            <Text style={styles.textStyle}>Company Name</Text>
             <TextInput
               style={styles.input}
               placeholderTextColor="rgb(210, 210, 210)"
-              placeholder="Enter your Name"
+              placeholder="Enter company name"
               className="!border-none pl-4 !border-white"
               borderRadius={10}
               name="companyName"
@@ -204,18 +175,14 @@ export default function VendorBusiness(nav) {
               onBlur={handleBlur('companyName')}
             />
             {errors.companyName && touched.companyName && (
-              <Text style={{color: 'red'}}>{errors.companyName}</Text>
+              <Text style={styles.errorHandle}>{errors.companyName}</Text>
             )}
 
-            <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Designation
-            </Text>
+            <Text style={styles.textStyle}>Designation</Text>
             <TextInput
               style={styles.input}
               placeholderTextColor="rgb(210, 210, 210)"
-              placeholder="Example@gmail.com"
+              placeholder="Enter designation"
               className="!border-none pl-4 !border-white"
               borderRadius={10}
               name="designation"
@@ -224,18 +191,14 @@ export default function VendorBusiness(nav) {
               onBlur={handleBlur('designation')}
             />
             {errors.designation && touched.designation && (
-              <Text style={{color: 'red'}}>{errors.designation}</Text>
+              <Text style={styles.errorHandle}>{errors.designation}</Text>
             )}
 
-            <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Trade Licence Number
-            </Text>
+            <Text style={styles.textStyle}>Trade Licence Number</Text>
             <TextInput
               style={styles.input}
               placeholderTextColor="rgb(210, 210, 210)"
-              placeholder="Enter your phone number"
+              placeholder="Enter trade licence number"
               className="!border-none pl-4 !border-white"
               borderRadius={10}
               name="tradeLicenseNo"
@@ -243,15 +206,11 @@ export default function VendorBusiness(nav) {
               onChangeText={handleChange('tradeLicenseNo')}
               onBlur={handleBlur('tradeLicenseNo')}
             />
-            <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Company Address Line 1
-            </Text>
+            <Text style={styles.textStyle}>Company Address Line 1</Text>
             <TextInput
               style={styles.input}
               placeholderTextColor="rgb(210, 210, 210)"
-              placeholder="Enter your Date of Birth"
+              placeholder="Enter address"
               className="!border-none pl-4 !border-white"
               borderRadius={10}
               name="companyAddress"
@@ -260,18 +219,14 @@ export default function VendorBusiness(nav) {
               onBlur={handleBlur('companyAddress')}
             />
             {errors.companyAddress && touched.companyAddress && (
-              <Text style={{color: 'red'}}>{errors.companyAddress}</Text>
+              <Text style={styles.errorHandle}>{errors.companyAddress}</Text>
             )}
 
-            <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Company Address Line 2
-            </Text>
+            <Text style={styles.textStyle}>Company Address Line 2</Text>
             <TextInput
               style={styles.input}
               placeholderTextColor="rgb(210, 210, 210)"
-              placeholder="Enter your Name"
+              placeholder="Enter address 2"
               className="!border-none pl-4 !border-white"
               borderRadius={10}
               name="companyAddressline2"
@@ -280,43 +235,56 @@ export default function VendorBusiness(nav) {
               onBlur={handleBlur('companyAddressline2')}
             />
             {errors.companyAddressline2 && touched.companyAddressline2 && (
-              <Text style={{color: 'red'}}>{errors.companyAddressline2}</Text>
+              <Text style={styles.errorHandle}>
+                {errors.companyAddressline2}
+              </Text>
             )}
 
-            {/* side  */}
-            <View style={styles.containerside}>
+            <View className="flex flex-row justify-between w-full">
               <View style={styles.inputContainer}>
                 <Text
-                  className="text-[#00274D] px-3"
-                  style={{fontFamily: 'Poppins-SemiBold'}}>
+                  className="text-[#00274D] pl-1"
+                  style={{fontFamily: 'Poppins-Medium'}}>
                   Country
                 </Text>
-                <CountryPicker
-                  countryCode={countryCode}
-                  withFilter
-                  withFlag
-                  withCountryNameButton
-                  withAlphaFilter
-                  withCallingCode
-                  onSelect={onSelectCountry}
-                  name="country"
-                  value={values.country}
-                  onBlur={handleBlur('country')}
-                  renderCountry={renderCountry}
-                />
+                <View className="p-1.5 bg-white rounded-[10px]">
+                  <CountryPicker
+                    countryCode={countryCode}
+                    withFilter
+                    withFlag
+                    withCallingCodeButton
+                    withAlphaFilter
+                    withCallingCode
+                    onSelect={onSelectCountry}
+                    name="country"
+                    value={values.country}
+                    onBlur={handleBlur('country')}
+                    renderCountry={renderCountry}
+                  />
+                </View>
                 {errors.country && touched.country && (
-                  <Text style={{color: 'red'}}>{errors.country}</Text>
+                  <Text style={styles.errorHandle}>{errors.country}</Text>
                 )}
               </View>
-              <View style={styles.inputContainer}>
+
+              <View style={styles.inputContainer} className="ml-2">
                 <Text
-                  className="text-[#00274D] px-3 pt-0"
-                  style={{fontFamily: 'Poppins-SemiBold'}}>
+                  className="text-[#00274D]"
+                  style={{fontFamily: 'Poppins-Medium'}}>
                   PO Box
                 </Text>
                 <TextInput
-                  style={[styles.input, {width: '100%'}]}
-                  placeholder="Enter your phone number"
+                  style={[
+                    {
+                      backgroundColor: 'white',
+                      paddingVertical: 6,
+                      paddingLeft: 10,
+                      borderRadius: 10,
+                      color: '#cbcbcb',
+                    },
+                    {width: '100%'},
+                  ]}
+                  placeholder="Enter PO box"
                   placeholderTextColor="rgb(210, 210, 210)"
                   name="vendorPoBox"
                   value={values.vendorPoBox}
@@ -324,22 +292,25 @@ export default function VendorBusiness(nav) {
                   onBlur={handleBlur('vendorPoBox')}
                 />
                 {errors.vendorPoBox && touched.vendorPoBox && (
-                  <Text style={{color: 'red'}}>{errors.vendorPoBox}</Text>
+                  <Text style={styles.errorHandle}>{errors.vendorPoBox}</Text>
                 )}
               </View>
             </View>
-            {/* add */}
           </SafeAreaView>
         </View>
         <View className="pt-5">
           <TouchableOpacity
-            onPress={() => handleSubmit()}
-            style={styles.button}>
+            onPress={() => {
+              toggle ? handleSubmit() : null;
+            }}
+            style={toggle ? styles.button : styles.button1}
+            className="flex flex-row items-center justify-center gap-x-2">
             <Text
-              className="text-white "
-              style={{fontFamily: 'Poppins-SemiBold'}}>
+              className="text-white flex flex-row  text-[19px]"
+              style={{fontFamily: 'Roboto-Regular'}}>
               PROCEED
             </Text>
+            {toggle ? null : <ActivityIndicator size="small" color="#00274d" />}
           </TouchableOpacity>
         </View>
       </View>
@@ -347,6 +318,25 @@ export default function VendorBusiness(nav) {
   );
 }
 const styles = StyleSheet.create({
+  button1: {
+    backgroundColor: '#F6E0D1',
+    padding: 12,
+    borderRadius: 5,
+    alignItems: 'center',
+    color: 'red',
+  },
+  errorHandle: {
+    color: 'red',
+    fontFamily: 'Poppins-Medium',
+    paddingLeft: 15,
+    fontSize: 12,
+  },
+  textStyle: {
+    color: '#00274D',
+    fontFamily: 'Poppins-Medium',
+    paddingLeft: 4,
+    marginTop: 4,
+  },
   container: {
     flex: 1,
     padding: 20,
@@ -356,13 +346,11 @@ const styles = StyleSheet.create({
     width: 23.3,
   },
   input: {
-    height: 40,
+    paddingVertical: 4,
     margin: 3,
-    borderWidth: 0,
-    // padding: 12,
+    borderWidth: 1,
     color: 'gray',
     backgroundColor: 'white',
-    // borderRadius: 20,
     fontFamily: 'Poppins-Light',
   },
   button: {
@@ -404,8 +392,6 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 1,
-
-    marginRight: 20,
     borderWidth: 0,
   },
   deleteButton: {

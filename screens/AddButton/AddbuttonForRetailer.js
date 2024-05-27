@@ -6,9 +6,19 @@ import {
   View,
   StyleSheet,
   SafeAreaView,
+  Image,
 } from 'react-native';
-
-export default function AddbuttonForRetailer({inputs, setInputs, errors, handleAddPair, handleDeletePair, handlePairInputChange, values}) {
+import { Divider } from 'react-native-paper';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+export default function AddbuttonForRetailer({
+  inputs,
+  setInputs,
+  errors,
+  handleAddPair,
+  handleDeletePair,
+  handlePairInputChange,
+  values,
+}) {
   // const [inputs, setInputs] = useState([]);
 
   // const handleAdd = () => {
@@ -21,10 +31,9 @@ export default function AddbuttonForRetailer({inputs, setInputs, errors, handleA
   //   setInputs(updatedInputs);
   // };
 
-
   const handleAdd = () => {
-    setInputs([...inputs, { address: '', po_box: '' }]);
-    console.log(inputs)
+    setInputs([...inputs, {address: '', po_box: ''}]);
+    console.log(inputs);
   };
 
   const handleDelete = index => {
@@ -39,107 +48,110 @@ export default function AddbuttonForRetailer({inputs, setInputs, errors, handleA
     setInputs(updatedInputs);
   };
   return (
-    // <View style={styles.container}>
-    //   <TouchableOpacity onPress={handleAdd} style={styles.button}>
-    //     <Text>Add</Text>
-    //   </TouchableOpacity>
-    //   {inputs.map((input, index) => (
-    //     <SafeAreaView key={index}>
-    //       <Text style={styles.label} className="text-[#00274D] px-3">
-    //         Outlet Address
-    //       </Text>
-    //       <TextInput
-    //         className="!border-none pl-4 !border-white"
-    //         placeholderTextColor="rgb(210, 210, 210)"
-    //         style={styles.input}
-    //         placeholder="Enter Outlet address"
-    //         value={input.address}
-    //         onChangeText={text => {
-    //           const updatedInputs = [...inputs];
-    //           updatedInputs[index].address = text;
-    //           setInputs(updatedInputs);
-    //         }}
-    //       />
-    //       <Text style={styles.label} className="text-[#00274D] px-3">
-    //         PO Box
-    //       </Text>
-    //       <TextInput
-    //         style={styles.input}
-    //         placeholderTextColor="rgb(210, 210, 210)"
-    //         placeholder="Enter PO"
-    //         value={input.po_box}
-    //         onChangeText={text => {
-    //           const updatedInputs = [...inputs];
-    //           updatedInputs[index].po_box = text;
-    //           setInputs(updatedInputs);
-    //         }}
-    //       />
-    //       <TouchableOpacity
-    //         onPress={() => handleDelete(index)}
-    //         style={styles.deleteButton}>
-    //         <Text>Delete</Text>
-    //       </TouchableOpacity>
-    //     </SafeAreaView>
-    //   ))}
-    // </View>
     <View style={styles.container}>
-   
-    {values.outlet_addresses.map((input, index) => (
-      <View key={index}>
-        <Text style={styles.label}>Outlet Address</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter Outlet address"
-          value={input.address}
-          onChangeText={text => handlePairInputChange(text, index, 'address')}
-
-          // name={inputs[index].address}
-        />
-          {errors.outlet_addresses && errors.outlet_addresses[index] && errors.outlet_addresses[index].address && (
-              <Text style={{ color: 'red' }}>{errors.outlet_addresses[index].address}</Text>
+      {values.outlet_addresses.map((input, index) => (
+        <View key={index}>
+          <Text style={styles.label}>Outlet Address</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Outlet address"
+            value={input.address}
+            onChangeText={text => handlePairInputChange(text, index, 'address')}
+            placeholderTextColor="#cbcbcb"
+            // name={inputs[index].address}
+          />
+          {errors.outlet_addresses &&
+            errors.outlet_addresses[index] &&
+            errors.outlet_addresses[index].address && (
+              <Text style={{color: 'red',
+              fontFamily: 'Poppins-Medium',
+              paddingLeft: 15,
+              fontSize: 12,}}>
+                {errors.outlet_addresses[index].address}
+              </Text>
             )}
-        <Text style={styles.label}>PO Box</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter PO"
-          value={input.po_box}
-          onChangeText={text => handlePairInputChange(text, index, 'po_box')}
+          <Text style={styles.label}>PO Box</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter PO"
+            value={input.po_box}
+            onChangeText={text => handlePairInputChange(text, index, 'po_box')}
 
-          // name={inputs[index].po_box}
-
-        />
-        {errors.outlet_addresses && errors.outlet_addresses[index] && errors.outlet_addresses[index].po_box && (
-              <Text style={{ color: 'red' }}>{errors.outlet_addresses[index].po_box}</Text>
+            placeholderTextColor="#cbcbcb"
+          />
+          {errors.outlet_addresses &&
+            errors.outlet_addresses[index] &&
+            errors.outlet_addresses[index].po_box && (
+              <Text style={{color: 'red',
+              fontFamily: 'Poppins-Medium',
+              paddingLeft: 15,
+              fontSize: 12,}}>
+                {errors.outlet_addresses[index].po_box}
+              </Text>
             )}
-            
-        <TouchableOpacity
-          onPress={() => handleDeletePair(index)}
-          style={styles.deleteButton}>
-          <Text>Delete</Text>
-        </TouchableOpacity>
-      </View>
-    ))}
-     <TouchableOpacity onPress={()=>handleAddPair()} style={styles.button}>
-      <Text>Add</Text>
-     </TouchableOpacity>
-  </View>
 
+          {values.outlet_addresses.length > 1 &&
+            index !== 0 &&
+            index !== values.outlet_addresses.length - 1 && (
+              <TouchableOpacity onPress={() => handleDeletePair(index)}>
+                <View className="w-24 p-2 text-center bg-[#e6e9f4] items-center justify-center flex flex-row rounded-[5px] mt-2">
+                  <Image
+                    source={require('../../Assets/image/trash.png')}
+                    style={{height: 18, width: 15, tintColor: '#7e84a3'}}
+                  />
+                  <Text className="text-center text-[#7e84a3] ml-2">
+                    Delete
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+            {values.outlet_addresses.length > 1 && index === 0 && (
+            <TouchableOpacity onPress={() => handleDeletePair(index)}>
+              <View className="w-24 p-2 text-center bg-[#e6e9f4] items-center justify-center flex flex-row rounded-[5px] mt-2">
+                <Image
+                  source={require('../../Assets/image/trash.png')}
+                  style={{height: 18, width: 15, tintColor: '#7e84a3'}}
+                />
+                <Text className="text-center text-[#7e84a3] ml-2">Delete</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          {values.outlet_addresses.length > 1 &&
+            index !== 0 &&
+            index !== values.outlet_addresses.length - 1 && (
+              <Divider className="bg-[#cbcbcb] my-3"></Divider>
+            )}
+          {values.outlet_addresses.length > 1 && index === 0 && (
+            <Divider className="bg-[#cbcbcb] my-3"></Divider>
+          )}
+        </View>
+      ))}
+      <TouchableOpacity onPress={() => handleAddPair()}>
+        <View className="w-24 p-2 text-center bg-[#f96900] items-center justify-center flex flex-row rounded-[5px] mt-2">
+          <MaterialIcons name="add" size={18} color="white" />
+          <Text className="ml-2 text-center text-white font-[Roboto-Regular] text-[12px]">
+            Add
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 10,
   },
   label: {
-    marginBottom: 5,
+    marginBottom: 2,
+    color: '#00274d',
+    fontFamily: 'Poppins-Medium',
   },
   input: {
-    height: 40,
-    margin: 3,
+    paddingVertical: 5,
+    paddingLeft: 10,
     borderWidth: 0,
-    // padding: 12,
     color: 'gray',
     backgroundColor: 'white',
     borderRadius: 5,

@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import * as Yup from 'yup';
-
 import {
   Image,
   StyleSheet,
@@ -12,43 +11,37 @@ import {
   Animated,
   ScrollView,
   ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import ImagePicker from 'react-native-image-crop-picker';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import {Badge, IconButton} from 'react-native-paper';
-import {Avatar, Card} from 'react-native-paper';
+import {SelectList} from 'react-native-dropdown-select-list';
+import {Avatar, Card, Checkbox, Divider} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
 import {useFormik} from 'formik';
 import {Picker} from '@react-native-picker/picker';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 
-export default function VendorInfo(nav) {
-  const [image, setImage] = useState('');
-  const mainId = nav.route.params.id;
+const vehicleTypeList = [
+  {key: '1', value: 'Mini Truck'},
+  {key: '2', value: 'Medium Truck'},
+  {key: '3', value: 'Large Truck'},
+];
 
+export default function VendorInfo(nav) {
+  const [checked, setChecked] = React.useState(false);
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [inputs, setInputs] = useState([
     {image: '', name: '', license: '', licenseNo: ''},
   ]);
+  const [toggle, setToggle] = useState(true);
+  const mainId = nav.route.params.id;
 
   const [inputsVehicle, setInputsVehicle] = useState([
     {brand: '', number: '', vehicleType: ''},
   ]);
-
-  // const handleAdd = () => {
-  //   setInputs([...inputs, {email: '', password: ''}]);
-  // };
-
-  // const handleDelete = index => {
-  //   const updatedInputs = [...inputs];
-  //   updatedInputs.splice(index, 1);
-  //   setInputs(updatedInputs);
-  // };
-  // vehicle add
   const handleAddVehicle = () => {
     formik.setFieldValue('vehicles', [
       ...inputsVehicle,
@@ -59,16 +52,7 @@ export default function VendorInfo(nav) {
       {brand: '', number: '', vehicleType: ''},
     ]);
   };
-  const handleDeleteVehicle = index => {
-    // const newVehicles = formik.values.vehicles.filter((_, i) => i !== index);
-    // formik.setFieldValue('vehicles', newVehicles);
-    // setInputsVehicle(newVehicles);
 
-    const updatedInputs = [...inputsVehicle];
-    updatedInputs.splice(index, 1);
-    setInputsVehicle(updatedInputs);
-    formik.setFieldValue('vehicles', updatedInputs);
-  };
   const redirectBusiness = () => {
     nav.navigation.navigate('logisbusiness');
     // nav.navigation.navigate('bottomTab');
@@ -76,60 +60,11 @@ export default function VendorInfo(nav) {
 
   useEffect(() => {
     Animated.timing(progress, {
-      toValue: 75,
+      toValue: 330,
       duration: 2000,
     }).start();
   }, []);
 
-  // const selectDoc = async index => {
-  //   try {
-  //     const res = await DocumentPicker.pick({
-  //       type: [DocumentPicker.types.pdf, DocumentPicker.types.images],
-  //     });
-  //     const selectedDoc = res[0];
-  //     const updatedInputs = [...inputs];
-  //     updatedInputs[index].license = selectedDoc.uri;
-  //     setInputs(updatedInputs);
-  //     const imageDetails = {
-  //       uri: selectedDoc.uri,
-  //       type: selectedDoc.type,
-  //       name: selectedDoc?.name,
-  //     };
-  //     console.log(updatedInputs, 'rrrr111', imageDetails);
-
-  //     formik.setFieldValue(`drivers[${index}].license`, imageDetails);
-  //   } catch (err) {
-  //     if (DocumentPicker.isCancel(err)) {
-  //       console.log('User cancelled the document picker');
-  //     } else {
-  //       throw err;
-  //     }
-  //   }
-  // };
-
-  // const selectPhoto = index => {
-  //   ImagePicker.openPicker({
-  //     width: 400,
-  //     height: 400,
-  //     cropping: true,
-  //     includeBase64: false,
-  //     cropperCircleOverlay: true,
-  //     avoidEmptySpaceAroundImage: true,
-  //     freeStyleCropEnabled: true,
-  //   }).then(image => {
-  //     const updatedInputs = [...inputs];
-  //     updatedInputs[index].image = image.path;
-  //     setInputs(updatedInputs);
-
-  //     console.log('image1122', image);
-  //     const imageDetails = {
-  //       uri: image.path,
-  //       type: image.mime,
-  //       name: image.path.split('/').pop(),
-  //     };
-  //     formik.setFieldValue(`drivers[${index}].image`, imageDetails);
-  //   });
-  // };
   const selectDoc = async index => {
     try {
       const res = await DocumentPicker.pick({
@@ -194,6 +129,12 @@ export default function VendorInfo(nav) {
     formik.setFieldValue('drivers', updatedInputs);
   };
 
+  const handleDeleteVehicle = index => {
+    const updatedInputs = [...inputsVehicle];
+    updatedInputs.splice(index, 1);
+    setInputsVehicle(updatedInputs);
+    formik.setFieldValue('vehicles', updatedInputs);
+  };
   const LogisticRegisterSchema = Yup.object().shape({
     drivers: Yup.array().of(
       Yup.object().shape({
@@ -229,85 +170,18 @@ export default function VendorInfo(nav) {
     vehicles: [{brand: '', number: '', vehicleType: ''}],
   };
 
-  // const formik = useFormik({
-  //   initialValues,
-  //   validationSchema: LogisticRegisterSchema,
-  //   onSubmit: async (values, action) => {
-  //     console.log('Form values:', values);
-
-  //     const formdata = new FormData();
-
-  //     values.drivers.forEach((driver, index) => {
-  //       formdata.append(`drivers[${index}].name`, driver.name);
-  //       formdata.append(`drivers[${index}].licenseNo`, driver.licenseNo);
-  //       formdata.append(`drivers[${index}].driving_license`, driver.license);
-  //       formdata.append(`drivers[${index}].driver_images`, driver.image);
-
-  //       // console.log('9999', driver);
-  //       // if (driver.image) {
-  //       //   formdata.append(`drivers[${index}].image`, {
-  //       //     uri: driver.image.uri,
-  //       //     type: driver.image.type,
-  //       //     name: driver.image.name,
-  //       //   });
-  //       // }
-  //     });
-
-  //     console.log('FormData:', formdata?._parts);
-  //     // const formData = new FormData();
-  //     // values.drivers.forEach((driver, index) => {
-  //     //   if (driver.image) {
-  //     //     formData.append(`drivers[${index}][image]`, {
-  //     //       uri: driver.image,
-  //     //       type: 'image/jpeg',
-  //     //       name: `driver_${index}.jpg`,
-  //     //     });
-  //     //   }
-  //     //   formData.append(`drivers[${index}][name]`, driver.name);
-  //     //   formData.append(`drivers[${index}][license]`, driver.license);
-  //     // });
-
-  //     // await axios({
-  //     //   method: 'post',
-  //     //   url: 'https://example.com/api/submit', // replace with your API endpoint
-  //     //   headers: {
-  //     //     'Content-Type': 'multipart/form-data',
-  //     //   },
-  //     //   data: formData,
-  //     // })
-  //     //   .then(response => {
-  //     //     console.log('Response:', response.data);
-  //     //     ToastAndroid.showWithGravityAndOffset(
-  //     //       'Form submitted successfully!',
-  //     //       ToastAndroid.LONG,
-  //     //       ToastAndroid.CENTER,
-  //     //       25,
-  //     //       50,
-  //     //     );
-  //     //   })
-  //     //   .catch(error => {
-  //     //     console.log('Error:', error.response.data);
-  //     //     ToastAndroid.showWithGravityAndOffset(
-  //     //       'Error submitting form',
-  //     //       ToastAndroid.LONG,
-  //     //       ToastAndroid.CENTER,
-  //     //       25,
-  //     //       50,
-  //     //     );
-  //     //   });
-  //   },
-  // });
-
   const formik = useFormik({
     initialValues,
     validationSchema: LogisticRegisterSchema,
     onSubmit: async (values, action) => {
       try {
+        setToggle(false);
         const formData = new FormData();
         formData.append('slide', '4');
         formData.append('user_type', 'logistic');
         formData.append('doc_id', mainId);
 
+        console.log(values,"valuesssss");
         console.log('values.drivers', values.drivers);
         values.drivers.forEach((driver, index) => {
           formData.append(`driver_images`, {
@@ -325,9 +199,18 @@ export default function VendorInfo(nav) {
         });
 
         values.vehicles.forEach((vehicle, index) => {
+          console.log( vehicle.vehicleType == 'Mini Truck'
+          ? 'mini_truck'
+          : vehicle.vehicleType == 'Medium Truck'
+          ? 'medium_truck'
+          : 'large_truck',"kkkkkkkkkkkkk");
           formData.append(
             `vehicle_details_array[${index}][vehicleType]`,
-            vehicle.vehicleType,
+            // vehicle.vehicleType == 'Mini Truck'
+              // ? 'mini_truck'
+              // : vehicle.vehicleType == 'Medium Truck'
+              // ? 'medium_truck'
+              vehicle.vehicleType
           );
           formData.append(
             `vehicle_details_array[${index}][brand]`,
@@ -339,35 +222,6 @@ export default function VendorInfo(nav) {
           );
         });
 
-        // console.log(
-        //   // 'Form values:',
-        //   // values?.drivers?.[0],
-        //   // 'values',
-        //   // values?.vehicles,
-        //   'oiioioioio',
-        //   formData,
-        // );
-
-        // const formDataEntries = formData.getParts();
-
-        // for (const formDataEntry of formDataEntries) {
-        //   const fieldName = formDataEntry.fieldName;
-        //   let value;
-        //   if (formDataEntry.string) {
-        //     value = formDataEntry.string;
-        //   } else {
-        //     value = {
-        //       name: formDataEntry.name,
-        //       type: formDataEntry.type,
-        //       uri: formDataEntry.uri,
-        //     };
-        //   }
-        //   // console.log('formDataEntry', formDataEntry);
-
-        //   console.log(`Field Name: ${fieldName}`);
-        //   console.log(`Value: ${JSON.stringify(value, null, 2)}`);
-        // }
-
         await axios({
           method: 'post',
           url: `${environmentVariables?.apiUrl}/api/user/register`,
@@ -377,6 +231,7 @@ export default function VendorInfo(nav) {
           data: formData,
         })
           .then(response => {
+            setToggle(true);
             ToastAndroid.showWithGravityAndOffset(
               response.data.message,
               ToastAndroid.LONG,
@@ -387,6 +242,7 @@ export default function VendorInfo(nav) {
             nav.navigation.navigate('Login');
           })
           .catch(error => {
+            setToggle(true);
             console.log('error', error.response.data.message);
             ToastAndroid.showWithGravityAndOffset(
               error.response.data.message,
@@ -397,6 +253,7 @@ export default function VendorInfo(nav) {
             );
           });
       } catch (error) {
+        setToggle(true);
         console.error('Error submitting form:', error);
       }
     },
@@ -417,26 +274,25 @@ export default function VendorInfo(nav) {
             source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
           />
         </View>
-        <View className="mt-5">
+        <View className="mt-8">
           <Text
-            className="text-3xl text-[#00274D]"
-            style={{fontFamily: 'Poppins-bold'}}>
+            className="text-[35px] text-[#00274D]"
+            style={{fontFamily: 'Roboto-Bold'}}>
             Logistic Partner Info
           </Text>
           <Text
-            className="text-xs pt-2 text-gray-400"
+            className="pt-2 text-xs text-gray-400"
             style={{fontFamily: 'Poppins-Light'}}>
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
-        <View className=" pt-10 ">
-          {/* progressbar */}
+        <View className="pt-5 ">
           <View className="flex flex-col">
             <View className="flex flex-row justify-between ">
               <Text
                 className="text-[#F96900]"
                 style={{fontFamily: 'Poppins-Regular'}}>
-                Profile Upload (3/3)
+                Profile Upload (4/4)
               </Text>
               <Text
                 className="text-[#F96900]"
@@ -445,139 +301,19 @@ export default function VendorInfo(nav) {
               </Text>
             </View>
 
-            <Animated.View style={[styles.bar, {width: progress}]} />
+            <View className="bg-[#F6E0D1] rounded-[10px]">
+              <Animated.View style={[styles.bar, {width: progress}]} />
+            </View>
           </View>
 
           <View>
             <Text
-              className="text-2xl text-[#00274D] pt-3"
-              style={{fontFamily: 'Poppins-bold'}}>
+              className="text-[20px] text-[#00274D] pt-3"
+              style={{fontFamily: 'Poppins-Medium'}}>
               Driver Details
             </Text>
           </View>
-
-          {/* <View className=" pt-10 " style={styles.user}>
-
-            <FontAwesome6 name={'user'} size={30} />
-            <Feather
-              name={'edit-2'}
-              style={{position: 'absolute', bottom: -6, right: -6}}
-            />
-
-          </View> */}
           <SafeAreaView>
-            {/* <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Driver Name
-            </Text>
-            <TextInput
-              style={styles.input}
-              placeholderTextColor="rgb(210, 210, 210)"
-              placeholder="Enter Driver's name"
-              className="!border-none pl-4 !border-white"
-              borderRadius={10}
-            />
-            <View className="mt-3">
-              <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
-                Driving Licence
-              </Text>
-              <TouchableOpacity className="h-[76px]" onPress={selectDoc}>
-                <Card.Title
-                  className="bg-white shadow rounded-xl"
-                  title="Click to Upload"
-                  titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
-                  subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
-                  subtitleStyle={{
-                    color: 'black',
-                    paddingBottom: 4.5,
-                    color: '#7e84a3',
-                    fontSize: 10,
-                  }}
-                  left={props => (
-                    <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#D0DFFF] bg-[#E6EEFF]">
-                      <Image
-                        style={{height: 24, width: 20}}
-                        source={require('../../Assets/image/file_upload.png')}
-                      />
-                    </View>
-                  )}
-                />
-              </TouchableOpacity>
-            </View> */}
-            {/* add-1 */}
-
-            {/* {inputs.map((input, index) => (
-              <SafeAreaView key={index}>
-                <View className=" pt-10 " style={styles.user}>
-                  <TouchableOpacity onPress={() => selectPhoto()}>
-                    <Feather
-                      name={'edit-2'}
-                      style={{position: 'absolute', top: 0, right: 30}}
-                    />
-                    <Avatar.Image
-                      size={140}
-                      style={styles.avatar}
-                      source={{
-                        uri:
-                          image == '' || image == null
-                            ? 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQMAAADCCAMAAAB6zFdcAAAAM1BMVEXFzeD////Byt7L0uPByd7Q1+b7/P3j5/Dv8fbe4+3r7vTFzuDL0+P19/rn6/LZ3urW2+lU+LHUAAAFLklEQVR4nO2dC3arMAxEQXwCcfjsf7XPkLw2tEka5AEziu8CeuKpJVmyLLIskUgkEkdFbsT+HXEQKbNqOPWN59y72D9nd/z/vWqbOv/mozSY9n116vIl1acYg1++G9v+5/rzvMs+QwL/7x/O9a/lT5zL2D9uF7wAzcP1e+pP2AQi4/mZAJ6TfQ3EtY9N4D+jdQ2k6F8K4OltayDFKyP4cghmI6PzVvDnHrDuEqR9UwFPY1IEufw+C72yh8LeIUFOaxSY6K0dFt2qTXDDVJCUi0IBT2vHHmTUSWAnPjgZtBJ4p2BjJ4RIYCSHlCpEAi+CAXMowiSwIIJoguKSE7k5rD8aPWDg3gnKg8EPLrGXEUL5tGC2ijr2OkIIjAlfEJdVBLMNcmprQEnAW09YUzT5C9aNADgbfMGaPQlOgrwj1cAlDZIGGVYD2ktIpAasiRNQgzxpkOektoCMjUkDT+zFaEFqwNqohtSgiL0YHcHlVAMaoCooM6SJo/qK7RGk+yBpkGVBl2w2NAi7aEwamNEAWE5MGiQNkgZJg6RB0sCEBoj+C3YN0j5IGkyks3LKnSegdaSkQdIgaUCtwcf7RJHy02OjVG3/+knvSlxJd+uK7Emb6eqOrQVBoJvgCtu16xYasF23QXsPWDVI+yArN9CALTyW6LhAqAE8NuaEcQH2fOMbtkNS+e7IC8MaYIuJM3TnRGwxcYbvPQ+0eDBD95TFIRv3rwyx17Qa/EGRbmqSAz1xvSP2ktaDvW3MOV9xoJ0i43tftEPgc4n4U1Ls9ajAbgTOkSCh02AW1GxJ4w2gCKwSIAspF0pLmIB5BNaXvhnwnMSXMn6DqrBzBoUrqKoiXdp8B6qqWMVeSADyzijhNyDeBiinyOwSUc95uAemYZ66sl0wLYGcFPmK6gsgCTRzZJxAlJe5TQFyQiA3hQxRVuSOChPBXrEW2trBf/RDts1sg+C8iXZA1oKwc9IY++dDCDojUKcKd5T67JF6ou4C9SHBhjO4os2hiWupv1Hm0JY00LpFKx5xQmsLpjRQdisy19R/om3MsaSB9rxsSgOdBKY00E5SZOxBeoa2kGJJA+01gyEN1JmjJQ20jxnYq+p3qPNGQxqo66qtHQ3UfUlJA0MalKJ+8NnyPfh/hFzOnbpFr6vP7JeNGaALw0BJMfzemT4+IhqSYq8hFESDInNj3ky4BPSXroieLPZDAuI7nuROsUS84iAvqKmT5gWxVxEIQgJuY8BsA+6NgPmyMXVkQHXuM+cMuBEIjO98Z4K78r5pOFtVpWiRn7Qd+aop5QU9AqJuMyYVRKoNJkT58OD/cuy1vYUX4LTBvLgrzVAcXwYpthPgSjcc2ybkgjoRvKQvjqrCVl7gEU11RJMQGTeYFvicbjyaCnsrMFG3R1JBsnZjR/hEhf4gJiHi0NOg1nCOL8OejvAJ3RBTBScy7O4GHlCfXCwV4hrBkvMlQmYpZXQjWLJ7sJTyEEawZNfMsowUC/+m38kxiNtgbDCMZgfHIMUuaVEA3cYnBnx5aAu8e9xMASkYFJjoNpo/K+7oVnBPg68xuKw8zoHoPXp0pCzHg0bDV0CTa3EsjmBJjUunsB9u35Ua08wkGecmuIEIEVIReoIFwTf38JHhEQgcxuqOlx4qCBFBCnY7uKH/uhV0SHRU9CNFUO1EB0A9TMKIIczoggP+QxpRUQ0cM+MMrmiezG7x0bmoKDYCZhLqgVjf8WvhfLhkfaPnFt/di8zq6XNbfIczMqsHDW3xTdrYPFvrP7kiUsVMV4ODAAAAAElFTkSuQmCC'
-                            : image,
-                      }}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <Text
-                  className="text-[#00274D] px-3"
-                  style={{fontFamily: 'Poppins-SemiBold'}}>
-                  Driver Name
-                </Text>
-                <TextInput
-                  style={styles.input}
-                  placeholderTextColor="rgb(210, 210, 210)"
-                  placeholder="Enter Driver's name"
-                  className="!border-none pl-4 !border-white"
-                  borderRadius={10}
-                />
-                <View className="mt-3">
-                  <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
-                    Driving Licence
-                  </Text>
-                  <TouchableOpacity className="h-[76px]" onPress={selectDoc}>
-                    <Card.Title
-                      className="bg-white shadow rounded-xl"
-                      title="Click to Upload"
-                      titleStyle={{
-                        color: '#0058ff',
-                        fontSize: 13,
-                        paddingTop: 4.5,
-                      }}
-                      subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
-                      subtitleStyle={{
-                        color: 'black',
-                        paddingBottom: 4.5,
-                        color: '#7e84a3',
-                        fontSize: 10,
-                      }}
-                      left={props => (
-                        <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#D0DFFF] bg-[#E6EEFF]">
-                          <Image
-                            style={{height: 24, width: 20}}
-                            source={require('../../Assets/image/file_upload.png')}
-                          />
-                        </View>
-                      )}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <TouchableOpacity
-                  onPress={() => handleDelete(index)}
-                  style={styles.deleteButton}>
-                  <Text>Delete</Text>
-                </TouchableOpacity>
-              </SafeAreaView>
-            ))} */}
-
             {inputs.map((input, index) => (
               <View key={index}>
                 <View className="pt-10" style={styles.user}>
@@ -613,9 +349,7 @@ export default function VendorInfo(nav) {
                     </View>
                   </TouchableOpacity>
                 </View>
-                <Text
-                  className="text-[#00274D] px-3"
-                  style={{fontFamily: 'Poppins-SemiBold'}}>
+                <Text className="mt-3 " style={styles.textStyle}>
                   Driver Name
                 </Text>
                 <TextInput
@@ -631,15 +365,11 @@ export default function VendorInfo(nav) {
                 {errors.drivers &&
                   errors.drivers[index] &&
                   errors.drivers[index].name && (
-                    <Text style={styles.errorText}>
+                    <Text style={styles.errorHandle}>
                       {errors.drivers[index].name}
                     </Text>
                   )}
-                <Text
-                  className="text-[#00274D] px-3"
-                  style={{fontFamily: 'Poppins-SemiBold'}}>
-                  Driver License Number
-                </Text>
+                <Text style={styles.textStyle}>Driver License Number</Text>
                 <TextInput
                   style={styles.input}
                   placeholderTextColor="rgb(210, 210, 210)"
@@ -653,16 +383,12 @@ export default function VendorInfo(nav) {
                 {errors.drivers &&
                   errors.drivers[index] &&
                   errors.drivers[index].licenseNo && (
-                    <Text style={styles.errorText}>
+                    <Text style={styles.errorHandle}>
                       {errors.drivers[index].licenseNo}
                     </Text>
                   )}
                 <View className="mt-3">
-                  <Text
-                    className="text-[#00274D] px-3"
-                    style={{fontFamily: 'Poppins-SemiBold'}}>
-                    Driving Licence
-                  </Text>
+                  <Text style={styles.textStyle}>Driving Licence</Text>
                   <TouchableOpacity
                     className="h-[76px]"
                     onPress={() => selectDoc(index)}
@@ -702,125 +428,161 @@ export default function VendorInfo(nav) {
                       {errors.drivers[index].license.uri}
                     </Text>
                   )}
-                {index > 0 && (
+
+                {inputs?.length > 1 &&
+                  index !== 0 &&
+                  index !== inputs?.length - 1 && (
+                    <TouchableOpacity onPress={() => handleDelete(index)}>
+                      <View className="w-24 p-2 text-center bg-[#e6e9f4] items-center justify-center flex flex-row rounded-[5px] mt-2">
+                        <Image
+                          source={require('../../Assets/image/trash.png')}
+                          style={{height: 18, width: 15, tintColor: '#7e84a3'}}
+                        />
+                        <Text className="text-center text-[#7e84a3] ml-2">
+                          Delete
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  )}
+
+                {inputs?.length > 1 && index === 0 && (
+                  <TouchableOpacity onPress={() => handleDelete(index)}>
+                    <View className="w-24 p-2 text-center bg-[#e6e9f4] items-center justify-center flex flex-row rounded-[5px] mt-2">
+                      <Image
+                        source={require('../../Assets/image/trash.png')}
+                        style={{height: 18, width: 15, tintColor: '#7e84a3'}}
+                      />
+                      <Text className="text-center text-[#7e84a3] ml-2">
+                        Delete
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+
+                {inputs.length > 1 &&
+                  index !== 0 &&
+                  index !== inputs.length - 1 && (
+                    <Divider className="bg-[#cbcbcb] my-3"></Divider>
+                  )}
+                {inputs.length > 1 && index === 0 && (
+                  <Divider className="bg-[#cbcbcb] my-3"></Divider>
+                )}
+
+                {/* {index > 0 && (
                   <TouchableOpacity
                     onPress={() => handleDelete(index)}
                     style={styles.deleteButton}>
                     <Text>Delete</Text>
                   </TouchableOpacity>
-                )}
+                )} */}
               </View>
             ))}
-
-            {/* <TouchableOpacity onPress={handleAdd} style={styles.addButton}>
-              <Text>Add Driver</Text>
-            </TouchableOpacity> */}
-            <TouchableOpacity onPress={handleAdd} style={styles.buttonadd}>
-              <Text>Add</Text>
+            <TouchableOpacity onPress={handleAdd}>
+              <View className="w-24 p-2.5 text-center bg-[#f96900] items-center justify-center flex flex-row rounded-[5px] mt-3">
+                <MaterialIcons name="add" size={18} color="white" />
+                <Text className="ml-2 text-center text-white font-[Roboto-Regular] text-[12px]">
+                  Add
+                </Text>
+              </View>
             </TouchableOpacity>
-            {/* <TouchableOpacity
-              onPress={handleSubmit}
-              style={styles.submitButton}>
-              <Text>Submit</Text>
-            </TouchableOpacity> */}
 
-            <View style={styles.line} />
-            {/* text2 */}
+            <View style={styles.line} className="mt-5" />
             <View>
               <Text
-                className="text-2xl text-[#00274D] pt-3 pb-3"
-                style={{fontFamily: 'Poppins-bold'}}>
+                className="text-[20px] text-[#00274D] pt-1 pb-3"
+                style={{fontFamily: 'Roboto-Medium'}}>
                 Vehicle Details
               </Text>
             </View>
 
-            {/* <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Vehicle Brand
-            </Text>
-            <TextInput
-              style={styles.input}
-              placeholderTextColor="rgb(210, 210, 210)"
-              placeholder="Enter Vehicle brand name"
-              className="!border-none pl-4 !border-white"
-              borderRadius={10}
-            />
-            <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Vehicle Name
-            </Text>
-            <TextInput
-              style={styles.input}
-              placeholderTextColor="rgb(210, 210, 210)"
-              placeholder="Enter Vehicle registered number"
-              className="!border-none pl-4 !border-white"
-              borderRadius={10}
-            /> */}
-
-            {/* add-2 */}
-
             {inputsVehicle?.map((inputVehicle, indexVehicle) => (
-              <SafeAreaView key={indexVehicle}>
-                <Text
-                  className="text-[#00274D] px-3"
-                  style={{fontFamily: 'Poppins-SemiBold'}}>
-                  Vehicle Type
+              <View key={indexVehicle}>
+                <Text className="text-[#00274D] px-3" style={styles.textStyle}>
+                  Vehicle Type hh
                 </Text>
-                <Picker
-                  selectedValue={values.vehicles[indexVehicle].vehicleType}
-                  style={styles.input} // Apply your input style here
-                  onValueChange={itemValue =>
-                    handleChange(`vehicles[${indexVehicle}].vehicleType`)(
-                      itemValue,
-                    )
-                  }
-                  onBlur={handleBlur(`vehicles[${indexVehicle}].vehicleType`)}>
-                  <Picker.Item label="Select Vehicle Type" value="" />
-                  <Picker.Item label="Mini Truck" value="mini_truck" />
-                  <Picker.Item label="Medium Truck" value="medium_truck" />
-                  <Picker.Item label="Large Truck" value="large_truck" />
-                </Picker>
-                {touched.vehicles &&
-                  touched.vehicles[indexVehicle] &&
-                  errors.vehicles &&
-                  errors.vehicles[indexVehicle] &&
-                  errors.vehicles[indexVehicle].vehicleType && (
-                    <Text style={styles.errorText}>
-                      {errors.vehicles[indexVehicle].vehicleType}
-                    </Text>
-                  )}
+                <View className="">
+                  {/* <Picker
+                    selectedValue={values.vehicles[indexVehicle].vehicleType}
+                    style={{
+                      backgroundColor: 'white',
+                      color: '#cbcbcb',
+                      
+                    }}
+                    radi
+                    onValueChange={itemValue =>
+                      handleChange(`vehicles[${indexVehicle}].vehicleType`)(
+                        itemValue,
+                      )
+                    }
+                    onBlur={handleBlur(
+                      `vehicles[${indexVehicle}].vehicleType`,
+                    )}
+                    // itemStyle={{}}
+                    >
+                    <Picker.Item label="Select Vehicle Type" value="" />
+                    <Picker.Item label="Mini Truck" value="mini_truck" />
+                    <Picker.Item label="Medium Truck" value="medium_truck" />
+                    <Picker.Item label="Large Truck" value="large_truck" />
+                  </Picker> */}
 
-                <Text
-                  className="text-[#00274D] px-3"
-                  style={{fontFamily: 'Poppins-SemiBold'}}>
-                  Vehicle Brand
-                </Text>
-                <TextInput
-                  style={styles.input}
-                  placeholderTextColor="rgb(210, 210, 210)"
-                  placeholder="Enter your Name"
-                  className="!border-none pl-4 !border-white"
-                  borderRadius={10}
-                  onChangeText={handleChange(`vehicles[${indexVehicle}].brand`)}
-                  onBlur={handleBlur(`vehicles[${indexVehicle}].brand`)}
-                  value={values.vehicles[indexVehicle].brand}
-                />
-                {touched.vehicles &&
-                  touched.vehicles[indexVehicle] &&
-                  errors.vehicles &&
-                  errors.vehicles[indexVehicle] &&
-                  errors.vehicles[indexVehicle].brand && (
-                    <Text style={styles.errorText}>
-                      {errors.vehicles[indexVehicle].brand}
-                    </Text>
-                  )}
-                <Text
-                  className="text-[#00274D] px-3"
-                  style={{fontFamily: 'Poppins-SemiBold'}}>
-                  Vehicle Number
-                </Text>
+                  <SelectList
+                    setSelected={itemValue =>
+                      handleChange(`vehicles[${indexVehicle}].vehicleType`)(
+                        itemValue,
+                      )
+                    }
+                    boxStyles={{
+                      backgroundColor: 'white',
+                      borderColor: 'white',
+                      paddingVertical: 10,
+                    }}
+                    inputStyles={{color: '#cbcbcb'}}
+                    placeholder="Select vehicle type"
+                    dropdownStyles={{
+                      backgroundColor: 'white',
+                      borderColor: 'white',
+                    }}
+                    dropdownTextStyles={{color: '#002740'}}
+                    data={vehicleTypeList}
+                    save="value"
+                    className="!outline-none !border"
+                  />
+                  {touched.vehicles &&
+                    touched.vehicles[indexVehicle] &&
+                    errors.vehicles &&
+                    errors.vehicles[indexVehicle] &&
+                    errors.vehicles[indexVehicle].vehicleType && (
+                      <Text style={styles.errorHandle}>
+                        {errors.vehicles[indexVehicle].vehicleType}
+                      </Text>
+                    )}
+                </View>
+
+                <View className="mt-2">
+                  <Text style={styles.textStyle}>Vehicle Brand</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholderTextColor="rgb(210, 210, 210)"
+                    placeholder="Enter your Name"
+                    className="!border-none pl-4 !border-white"
+                    borderRadius={10}
+                    onChangeText={handleChange(
+                      `vehicles[${indexVehicle}].brand`,
+                    )}
+                    onBlur={handleBlur(`vehicles[${indexVehicle}].brand`)}
+                    value={values.vehicles[indexVehicle].brand}
+                  />
+                  {touched.vehicles &&
+                    touched.vehicles[indexVehicle] &&
+                    errors.vehicles &&
+                    errors.vehicles[indexVehicle] &&
+                    errors.vehicles[indexVehicle].brand && (
+                      <Text style={styles.errorHandle}>
+                        {errors.vehicles[indexVehicle].brand}
+                      </Text>
+                    )}
+                </View>
+                <Text style={styles.textStyle}>Vehicle Number</Text>
                 <TextInput
                   style={styles.input}
                   placeholderTextColor="rgb(210, 210, 210)"
@@ -838,95 +600,92 @@ export default function VendorInfo(nav) {
                   errors.vehicles &&
                   errors.vehicles[indexVehicle] &&
                   errors.vehicles[indexVehicle].number && (
-                    <Text style={styles.errorText}>
+                    <Text style={styles.errorHandle}>
                       {errors.vehicles[indexVehicle].number}
                     </Text>
                   )}
-                {indexVehicle > 0 && (
+
+                {inputsVehicle?.length > 1 &&
+                  indexVehicle !== 0 &&
+                  indexVehicle !== inputsVehicle?.length - 1 && (
+                    <TouchableOpacity
+                      onPress={() => handleDeleteVehicle(indexVehicle)}>
+                      <View className="w-24 p-2 text-center bg-[#e6e9f4] items-center justify-center flex flex-row rounded-[5px] mt-2">
+                        <Image
+                          source={require('../../Assets/image/trash.png')}
+                          style={{height: 18, width: 15, tintColor: '#7e84a3'}}
+                        />
+                        <Text className="text-center text-[#7e84a3] ml-2">
+                          Delete
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  )}
+
+                {inputsVehicle?.length > 1 && indexVehicle === 0 && (
                   <TouchableOpacity
-                    onPress={() => handleDeleteVehicle(indexVehicle)}
-                    style={styles.deleteButton}>
-                    <Text>Delete</Text>
+                    onPress={() => handleDeleteVehicle(indexVehicle)}>
+                    <View className="w-24 p-2 text-center bg-[#e6e9f4] items-center justify-center flex flex-row rounded-[5px] mt-2">
+                      <Image
+                        source={require('../../Assets/image/trash.png')}
+                        style={{height: 18, width: 15, tintColor: '#7e84a3'}}
+                      />
+                      <Text className="text-center text-[#7e84a3] ml-2">
+                        Delete
+                      </Text>
+                    </View>
                   </TouchableOpacity>
                 )}
-              </SafeAreaView>
-            ))}
-            <TouchableOpacity
-              onPress={handleAddVehicle}
-              style={styles.buttonadd}>
-              <Text>Add</Text>
-            </TouchableOpacity>
 
-            {/* {values.vehicles.map((inputVehicle, indexVehicle) => (
-              <View key={indexVehicle} style={styles.vehicleContainer}>
-                <Text style={styles.label}>Vehicle Brand</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Enter Vehicle Brand"
-                  placeholderTextColor="rgb(210, 210, 210)"
-                  onChangeText={handleChange(`vehicles[${indexVehicle}].brand`)}
-                  onBlur={handleBlur(`vehicles[${indexVehicle}].brand`)}
-                  value={values.vehicles[indexVehicle].brand}
-                />
-                {touched.vehicles &&
-                  touched.vehicles[indexVehicle] &&
-                  errors.vehicles &&
-                  errors.vehicles[indexVehicle] &&
-                  errors.vehicles[indexVehicle].brand && (
-                    <Text style={styles.errorText}>
-                      {errors.vehicles[indexVehicle].brand}
-                    </Text>
+                {inputsVehicle.length > 1 &&
+                  indexVehicle !== 0 &&
+                  indexVehicle !== inputsVehicle.length - 1 && (
+                    <Divider className="bg-[#cbcbcb] my-3"></Divider>
                   )}
-                <Text style={styles.label}>Vehicle Number</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Enter Vehicle Number"
-                  placeholderTextColor="rgb(210, 210, 210)"
-                  onChangeText={handleChange(
-                    `vehicles[${indexVehicle}].number`,
-                  )}
-                  onBlur={handleBlur(`vehicles[${indexVehicle}].number`)}
-                  value={values.vehicles[indexVehicle].number}
-                />
-                {touched.vehicles &&
-                  touched.vehicles[indexVehicle] &&
-                  errors.vehicles &&
-                  errors.vehicles[indexVehicle] &&
-                  errors.vehicles[indexVehicle].number && (
-                    <Text style={styles.errorText}>
-                      {errors.vehicles[indexVehicle].number}
-                    </Text>
-                  )}
-                {indexVehicle > 0 && (
-                  <TouchableOpacity
-                    onPress={() => handleDeleteVehicle(indexVehicle)}
-                    style={styles.deleteButton}>
-                    <Text>Delete</Text>
-                  </TouchableOpacity>
+                {inputsVehicle.length > 1 && indexVehicle === 0 && (
+                  <Divider className="bg-[#cbcbcb] my-3"></Divider>
                 )}
               </View>
             ))}
-            <TouchableOpacity
-              onPress={handleAddVehicle}
-              style={styles.addButton}>
-              <Text>Add Vehicle</Text>
-            </TouchableOpacity> */}
-            {/* <TouchableOpacity
-              onPress={handleSubmit}
-              style={styles.submitButton}>
-              <Text>Submit</Text>
-            </TouchableOpacity> */}
           </SafeAreaView>
         </View>
-        <View className="pt-5">
-          <TouchableOpacity
-            onPress={() => handleSubmit()}
-            style={styles.button}>
-            <Text
-              className="text-white "
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              PROCEED
+        <TouchableOpacity onPress={handleAddVehicle}>
+          <View className="w-24 p-2.5 text-center bg-[#f96900] items-center justify-center flex flex-row rounded-[5px] mt-4">
+            <MaterialIcons name="add" size={18} color="white" />
+            <Text className="ml-2 text-center text-white font-[Roboto-Regular] text-[12px]">
+              Add
             </Text>
+          </View>
+        </TouchableOpacity>
+
+        <View className="flex flex-row items-center mt-2">
+            <Checkbox
+              status={checked ? 'checked' : 'unchecked'}
+              color="#f96900"
+              onPress={() => {
+                setChecked(!checked);
+              }}
+            />
+          <Text className="font-[Poppins-Light] text-[10px] text-[#7e84a3]">
+            I Agree To AQAD's
+          </Text>
+          <Text className="font-[Poppins-Light] text-[10px] text-sky-600 pl-1">
+            Terms And Conditions
+          </Text>
+        </View>
+        <View>
+          <TouchableOpacity
+            onPress={() => {
+              toggle ? handleSubmit() : null;
+            }}
+            style={toggle ? styles.button : styles.button1}
+            className="flex flex-row items-center justify-center mt-8 gap-x-2">
+            <Text
+              className="text-white flex flex-row  text-[19px]"
+              style={{fontFamily: 'Roboto-Regular'}}>
+              SUBMIT
+            </Text>
+            {toggle ? null : <ActivityIndicator size="small" color="#00274d" />}
           </TouchableOpacity>
         </View>
       </View>
@@ -934,18 +693,43 @@ export default function VendorInfo(nav) {
   );
 }
 const styles = StyleSheet.create({
+  checkboxContainer: {
+    borderColor: 'red',
+    borderRadius: 5,
+    borderWidth: 1,  // Ensure border is visible
+    padding: 2,     // Add some padding to make space for the border
+  },
+  checked: {
+    borderColor: '#f96900', // Optional: change border color when checked
+  },
+  button1: {
+    backgroundColor: '#F6E0D1',
+    padding: 12,
+    borderRadius: 5,
+    alignItems: 'center',
+    color: 'red',
+  },
+  textStyle: {
+    color: '#00274D',
+    fontFamily: 'Poppins-Medium',
+    paddingLeft: 4,
+    marginTop: 4,
+  },
+  errorHandle: {
+    color: 'red',
+    paddingLeft: 20,
+    fontSize: 12,
+  },
   topNavigation: {
     height: 15,
     width: 23.3,
   },
   input: {
-    height: 40,
+    paddingVertical: 4,
     margin: 3,
     borderWidth: 1,
-    // padding: 12,
     color: 'gray',
     backgroundColor: 'white',
-    // borderRadius: 20,
     fontFamily: 'Poppins-Light',
   },
   button: {
@@ -983,13 +767,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'gray',
     padding: 10,
-    marginTop: 10,
+    marginTop: 30,
     borderRadius: 5,
     width: 120,
   },
   line: {
-    height: 1,
-    backgroundColor: 'lightgray',
+    height: 0.5,
+    backgroundColor: '#cbcbcb',
     marginVertical: 10,
   },
   errorText: {

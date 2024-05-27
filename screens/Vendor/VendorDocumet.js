@@ -13,14 +13,14 @@ import {
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
-import { useFormik } from 'formik';
-import { VendorRegisterSchema3 } from '../../schemas/VendorRegisterSchema3';
+import {useFormik} from 'formik';
+import {VendorRegisterSchema3} from '../../schemas/VendorRegisterSchema3';
 import axios from 'axios';
-import { environmentVariables } from '../../config/Config';
+import {environmentVariables} from '../../config/Config';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
-  const [toggle,setToggle]=useState(true)
+  const [toggle, setToggle] = useState(true);
 
   const [selectedDocuments, setSelectedDocuments] = useState({
     vatCertificateDocument: null,
@@ -38,7 +38,6 @@ export default function VendorDocument(nav) {
       toValue: 330,
       duration: 2000,
       useNativeDriver: false,
-      
     }).start();
   }, []);
 
@@ -51,61 +50,57 @@ export default function VendorDocument(nav) {
     emiratesIDNumber: '',
   };
 
+  let formik = useFormik({
+    initialValues,
+    validationSchema: VendorRegisterSchema3,
+    onSubmit: async (values, action) => {
+      setToggle(false);
+      let formdata = new FormData();
+      formdata.append('slide', '3');
+      formdata.append('user_type', 'vendor');
+      formdata.append('doc_id', mainId);
+      formdata.append('iban', values.cancelledChequeIBAN);
+      formdata.append('emirates_id', values.emiratesIDNumber);
 
-  let formik =  useFormik({
-      initialValues,
-      validationSchema: VendorRegisterSchema3,
-      onSubmit: async (values, action) => {
-      
-        setToggle(false)
-        let formdata = new FormData();
-        formdata.append("slide", "3");
-        formdata.append("user_type", "vendor");
-        formdata.append("doc_id", mainId);
-        formdata.append("iban", values.cancelledChequeIBAN);
-        formdata.append("emirates_id", values.emiratesIDNumber);
-     
-        Object.keys(values).forEach(key => {
-          if (values[key] && typeof values[key] === 'object') {
-            formdata.append(key, {
-              uri: values[key].uri,
-              type: values[key].type,
-              name: values[key].name
-            });
-          }
-        });
-        await axios({
-          method: "post",
-          url: `${environmentVariables?.apiUrl}/api/user/register`,        
-          headers :{
-            "Content-Type":"multipart/form-data"
-          },
-          data: formdata,
-        })
-          .then((response) => {
-            setToggle(true)
-            ToastAndroid.showWithGravityAndOffset(
-              response.data.message,
-              ToastAndroid.LONG,
-              ToastAndroid.CENTER,
-              25,
-              50,
-            );
-            nav.navigation.navigate('Login');
-
-          })
-          .catch((error) => {
-            setToggle(true)
-            ToastAndroid.showWithGravityAndOffset(
-              error.response.data.message,
-              ToastAndroid.LONG,
-              ToastAndroid.CENTER,
-              25,
-              50,
-            );
+      Object.keys(values).forEach(key => {
+        if (values[key] && typeof values[key] === 'object') {
+          formdata.append(key, {
+            uri: values[key].uri,
+            type: values[key].type,
+            name: values[key].name,
           });
-
-      },
+        }
+      });
+      await axios({
+        method: 'post',
+        url: `${environmentVariables?.apiUrl}/api/user/register`,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        data: formdata,
+      })
+        .then(response => {
+          setToggle(true);
+          ToastAndroid.showWithGravityAndOffset(
+            response.data.message,
+            ToastAndroid.TOP,
+            ToastAndroid.CENTER,
+            25,
+            50,
+          );
+          nav.navigation.navigate('Login');
+        })
+        .catch(error => {
+          setToggle(true);
+          ToastAndroid.showWithGravityAndOffset(
+            error.response.data.message,
+            ToastAndroid.TOP,
+            ToastAndroid.CENTER,
+            25,
+            50,
+          );
+        });
+    },
   });
 
   const selectDocument = async (documentType, formikField) => {
@@ -120,131 +115,16 @@ export default function VendorDocument(nav) {
         formik.setFieldValue(formikField, selectedDoc);
         setSelectedDocuments(prev => ({
           ...prev,
-          [documentType]: selectedDoc.name
+          [documentType]: selectedDoc.name,
         }));
       }
     } catch (err) {
       console.error('Error selecting document: ', err);
     }
   };
-  // const selectDocTradeLicense = async () => {
-  //   try {
-  //     const doc = await DocumentPicker.pick({
-  //       type: [DocumentPicker.types.pdf],
-  //       allowMultiSelection: true,
-  //     });
 
-  //     formik.setFieldValue("tradeLicense", doc?.[0]?.uri);
-  //     setSelectedTradeLicenseName(doc?.[0]?.name);
-  //   } catch (err) {
-  //     if (DocumentPicker.isCancel(err)) {
-  //     } else {
-  //     }
-  //   }
-  // };
-  const selectDocTradeLicense = async () => {
-    try {
-      const docs = await DocumentPicker.pick({
-        type: [DocumentPicker.types.pdf, DocumentPicker.types.images], // Allow both PDF and image files
-        allowMultiSelection: false,  // Change to false if you want only one file to be selectable
-      });
-  
-      if (docs && docs.length > 0) {
-        const selectedDoc = docs[0];
-        if (selectedDoc.type === "application/pdf" || selectedDoc.type === "image/jpeg" || selectedDoc.type === "image/jpg") {
-          formik.setFieldValue("tradeLicense", selectedDoc);
-          setSelectedTradeLicenseName(selectedDoc.name);
-        } else {
-          alert("Please select a PDF, JPEG, or JPG file.");
-        }
-      }
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        console.log('User cancelled the upload', err);
-      } else {
-        console.log('Unknown error: ', err);
-      }
-    }
-  };
-  const selectDocCancelledChequeDocument = async () => {
-    try {
-      const docs = await DocumentPicker.pick({
-        type: [DocumentPicker.types.pdf, DocumentPicker.types.images], // Allow both PDF and image files
-        allowMultiSelection: false,  // Change to false if you want only one file to be selectable
-      });      
-
-      if (docs && docs.length > 0) {
-        const selectedDoc = docs[0];
-        if (selectedDoc.type === "application/pdf" || selectedDoc.type === "image/jpeg" || selectedDoc.type === "image/jpg") {
-          formik.setFieldValue("cancelledChequeDocument", selectedDoc);
-          setSelectedCancelledChequeName(selectedDoc.name);
-        } else {
-          alert("Please select a PDF, JPEG, or JPG file.");
-        }
-      }
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        console.log('user cancelled the upload', err);
-      } else {
-        console.log(err);
-      }
-    }
-  };
-  const selectDocVATCertificate = async () => {
-    try {     
-
-      const docs = await DocumentPicker.pick({
-        type: [DocumentPicker.types.pdf, DocumentPicker.types.images], // Allow both PDF and image files
-        allowMultiSelection: false,  // Change to false if you want only one file to be selectable
-      });      
-
-      if (docs && docs.length > 0) {
-        // Assuming you only want to handle the first selected document
-        const selectedDoc = docs[0];
-        if (selectedDoc.type === "application/pdf" || selectedDoc.type === "image/jpeg" || selectedDoc.type === "image/jpg") {
-          formik.setFieldValue("vatCertificateDocument", selectedDoc);
-          setSelectedVATCertificate(selectedDoc.name);
-        } else {
-          alert("Please select a PDF, JPEG, or JPG file.");
-        }
-      }
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        console.log('user cancelled the upload', err);
-      } else {
-        console.log(err);
-      }
-    }
-  };
-  const selectEmiratesDoc = async () => {
-    try {
-    const docs = await DocumentPicker.pick({
-        type: [DocumentPicker.types.pdf, DocumentPicker.types.images], // Allow both PDF and image files
-        allowMultiSelection: false,  // Change to false if you want only one file to be selectable
-      });      
-
-      if (docs && docs.length > 0) {
-        console.log("docs...",docs)
-        // Assuming you only want to handle the first selected document
-        const selectedDoc = docs[0];
-        if (selectedDoc.type === "application/pdf" || selectedDoc.type === "image/jpeg" || selectedDoc.type === "image/jpg") {
-          formik.setFieldValue("emiratesIDDocument", selectedDoc);
-          setSelectedEmiratesDoc(selectedDoc.name);
-        } else {
-          alert("Please select a PDF, JPEG, or JPG file.");
-        }
-      }
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        console.log('user cancelled the upload', err);
-      } else {
-        console.log(err);
-      }
-    }
-  };
-
-
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = formik
+  const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
+    formik;
 
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
@@ -252,10 +132,12 @@ export default function VendorDocument(nav) {
         className="flex flex-col justify-center p-4   h-full bg-gray-100 !text-black
         ">
         <View className="relative flex flex-row items-center top-3 ">
-          <Image
-            style={styles.topNavigation}
-            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
-          />
+          <TouchableOpacity onPress={() => nav.navigation.navigate('business')}>
+            <Image
+              style={styles.topNavigation}
+              source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+            />
+          </TouchableOpacity>
         </View>
         <View className="mt-5">
           <Text
@@ -299,10 +181,12 @@ export default function VendorDocument(nav) {
             <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
               Trade Licence
             </Text>
-            <TouchableOpacity className="h-[76px]" onPress={() => selectDocument('tradeLicense', 'trade_license')}>
+            <TouchableOpacity
+              className="h-[76px]"
+              onPress={() => selectDocument('tradeLicense', 'trade_license')}>
               <Card.Title
                 className="bg-white shadow rounded-xl"
-                title={selectedDocuments.tradeLicense || "Click to Upload"}
+                title={selectedDocuments.tradeLicense || 'Click to Upload'}
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{
@@ -326,10 +210,16 @@ export default function VendorDocument(nav) {
             <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
               Cancelled Cheque / IBAN sdksdf
             </Text>
-            <TouchableOpacity className="h-[76px]" onPress={() => selectDocument('cancelledChequeDocument', 'cheque_scan')}>
+            <TouchableOpacity
+              className="h-[76px]"
+              onPress={() =>
+                selectDocument('cancelledChequeDocument', 'cheque_scan')
+              }>
               <Card.Title
                 className="bg-white shadow rounded-xl"
-                title={selectedDocuments.cancelledChequeDocument || "Click to Upload"}
+                title={
+                  selectedDocuments.cancelledChequeDocument || 'Click to Upload'
+                }
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{
@@ -353,7 +243,6 @@ export default function VendorDocument(nav) {
               style={styles.input}
               placeholder="Enter IBAN"
               placeholderTextColor={'#cbcbcb'}
-
               name="cancelledChequeIBAN"
               value={values?.cancelledChequeIBAN}
               onChangeText={handleChange('cancelledChequeIBAN')}
@@ -364,15 +253,20 @@ export default function VendorDocument(nav) {
             <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
               VAT Certificate
             </Text>
-            <TouchableOpacity className="h-[76px]"  onPress={() => selectDocument('vatCertificateDocument', 'vat_certificate')}
-             onChangeText={handleChange('vatCertificateDocument')}
-             onBlur={handleBlur('vatCertificateDocument')}
-             name="vatCertificateDocument"
-             value={values?.vatCertificateDocument}>
+            <TouchableOpacity
+              className="h-[76px]"
+              onPress={() =>
+                selectDocument('vatCertificateDocument', 'vat_certificate')
+              }
+              onChangeText={handleChange('vatCertificateDocument')}
+              onBlur={handleBlur('vatCertificateDocument')}
+              name="vatCertificateDocument"
+              value={values?.vatCertificateDocument}>
               <Card.Title
                 className="bg-white shadow rounded-xl"
-                title={selectedDocuments.vatCertificateDocument || "Click to Upload"}
-               
+                title={
+                  selectedDocuments.vatCertificateDocument || 'Click to Upload'
+                }
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{
@@ -391,18 +285,27 @@ export default function VendorDocument(nav) {
                 )}
               />
             </TouchableOpacity>
-            {errors.vatCertificateDocument && touched.vatCertificateDocument && (
-              <Text style={{ color: 'red' }}>{errors.vatCertificateDocument}</Text>
-            )}
+            {errors.vatCertificateDocument &&
+              touched.vatCertificateDocument && (
+                <Text style={{color: 'red'}}>
+                  {errors.vatCertificateDocument}
+                </Text>
+              )}
           </View>
           <View className="mt-3">
             <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
               Emirates ID
             </Text>
-            <TouchableOpacity className="h-[76px]" onPress={()=> selectDocument('emiratesIDDocument', 'emirate_id_pic')}>
+            <TouchableOpacity
+              className="h-[76px]"
+              onPress={() =>
+                selectDocument('emiratesIDDocument', 'emirate_id_pic')
+              }>
               <Card.Title
                 className="bg-white shadow rounded-xl"
-                title={selectedDocuments.emiratesIDDocument || "Click to Upload"}
+                title={
+                  selectedDocuments.emiratesIDDocument || 'Click to Upload'
+                }
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{
@@ -426,38 +329,26 @@ export default function VendorDocument(nav) {
               style={styles.input}
               placeholder="Enter Emirates ID number"
               placeholderTextColor={'#cbcbcb'}
-
               name="emiratesIDNumber"
               value={values?.emiratesIDNumber}
               onChangeText={handleChange('emiratesIDNumber')}
               onBlur={handleBlur('emiratesIDNumber')}
-
             />
           </View>
         </View>
-    
-        {/* <TouchableOpacity
-          className="mt-8"
-          onPress={() => handleSubmit()}
-          style={styles.button}>
-          <Text className="text-white" style={{fontFamily: 'Poppins-SemiBold'}}>
+        <TouchableOpacity
+          onPress={() => {
+            toggle ? handleSubmit() : null;
+          }}
+          style={toggle ? styles.button : styles.button1}
+          className="flex flex-row items-center justify-center mt-8 gap-x-2">
+          <Text
+            className="text-white flex flex-row  text-[19px]"
+            style={{fontFamily: 'Roboto-Regular'}}>
             SUBMIT
           </Text>
-        </TouchableOpacity> */}
-        <TouchableOpacity
-            onPress={() => {
-              toggle ? handleSubmit() : null;
-            }}
-            style={toggle ? styles.button : styles.button1}
-            className="flex flex-row items-center justify-center mt-8 gap-x-2">
-            <Text
-              className="text-white flex flex-row  text-[19px]"
-              style={{fontFamily: 'Roboto-Regular'}}>
-              PROCEED
-            </Text>
-            {toggle ?null :
-              <ActivityIndicator size="small" color="#00274d" />}
-          </TouchableOpacity>
+          {toggle ? null : <ActivityIndicator size="small" color="#00274d" />}
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
