@@ -4,7 +4,7 @@ import {View} from 'react-native';
 import Login from './Login';
 import Signup from './Signup';
 import Buttomtab from '../components';
-import Products from './Vendor/Products';
+import Products from './Vendor/Product/Products';
 import Orders from './Vendor/Orderes';
 import Dashboard from './Vendor/Dashboard';
 import ProductIndex from './Vendor/ProductIndex';
@@ -22,7 +22,6 @@ import Profile from './Vendor/Profile';
 import Retailerinfo from './Retailer/Retailerinfo';
 import Retailerbusiness from './Retailer/Retailerbusiness';
 import Retailerdocument from './Retailer/Retailerdocument';
-import AddProduct from './Vendor/AddProduct';
 import RetailerIndex from './Retailer';
 import Datepicker from './Datepicker';
 import LogisticIndex from './logistic';
@@ -47,7 +46,7 @@ export default function Index() {
       <Stack.Screen name="orders" component={Orders} />
       <Stack.Screen name="forgot" component={Forgot} />
       <Stack.Screen name="dashboard" component={Dashboard} />
-      <Stack.Screen name="add_product" component={AddProduct} />
+      {/* <Stack.Screen name="add_product" component={AddProduct} /> */}
       <Stack.Screen name="productIndex" component={ProductIndex} />
       <Stack.Screen name="vendor" component={VendorInfo} />
       {/* <Stack.Screen name="vendor" component={Profile} /> */}

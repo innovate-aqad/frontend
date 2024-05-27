@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import SelectDropDown from '../../Shared/SelectDropDown';
+import SelectDropDown from '../../../Shared/SelectDropDown';
 
 export default function Products(nav) {
   const [searchText, setSearchText] = useState('');
@@ -22,7 +22,7 @@ export default function Products(nav) {
       <View className="relative top-0 flex flex-row items-center px-5 pt-7 pb-2 bg-[#f96900] rounded-b-[15px]">
         <Image
           style={styles.topNavigation}
-          source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+          source={require('../../../Assets/image/drawable-xhdpi/arrow_left.png')}
         />
         <Text
           className="flex justify-center w-[80%] text-center text-white"
@@ -64,7 +64,7 @@ export default function Products(nav) {
                 <View>
                   <Image
                     style={{height:47,width:50}}
-                    source={require('../../Assets/image/drawable-hdpi/untitled_1.png')}
+                    source={require('../../../Assets/image/drawable-hdpi/untitled_1.png')}
                   />
                 </View>
                 <View className="flex flex-col pl-2">
@@ -81,7 +81,7 @@ export default function Products(nav) {
                 <View>
                   <Image
                     style={{height:47,width:50}}
-                    source={require('../../Assets/image/drawable-hdpi/untitled_1.png')}
+                    source={require('../../../Assets/image/drawable-hdpi/untitled_1.png')}
                   />
                 </View>
                 <View className="flex flex-col pl-2">
@@ -98,7 +98,7 @@ export default function Products(nav) {
                 <View>
                   <Image
                     style={{height:47,width:50}}
-                    source={require('../../Assets/image/drawable-hdpi/untitled_1.png')}
+                    source={require('../../../Assets/image/drawable-hdpi/untitled_1.png')}
                   />
                 </View>
                 <View className="flex flex-col pl-2">
@@ -123,7 +123,7 @@ export default function Products(nav) {
             </Text>
             <Image
               style={{height: 18, width: 18}}
-              source={require('../../Assets/image/drawable-hdpi/apps_sort.png')}
+              source={require('../../../Assets/image/drawable-hdpi/apps_sort.png')}
             />
           </View>
           <SafeAreaView>
@@ -136,7 +136,7 @@ export default function Products(nav) {
                     <View className="bg-[#FDEEE3] h-[50px] w-[50px] rounded-full border border-[#FDD7BC] p-3">
                       <Image
                         style={{height: 22, width: 29.5}}
-                        source={require('../../Assets/image/drawable-xhdpi/pngwing_com_9.png')}
+                        source={require('../../../Assets/image/drawable-xhdpi/pngwing_com_9.png')}
                       />
                     </View>
                     <View>
@@ -181,7 +181,7 @@ export default function Products(nav) {
 
           <TouchableOpacity
             className="z-50 rounded-xl "
-            onPress={() => nav.navigation.navigate('add_product')}
+            onPress={() => nav.navigation.navigate('addProduct')}
             style={styles.button}>
             <Text
               className="text-white"

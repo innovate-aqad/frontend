@@ -9,11 +9,13 @@ import {
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import InputTextField from '../../Shared/InputTextField';
+import InputTextField from '../../../Shared/InputTextField';
 const mockData = ['S', 'M', 'L', 'XL', 'XXL'];
 import DocumentPicker from 'react-native-document-picker';
+import SelectInput from '../../../Shared/SelectInput';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-export default function AddProduct() {
+export default function AddVariation() {
   const [size, setSize] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
 
@@ -51,28 +53,17 @@ export default function AddProduct() {
   console.log(size, 'sizeproduct');
   return (
     <ScrollView>
-      <View className="flex flex-col gap-y-2 h-full  bg-[#f5f5f5]">
-        <View className="flex-row rounded-b-xl bg-[#f96900] p-4 pt-9 items-center">
-          <Image
-            style={styles.topNavigation}
-            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
-          />
-          <Text
-            className="flex-1 text-[20px] text-center text-white"
-            style={{fontFamily: 'Roboto-Bold'}}>
-            Add PRODUCTS
-          </Text>
-        </View>
+      <View className="flex flex-col gap-y-2 h-full mb-14  bg-[#f5f5f5]">
         <ScrollView keyboardShouldPersistTaps="handled">
           <View className="flex flex-col px-4 pt-3 mb-5 gap-y-3">
             <View>
-              <Text className="text-[#00274d] text-[13px] font-[Poppins-Bold]">
+              <Text className="text-[#00274d] text-[13px] font-[Roboto-Bold]">
                 Product Information
               </Text>
             </View>
             <View className="flex flex-col">
-              <Text className="text-[#00274d] text-[13px] font-[Roboto-Medium]">
-                Trade Licence
+              <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
+                Product Images
               </Text>
               <TouchableOpacity className="h-[76px] mt-3" onPress={selectDoc}>
                 <Card.Title
@@ -94,7 +85,7 @@ export default function AddProduct() {
                     <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#D0DFFF] bg-[#E6EEFF]">
                       <Image
                         style={{height: 24, width: 20}}
-                        source={require('../../Assets/image/file_upload.png')}
+                        source={require('../../../Assets/image/file_upload.png')}
                       />
                     </View>
                   )}
@@ -110,7 +101,7 @@ export default function AddProduct() {
                   <View className="flex flex-row items-center gap-x-2">
                     <Image
                       style={{height: 49, width: 49, borderRadius: 24.5}}
-                      source={require('../../Assets/image/ram.png')}
+                      source={require('../../../Assets/image/ram.png')}
                     />
                     <View className="flex flex-col">
                       <Text className="text-[#00274d] text-[10px]">
@@ -127,7 +118,7 @@ export default function AddProduct() {
                   <View className="flex flex-row items-center gap-x-2">
                     <Image
                       style={{height: 49, width: 49, borderRadius: 24.5}}
-                      source={require('../../Assets/image/ram.png')}
+                      source={require('../../../Assets/image/ram.png')}
                     />
                     <View className="flex flex-col">
                       <Text className="text-[#00274d] text-[10px]">
@@ -146,7 +137,7 @@ export default function AddProduct() {
                   <View className="flex flex-row items-center gap-x-2">
                     <Image
                       style={{height: 49, width: 49, borderRadius: 24.5}}
-                      source={require('../../Assets/image/ram.png')}
+                      source={require('../../../Assets/image/ram.png')}
                     />
                     <View className="flex flex-col">
                       <Text className="text-[#00274d] text-[10px]">
@@ -163,7 +154,7 @@ export default function AddProduct() {
                   <View className="flex flex-row items-center gap-x-2">
                     <Image
                       style={{height: 49, width: 49, borderRadius: 24.5}}
-                      source={require('../../Assets/image/ram.png')}
+                      source={require('../../../Assets/image/ram.png')}
                     />
                     <View className="flex flex-col">
                       <Text className="text-[#00274d] text-[10px]">
@@ -178,18 +169,7 @@ export default function AddProduct() {
                 </View>
               </View>
             </View>
-            <View className="flex flex-row w-full">
-              <View className="w-full pr-1">
-                <Text style={styles.textTitle}>Product Name</Text>
-                <InputTextField placeholderTextColor="Enter product name" />
-              </View>
-            </View>
-            <View className="flex flex-row w-full ">
-              <View className="w-full pr-1">
-                <Text style={styles.textTitle}>Product Category</Text>
-                <InputTextField placeholderTextColor="Select category" />
-              </View>
-            </View>
+
             <View className="flex flex-row w-[100%]">
               <View className="w-[50%] pr-1">
                 <Text style={styles.textTitle}>Price</Text>
@@ -201,15 +181,6 @@ export default function AddProduct() {
               </View>
             </View>
 
-            <View className="flex flex-row w-full ">
-              <View className="w-full pr-1">
-                <Text style={styles.textTitle}>Description</Text>
-                <InputTextField
-                  numberOfLines={4}
-                  placeholderTextColor="Enter product description in 200 works"
-                />
-              </View>
-            </View>
             <View className="flex flex-row w-[100%]">
               <View className="w-[50%] pr-1">
                 <Text style={styles.textTitle}>Quantity</Text>
@@ -223,39 +194,28 @@ export default function AddProduct() {
             <View className="flex flex-row w-full ">
               <View className="w-full pr-1">
                 <Text style={styles.textTitle}>Select Warehouse</Text>
-                <InputTextField placeholderTextColor="Enter your warehouse" />
+                <SelectInput placeholderTextColor="Select warehouse" />
               </View>
             </View>
             <View className="flex flex-row w-full ">
               <View className="w-full pr-1">
                 <Text style={styles.textTitle}>Variation</Text>
-                <InputTextField placeholderTextColor="Size" />
+                <SelectInput placeholderTextColor="Select variation" />
               </View>
             </View>
             <View className="flex flex-row w-full ">
               <View className="w-full pr-1">
-                <Text style={styles.textTitle}>Select Available Size</Text>
-                <View className="flex flex-row justify-around">
-                  {mockData.map((item, index) => (
-                    <TouchableOpacity
-                      key={index}
-                      onPress={() => handleSelect(index)}
-                      className={
-                        size.includes(index)
-                          ? 'px-3 py-2 bg-[#f96900] text-white rounded-lg'
-                          : 'px-3 py-2 bg-white rounded-lg'
-                      }>
-                      <Text
-                        className={
-                          size.includes(index) ? 'text-white' : 'text-[#cbcbcb]'
-                        }>
-                        {item}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
+                <Text style={styles.textTitle}>Input Field</Text>
+                <InputTextField placeholderTextColor="Enter variation type" />
               </View>
             </View>
+
+            <TouchableOpacity className="w-24 p-2 text-center bg-[#f96900] items-center justify-center flex flex-row rounded-[5px] mt-2">
+              <MaterialIcons name="add" size={18} color="white" />
+              <Text className="ml-2 text-center text-white font-[Roboto-Regular] text-[12px]">
+                Add
+              </Text>
+            </TouchableOpacity>
             <View className="mt-4">
               <TouchableOpacity
                 className="z-50 rounded-lg"
@@ -264,7 +224,7 @@ export default function AddProduct() {
                 <Text
                   className="text-white"
                   style={{fontFamily: 'Poppins-SemiBold'}}>
-                  ADD PRODUCT
+                  PROCEED
                 </Text>
               </TouchableOpacity>
             </View>

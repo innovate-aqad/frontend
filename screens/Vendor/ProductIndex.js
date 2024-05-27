@@ -4,8 +4,9 @@ import Dashboard from './Dashboard';
 import Insights from '../../components/Insights';
 import {Image, ScrollView} from 'react-native';
 import Orders from './Orderes';
-import Products from './Products';
+// import Products from './Product/index';
 import MyAccount from './MyAccount';
+import ProductRoutes from './Product';
 
 const Tab = createBottomTabNavigator();
 const product = 'Products';
@@ -100,7 +101,7 @@ export default function ProductIndex() {
       // screenOptions={{headerShown: false}}
     >
       <Tab.Screen name={trade} component={Dashboard} />
-      <Tab.Screen name={product} component={Products} />
+      <Tab.Screen name={product} component={ProductRoutes} />
       
       <Tab.Screen name={account} component={MyAccount} />
       <Tab.Screen name={insights} component={Insights} />
