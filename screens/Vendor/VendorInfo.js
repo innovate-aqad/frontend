@@ -10,7 +10,12 @@ import {
   Animated,
   ScrollView,
   ToastAndroid,
+<<<<<<< HEAD
   ActivityIndicator,
+=======
+  Modal,
+  Button,
+>>>>>>> ed34d4733ecfd785a29fc76ffbd7efd6bfb5ba3d
 } from 'react-native';
 import {Avatar} from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -20,13 +25,36 @@ import CountryPicker from 'react-native-country-picker-modal';
 import {VendorRegisterSchema} from '../../schemas/VendorRegisterSchema';
 import ImagePicker from 'react-native-image-crop-picker';
 import moment from 'moment';
+<<<<<<< HEAD
+=======
+import Icon from 'react-native-vector-icons/MaterialIcons';
+>>>>>>> ed34d4733ecfd785a29fc76ffbd7efd6bfb5ba3d
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
+<<<<<<< HEAD
+=======
+import Index from '..';
+import {fontScale} from 'nativewind';
+import ToastManager, {Toast} from 'toastify-react-native';
+import {SendOtpSchema} from '../../schemas/SendOtpSchema';
+import OtpPopup from '../OtpPopup/OtpPopup';
+>>>>>>> ed34d4733ecfd785a29fc76ffbd7efd6bfb5ba3d
 
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [image, setImage] = useState('');
+<<<<<<< HEAD
   const [countryCode, setCountryCode] = useState('AE');
+=======
+  const [errorValue, setErrorValue] = useState('');
+  const [openPopup, setOpenPopup] = useState(false);
+  const [verified, setVerified] = useState(false);
+
+  const [countryCode, setCountryCode] = useState('AE'); // Default country code
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  // date
+>>>>>>> ed34d4733ecfd785a29fc76ffbd7efd6bfb5ba3d
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [dateSelected, setDateSelected] = useState('');
   const [toggle,setToggle]=useState(true)
@@ -104,8 +132,15 @@ export default function VendorInfo(nav) {
         });
     },
   });
-  const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
-    formik;
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    isValid,
+  } = formik;
 
   useEffect(() => {
     Animated.timing(progress, {
@@ -140,6 +175,80 @@ export default function VendorInfo(nav) {
 
   const renderCountry = country => {
     return <Text>{country.cca2}</Text>;
+  };
+
+  const initialValuesForOtp = {
+    email: '',
+  };
+
+  // let formikForOtp = useFormik({
+  //   initialValuesForOtp,
+  //   validationSchema: SendOtpSchema,
+  //   onSubmit: async (values, action) => {
+  //     await axios({
+  //       method: 'post',
+  //       url: `${environmentVariables?.apiUrl}/api/user/register`,
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //       data: formdata,
+  //     })
+  //       .then(response => {
+  //         Toast.success('User First Step Register Success');
+  //         ToastAndroid.showWithGravityAndOffset(
+  //           response?.data?.message,
+  //           ToastAndroid.LONG,
+  //           ToastAndroid.CENTER,
+  //           25,
+  //           50,
+  //         );
+  //         nav.navigation.navigate('business', {id: response?.data?.data?.id});
+  //       })
+  //       .catch(error => {
+  //         Toast.error('User Register Error..!');
+  //         console.log(error, 'error...');
+  //         ToastAndroid.showWithGravityAndOffset(
+  //           error?.response?.data?.message || error?.message,
+  //           ToastAndroid.LONG,
+  //           ToastAndroid.CENTER,
+  //           25,
+  //           50,
+  //         );
+  //       });
+  //   },
+  // });
+  // const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
+  //   formikForOtp;
+
+  // const sendOtp = async recievedEmail => {
+  //   // const response = await axios.get(
+  //   //   `${environmentVariables?.apiUrl}/api/user/send_otp_to_email?email=${recievedEmail}`,
+  //   // );
+  //   console.log('response', recievedEmail);
+  // };
+  const handleSubmitPopup = () => {
+    // Your submit logic here
+    setVerified(true);
+    setOpenPopup(false);
+  };
+  const sendOtp = async email => {
+    try {
+      await SendOtpSchema.validate({email});
+      // console.log('oooo', responseData);
+      setErrorValue('');
+
+      const response = await axios.get(
+        `${environmentVariables?.apiUrl}/api/user/send_otp_to_email?email=${email}`,
+      );
+      console.log('response', response?.data?.success);
+      if (response?.data?.success) {
+        setOpenPopup(true);
+      } else {
+        setOpenPopup(false);
+      }
+    } catch (validationError) {
+      setErrorValue(validationError.message);
+    }
   };
 
   return (
@@ -251,19 +360,40 @@ export default function VendorInfo(nav) {
               style={{fontFamily: 'Poppins-Medium'}}>
               Email
             </Text>
-            <TextInput
-              style={styles.input}
-              placeholderTextColor="rgb(210, 210, 210)"
-              placeholder="Example@gmail.com"
-              className="!border-none pl-4 !border-white"
-              borderRadius={10}
-              name="email"
-              value={values.email}
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('email')}
-            />
-            {errors.email && touched.email && (
-              <Text style={styles.errorHandle}>{errors.email}</Text>
+            <View className="flex flex-row items-center pr-1.5 justify-between w-full bg-white rounded-[10px] py-0">
+              <TextInput
+                style={styles.input}
+                placeholderTextColor="rgb(210, 210, 210)"
+                placeholder="Example@gmail.com"
+                className="!border-none pl-4 !border-white"
+                borderRadius={10}
+                name="email"
+                value={values.email}
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+              />
+              {verified ? (
+                <Text className="text-[10px] text-[#21d59b]">Verified</Text>
+              ) : (
+                <Text
+                  className="text-[10px] text-[#f96900]"
+                  onPress={() => sendOtp(values.email)}>
+                  Verify
+                </Text>
+              )}
+              {/* <Text
+                onPress={() => sendOtp(values.email)}>
+                Verify
+                {verified ? 'Verified' : 'Verify'}
+              </Text> */}
+            </View>
+            {errorValue ? (
+              <Text style={styles.errorHandle}>{errorValue}</Text>
+            ) : (
+              errors.email &&
+              touched.email && (
+                <Text style={styles.errorHandle}>{errors.email}</Text>
+              )
             )}
 
             {/* {errors.country && touched.country && (
@@ -362,11 +492,20 @@ export default function VendorInfo(nav) {
         </View>
         <View className="pt-5">
           <TouchableOpacity
+<<<<<<< HEAD
             onPress={() => {
               toggle ? handleSubmit() : null;
             }}
             style={toggle ? styles.button : styles.button1}
             className="flex flex-row items-center justify-center gap-x-2">
+=======
+            onPress={() => handleSubmit()}
+            disabled={!verified || !isValid}
+            style={[
+              styles.button,
+              (!verified || !isValid) && styles.disabledButton,
+            ]}>
+>>>>>>> ed34d4733ecfd785a29fc76ffbd7efd6bfb5ba3d
             <Text
               className="text-white flex flex-row  text-[18px]"
               style={{fontFamily: 'Roboto-Regular'}}>
@@ -376,6 +515,15 @@ export default function VendorInfo(nav) {
               <ActivityIndicator size="small" color="#00274d" />}
           </TouchableOpacity>
         </View>
+
+        {openPopup && (
+          <OtpPopup
+            openPopup={openPopup}
+            setOpenPopup={setOpenPopup}
+            setVerified={setVerified}
+            email={values?.email}
+          />
+        )}
       </View>
     </ScrollView>
   );
@@ -441,5 +589,9 @@ const styles = StyleSheet.create({
     color: 'red',
     paddingLeft: 20,
     fontSize: 12,
+  },
+  disabledButton: {
+    backgroundColor: '#F96900',
+    opacity: 0.5, // Add opacity to make it look blurred
   },
 });

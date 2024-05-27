@@ -373,6 +373,7 @@ export default function Login(nav) {
               // nav.navigation.navigate('logidrivdetail', {
               //   id: 'd3c410d0a9c54ee39f1a70057cb6df6d',
               // });
+              // nav.navigation.navigate('add_product');
             }}>
             Sign Up
           </Text>
