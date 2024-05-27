@@ -24,7 +24,6 @@ import Retailerbusiness from './Retailer/Retailerbusiness';
 import Retailerdocument from './Retailer/Retailerdocument';
 import AddProduct from './Vendor/AddProduct';
 import RetailerIndex from './Retailer';
-import OtpScreen from '../otp_screen/OtpScreen';
 import Datepicker from './Datepicker';
 import LogisticIndex from './logistic';
 import FlexiTrade from '../components/FlexiTrade';
@@ -35,6 +34,7 @@ import OrderSummary from './OrderDetails/OrderSummary';
 import DriverDetails from './DriverDetails/DriverDetails';
 import AddVendor from './FlexiFlat/AddVendor';
 import WareHouseCard from './WareHouseCard';
+import OtpScreen from './otp_screen/OtpScreen';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
