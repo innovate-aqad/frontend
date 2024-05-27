@@ -34,7 +34,10 @@ import OrderDetails from './OrderDetails/OrderDetails';
 import OrderSummary from './OrderDetails/OrderSummary';
 import DriverDetails from './DriverDetails/DriverDetails';
 import AddVendor from './FlexiFlat/AddVendor';
-import WareHouseCard from './WareHouseCard';
+import WareHouseDetails from '../screens/WareHouseDetails/WareHouseDetails';
+import PendingOrder from './PendingOrder/PendingOrder';
+import PDriverDetails from './PendingOrder/PDriverDetails';
+import PMain from '../screens/PendingOrder/PMain';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -73,7 +76,9 @@ export default function Index() {
       <Stack.Screen name="ordersummarycard" component={OrderSummary} />
       <Stack.Screen name="driverdetails" component={DriverDetails} />
       <Stack.Screen name="flexiadd" component={AddVendor} />
-      <Stack.Screen name="warehousecard" component={WareHouseCard} />
+      <Stack.Screen name="warehousedetails" component={WareHouseDetails} />
+      <Stack.Screen name="pending" component={PendingOrder} />
+      <Stack.Screen name="pmain" component={PMain} />
     </Stack.Navigator>
   );
 }

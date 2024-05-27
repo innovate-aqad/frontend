@@ -20,7 +20,7 @@ export default function Signup(nav) {
   };
 
   const redirectVendor = () => {
-    nav.navigation.navigate('vendor');
+    nav.navigation.navigate('pmain');
   };
   const redirectLogistic = () => {
     nav.navigation.navigate('logistic');
