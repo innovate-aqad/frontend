@@ -485,6 +485,7 @@ const styles = StyleSheet.create({
     color: 'red',
     paddingLeft: 20,
     fontSize: 12,
+  },
   disabledButton: {
     backgroundColor: '#F96900',
     opacity: 0.5, // Add opacity to make it look blurred

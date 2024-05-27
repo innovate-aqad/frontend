@@ -10,12 +10,9 @@ import {
   Animated,
   ScrollView,
   ToastAndroid,
-<<<<<<< HEAD
   ActivityIndicator,
-=======
   Modal,
   Button,
->>>>>>> ed34d4733ecfd785a29fc76ffbd7efd6bfb5ba3d
 } from 'react-native';
 import {Avatar} from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -25,36 +22,25 @@ import CountryPicker from 'react-native-country-picker-modal';
 import {VendorRegisterSchema} from '../../schemas/VendorRegisterSchema';
 import ImagePicker from 'react-native-image-crop-picker';
 import moment from 'moment';
-<<<<<<< HEAD
-=======
 import Icon from 'react-native-vector-icons/MaterialIcons';
->>>>>>> ed34d4733ecfd785a29fc76ffbd7efd6bfb5ba3d
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
-<<<<<<< HEAD
-=======
 import Index from '..';
 import {fontScale} from 'nativewind';
 import ToastManager, {Toast} from 'toastify-react-native';
 import {SendOtpSchema} from '../../schemas/SendOtpSchema';
 import OtpPopup from '../OtpPopup/OtpPopup';
->>>>>>> ed34d4733ecfd785a29fc76ffbd7efd6bfb5ba3d
 
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [image, setImage] = useState('');
-<<<<<<< HEAD
   const [countryCode, setCountryCode] = useState('AE');
-=======
   const [errorValue, setErrorValue] = useState('');
   const [openPopup, setOpenPopup] = useState(false);
   const [verified, setVerified] = useState(false);
-
-  const [countryCode, setCountryCode] = useState('AE'); // Default country code
   const [phoneNumber, setPhoneNumber] = useState('');
 
   // date
->>>>>>> ed34d4733ecfd785a29fc76ffbd7efd6bfb5ba3d
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [dateSelected, setDateSelected] = useState('');
   const [toggle,setToggle]=useState(true)
@@ -492,20 +478,12 @@ export default function VendorInfo(nav) {
         </View>
         <View className="pt-5">
           <TouchableOpacity
-<<<<<<< HEAD
-            onPress={() => {
-              toggle ? handleSubmit() : null;
-            }}
-            style={toggle ? styles.button : styles.button1}
-            className="flex flex-row items-center justify-center gap-x-2">
-=======
             onPress={() => handleSubmit()}
             disabled={!verified || !isValid}
             style={[
               styles.button,
               (!verified || !isValid) && styles.disabledButton,
             ]}>
->>>>>>> ed34d4733ecfd785a29fc76ffbd7efd6bfb5ba3d
             <Text
               className="text-white flex flex-row  text-[18px]"
               style={{fontFamily: 'Roboto-Regular'}}>
