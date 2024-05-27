@@ -188,7 +188,7 @@ export default function AddVariation() {
               </View>
               <View className="w-[50%] pl-1">
                 <Text style={styles.textTitle}>SKU</Text>
-                <InputTextField placeholderTextColor="Enter Compare price" />
+                <InputTextField placeholderTextColor="Enterprises SKU ID" />
               </View>
             </View>
             <View className="flex flex-row w-full ">
@@ -210,10 +210,10 @@ export default function AddVariation() {
               </View>
             </View>
 
-            <TouchableOpacity className="w-24 p-2 text-center bg-[#f96900] items-center justify-center flex flex-row rounded-[5px] mt-2">
+            <TouchableOpacity className="w-32 p-2 text-center bg-[#f96900] items-center justify-center flex flex-row rounded-[5px] mt-2">
               <MaterialIcons name="add" size={18} color="white" />
               <Text className="ml-2 text-center text-white font-[Roboto-Regular] text-[12px]">
-                Add
+                Add Variations
               </Text>
             </TouchableOpacity>
             <View className="mt-4">
