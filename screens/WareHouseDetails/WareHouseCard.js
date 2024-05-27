@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 import {Card} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -18,6 +19,7 @@ const OutletCard = ({
   handleBlur,
   onEdit,
   onDelete,
+  ScrollView,
 }) => {
   return (
     <Card style={styles.card}>
@@ -26,7 +28,7 @@ const OutletCard = ({
 
         <TextInput
           style={styles.input}
-          placeholderTextColor="rgb(210, 210, 210)"
+          placeholderTextColor="#7e84a3"
           placeholder="Enter Outlet Address"
           value={data.outletAddress}
           onChangeText={handleChange(`outletAddress${index}`)}
@@ -35,19 +37,23 @@ const OutletCard = ({
         <Text style={styles.label}>PO Box</Text>
         <TextInput
           style={styles.input}
-          placeholderTextColor="rgb(210, 210, 210)"
+          placeholderTextColor="#7e84a3"
           placeholder="Enter PO Box"
           value={data.poBox}
           onChangeText={handleChange(`poBox${index}`)}
           onBlur={handleBlur(`poBox${index}`)}
         />
         <View style={styles.iconContainer}>
-          <TouchableOpacity onPress={() => onEdit(index)}>
-            <Icon name="pencil-outline" size={24} color="#00274D" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => onDelete(index)}>
-            <Icon name="trash-outline" size={24} color="#00274D" />
-          </TouchableOpacity>
+          <View style={styles.iconEdit}>
+            <TouchableOpacity onPress={() => onEdit(index)}>
+              <Icon name="pencil-outline" size={24} color="#00274D" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.iconEditdel}>
+            <TouchableOpacity onPress={() => onDelete(index)}>
+              <Icon name="trash-outline" size={24} color="#00274D" />
+            </TouchableOpacity>
+          </View>
         </View>
       </Card.Content>
     </Card>
@@ -76,32 +82,50 @@ const OutletList = ({outlets, handleChange, handleBlur, onEdit, onDelete}) => {
 const styles = StyleSheet.create({
   card: {
     margin: 10,
+    backgroundColor: '#FFF',
   },
   heading: {
     color: '#00274d',
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'Poppins-Medium',
     fontSize: 16,
     marginBottom: 10,
   },
   label: {
     color: '#00274D',
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Poppins-Medium',
     marginBottom: 8,
   },
   input: {
-    backgroundColor: '#FFF',
-    borderColor: '#FFF',
+    backgroundColor: '#f5f5f5',
+    borderColor: '#F5F5F5',
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 16,
     paddingVertical: 10,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins-Light',
     marginBottom: 16,
+    color: 'red',
   },
   iconContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 16,
+  },
+  iconEdit: {
+    height: 35,
+    width: 100,
+    borderRadius: 5,
+    backgroundColor: '#26f0142f',
+    alignItems: 'center',
+    paddingTop: 4,
+  },
+  iconEditdel: {
+    height: 35,
+    width: 100,
+    borderRadius: 5,
+    backgroundColor: '#26f0142f',
+    alignItems: 'center',
+    paddingTop: 4,
   },
 });
 

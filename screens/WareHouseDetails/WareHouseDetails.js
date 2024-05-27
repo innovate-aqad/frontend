@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 
-import FlexiAddVendor from '../FlexiFlat/FlexiAddVendor';
+import WareHouseCard from '../WareHouseDetails/WareHouseCard';
 
 const MyComponent = () => {
   const [value, setValue] = React.useState('left');
@@ -18,7 +18,7 @@ const MyComponent = () => {
   return (
     <ScrollView>
       <View>
-        <View className="relative top-0 flex flex-row items-center px-5 pt-7 pb-2 rounded-b-[15px] ">
+        <View className="relative top-0 flex flex-row items-center px-5 pt-7 pb-2 bg-[#f96900] rounded-b-[15px] ">
           <Image
             style={styles.topNavigation}
             source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
@@ -28,14 +28,13 @@ const MyComponent = () => {
             style={{
               fontFamily: 'Poppins-Bold',
               fontSize: 20,
-              alignItems: 'center',
+              textTransform: 'uppercase',
             }}>
-            FLEXI TRADE
+            warehouse details
           </Text>
         </View>
         <View className="flex flex-col   p-5  ">
-          <Text style={styles.sideHeadingcard}>Vendor List</Text>
-          <FlexiAddVendor />
+          <WareHouseCard />
 
           {/* <View className="flex flex-col  pl-2  ">
           <TouchableOpacity
@@ -51,8 +50,11 @@ const MyComponent = () => {
               style={styles.buttonAddVendor}>
               <Text
                 className="text-white "
-                style={{fontFamily: 'Poppins-SemiBold'}}>
-                Add Vendor
+                style={{
+                  fontFamily: 'Poppins-SemiBold',
+                  textTransform: 'uppercase',
+                }}>
+                Save changes
               </Text>
             </TouchableOpacity>
           </View>

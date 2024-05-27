@@ -21,6 +21,7 @@ export default function Signup(nav) {
 
   const redirectVendor = () => {
     nav.navigation.navigate('productIndex');
+    // nav.navigation.navigate('pmain');
   };
   const redirectLogistic = () => {
     // nav.navigation.navigate('logidrivdetail');
