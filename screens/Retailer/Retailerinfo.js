@@ -19,7 +19,6 @@ import CountryPicker from 'react-native-country-picker-modal';
 import ImagePicker from 'react-native-image-crop-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
 import {useFormik} from 'formik';
 import {RetailerRegisterSchema} from '../../schemas/RetailerRegisterSchema';
 import axios from 'axios';
@@ -423,7 +422,7 @@ export default function VendorInfo(nav) {
             </View>
           </SafeAreaView>
         </View>
-        <View>
+        <View className="mt-5">
           <TouchableOpacity
             onPress={() => handleSubmit()}
             disabled={!verified || !isValid}

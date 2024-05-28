@@ -32,7 +32,7 @@ import OrderDetails from './OrderDetails/OrderDetails';
 import OrderSummary from './OrderDetails/OrderSummary';
 import DriverDetails from './DriverDetails/DriverDetails';
 import AddVendor from './FlexiFlat/AddVendor';
-import WareHouseCard from './WareHouseCard';
+// import WareHouseCard from './WareHouseCard';
 import OtpScreen from './otp_screen/OtpScreen';
 import WareHouseDetails from '../screens/WareHouseDetails/WareHouseDetails';
 import PendingOrder from './PendingOrder/PendingOrder';
