@@ -36,37 +36,6 @@ export default function AddProduct(nav) {
   const [valueBrand, setValueBrand] = useState('');
   const [toggle, setToggle] = useState(true);
 
-  const selectDoc = async nav => {
-    try {
-      const results = await DocumentPicker.pick({
-        type: [
-          DocumentPicker.types.pdf,
-          DocumentPicker.types.images,
-          DocumentPicker.types.video,
-        ],
-        allowMultiSelection: true,
-      });
-
-      console.log(results);
-      const fileNames = results.map(file => file.name);
-      setSelectedFiles(fileNames);
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        console.log('user cancelled the upload', err);
-      } else {
-        console.log(err);
-      }
-    }
-  };
-
-  const handleSelect = index => {
-    if (size.includes(index)) {
-      setSize(size.filter(item => item !== index));
-    } else {
-      setSize([...size, index]);
-    }
-  };
-
   const getCategoriedData = async () => {
     try {
       const response = await axios.get(
@@ -80,6 +49,7 @@ export default function AddProduct(nav) {
     }
   };
   const getSubCategoriedData = async () => {
+    console.log(value, 'value');
     try {
       const response = await axios.get(
         `${environmentVariables?.apiUrl}/api/sub_category/get_by_main_cat_id?category_id=${value}`,
@@ -149,7 +119,6 @@ export default function AddProduct(nav) {
           // nav.navigation.navigate('business', {id: response?.data?.data?.id});
         })
         .catch(error => {
-          console.log('jjjj', error);
           setToggle(true);
           // ToastAndroid.showWithGravityAndOffset(
           //   error?.response?.data?.message || error?.message,
