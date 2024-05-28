@@ -12,15 +12,19 @@ import {
   Modal,
   Button,
 } from 'react-native';
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useFormik} from 'formik';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import {OtpSchema} from '../../schemas/OtpSchema';
 
+import OTPTextInput from 'react-native-otp-textinput';
+import {useSafeAreaFrame} from 'react-native-safe-area-context';
+
 const OtpPopup = ({openPopup, setOpenPopup, setVerified, email}) => {
-  console.log('hhh');
+  const otpInputRef = useRef(null);
+  const [num1,setNum1]=useState()
   const handleSubmitPopup = () => {
     // Your submit logic here
     setVerified(true);
@@ -30,7 +34,9 @@ const OtpPopup = ({openPopup, setOpenPopup, setVerified, email}) => {
   const initialValues = {
     otp: '',
   };
-  console.log;
+
+  console.log(num1,"num1num1num1")
+
   let formik = useFormik({
     initialValues,
     validationSchema: OtpSchema,
@@ -87,7 +93,8 @@ const OtpPopup = ({openPopup, setOpenPopup, setVerified, email}) => {
   });
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     formik;
-  console.log('0909909', errors, values?.otp, email);
+
+
   return (
     <Modal
       animationType="slide"
@@ -101,10 +108,11 @@ const OtpPopup = ({openPopup, setOpenPopup, setVerified, email}) => {
           <TouchableOpacity
             style={styles.closeIcon}
             onPress={() => setOpenPopup(false)}>
-            <Icon name="close" size={24} color="black" />
+            <Icon name="close" size={16} color="red" />
           </TouchableOpacity>
-          <TextInput
-            // style={styles.modalInput}
+          
+          <View className="w-full mb-6">
+            {/* <TextInput
             style={styles.input}
             value={values.otp}
             onChangeText={handleChange('otp')}
@@ -113,15 +121,30 @@ const OtpPopup = ({openPopup, setOpenPopup, setVerified, email}) => {
             placeholder="Enter OTP"
             className="!border-none pl-4 py-1.5 !border-white"
             borderRadius={18}
-          />
-          {errors.otp && touched.otp && (
-            <Text style={{color: 'red'}}>{errors.otp}</Text>
-          )}
+          /> */}
+          <View className="flex flex-col items-center justify-center w-full">
+            <Text className="text-[#00274d] font-[Roboto-Bold]">Enter OTP Code</Text>
+          </View>
+            <OTPTextInput
+              ref={otpInputRef}
+              handleTextChange={text => formik.setFieldValue('otp', text)}
+              onBlur={handleBlur('otp')}
+              tintColor={'red'}
+              textInputStyle={{
+                color: '#00274d',
+                fontFamily: 'Roboto-ExtraBold',
+              }}
+            />
+            {errors.otp && touched.otp && (
+              <Text style={{color: 'red', paddingLeft: 5, fontSize: 12}}>
+                {errors.otp}
+              </Text>
+            )}
+          </View>
 
-          <Button title="Submit" onPress={handleSubmit} />
-          {/* <TouchableOpacity onPress={() => setOpenPopup(false)}>
-          <Text style={styles.closeText}>Close</Text>
-        </TouchableOpacity> */}
+          <TouchableOpacity onPress={handleSubmit}>
+            <Text style={styles.closeText}>Verify OTP</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -129,14 +152,11 @@ const OtpPopup = ({openPopup, setOpenPopup, setVerified, email}) => {
 };
 
 const styles = StyleSheet.create({
-  topNavigation: {
-    height: 15,
-    width: 23.3,
-  },
   input: {
     paddingVertical: 4,
-    margin: 3,
+    marginTop: 40,
     borderWidth: 1,
+    borderColor: 'gray',
     color: 'gray',
     backgroundColor: 'white',
     fontFamily: 'Poppins-Light',
@@ -144,7 +164,7 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 10,
     borderBottomWidth: 1,
-    marginBottom: 20,
+    marginBottom: 5,
   },
   button: {
     backgroundColor: '#F96900',
@@ -208,13 +228,24 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   closeText: {
-    color: 'blue',
-    marginTop: 15,
+    backgroundColor: '#F96900',
+    marginTop: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 50,
+    color: 'white',
+    fontFamily: 'Roboto-Regular',
+    borderRadius: 10,
+    fontSize: 18,
+    marginTop: 10,
+    
   },
   closeIcon: {
     position: 'absolute',
     top: 10,
     right: 10,
+    backgroundColor:"#cbcbcb",
+    borderRadius:15,
+    padding:2
   },
 });
 
