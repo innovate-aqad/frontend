@@ -1,5 +1,6 @@
-// import {API_KEY} from '@env';
-
+// import {API_URL} from '@env';
+import Config from 'react-native-config';
+const apiUrl1 = Config.API_URL;
 export const environmentVariables = {
-  apiUrl: 'http://3.29.209.107:2000',
+  apiUrl: apiUrl1,
 };

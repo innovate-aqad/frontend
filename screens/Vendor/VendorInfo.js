@@ -43,7 +43,7 @@ export default function VendorInfo(nav) {
   // date
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [dateSelected, setDateSelected] = useState('');
-  const [toggle,setToggle]=useState(true)
+  const [toggle, setToggle] = useState(true);
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -71,7 +71,7 @@ export default function VendorInfo(nav) {
     initialValues,
     validationSchema: VendorRegisterSchema,
     onSubmit: async (values, action) => {
-      setToggle(false)
+      setToggle(false);
       const formdata = new FormData();
       formdata.append('name', values.fullName);
       formdata.append('slide', '1');
@@ -103,11 +103,11 @@ export default function VendorInfo(nav) {
             25,
             50,
           );
-          setToggle(true)
+          setToggle(true);
           nav.navigation.navigate('business', {id: response?.data?.data?.id});
         })
         .catch(error => {
-          setToggle(true)
+          setToggle(true);
           ToastAndroid.showWithGravityAndOffset(
             error?.response?.data?.message || error?.message,
             ToastAndroid.TOP,
@@ -489,8 +489,7 @@ export default function VendorInfo(nav) {
               style={{fontFamily: 'Roboto-Regular'}}>
               PROCEED
             </Text>
-            {toggle ?null :
-              <ActivityIndicator size="small" color="#00274d" />}
+            {toggle ? null : <ActivityIndicator size="small" color="#00274d" />}
           </TouchableOpacity>
         </View>
 
