@@ -17,6 +17,7 @@ import {useFormik} from 'formik';
 import {VendorRegisterSchema3} from '../../schemas/VendorRegisterSchema3';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
+import { success } from '../../src/constants/ToastMessage';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -27,11 +28,6 @@ export default function VendorDocument(nav) {
   });
 
   const mainId = nav.route.params.id;
-
-  const redirectDocument = () => {
-    nav.navigation.navigate('business');
-    // nav.navigation.navigate('bottomTab');
-  };
 
   useEffect(() => {
     Animated.timing(progress, {
@@ -81,24 +77,16 @@ export default function VendorDocument(nav) {
       })
         .then(response => {
           setToggle(true);
-          ToastAndroid.showWithGravityAndOffset(
-            response.data.message,
-            ToastAndroid.TOP,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+          success({type: 'success', text: response.data.message})
           nav.navigation.navigate('Login');
         })
         .catch(error => {
           setToggle(true);
-          ToastAndroid.showWithGravityAndOffset(
-            error.response.data.message,
-            ToastAndroid.TOP,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+
+          success({
+            type: 'error',
+            text: error?.response?.data?.message || error?.message,
+          });
         });
     },
   });
@@ -132,7 +120,7 @@ export default function VendorDocument(nav) {
         className="flex flex-col justify-center p-4   h-full bg-gray-100 !text-black
         ">
         <View className="relative flex flex-row items-center top-3 ">
-          <TouchableOpacity onPress={() => nav.navigation.navigate('business')}>
+          <TouchableOpacity onPress={() => nav.navigation.navigate('business',{id:mainId})}>
             <Image
               style={styles.topNavigation}
               source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
@@ -341,13 +329,13 @@ export default function VendorDocument(nav) {
             toggle ? handleSubmit() : null;
           }}
           style={toggle ? styles.button : styles.button1}
-          className="flex flex-row items-center justify-center mt-8 gap-x-2">
+          className="flex flex-row items-center justify-center mt-8">
           <Text
             className="text-white flex flex-row  text-[19px]"
             style={{fontFamily: 'Roboto-Regular'}}>
             SUBMIT
           </Text>
-          {toggle ? null : <ActivityIndicator size="small" color="#00274d" />}
+          {toggle ? null : <ActivityIndicator className="ml-2" size="small" color="#fff" />}
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -370,7 +358,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Light',
   },
   button: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: '#F96900',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -392,7 +380,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   button: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: '#F96900',
     padding: 12,
     paddingHorizontal: 40,
     borderRadius: 10,

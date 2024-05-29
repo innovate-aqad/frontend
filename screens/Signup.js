@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Signup(nav) {
   const [bgColor, setBgColor] = useState('bg-white');
@@ -41,17 +42,19 @@ export default function Signup(nav) {
     return () => clearTimeout(timer);
   }, [bgColor]);
 
+  const navigation = useNavigation();
+
   return (
     <ScrollView
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={{flexGrow: 1}}
-      showsVerticalScrollIndicator={false}>
-      <View>
+      showsVerticalScrollIndicator={false}
+      >
         <View
-          className="flex flex-col px-4 justify-center h-full bg-gray-100 !text-black
+          className="flex flex-col px-4 pt-5 h-full bg-gray-100 !text-black
     "
           style={{fontFamily: 'Poppins-Bold'}}>
-          <TouchableOpacity onPress={() => nav.navigation.navigate('Login')}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image
               style={styles.topNavigation}
               source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
@@ -188,7 +191,6 @@ export default function Signup(nav) {
             </Text>
           </View>
         </View>
-      </View>
     </ScrollView>
   );
 }

@@ -8,7 +8,6 @@ import {
   SafeAreaView,
   View,
   Animated,
-  ToastAndroid,
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
@@ -24,6 +23,7 @@ import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import {SendOtpSchema} from '../../schemas/SendOtpSchema';
 import OtpPopup from '../OtpPopup/OtpPopup';
+import {success} from '../../src/constants/ToastMessage';
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [image, setImage] = useState('');
@@ -35,11 +35,6 @@ export default function VendorInfo(nav) {
   const [errorValue, setErrorValue] = useState('');
   const [openPopup, setOpenPopup] = useState(false);
   const [verified, setVerified] = useState(false);
-
-  const redirectPorceed = () => {
-    nav.navigation.navigate('retailerbusi');
-    // nav.navigation.navigate('bottomTab');
-  };
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -103,24 +98,15 @@ export default function VendorInfo(nav) {
       })
         .then(response => {
           setToggle(true);
-          ToastAndroid.showWithGravityAndOffset(
-            response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+          success({type: 'success', text: response.data.message});
           nav.navigation.navigate('logisbusiness', {id: response.data.data.id});
         })
         .catch(error => {
           setToggle(true);
-          ToastAndroid.showWithGravityAndOffset(
-            error.response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+          success({
+            type: 'error',
+            text: error?.response?.data?.message || error?.message,
+          });
         });
     },
   });
@@ -164,17 +150,20 @@ export default function VendorInfo(nav) {
   const sendOtp = async email => {
     try {
       await SendOtpSchema.validate({email});
-      // console.log('oooo', responseData);
       setErrorValue('');
-
       const response = await axios.get(
         `${environmentVariables?.apiUrl}/api/user/send_otp_to_email?email=${email}`,
       );
-      console.log('response', response?.data?.success);
+
       if (response?.data?.success) {
+        success({type: 'success', text: response.data.message});
         setOpenPopup(true);
       } else {
         setOpenPopup(false);
+        success({
+          type: 'error',
+          text: error?.response?.data?.message || error?.message,
+        });
       }
     } catch (validationError) {
       setErrorValue(validationError.message);
@@ -184,7 +173,7 @@ export default function VendorInfo(nav) {
   return (
     <ScrollView>
       <View
-        className="flex flex-col p-4   h-full bg-gray-100 !text-black
+        className="flex flex-col p-4 h-full bg-gray-100 !text-black
         ">
         <View className="relative flex flex-row items-center top-3 ">
           <TouchableOpacity onPress={() => nav.navigation.navigate('signup')}>
@@ -292,25 +281,27 @@ export default function VendorInfo(nav) {
               Email
             </Text>
             <View className="flex flex-row items-center pr-1.5 justify-between w-full bg-white rounded-[10px] py-0">
-              <TextInput
-                style={styles.input}
-                placeholderTextColor="rgb(210, 210, 210)"
-                placeholder="Example@gmail.com"
-                className="!border-none pl-4 !border-white"
-                borderRadius={10}
-                name="email"
-                value={values.email}
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-              />
+              <View className="w-[90%]">
+                <TextInput
+                  style={styles.input}
+                  placeholderTextColor="rgb(210, 210, 210)"
+                  placeholder="Example@gmail.com"
+                  className="!border-none pl-4 !border-white"
+                  borderRadius={10}
+                  name="email"
+                  value={values.email}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                />
+              </View>
               {verified ? (
-                <Text className="text-[10px] text-[#21d59b]">Verified</Text>
+                <Text className="text-[10px] text-[#21d59b] font-[Poppins-SemiBold]">Verified</Text>
               ) : (
-                <Text
-                  className="text-[10px] text-[#f96900]"
+                <TouchableOpacity
+                  
                   onPress={() => sendOtp(values.email)}>
-                  Verify
-                </Text>
+                  <Text className="text-[10px] text-[#f96900] font-[Poppins-SemiBold]" >Verify</Text>
+                </TouchableOpacity>
               )}
             </View>
             {errorValue ? (
@@ -371,7 +362,7 @@ export default function VendorInfo(nav) {
               style={{fontFamily: 'Poppins-SemiBold'}}>
               Date of Birth
             </Text>
-            
+
             <View className="w-full ">
               <TouchableOpacity
                 className="flex flex-row w-full"
@@ -412,20 +403,19 @@ export default function VendorInfo(nav) {
           </SafeAreaView>
         </View>
         <View className="pt-5">
-          <TouchableOpacity
-            onPress={() => handleSubmit()}
+        <TouchableOpacity
+            onPress={() => {
+              toggle ? handleSubmit() : null;
+            }}
             disabled={!verified || !isValid}
-            style={[
-              styles.button,
-              (!verified || !isValid) && styles.disabledButton,
-            ]}>
+            style={[styles.button, (!verified || !isValid) && styles.button1]}
+            className="flex flex-row items-center justify-center mt-8">
             <Text
-              className="text-white flex flex-row  text-[18px]"
+              className="text-white flex flex-row  text-[19px]"
               style={{fontFamily: 'Roboto-Regular'}}>
-              PROCEED
+              SUBMIT
             </Text>
-            {toggle ?null :
-              <ActivityIndicator size="small" className="ml-5" color="#00274d" />}
+            {toggle ? null : <ActivityIndicator className="pl-2" size="small" color="#fff" />}
           </TouchableOpacity>
         </View>
         {openPopup && (
@@ -461,7 +451,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Light',
   },
   button: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: '#F96900',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -474,7 +464,6 @@ const styles = StyleSheet.create({
     height: 15,
     backgroundColor: '#ccc',
     borderRadius: 10,
-    // margin: 10,
   },
   bar: {
     height: 5,
@@ -488,6 +477,6 @@ const styles = StyleSheet.create({
   },
   disabledButton: {
     backgroundColor: '#F96900',
-    opacity: 0.5, // Add opacity to make it look blurred
+    opacity: 0.5,
   },
 });

@@ -5,39 +5,27 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  SafeAreaView,
   View,
   Animated,
   ScrollView,
-  ToastAndroid,
   ActivityIndicator,
 } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import {Avatar, Card, IconButton} from 'react-native-paper';
+import {Card} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
 import {useFormik} from 'formik';
 import {LogisticRegisterSchema3} from '../../schemas/LogisticRegisterSchema3';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
+import { success } from '../../src/constants/ToastMessage';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [toggle, setToggle] = useState(true);
   const [selectedDocuments, setSelectedDocuments] = useState({
-    // tradeLicense: null,
-    // cancelledChequeDocument: null,
     vatCertificateDocument: null,
-    // emiratesIDDocument: null
   });
 
   const mainId = nav.route.params.id;
-
-  const redirectDriver = () => {
-    nav.navigation.navigate('logidrivdetail');
-    // nav.navigation.navigate('bottomTab');
-  };
-
   useEffect(() => {
     Animated.timing(progress, {
       toValue: 240,
@@ -85,26 +73,18 @@ export default function VendorDocument(nav) {
       })
         .then(response => {
           setToggle(true);
-          ToastAndroid.showWithGravityAndOffset(
-            response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+          success({type: 'success', text: response.data.message})
           nav.navigation.navigate('logidrivdetail', {
             id: response.data.data.id,
           });
         })
         .catch(error => {
           setToggle(true);
-          ToastAndroid.showWithGravityAndOffset(
-            error.response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+
+          success({
+            type: 'error',
+            text: error?.response?.data?.message || error?.message,
+          });
         });
     },
   });
@@ -345,13 +325,13 @@ export default function VendorDocument(nav) {
             toggle ? handleSubmit() : null;
           }}
           style={toggle ? styles.button : styles.button1}
-          className="flex flex-row items-center justify-center mt-8 gap-x-2">
+          className="flex flex-row items-center justify-center mt-8">
           <Text
             className="text-white flex flex-row  text-[19px]"
             style={{fontFamily: 'Roboto-Regular'}}>
             SUBMIT
           </Text>
-          {toggle ? null : <ActivityIndicator size="small" color="#00274d" />}
+          {toggle ? null : <ActivityIndicator className="pl-2" size="small" color="#fff" />}
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -371,24 +351,19 @@ const styles = StyleSheet.create({
   },
   input: {
     margin: 3,
-
     borderWidth: 0,
     borderRadius: 12,
     paddingLeft: 12,
     color: 'gray',
     backgroundColor: 'white',
-    // borderRadius: 20,
     fontFamily: 'Poppins-Light',
   },
   button: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: '#F96900',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
     color: 'red',
-  },
-  user: {
-    alignSelf: 'center',
   },
   bar: {
     height: 5,
@@ -396,7 +371,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   button: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: '#F96900',
     padding: 12,
     paddingHorizontal: 40,
     borderRadius: 10,

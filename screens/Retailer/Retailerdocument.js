@@ -5,38 +5,27 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  SafeAreaView,
   View,
   Animated,
   ScrollView,
-  ToastAndroid,
   ActivityIndicator,
 } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import {Avatar, Card, IconButton} from 'react-native-paper';
+import {Card} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
 import {useFormik} from 'formik';
 import {RetailerRegisterSchema3} from '../../schemas/RetailerRegisterSchema3';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
+import {success} from '../../src/constants/ToastMessage';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [toggle, setToggle] = useState(true);
   const [selectedDocuments, setSelectedDocuments] = useState({
-    // tradeLicense: null,
-    // cancelledChequeDocument: null,
     vatCertificateDocument: null,
-    // emiratesIDDocument: null
   });
 
   const mainId = nav.route.params.id;
-
-  const redirectDocument = () => {
-    nav.navigation.navigate('business');
-    // nav.navigation.navigate('bottomTab');
-  };
 
   useEffect(() => {
     Animated.timing(progress, {
@@ -86,24 +75,15 @@ export default function VendorDocument(nav) {
       })
         .then(response => {
           setToggle(true);
-          ToastAndroid.showWithGravityAndOffset(
-            response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+          success({type: 'success', text: response.data.message})
           nav.navigation.navigate('Login');
         })
         .catch(error => {
           setToggle(true);
-          ToastAndroid.showWithGravityAndOffset(
-            error.response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+          success({
+            type: 'error',
+            text: error?.response?.data?.message || error?.message,
+          });
         });
     },
   });
@@ -127,140 +107,8 @@ export default function VendorDocument(nav) {
       console.error('Error selecting document: ', err);
     }
   };
-  // const selectDocTradeLicense = async () => {
-  //   try {
-  //     const doc = await DocumentPicker.pick({
-  //       type: [DocumentPicker.types.pdf],
-  //       allowMultiSelection: true,
-  //     });
-
-  //     formik.setFieldValue("tradeLicense", doc?.[0]?.uri);
-  //     setSelectedTradeLicenseName(doc?.[0]?.name);
-  //   } catch (err) {
-  //     if (DocumentPicker.isCancel(err)) {
-  //     } else {
-  //     }
-  //   }
-  // };
-  const selectDocTradeLicense = async () => {
-    try {
-      const docs = await DocumentPicker.pick({
-        type: [DocumentPicker.types.pdf, DocumentPicker.types.images], // Allow both PDF and image files
-        allowMultiSelection: false, // Change to false if you want only one file to be selectable
-      });
-
-      if (docs && docs.length > 0) {
-        const selectedDoc = docs[0];
-        if (
-          selectedDoc.type === 'application/pdf' ||
-          selectedDoc.type === 'image/jpeg' ||
-          selectedDoc.type === 'image/jpg'
-        ) {
-          formik.setFieldValue('tradeLicense', selectedDoc);
-          setSelectedTradeLicenseName(selectedDoc.name);
-        } else {
-          alert('Please select a PDF, JPEG, or JPG file.');
-        }
-      }
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        console.log('User cancelled the upload', err);
-      } else {
-        console.log('Unknown error: ', err);
-      }
-    }
-  };
-  const selectDocCancelledChequeDocument = async () => {
-    try {
-      const docs = await DocumentPicker.pick({
-        type: [DocumentPicker.types.pdf, DocumentPicker.types.images], // Allow both PDF and image files
-        allowMultiSelection: false, // Change to false if you want only one file to be selectable
-      });
-
-      if (docs && docs.length > 0) {
-        const selectedDoc = docs[0];
-        if (
-          selectedDoc.type === 'application/pdf' ||
-          selectedDoc.type === 'image/jpeg' ||
-          selectedDoc.type === 'image/jpg'
-        ) {
-          formik.setFieldValue('cancelledChequeDocument', selectedDoc);
-          setSelectedCancelledChequeName(selectedDoc.name);
-        } else {
-          alert('Please select a PDF, JPEG, or JPG file.');
-        }
-      }
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        console.log('user cancelled the upload', err);
-      } else {
-        console.log(err);
-      }
-    }
-  };
-  const selectDocVATCertificate = async () => {
-    try {
-      const docs = await DocumentPicker.pick({
-        type: [DocumentPicker.types.pdf, DocumentPicker.types.images], // Allow both PDF and image files
-        allowMultiSelection: false, // Change to false if you want only one file to be selectable
-      });
-
-      if (docs && docs.length > 0) {
-        // Assuming you only want to handle the first selected document
-        const selectedDoc = docs[0];
-        if (
-          selectedDoc.type === 'application/pdf' ||
-          selectedDoc.type === 'image/jpeg' ||
-          selectedDoc.type === 'image/jpg'
-        ) {
-          formik.setFieldValue('vatCertificateDocument', selectedDoc);
-          setSelectedVATCertificate(selectedDoc.name);
-        } else {
-          alert('Please select a PDF, JPEG, or JPG file.');
-        }
-      }
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        console.log('user cancelled the upload', err);
-      } else {
-        console.log(err);
-      }
-    }
-  };
-  const selectEmiratesDoc = async () => {
-    try {
-      const docs = await DocumentPicker.pick({
-        type: [DocumentPicker.types.pdf, DocumentPicker.types.images], // Allow both PDF and image files
-        allowMultiSelection: false, // Change to false if you want only one file to be selectable
-      });
-
-      if (docs && docs.length > 0) {
-        console.log('docs...', docs);
-        // Assuming you only want to handle the first selected document
-        const selectedDoc = docs[0];
-        if (
-          selectedDoc.type === 'application/pdf' ||
-          selectedDoc.type === 'image/jpeg' ||
-          selectedDoc.type === 'image/jpg'
-        ) {
-          formik.setFieldValue('emiratesIDDocument', selectedDoc);
-          setSelectedEmiratesDoc(selectedDoc.name);
-        } else {
-          alert('Please select a PDF, JPEG, or JPG file.');
-        }
-      }
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        console.log('user cancelled the upload', err);
-      } else {
-        console.log(err);
-      }
-    }
-  };
-
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     formik;
-  console.log('ffff', errors);
 
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
@@ -478,7 +326,7 @@ export default function VendorDocument(nav) {
             SUBMIT
           </Text>
           {toggle ? null : (
-            <ActivityIndicator size="small" className color="#00274d" />
+            <ActivityIndicator size="small" className="pl-2" color="#fff" />
           )}
         </TouchableOpacity>
       </View>
@@ -492,13 +340,11 @@ const styles = StyleSheet.create({
   },
   input: {
     margin: 3,
-
     borderWidth: 0,
     borderRadius: 12,
     paddingLeft: 12,
     color: 'gray',
     backgroundColor: 'white',
-    // borderRadius: 20,
     fontFamily: 'Poppins-Light',
   },
   button: {
@@ -514,9 +360,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     color: 'red',
-  },
-  user: {
-    alignSelf: 'center',
   },
   bar: {
     height: 5,

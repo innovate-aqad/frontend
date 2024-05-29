@@ -19,7 +19,7 @@ export default function Products(nav) {
   const handleSearch = () => {};
   return (
     <View className="w-full h-full bg-[#f5f5f5]">
-      <View className="relative top-0 flex flex-row items-center px-5 pt-7 pb-2 bg-[#f96900] rounded-b-[15px]">
+      <View className="relative top-0 flex flex-row items-center px-5 pt-7 pb-2  rounded-b-[15px]">
         <Image
           style={styles.topNavigation}
           source={require('../../../Assets/image/drawable-xhdpi/arrow_left.png')}

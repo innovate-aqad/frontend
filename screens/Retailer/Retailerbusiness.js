@@ -9,19 +9,17 @@ import {
   View,
   Animated,
   ScrollView,
-  ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
 import CountryPicker from 'react-native-country-picker-modal';
-
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import {Badge, IconButton} from 'react-native-paper';
 import {useFormik} from 'formik';
 import {RetailerRegisterSchema2} from '../../schemas/RetailerRegisterSchema2';
 import AddbuttonForRetailer from '../AddButton/AddbuttonForRetailer';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
+import {success} from '../../src/constants/ToastMessage';
 export default function VendorBusiness(nav) {
+  const [toggle,setToggle]=useState(true)
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [countryCode, setCountryCode] = useState('AE');
   const [inputs, setInputs] = useState([{address: '', po_box: ''}]);
@@ -41,8 +39,8 @@ export default function VendorBusiness(nav) {
   let formik = useFormik({
     initialValues,
     validationSchema: RetailerRegisterSchema2,
-    onSubmit: async (values, action) => {
-      console.log('values', values);
+    onSubmit: async (values) => {
+      setToggle(false)
       const formdata = {
         company_name: values.companyName,
         slide: '2',
@@ -56,7 +54,7 @@ export default function VendorBusiness(nav) {
         outlet_addresses: values?.outlet_addresses,
         doc_id: mainId,
       };
-      console.log(formdata, 'llll...');
+    
       await axios({
         method: 'post',
         url: `${environmentVariables?.apiUrl}/api/user/register`,
@@ -67,25 +65,16 @@ export default function VendorBusiness(nav) {
         data: formdata,
       })
         .then(response => {
-          console.log('565656556', response.data, 'hhhhhh', response.data.data);
-          ToastAndroid.showWithGravityAndOffset(
-            response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+          setToggle(true)
+          success({type: 'success', text: response.data.message});
           nav.navigation.navigate('reatilerdocs', {id: response.data.data.id});
         })
         .catch(error => {
-          console.log('error...', error.response.data.message);
-          ToastAndroid.showWithGravityAndOffset(
-            error.response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+          setToggle(true)
+          success({
+            type: 'error',
+            text: error?.response?.data?.message || error?.message,
+          });
         });
     },
   });
@@ -126,11 +115,7 @@ export default function VendorBusiness(nav) {
   }, []);
 
   const onSelectCountry = country => {
-    console.log('ppp', country);
-    const callingCodeWithPlus = `+${country.callingCode[0]}`;
     formik.setFieldValue('country', country.cca2);
-
-    // formik.setFieldValue('isoCode', country.cca2);
     setCountryCode(country.cca2);
   };
 
@@ -270,7 +255,9 @@ export default function VendorBusiness(nav) {
                 onBlur={handleBlur('companyAddressline2')}
               />
               {errors.companyAddressline2 && touched.companyAddressline2 && (
-                <Text style={styles.errorHandle}>{errors.companyAddressline2}</Text>
+                <Text style={styles.errorHandle}>
+                  {errors.companyAddressline2}
+                </Text>
               )}
 
               {/* side  */}
@@ -339,15 +326,10 @@ export default function VendorBusiness(nav) {
                 handlePairInputChange={handlePairInputChange}
                 values={values}
               />
-              {/* {errors.outlet_addresses && (
-                <Text style={styles.errorHandle}>
-                  At least one pair of Outlet address and PO Box is required
-                </Text>
-              )} */}
             </SafeAreaView>
           </View>
           <View className="pt-5">
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => handleSubmit()}
               style={styles.button}>
               <Text
@@ -355,7 +337,21 @@ export default function VendorBusiness(nav) {
                 style={{fontFamily: 'Poppins-SemiBold'}}>
                 PROCEED
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <TouchableOpacity
+            onPress={() => {
+              toggle ? handleSubmit() : null;
+            }}
+            style={toggle ? styles.button : styles.button1}
+            className="flex flex-row items-center justify-center">
+            <Text
+              className="text-white flex flex-row  text-[19px]"
+              style={{fontFamily: 'Roboto-Regular'}}>
+              PROCEED
+            </Text>
+            {toggle ?null :
+              <ActivityIndicator size="small" className="pl-2" color="#fff" />}
+          </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -368,6 +364,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Medium',
     paddingLeft: 4,
     marginTop: 4,
+  },
+  button1: {
+    backgroundColor: '#F6E0D1',
+    padding: 12,
+    borderRadius: 5,
+    alignItems: 'center',
+    color: 'red',
   },
   container: {
     flex: 1,
@@ -392,24 +395,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     color: 'red',
   },
-  buttonadd: {
-    backgroundColor: '#F96900', // Default button color
-    padding: 12,
-    borderRadius: 5,
-    alignItems: 'center',
-    color: 'red',
-    width: 120,
-    marginBottom: 10,
-    marginTop: 10,
-  },
-  user: {
-    alignSelf: 'center',
-  },
   container: {
     height: 15,
     backgroundColor: '#ccc',
     borderRadius: 10,
-    // margin: 10,
   },
   bar: {
     height: 5,
@@ -427,14 +416,6 @@ const styles = StyleSheet.create({
 
     marginRight: 20,
     borderWidth: 0,
-  },
-  deleteButton: {
-    alignItems: 'center',
-    backgroundColor: 'gray',
-    padding: 10,
-    marginTop: 10,
-    borderRadius: 5,
-    width: 120,
   },
   errorHandle: {
     color: 'red',

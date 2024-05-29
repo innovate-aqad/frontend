@@ -20,9 +20,9 @@ import {SelectList} from 'react-native-dropdown-select-list';
 import {Avatar, Card, Checkbox, Divider} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
 import {useFormik} from 'formik';
-import {Picker} from '@react-native-picker/picker';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
+import { success } from '../../src/constants/ToastMessage';
 
 const vehicleTypeList = [
   {key: '1', value: 'Mini Truck'},
@@ -51,11 +51,6 @@ export default function VendorInfo(nav) {
       ...inputsVehicle,
       {brand: '', number: '', vehicleType: ''},
     ]);
-  };
-
-  const redirectBusiness = () => {
-    nav.navigation.navigate('logisbusiness');
-    // nav.navigation.navigate('bottomTab');
   };
 
   useEffect(() => {
@@ -109,7 +104,6 @@ export default function VendorInfo(nav) {
       const updatedInputs = [...inputs];
       updatedInputs[index].image = imageDetails;
       setInputs(updatedInputs);
-      console.log('lklklk', imageDetails);
       formik.setFieldValue(`drivers[${index}].image`, imageDetails);
     });
   };
@@ -180,9 +174,6 @@ export default function VendorInfo(nav) {
         formData.append('slide', '4');
         formData.append('user_type', 'logistic');
         formData.append('doc_id', mainId);
-
-        console.log(values,"valuesssss");
-        console.log('values.drivers', values.drivers);
         values.drivers.forEach((driver, index) => {
           formData.append(`driver_images`, {
             uri: driver.image.uri,
@@ -199,18 +190,9 @@ export default function VendorInfo(nav) {
         });
 
         values.vehicles.forEach((vehicle, index) => {
-          console.log( vehicle.vehicleType == 'Mini Truck'
-          ? 'mini_truck'
-          : vehicle.vehicleType == 'Medium Truck'
-          ? 'medium_truck'
-          : 'large_truck',"kkkkkkkkkkkkk");
           formData.append(
             `vehicle_details_array[${index}][vehicleType]`,
-            // vehicle.vehicleType == 'Mini Truck'
-              // ? 'mini_truck'
-              // : vehicle.vehicleType == 'Medium Truck'
-              // ? 'medium_truck'
-              vehicle.vehicleType
+            vehicle.vehicleType,
           );
           formData.append(
             `vehicle_details_array[${index}][brand]`,
@@ -232,36 +214,24 @@ export default function VendorInfo(nav) {
         })
           .then(response => {
             setToggle(true);
-            ToastAndroid.showWithGravityAndOffset(
-              response.data.message,
-              ToastAndroid.LONG,
-              ToastAndroid.CENTER,
-              25,
-              50,
-            );
+            success({type: 'success', text: response.data.message});
             nav.navigation.navigate('Login');
           })
           .catch(error => {
             setToggle(true);
-            console.log('error', error.response.data.message);
-            ToastAndroid.showWithGravityAndOffset(
-              error.response.data.message,
-              ToastAndroid.LONG,
-              ToastAndroid.CENTER,
-              25,
-              50,
-            );
+
+            success({
+              type: 'error',
+              text: error?.response?.data?.message || error?.message,
+            });
           });
       } catch (error) {
         setToggle(true);
-        console.error('Error submitting form:', error);
       }
     },
   });
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     formik;
-  // console.log('error', errors?.drivers, inputs?.[0].image?.name);
-  console.log('kkk', values.drivers[0].image.uri);
 
   return (
     <ScrollView>
@@ -467,14 +437,6 @@ export default function VendorInfo(nav) {
                 {inputs.length > 1 && index === 0 && (
                   <Divider className="bg-[#cbcbcb] my-3"></Divider>
                 )}
-
-                {/* {index > 0 && (
-                  <TouchableOpacity
-                    onPress={() => handleDelete(index)}
-                    style={styles.deleteButton}>
-                    <Text>Delete</Text>
-                  </TouchableOpacity>
-                )} */}
               </View>
             ))}
             <TouchableOpacity onPress={handleAdd}>
@@ -659,13 +621,13 @@ export default function VendorInfo(nav) {
         </TouchableOpacity>
 
         <View className="flex flex-row items-center mt-2">
-            <Checkbox
-              status={checked ? 'checked' : 'unchecked'}
-              color="#f96900"
-              onPress={() => {
-                setChecked(!checked);
-              }}
-            />
+          <Checkbox
+            status={checked ? 'checked' : 'unchecked'}
+            color="#f96900"
+            onPress={() => {
+              setChecked(!checked);
+            }}
+          />
           <Text className="font-[Poppins-Light] text-[10px] text-[#7e84a3]">
             I Agree To AQAD's
           </Text>
@@ -679,13 +641,13 @@ export default function VendorInfo(nav) {
               toggle ? handleSubmit() : null;
             }}
             style={toggle ? styles.button : styles.button1}
-            className="flex flex-row items-center justify-center mt-8 gap-x-2">
+            className="flex flex-row items-center justify-center mt-8">
             <Text
               className="text-white flex flex-row  text-[19px]"
               style={{fontFamily: 'Roboto-Regular'}}>
               SUBMIT
             </Text>
-            {toggle ? null : <ActivityIndicator size="small" color="#00274d" />}
+            {toggle ? null : <ActivityIndicator className="pl-2" size="small" color="#fff" />}
           </TouchableOpacity>
         </View>
       </View>
@@ -696,11 +658,11 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     borderColor: 'red',
     borderRadius: 5,
-    borderWidth: 1,  // Ensure border is visible
-    padding: 2,     // Add some padding to make space for the border
+    borderWidth: 1,
+    padding: 2, 
   },
   checked: {
-    borderColor: '#f96900', // Optional: change border color when checked
+    borderColor: '#f96900',
   },
   button1: {
     backgroundColor: '#F6E0D1',
@@ -733,7 +695,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Light',
   },
   button: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: '#F96900',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -746,30 +708,11 @@ const styles = StyleSheet.create({
     height: 15,
     backgroundColor: '#ccc',
     borderRadius: 10,
-    // margin: 10,
   },
   bar: {
     height: 5,
     backgroundColor: '#F96900',
     borderRadius: 10,
-  },
-  buttonadd: {
-    backgroundColor: '#F96900', // Default button color
-    padding: 12,
-    borderRadius: 5,
-    alignItems: 'center',
-    color: 'red',
-    width: 120,
-    marginBottom: 10,
-    marginTop: 10,
-  },
-  deleteButton: {
-    alignItems: 'center',
-    backgroundColor: 'gray',
-    padding: 10,
-    marginTop: 30,
-    borderRadius: 5,
-    width: 120,
   },
   line: {
     height: 0.5,

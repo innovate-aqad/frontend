@@ -2,11 +2,11 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from './Home';
 import FlexiTrade from './FlexiTrade';
-import MyAccount from './MyAccount';
 import Insights from './Insights';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MarketPlace from './MarketPlace';
 import {Image} from 'react-native';
+import MyAccountRoutes from './Account';
 
 const Tab = createBottomTabNavigator();
 const home = 'Home';
@@ -100,7 +100,7 @@ export default function Buttomtab() {
     >
       <Tab.Screen name={home} component={Home} />
       <Tab.Screen name={trade} component={FlexiTrade} />
-      <Tab.Screen name={account} component={MyAccount} />
+      <Tab.Screen name={account} component={MyAccountRoutes} />
       <Tab.Screen name={insights} component={Insights} />
       <Tab.Screen name={place} component={MarketPlace} />
     </Tab.Navigator>

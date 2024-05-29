@@ -9,27 +9,21 @@ import {
   View,
   Animated,
   ScrollView,
-  ToastAndroid,
   ActivityIndicator,
-  Modal,
-  Button,
 } from 'react-native';
 import {Avatar} from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {Formik, useFormik} from 'formik';
+import {useFormik} from 'formik';
 import CountryPicker from 'react-native-country-picker-modal';
 import {VendorRegisterSchema} from '../../schemas/VendorRegisterSchema';
 import ImagePicker from 'react-native-image-crop-picker';
 import moment from 'moment';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
-import Index from '..';
-import {fontScale} from 'nativewind';
-import ToastManager, {Toast} from 'toastify-react-native';
 import {SendOtpSchema} from '../../schemas/SendOtpSchema';
 import OtpPopup from '../OtpPopup/OtpPopup';
+import {success} from '../../src/constants/ToastMessage';
 
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -39,11 +33,9 @@ export default function VendorInfo(nav) {
   const [openPopup, setOpenPopup] = useState(false);
   const [verified, setVerified] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
-
-  // date
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [dateSelected, setDateSelected] = useState('');
-  const [toggle,setToggle]=useState(true)
+  const [toggle, setToggle] = useState(true);
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -71,7 +63,7 @@ export default function VendorInfo(nav) {
     initialValues,
     validationSchema: VendorRegisterSchema,
     onSubmit: async (values, action) => {
-      setToggle(false)
+      setToggle(false);
       const formdata = new FormData();
       formdata.append('name', values.fullName);
       formdata.append('slide', '1');
@@ -96,25 +88,16 @@ export default function VendorInfo(nav) {
         data: formdata,
       })
         .then(response => {
-          ToastAndroid.showWithGravityAndOffset(
-            response?.data?.message,
-            ToastAndroid.TOP,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
-          setToggle(true)
+          success({type: 'success', text: response.data.message});
+          setToggle(true);
           nav.navigation.navigate('business', {id: response?.data?.data?.id});
         })
         .catch(error => {
-          setToggle(true)
-          ToastAndroid.showWithGravityAndOffset(
-            error?.response?.data?.message || error?.message,
-            ToastAndroid.TOP,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+          setToggle(true);
+          success({
+            type: 'error',
+            text: error?.response?.data?.message || error?.message,
+          });
         });
     },
   });
@@ -163,70 +146,14 @@ export default function VendorInfo(nav) {
     return <Text>{country.cca2}</Text>;
   };
 
-  const initialValuesForOtp = {
-    email: '',
-  };
-
-  // let formikForOtp = useFormik({
-  //   initialValuesForOtp,
-  //   validationSchema: SendOtpSchema,
-  //   onSubmit: async (values, action) => {
-  //     await axios({
-  //       method: 'post',
-  //       url: `${environmentVariables?.apiUrl}/api/user/register`,
-  //       headers: {
-  //         'Content-Type': 'multipart/form-data',
-  //       },
-  //       data: formdata,
-  //     })
-  //       .then(response => {
-  //         Toast.success('User First Step Register Success');
-  //         ToastAndroid.showWithGravityAndOffset(
-  //           response?.data?.message,
-  //           ToastAndroid.LONG,
-  //           ToastAndroid.CENTER,
-  //           25,
-  //           50,
-  //         );
-  //         nav.navigation.navigate('business', {id: response?.data?.data?.id});
-  //       })
-  //       .catch(error => {
-  //         Toast.error('User Register Error..!');
-  //         console.log(error, 'error...');
-  //         ToastAndroid.showWithGravityAndOffset(
-  //           error?.response?.data?.message || error?.message,
-  //           ToastAndroid.LONG,
-  //           ToastAndroid.CENTER,
-  //           25,
-  //           50,
-  //         );
-  //       });
-  //   },
-  // });
-  // const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
-  //   formikForOtp;
-
-  // const sendOtp = async recievedEmail => {
-  //   // const response = await axios.get(
-  //   //   `${environmentVariables?.apiUrl}/api/user/send_otp_to_email?email=${recievedEmail}`,
-  //   // );
-  //   console.log('response', recievedEmail);
-  // };
-  const handleSubmitPopup = () => {
-    // Your submit logic here
-    setVerified(true);
-    setOpenPopup(false);
-  };
   const sendOtp = async email => {
     try {
       await SendOtpSchema.validate({email});
-      // console.log('oooo', responseData);
       setErrorValue('');
-
       const response = await axios.get(
         `${environmentVariables?.apiUrl}/api/user/send_otp_to_email?email=${email}`,
       );
-      console.log('response', response?.data?.success);
+      success({type: 'success', text: response.data.message});
       if (response?.data?.success) {
         setOpenPopup(true);
       } else {
@@ -234,6 +161,10 @@ export default function VendorInfo(nav) {
       }
     } catch (validationError) {
       setErrorValue(validationError.message);
+      success({
+        type: 'error',
+        text: error?.response?.data?.message || error?.message,
+      });
     }
   };
 
@@ -347,31 +278,30 @@ export default function VendorInfo(nav) {
               Email
             </Text>
             <View className="flex flex-row items-center pr-1.5 justify-between w-full bg-white rounded-[10px] py-0">
-              <TextInput
-                style={styles.input}
-                placeholderTextColor="rgb(210, 210, 210)"
-                placeholder="Example@gmail.com"
-                className="!border-none pl-4 !border-white"
-                borderRadius={10}
-                name="email"
-                value={values.email}
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-              />
+              <View className="w-[90%]">
+                <TextInput
+                  style={styles.input}
+                  placeholderTextColor="rgb(210, 210, 210)"
+                  placeholder="Example@gmail.com "
+                  className="!border-none pl-4 !border-white"
+                  borderRadius={10}
+                  name="email"
+                  value={values.email}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                />
+              </View>
               {verified ? (
                 <Text className="text-[10px] text-[#21d59b]">Verified</Text>
               ) : (
-                <Text
-                  className="text-[10px] text-[#f96900]"
+                <TouchableOpacity
+                  // className="text-[10px] text-[#f96900]"
                   onPress={() => sendOtp(values.email)}>
-                  Verify
-                </Text>
+                  <Text className="text-[10px] text-[#f96900] font-[Poppins-SemiBold]">
+                    Verify
+                  </Text>
+                </TouchableOpacity>
               )}
-              {/* <Text
-                onPress={() => sendOtp(values.email)}>
-                Verify
-                {verified ? 'Verified' : 'Verify'}
-              </Text> */}
             </View>
             {errorValue ? (
               <Text style={styles.errorHandle}>{errorValue}</Text>
@@ -478,19 +408,18 @@ export default function VendorInfo(nav) {
         </View>
         <View className="pt-5">
           <TouchableOpacity
-            onPress={() => handleSubmit()}
+            onPress={() => {
+              toggle ? handleSubmit() : null;
+            }}
             disabled={!verified || !isValid}
-            style={[
-              styles.button,
-              (!verified || !isValid) && styles.disabledButton,
-            ]}>
+            style={[styles.button, (!verified || !isValid) && styles.button1]}
+            className="flex flex-row items-center justify-center mt-8">
             <Text
-              className="text-white flex flex-row  text-[18px]"
+              className="text-white flex flex-row  text-[19px]"
               style={{fontFamily: 'Roboto-Regular'}}>
-              PROCEED
+              SUBMIT
             </Text>
-            {toggle ?null :
-              <ActivityIndicator size="small" color="#00274d" />}
+            {toggle ? null : <ActivityIndicator className="pl-2" size="small" color="#fff" />}
           </TouchableOpacity>
         </View>
 

@@ -21,6 +21,7 @@ import {OtpSchema} from '../../schemas/OtpSchema';
 
 import OTPTextInput from 'react-native-otp-textinput';
 import {useSafeAreaFrame} from 'react-native-safe-area-context';
+import { success } from '../../src/constants/ToastMessage';
 
 const OtpPopup = ({openPopup, setOpenPopup, setVerified, email}) => {
   const otpInputRef = useRef(null);
@@ -50,8 +51,7 @@ const OtpPopup = ({openPopup, setOpenPopup, setVerified, email}) => {
         },
       })
         .then(response => {
-          console.log(response.data, 'otpres');
-
+          success({type: 'success', text: response.data.message});
           if (response?.data?.success) {
             setVerified(true);
             setOpenPopup(false);
@@ -62,32 +62,16 @@ const OtpPopup = ({openPopup, setOpenPopup, setVerified, email}) => {
               response?.data?.message || 'OTP verification failed',
             );
           }
-          //   action.resetForm();
-          //   ToastAndroid.showWithGravityAndOffset(
-          //     response.data.message,
-          //     ToastAndroid.LONG,
-          //     ToastAndroid.CENTER,
-          //     25,
-          //     50,
-          //   );
-
-          //   navigation.navigate('dashboard');
         })
         .catch(error => {
-          console.log('error', error?.message, error.response.data.message);
+          success({type: 'error', text: error?.response?.data?.message});
           setVerified(false);
           action.setFieldError(
             'otp',
             error.response?.data?.message || 'OTP verification failed',
           );
 
-          //   ToastAndroid.showWithGravityAndOffset(
-          //     error.response.data.message,
-          //     ToastAndroid.LONG,
-          //     ToastAndroid.CENTER,
-          //     25,
-          //     50,
-          //   );
+          
         });
     },
   });

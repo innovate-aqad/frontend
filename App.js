@@ -5,7 +5,7 @@ import Index from './screens';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {MenuProvider} from 'react-native-popup-menu';
-import ToastManager from 'toastify-react-native';
+import Toast from 'react-native-toast-message';
 
 // const Stack=createNativeStackNavigator()
 export default function App() {
@@ -14,8 +14,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <MenuProvider>
-      <ToastManager />
         <Index />
+        <Toast />
       </MenuProvider>
     </NavigationContainer>
   );

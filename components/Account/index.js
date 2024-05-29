@@ -1,23 +1,39 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import Products from './Products';
-import AddProduct from './AddProduct';
-import AddVariation from './AddVariation';
+import MyAccount from './MyAccount';
 
 const stack = createNativeStackNavigator();
 
-export default function ProductRoutes() {
+export default function MyAccountRoutes() {
   return (
     <stack.Navigator>
       <stack.Screen
-        name="Product"
-        component={Products}
+        name="myAccount"
+        component={MyAccount}
         options={{
           headerShown: false,
-          title: 'Product',
+          title: 'My Account',
           headerStyle: {
             backgroundColor: '#f4511e',
-            borderRadius: 20,
+            borderRadius:20
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+          },
+        }}
+      />
+      {/* <stack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          headerShown: false,
+          title: 'Login',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+            borderRadius:20
           },
           headerTitleAlign: 'center',
           headerTintColor: '#fff',
@@ -28,14 +44,14 @@ export default function ProductRoutes() {
         }}
       />
       <stack.Screen
-        name="addProduct"
-        component={AddProduct}
+        name="signup"
+        component={Signup}
         options={{
-          headerShown: true,
-          title: 'ADD PRODUCTS',
+          headerShown: false,
+          title: 'Sign Up',
           headerStyle: {
             backgroundColor: '#f4511e',
-            borderRadius: 20,
+            borderRadius:20
           },
           headerTitleAlign: 'center',
           headerTintColor: '#fff',
@@ -44,28 +60,13 @@ export default function ProductRoutes() {
             color: 'white',
           },
         }}
-      />
+      /> */}
 
-      <stack.Screen
-        name="addVariation"
-        component={AddVariation}
-        options={{
-          headerShown: true,
-          title: 'ADD VARIATION',
-          headerStyle: {
-            backgroundColor: '#f4511e',
-            borderRadius: 20,
-          },
-          headerTitleAlign: 'center',
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            color: 'white',
-          },
-        }}
-      />
+
+      
     </stack.Navigator>
   );
 }
 
-//
+
+// 

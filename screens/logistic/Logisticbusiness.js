@@ -9,25 +9,20 @@ import {
   View,
   Animated,
   ScrollView,
-  ToastAndroid,
   ActivityIndicator,
 } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import CountryPicker from 'react-native-country-picker-modal';
 
-import {Badge, IconButton} from 'react-native-paper';
 import {useFormik} from 'formik';
 import {LogisticRegisterSchema2} from '../../schemas/LogisticRegisterSchema2';
 import {environmentVariables} from '../../config/Config';
 import axios from 'axios';
+import {success} from '../../src/constants/ToastMessage';
 export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
-  const [countryCode, setCountryCode] = useState('AE'); // Default country code
+  const [countryCode, setCountryCode] = useState('AE');
   const [toggle, setToggle] = useState(true);
-
   const mainId = nav.route.params.id;
-
   const initialValues = {
     companyName: '',
     designation: '',
@@ -55,7 +50,6 @@ export default function VendorBusiness(nav) {
         country: values.country,
         doc_id: mainId,
       };
-      console.log(formdata, 'llll...');
       await axios({
         method: 'post',
         url: `${environmentVariables?.apiUrl}/api/user/register`,
@@ -67,24 +61,16 @@ export default function VendorBusiness(nav) {
       })
         .then(response => {
           setToggle(true);
-          ToastAndroid.showWithGravityAndOffset(
-            response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+          success({type: 'success', text: response.data.message});
           nav.navigation.navigate('logisdocument', {id: response.data.data.id});
         })
         .catch(error => {
           setToggle(true);
-          ToastAndroid.showWithGravityAndOffset(
-            error.response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+
+          success({
+            type: 'error',
+            text: error?.response?.data?.message || error?.message,
+          });
         });
     },
   });
@@ -99,8 +85,6 @@ export default function VendorBusiness(nav) {
   }, []);
 
   const onSelectCountry = country => {
-    console.log('ppp', country);
-    const callingCodeWithPlus = `+${country.callingCode[0]}`;
     formik.setFieldValue('country', country.cca2);
     setCountryCode(country.cca2);
   };
@@ -310,7 +294,7 @@ export default function VendorBusiness(nav) {
               style={{fontFamily: 'Roboto-Regular'}}>
               PROCEED
             </Text>
-            {toggle ? null : <ActivityIndicator size="small" color="#00274d" />}
+            {toggle ? null : <ActivityIndicator size="small" className="pl-2" color="#fff" />}
           </TouchableOpacity>
         </View>
       </View>
@@ -337,10 +321,6 @@ const styles = StyleSheet.create({
     paddingLeft: 4,
     marginTop: 4,
   },
-  container: {
-    flex: 1,
-    padding: 20,
-  },
   topNavigation: {
     height: 15,
     width: 23.3,
@@ -354,41 +334,16 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Light',
   },
   button: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: '#F96900',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
     color: 'red',
-  },
-  buttonadd: {
-    backgroundColor: '#F96900', // Default button color
-    padding: 12,
-    borderRadius: 5,
-    alignItems: 'center',
-    color: 'red',
-    width: 120,
-    marginBottom: 10,
-    marginTop: 10,
-  },
-  user: {
-    alignSelf: 'center',
-  },
-  container: {
-    height: 15,
-    backgroundColor: '#ccc',
-    borderRadius: 10,
-    // margin: 10,
   },
   bar: {
     height: 5,
     backgroundColor: '#F96900',
     borderRadius: 10,
-  },
-  containerside: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-
-    marginTop: 20,
   },
   inputContainer: {
     flex: 1,

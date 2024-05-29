@@ -2,7 +2,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ToastAndroid,
   ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
@@ -15,95 +14,19 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {useFormik} from 'formik';
 import {LoginSchema} from '../schemas/LoginSchema';
 import {environmentVariables} from '../config/Config';
+import {success} from '../src/constants/ToastMessage';
 // Make a request for a user with a given ID
 
 export default function Login(nav) {
   const [isEnabled, setIsEnabled] = React.useState(false);
   const rememberMe = () => setIsEnabled(previousState => !previousState);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-
-  // const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
   const gotoForgot = () => {
     nav.navigation.navigate('forgot');
-  };
-
-  const handleEmail = e => {
-    const emailVar = e.nativeEvent.text;
-    console.log(emailVar);
-    setEmail(emailVar);
-    setEmailError(false);
-    if (/^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{1,}$/.test(emailVar)) {
-      setEmail(emailVar);
-      setEmailError(true);
-    }
-  };
-  const handlePassword = e => {
-    const passVar = e.nativeEvent.text;
-    console.log(passVar);
-    setPassword(passVar);
-    setPasswordError(false);
-    if (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(passVar)) {
-      setPassword(passVar);
-      setPasswordError(true);
-    }
-  };
-
-  const redirect = () => {
-    // if (!passwordError) {
-    //   setPasswordError(true);
-    // } else {
-    //   setPasswordError(false);
-    // }
-    // nav.navigation.navigate('bottomTab');
-    nav.navigation.navigate('retailerIndex');
-    // nav.navigation.navigate('productIndex');
-    // console.log(email, 'emailemailemail');
-    // console.log(password, 'passwordpasswordpasswordpassword');
-
-    // if(emailError && passwordError){
-    //   setEmail("")
-    //   setPassword("")
-    //   nav.navigation.navigate('productIndex');
-    //   ToastAndroid.showWithGravityAndOffset(
-    //     'Login Success',
-    //     ToastAndroid.LONG,
-    //     ToastAndroid.CENTER,
-    //     25,
-    //     50,
-    //   );
-
-    // }else{
-    //   ToastAndroid.showWithGravityAndOffset(
-    //     'Invalid email and passwords',
-    //     ToastAndroid.LONG,
-    //     ToastAndroid.CENTER,
-    //     25,
-    //     50,
-    //   );
-    // }
-
-    // axios
-    //   .get('http://10.0.2.2:7070/category')
-    //   .then(function (response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function (error) {
-    //     // handle error
-    //     console.log("error");
-    //   })
-    //   .finally(function () {
-    //     // always executed
-    //     console.log("not");
-    //   });
   };
 
   const initialValues = {
@@ -129,57 +52,16 @@ export default function Login(nav) {
           },
         })
           .then(response => {
-            console.log(response.data, 'loginres');
             action.resetForm();
-            ToastAndroid.showWithGravityAndOffset(
-              response.data.message,
-              ToastAndroid.LONG,
-              ToastAndroid.CENTER,
-              25,
-              50,
-            );
+            success({type: 'success', text: response.data.message})
             nav.navigation.navigate('otpscreen', {email: values.email});
-
-            // setIsApiResponse(false);
-            // if (response.data.message === "User is not verified") {
-            //   Swal.fire({
-            //     icon: "error",
-            //     title: "Email is not verified",
-            //   });
-            // } else {
-            //   const expirationTime = 1 * 60 * 1000; // 1 hour in milliseconds
-            //   const expirationTimestamp = new Date().getTime() + expirationTime;
-            //   const { data } = response;
-            //   localStorage.setItem(
-            //     "authdata",
-            //     JSON.stringify({ data, expirationTimestamp })
-            //   );
-
-            //   setAuthData({ data, expirationTimestamp });
-
-            //   Swal.fire({
-            //     icon: "success",
-            //     text: "Successfully Login",
-            //     // title: "Successfully Login",
-            //     timer: "1000",
-            //   });
-            //   setShowPopup(false);
-            // }
           })
           .catch(error => {
-            console.log('error', error.message);
-            ToastAndroid.showWithGravityAndOffset(
-              error.response.data.message,
-              ToastAndroid.LONG,
-              ToastAndroid.CENTER,
-              25,
-              50,
-            );
+            success({type: 'error', text: error?.response?.data?.message || error?.message})
           });
       },
     });
 
-  console.log(emailError, 'emailError');
 
   return (
     <ScrollView
@@ -366,17 +248,15 @@ export default function Login(nav) {
           <Text className="text-gray-400 font-[Roboto-Regular]">
             New to AQAD ?
           </Text>
-          <Text
-            className="px-5 text-[#F96900] font-[Roboto-Regular]"
+          <TouchableOpacity
+            className="px-5 "
             onPress={() => {
-              nav.navigation.navigate('signup');
-              // nav.navigation.navigate('logidrivdetail', {
-              //   id: 'd3c410d0a9c54ee39f1a70057cb6df6d',
-              // });
-              // nav.navigation.navigate('add_product');
+              nav.navigation.navigate('productIndex');
             }}>
-            Sign Up
-          </Text>
+            <Text className="text-[#F96900] font-[Roboto-Regular]">
+              Sign Up
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>

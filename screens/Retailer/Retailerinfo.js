@@ -25,6 +25,7 @@ import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import OtpPopup from '../OtpPopup/OtpPopup';
 import {SendOtpSchema} from '../../schemas/SendOtpSchema';
+import { success } from '../../src/constants/ToastMessage';
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [image, setImage] = useState('');
@@ -100,25 +101,13 @@ export default function VendorInfo(nav) {
       })
         .then(response => {
           setToggle(true);
-          ToastAndroid.showWithGravityAndOffset(
-            response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+          success({type: 'success', text: response.data.message})
           
           nav.navigation.navigate('retailerbusi', {id: response.data.data.id});
         })
         .catch(error => {
           setToggle(true);
-          ToastAndroid.showWithGravityAndOffset(
-            error.response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+          success({type: 'error', text: error?.response?.data?.message || error?.message})
         });
     },
   });
@@ -297,6 +286,7 @@ export default function VendorInfo(nav) {
               Email
             </Text>
             <View className="flex flex-row items-center pr-1.5 justify-between w-full bg-white rounded-[10px] py-0">
+              <View className="w-[90%]">
               <TextInput
                 style={styles.input}
                 placeholderTextColor="rgb(210, 210, 210)"
@@ -308,6 +298,7 @@ export default function VendorInfo(nav) {
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
               />
+              </View>
               {verified ? (
                 <Text className="text-[10px] text-[#21d59b]">Verified</Text>
               ) : (
@@ -423,26 +414,23 @@ export default function VendorInfo(nav) {
           </SafeAreaView>
         </View>
         <View className="mt-5">
-          <TouchableOpacity
-            onPress={() => handleSubmit()}
-            disabled={!verified || !isValid}
-            style={[
-              styles.button,
-              (!verified || !isValid) && styles.disabledButton,
-            ]}>
-            <Text
-              className="text-white flex flex-row  text-[19px]"
-              style={{fontFamily: 'Roboto-Regular'}}>
-              PROCEED
-            </Text>
-            {toggle ? null : (
-              <ActivityIndicator
-                style={{marginLeft: 6}}
-                size="small"
-                color="#00274d"
-              />
-            )}
-          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            toggle ? handleSubmit() : null;
+          }}
+          disabled={!verified || !isValid}
+          style={[
+            styles.button,
+            (!verified || !isValid) && styles.button1,
+          ]}
+          className="flex flex-row items-center justify-center mt-8">
+          <Text
+            className="text-white flex flex-row  text-[19px]"
+            style={{fontFamily: 'Roboto-Regular'}}>
+            SUBMIT
+          </Text>
+          {toggle ? null : <ActivityIndicator size="small" className="pl-2" color="#fff" />}
+        </TouchableOpacity>
         </View>
         {openPopup && (
           <OtpPopup
