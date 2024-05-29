@@ -24,6 +24,7 @@ import axios from 'axios';
 import {useFormik} from 'formik';
 import {AddProductSchema} from '../../../schemas/AddProductSchema';
 import {environmentVariables} from '../../../config/Config';
+import {useNavigation} from '@react-navigation/native';
 
 export default function AddProduct(nav) {
   const [size, setSize] = useState([]);
@@ -93,43 +94,58 @@ export default function AddProduct(nav) {
     validationSchema: AddProductSchema,
     onSubmit: async (values, action) => {
       console.log('ppooo', values);
-      nav.navigation.navigate('addVariation')
-      // setToggle(false);
+      // nav.navigation.navigate('addVariation');
+      setToggle(false);
       // const formdata = new FormData();
-      // formdata.append('title', 'pppppp');
-      // formdata.append('universal_standard_code', 'ooooo');
-      // formdata.append('brand_id', 'uuuuuu');
-      // formdata.append('description', 'hhhhhhh');
-      // formdata.append('category_id', 'bbbbbb');
-      // formdata.append('sub_category_id', 'vvvvvvv');
-      // await axios({
-      //   method: 'post',
-      //   url: `${environmentVariables?.apiUrl}/api/product/add`,
-      //   data: formdata,
-      // })
-      //   .then(response => {
-      //     ToastAndroid.showWithGravityAndOffset(
-      //       response?.data?.message,
-      //       ToastAndroid.TOP,
-      //       ToastAndroid.CENTER,
-      //       25,
-      //       50,
-      //     );
-      //     setToggle(true);
-      //     // nav.navigation.navigate('business', {id: response?.data?.data?.id});
-      //   })
-      //   .catch(error => {
-      //     console.log('rtttt', error);
-      //     nav.navigation.navigate('addVariation');
-      //     setToggle(true);
-      //     // ToastAndroid.showWithGravityAndOffset(
-      //     //   error?.response?.data?.message || error?.message,
-      //     //   ToastAndroid.TOP,
-      //     //   ToastAndroid.CENTER,
-      //     //   25,
-      //     //   50,
-      //     // );
-      //   });
+      // formdata.append('title', values.name);
+      // formdata.append('universal_standard_code', values?.upc);
+      // formdata.append('brand_id', values?.valueBrand);
+      // formdata.append('description', values.description);
+      // formdata.append('category_id', values.value);
+      // formdata.append('sub_category_id', values?.valueSubCategory);
+
+      const data = {
+        title: values.name,
+        universal_standard_code: values?.upc,
+        brand_id: values?.valueBrand,
+        description: values.description,
+        category_id: values.value,
+        sub_category_id: values?.valueSubCategory,
+      };
+
+      await axios({
+        method: 'post',
+        url: `${environmentVariables?.apiUrl}/api/product/add`,
+        data: data,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
+        .then(response => {
+          ToastAndroid.showWithGravityAndOffset(
+            response?.data?.message,
+            ToastAndroid.TOP,
+            ToastAndroid.CENTER,
+            25,
+            50,
+          );
+          setToggle(true);
+          // nav.navigation.navigate('business', {id: response?.data?.data?.id});
+        })
+        .catch(error => {
+          console.log('rtttt', error?.response?.data?.message, error?.message);
+          // nav.navigation.navigate('addVariation');
+          setToggle(true);
+          // ToastAndroid.showWithGravityAndOffset(
+          //   error?.response?.data?.message || error?.message,
+          //   ToastAndroid.TOP,
+          //   ToastAndroid.CENTER,
+          //   25,
+          //   50,
+          // );
+        });
     },
   });
   const {
@@ -276,9 +292,9 @@ export default function AddProduct(nav) {
                   style={{fontFamily: 'Poppins-SemiBold'}}>
                   ADD PRODUCT
                 </Text>
-                {toggle ? null : (
+                {/* {toggle ? null : (
                   <ActivityIndicator size="small" color="#00274d" />
-                )}
+                )} */}
               </TouchableOpacity>
             </View>
           </View>

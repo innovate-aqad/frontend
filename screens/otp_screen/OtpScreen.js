@@ -49,7 +49,7 @@ export default function OtpScreen({route}) {
             50,
           );
 
-          navigation.navigate('dashboard');
+          navigation.navigate('productIndex');
         })
         .catch(error => {
           console.log('error', error);
