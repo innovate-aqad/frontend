@@ -11,6 +11,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {Card} from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import AntDesign from 'react-native-vector-icons/AntDesign';
 // import InputTextField from '../../../Shared/InputTextField';
 const mockData = ['S', 'M', 'L', 'XL', 'XXL'];
@@ -36,6 +38,13 @@ export default function AddProduct(nav) {
   const [valueSubCategory, setValueSubCategory] = useState('');
   const [valueBrand, setValueBrand] = useState('');
   const [toggle, setToggle] = useState(true);
+  const [storedToken, setStoredToken] = useState(null);
+
+  useEffect(async () => {
+    const storedToken = await AsyncStorage.getItem('_token');
+    console.log('storedToken,', storedToken);
+    setStoredToken(storedToken);
+  }, []);
 
   const getCategoriedData = async () => {
     try {
@@ -93,7 +102,7 @@ export default function AddProduct(nav) {
     initialValues,
     validationSchema: AddProductSchema,
     onSubmit: async (values, action) => {
-      console.log('ppooo', values);
+      // console.log('ppooo', values, storedToken);
       // nav.navigation.navigate('addVariation');
       setToggle(false);
       // const formdata = new FormData();
@@ -120,8 +129,8 @@ export default function AddProduct(nav) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          _token: storedToken,
         },
-        withCredentials: true,
       })
         .then(response => {
           ToastAndroid.showWithGravityAndOffset(
@@ -131,6 +140,7 @@ export default function AddProduct(nav) {
             25,
             50,
           );
+          nav.navigation.navigate('addVariation');
           setToggle(true);
           // nav.navigation.navigate('business', {id: response?.data?.data?.id});
         })
@@ -158,7 +168,7 @@ export default function AddProduct(nav) {
     isValid,
   } = formik;
 
-  console.log('powwwwwww', errors);
+  // console.log('powwwwwww', errors);
   return (
     <ScrollView>
       <View className="flex flex-col h-full mb-12  bg-[#f5f5f5]">

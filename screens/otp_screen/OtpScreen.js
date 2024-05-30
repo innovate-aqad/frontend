@@ -6,7 +6,7 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
@@ -15,6 +15,7 @@ import {useFormik} from 'formik';
 import {OtpSchema} from '../../schemas/OtpSchema';
 import {environmentVariables} from '../../config/Config';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function OtpScreen({route}) {
   const {email} = route.params;
   const navigation = useNavigation();
@@ -38,8 +39,12 @@ export default function OtpScreen({route}) {
           otp: values.otp,
         },
       })
-        .then(response => {
-          console.log(response.data, 'otpres');
+        .then(async response => {
+          console.log(response.data.data.token, 'otpres');
+          const saveToken = await AsyncStorage.setItem(
+            '_token',
+            response?.data?.data.token,
+          );
           action.resetForm();
           ToastAndroid.showWithGravityAndOffset(
             response.data.message,
@@ -63,8 +68,14 @@ export default function OtpScreen({route}) {
         });
     },
   });
+
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     formik;
+
+  useEffect(async () => {
+    const storedToken = await AsyncStorage.getItem('_token');
+    console.log('storedToken,', storedToken);
+  }, []);
 
   return (
     <ScrollView

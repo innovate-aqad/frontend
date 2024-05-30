@@ -8,4 +8,5 @@ export const AddProductVariantSchema = Yup.object().shape({
   comparePriceAt: Yup.string().min(5),
   quantity: Yup.string().min(1).required('Please Enter Quantity'),
   sku: Yup.string().min(1).required('Please Enter SKU'),
+  valueWareHouse: Yup.string().required('Please Select Brand'),
 });

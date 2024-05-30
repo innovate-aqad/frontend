@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -16,10 +16,22 @@ import DocumentPicker from 'react-native-document-picker';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useFormik} from 'formik';
 import {AddProductVariantSchema} from '../../../schemas/AddProductVariantSchema';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import {AddVariantionWareHouse} from '../../../Shared/AddVariationSelect';
 
 export default function AddVariation() {
   const [size, setSize] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [resData, setResData] = useState(null);
+  const [storedToken, setStoredToken] = useState(null);
+  const [valueWareHouse, setValueWareHouse] = useState('');
+
+  useEffect(async () => {
+    const storedToken = await AsyncStorage.getItem('_token');
+    console.log('storedToken,', storedToken);
+    setStoredToken(storedToken);
+  }, []);
 
   const selectDoc = async nav => {
     try {
@@ -59,6 +71,7 @@ export default function AddVariation() {
     comparePriceAt: '',
     quantity: '',
     sku: '',
+    valueWareHouse: '',
   };
   let formik = useFormik({
     initialValues,
@@ -109,7 +122,30 @@ export default function AddVariation() {
     return (bytes / 1024).toFixed(2); // Convert bytes to kilobytes and round to 2 decimal places
   };
 
-  console.log(size, 'sizeproduct', values);
+  const getWareHouseData = async () => {
+    try {
+      const response = await axios.get(
+        'http://localhost:2000/api/user/get_data',
+        {
+          headers: {_token: storedToken},
+        },
+      );
+
+      setResData(response?.data?.details);
+    } catch (error) {
+      console.log('error,///', error);
+    }
+
+    return () => {
+      setResData(null);
+      // Cleanup code here
+    };
+  };
+  useEffect(() => {
+    getWareHouseData();
+  }, [storedToken]);
+
+  console.log(resData);
   return (
     <ScrollView>
       <View className="flex flex-col gap-y-2 h-full mb-14  bg-[#f5f5f5]">
@@ -350,7 +386,18 @@ export default function AddVariation() {
             <View className="flex flex-row w-full ">
               <View className="w-full pr-1">
                 <Text style={styles.textTitle}>Select Warehouse</Text>
-                {/* <SelectInput placeholderTextColor="Select warehouse" /> */}
+                <AddVariantionWareHouse
+                  placeholderTextColor="Select warehouse"
+                  data={resData?.warehouse_addresses}
+                  setValue={setValueWareHouse}
+                  value={valueWareHouse}
+                  formik={formik}
+                />
+                {errors.valueWareHouse && touched.valueWareHouse && (
+                  <Text style={styles.errorHandle}>
+                    {errors.valueWareHouse}
+                  </Text>
+                )}
               </View>
             </View>
             <View className="flex flex-row w-full ">
