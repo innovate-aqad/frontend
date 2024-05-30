@@ -25,7 +25,7 @@ import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import OtpPopup from '../OtpPopup/OtpPopup';
 import {SendOtpSchema} from '../../schemas/SendOtpSchema';
-import { success } from '../../src/constants/ToastMessage';
+import { success } from '../../constants/ToastMessage';
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [image, setImage] = useState('');

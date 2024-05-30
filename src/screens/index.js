@@ -38,11 +38,13 @@ import WareHouseDetails from '../screens/WareHouseDetails/WareHouseDetails';
 import PendingOrder from './PendingOrder/PendingOrder';
 import PDriverDetails from './PendingOrder/PDriverDetails';
 import PMain from '../screens/PendingOrder/PMain';
+import SplashScreen from './SplashScreen';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="SplashScreen" component={SplashScreen} />
       <Stack.Screen name="bottomTab" component={Buttomtab} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="signup" component={Signup} />
@@ -50,7 +52,6 @@ export default function Index() {
       <Stack.Screen name="orders" component={Orders} />
       <Stack.Screen name="forgot" component={Forgot} />
       <Stack.Screen name="dashboard" component={Dashboard} />
-      {/* <Stack.Screen name="add_product" component={AddProduct} /> */}
       <Stack.Screen name="productIndex" component={ProductIndex} />
       <Stack.Screen name="vendor" component={VendorInfo} />
       {/* <Stack.Screen name="vendor" component={Profile} /> */}

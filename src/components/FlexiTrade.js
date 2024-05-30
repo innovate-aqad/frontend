@@ -6,17 +6,42 @@ import {
   Text,
   Image,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 
 import {Checkbox} from 'react-native-paper';
+import {POPPINS, ROBOTO} from '../constants/CustomFontFamily';
+import {
+  blue,
+  flexTradButtonColor,
+  screenBackground,
+  textColorCustom,
+  white,
+} from '../constants/Theme';
+import { success } from '../constants/ToastMessage';
 
+const HighlightsData = [
+  {dec: 'Instant encashment of sale invoices to enhance cash flow'},
+  {
+    dec: 'Offer credit terms of 15, 30, 45 days to customers,facilitating flexible financial planning',
+  },
+  {
+    dec: 'Simplified product listing and quick market access using mobile uploads',
+  },
+  {
+    dec: 'Advanced analytics for real-time business insights and decision making',
+  },
+  {dec: 'Proceed to checkout when ready.'},
+];
 const MyComponent = () => {
   const [value, setValue] = React.useState('left');
   const [checked, setChecked] = React.useState(false);
 
   return (
     <ScrollView>
-      <View className="flex flex-col gap-y-2 h-full p-5 py-8 bg-[#f5f5f5]">
+      <View
+        className="flex flex-col h-full p-5 py-8 gap-y-2"
+        style={{backgroundColor: screenBackground}}>
         <View className="flex-row items-center pb-3">
           <Image
             style={styles.topNavigation}
@@ -25,14 +50,14 @@ const MyComponent = () => {
           <Text
             className="flex-1 text-[20px] text-center text-[#00274d]"
             style={{
-              fontFamily: 'Roboto-Bold',
+              fontFamily: ROBOTO.RobotoBold,
               letterSpacing: 1,
               textTransform: 'uppercase',
             }}>
             Flexi tRADE
           </Text>
         </View>
-        <View className="flex flex-row w-full bg-white rounded-full  ">
+        <View className="flex flex-row w-full bg-white rounded-full ">
           <TouchableOpacity
             onPress={() => setValue('left')}
             className="w-[50%] h-[39px]"
@@ -43,8 +68,12 @@ const MyComponent = () => {
               value === 'left' && styles.selectedToggleButton,
             ]}>
             <Text
-              className="text-[#00274D]"
-              style={{fontFamily: 'Poppins-SemiBold', fontSize: 14}}>
+              style={[
+                value === 'left'
+                  ? {color: white}
+                  : {color: flexTradButtonColor},
+                {fontFamily: ROBOTO.RobotoRegular, fontSize: 14},
+              ]}>
               Vendor
             </Text>
           </TouchableOpacity>
@@ -56,13 +85,16 @@ const MyComponent = () => {
               value === 'right' && styles.selectedToggleButton,
             ]}>
             <Text
-              className="text-[#00274D]"
-              style={{fontFamily: 'Poppins-SemiBold', fontSize: 14}}>
+              style={[
+                value === 'right'
+                  ? {color: white}
+                  : {color: flexTradButtonColor},
+                {fontFamily: ROBOTO.RobotoRegular, fontSize: 14},
+              ]}>
               Retailer
             </Text>
           </TouchableOpacity>
         </View>
-        {/* image center */}
         <View style={styles.containerimage}>
           <Image
             style={styles.imagecentre}
@@ -71,15 +103,13 @@ const MyComponent = () => {
         </View>
 
         <View className="pt-5 pb-3">
-          <Text className="text-[#F96900] font-[Poppins-Bold]">
+          <Text style={styles.heading} className="pb-2">
             Introducing Flexi Trade :
           </Text>
 
           <View>
             <View className="flex flex-row justify-between">
-              <Text
-                className="text-[#7e84a3] text-[10spx] "
-                style={{lineHeight: 18}}>
+              <Text style={styles.description}>
                 The Premier Marketplace for Vendors and Retailers Flexitrade is
                 a product designed for vendors and Retailers to transform the
                 transaction in between vendors and retailers This innovative
@@ -89,133 +119,123 @@ const MyComponent = () => {
               </Text>
             </View>
           </View>
-          {/* side heading */}
-          <View className="pt-5 ">
-            <Text className="text-[#F96900] font-[Poppins-Bold]">
+          <View className="pt-3 pr-3">
+            <Text style={styles.heading} className="pb-2">
               Features :
             </Text>
             <View style={styles.row}>
-              <Text style={styles.sideHeading}>Quick Payment Process :</Text>
+              <Text style={styles.subHeading}>Quick Payment Process :</Text>
               <Text
-                style={styles.paragraph}
+                style={styles.subDescription}
                 numberOfLines={1}
                 ellipsizeMode="tail">
+                {' '}
                 Here is the summary of your order
               </Text>
             </View>
             <View style={styles.row}>
-              <Text style={styles.sideHeading}>Flexible Trade Terms :</Text>
+              <Text style={styles.subHeading}>Flexible Trade Terms :</Text>
               <Text
-                style={styles.paragraph}
+                style={styles.subDescription}
                 numberOfLines={1}
                 ellipsizeMode="tail">
-                Here is the summary of your order
+                {' '}
+                Customizable payment timelines
               </Text>
             </View>
             <View style={styles.row}>
-              <Text style={styles.sideHeading}>Reduced Trade Barriers :</Text>
-              <Text
-                style={styles.paragraph}
-                numberOfLines={1}
-                ellipsizeMode="tail">
-                Here is the summary of your order
+              <Text style={styles.subDescription}>
+                <Text style={styles.subHeading}>Reduced Trade Barriers :</Text>
+                Easy product listings and rapid sales processes
               </Text>
             </View>
             <View style={styles.row}>
-              <Text style={styles.sideHeading}>
-                Enhanced Visibility and Control :
-              </Text>
-              <Text
-                style={styles.paragraph}
-                numberOfLines={1}
-                ellipsizeMode="tail">
-                Here is the summary of your order
+              <Text style={styles.subDescription}>
+                <Text style={styles.subHeading}>
+                  Enhanced Visibility and Control :{' '}
+                </Text>
+                Tools for managing inventory, orders, customer interactions
               </Text>
             </View>
             <View style={styles.row}>
-              <Text style={styles.sideHeading}>
-                Access to a Wide Range of Products :
-              </Text>
-              <Text
-                style={styles.paragraph}
-                numberOfLines={1}
-                ellipsizeMode="tail">
-                Here is the summary of your order
+              <Text style={styles.subDescription}>
+                <Text style={styles.subHeading}>
+                  Access to a Wide Range of Products :
+                </Text>{' '}
+                Large catalog for easy browsing
               </Text>
             </View>
             <View style={styles.row}>
-              <Text style={styles.sideHeading}>
-                Streamlined Ordering Process :
-              </Text>
-              <Text
-                style={styles.paragraph}
-                numberOfLines={1}
-                ellipsizeMode="tail">
-                Here is the summary of your order
+              <Text style={styles.subDescription}>
+                <Text style={styles.subHeading}>
+                  Streamlined Ordering Process :
+                </Text>{' '}
+                Efficient order placement and tracking
               </Text>
             </View>
             <View style={styles.row}>
-              <Text style={styles.sideHeading}>Flexible Payment Options :</Text>
-              <Text
-                style={styles.paragraph}
-                numberOfLines={1}
-                ellipsizeMode="tail">
-                Here is the summary of your order
+              <Text style={styles.subDescription}>
+                <Text style={styles.subHeading}>
+                  Flexible Payment Options :
+                </Text>{' '}
+                Multiple payment methods to accommodate financial needs
               </Text>
             </View>
           </View>
           {/*  */}
-          <View className="pt-5 pb-3">
-            <Text className="text-[#F96900] font-[Poppins-Bold]">
+          <View className="pt-2 pb-3">
+            <Text style={styles.heading} className="pb-2">
               Highlights :
             </Text>
             <View style={styles.listContainer}>
-              <Text style={styles.listItem}>
-                • Instant encashment of sale invoices to enhance cash flow
-              </Text>
-              <Text style={styles.listItem}>
-                • Offer credit terms of 15, 30, 45 days to customers,
-                facilitating flexible financial planning
-              </Text>
-              <Text style={styles.listItem}>
-                • Simplified product listing and quick market access using
-                mobile uploads
-              </Text>
-              <Text style={styles.listItem}>
-                • Advanced analytics for real-time business insights and
-                decision making
-              </Text>
-              <Text style={styles.listItem}>
-                • Proceed to checkout when ready.
-              </Text>
+              {HighlightsData?.map((item, index) => (
+                <View className="flex flex-row">
+                  <View
+                    style={{
+                      height: 6,
+                      width: 6,
+                      backgroundColor: flexTradButtonColor,
+                      borderRadius: 3,
+                      marginTop: 4,
+                    }}></View>
+                  <Text style={styles.listItem}>{item.dec}</Text>
+                </View>
+              ))}
             </View>
           </View>
-          {/* checkbox */}
           <View>
-            <Text className="text-[#F96900] font-[Poppins-Bold]">
+            <Text style={styles.heading} className="mb-0">
               Conditions :
             </Text>
-            <View className="flex flex-row ">
+            <View className="flex flex-row mr-6">
               <Checkbox
-                style={styles.checkbox}
+                color="#f96900"
                 status={checked ? 'checked' : 'unchecked'}
                 onPress={() => {
                   setChecked(!checked);
                 }}
+                
+                
               />
-              <Text style={styles.paragraph1}>
+              <Text
+                style={{
+                  fontSize: 10,
+                  fontFamily: POPPINS.PoppinsMedium,
+                  color: blue,
+                  marginTop:6
+                }}>
                 Both vendors and retailers must transact through the AQAD
                 platform.Both parties must be registered and approved on AQAD
               </Text>
             </View>
           </View>
-          <View className="pt-5">
+          <View className="pt-5 mb-8">
             <TouchableOpacity
-              onPress={() => handleSubmit()}
+              onPress={() => success({type:"success",text:"Lets Go For Flexi Trade"})}
               style={styles.buttonsub}>
               <Text
                 className="text-white "
-                style={{fontFamily: 'Poppins-SemiBold'}}>
+                style={{fontFamily: 'Roboto-Regular', fontSize: 20}}>
                 Let's Go
               </Text>
             </TouchableOpacity>
@@ -230,10 +250,40 @@ const styles = StyleSheet.create({
   topNavigation: {
     height: 15,
     width: 23.3,
-    tintColor: '',
   },
+  heading: {
+    color: textColorCustom,
+    fontFamily: POPPINS.PoppinsSemiBold,
+    fontSize: 13,
+  },
+  description: {
+    color: flexTradButtonColor,
+    fontFamily: POPPINS.PoppinsRegular,
+    lineHeight: 18,
+    fontSize: 10,
+  },
+  borderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'black',
+    padding: 10,
+    flex: 1,
+  },
+  subHeading: {
+    color: blue,
+    fontFamily: POPPINS.PoppinsRegular,
+    fontSize: 10,
+    lineHeight: 18,
+  },
+  subDescription: {
+    color: flexTradButtonColor,
+    fontFamily: POPPINS.PoppinsLight,
+    fontSize: 10,
+    lineHeight: 18,
+  },
+
   button: {
-    // backgroundColor: '#F96900',
     padding: 10,
     borderRadius: 30,
     alignItems: 'center',
@@ -249,6 +299,7 @@ const styles = StyleSheet.create({
   selectedToggleButton: {
     backgroundColor: '#F96900',
     borderColor: '#F96900',
+    color: 'white',
   },
   container: {
     flexDirection: 'row',
@@ -275,56 +326,27 @@ const styles = StyleSheet.create({
     height: 210.5,
     width: 218.8,
     alignItems: 'centre',
-
-    // tintColor: '#00274d',
   },
   row: {
     flexDirection: 'row',
-    // justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  sideHeading: {
-    color: '00274d',
-    fontFamily: 'Poppins-Regular',
-    fontSize: 10,
-    lineHeight: 18,
-    marginRight: 6, // Adjust as needed for spacing
-  },
-  paragraph: {
-    color: '#7e84a3', // Gray color
-    fontFamily: 'Poppins-Light',
-    fontSize: 10,
-    lineHeight: 18,
-    // flexShrink: 1, // Allows text to shrink to fit in the remaining space
+    flex: 1,
   },
 
   listItem: {
-    color: '#7e84a3', // Gray color
-    fontFamily: 'Poppins-Regular',
-    fontSize: 13,
-    letterSpacing: 0.08,
-    marginBottom: 4, // Space between list items
-  },
-  checkbox: {
-    marginRight: 8, // Space between the checkbox and the text
-  },
-  checkbox: {
-    color: '#F96900',
-  },
-  paragraph1: {
-    color: '#00274d', // Gray color
-    fontFamily: 'Poppins-Medium',
+    color: '#7e84a3', 
+    fontFamily: POPPINS.PoppinsRegular,
     fontSize: 10,
-    lineHeight: 18,
-    letterSpacing: 0.25,
+    letterSpacing: 0.08,
+    marginBottom: 4,
+    paddingLeft: 10,
   },
-  row1: {
-    flexDirection: 'row',
-    // justifyContent: 'space-between',
-    // alignItems: 'left',
+
+  checkbox: {
+    color: 'red',
   },
   buttonsub: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: '#F96900', 
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -339,7 +361,6 @@ const styles = StyleSheet.create({
   imagecentre: {
     height: 210.5,
     width: 218.8,
-    // tintColor: '#00274d',
   },
 });
 

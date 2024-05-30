@@ -17,7 +17,7 @@ import {useFormik} from 'formik';
 import {LogisticRegisterSchema2} from '../../schemas/LogisticRegisterSchema2';
 import {environmentVariables} from '../../config/Config';
 import axios from 'axios';
-import {success} from '../../src/constants/ToastMessage';
+import { success } from '../../constants/ToastMessage';
 export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [countryCode, setCountryCode] = useState('AE');

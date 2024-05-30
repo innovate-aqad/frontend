@@ -20,8 +20,7 @@ import {environmentVariables} from '../../config/Config';
 import {OtpSchema} from '../../schemas/OtpSchema';
 
 import OTPTextInput from 'react-native-otp-textinput';
-import {useSafeAreaFrame} from 'react-native-safe-area-context';
-import { success } from '../../src/constants/ToastMessage';
+import { success } from '../../constants/ToastMessage';
 
 const OtpPopup = ({openPopup, setOpenPopup, setVerified, email}) => {
   const otpInputRef = useRef(null);

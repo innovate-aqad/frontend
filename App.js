@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
-
-import Index from './screens';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {MenuProvider} from 'react-native-popup-menu';
 import Toast from 'react-native-toast-message';
+import Index from './src/screens';
 
 // const Stack=createNativeStackNavigator()
 export default function App() {

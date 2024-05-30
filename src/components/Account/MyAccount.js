@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {COLORS} from '../../Contants/theme';
+// import {COLORS} from '../../Contants/theme';
 export default function MyAccount(nav) {
   const navigation = useNavigation();
   return (
@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
   },
   btn: {
     color: 'white',
-    backgroundColor: COLORS.bottonColor,
+    backgroundColor: "#f96900",
   },
 });

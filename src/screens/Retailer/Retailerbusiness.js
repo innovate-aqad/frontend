@@ -17,7 +17,7 @@ import {RetailerRegisterSchema2} from '../../schemas/RetailerRegisterSchema2';
 import AddbuttonForRetailer from '../AddButton/AddbuttonForRetailer';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
-import {success} from '../../src/constants/ToastMessage';
+import { success } from '../../constants/ToastMessage';
 export default function VendorBusiness(nav) {
   const [toggle,setToggle]=useState(true)
   const [progress, setProgress] = useState(new Animated.Value(0));

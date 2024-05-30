@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {useFormik} from 'formik';
 import {LoginSchema} from '../schemas/LoginSchema';
 import {environmentVariables} from '../config/Config';
-import {success} from '../src/constants/ToastMessage';
+import { success } from '../constants/ToastMessage';
 // Make a request for a user with a given ID
 
 export default function Login(nav) {
@@ -251,7 +251,7 @@ export default function Login(nav) {
           <TouchableOpacity
             className="px-5 "
             onPress={() => {
-              nav.navigation.navigate('productIndex');
+              nav.navigation.navigate('signup');
             }}>
             <Text className="text-[#F96900] font-[Roboto-Regular]">
               Sign Up

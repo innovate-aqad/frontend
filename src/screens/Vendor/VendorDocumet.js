@@ -8,19 +8,21 @@ import {
   View,
   Animated,
   ScrollView,
+  ToastAndroid,
   ActivityIndicator,
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
 import {useFormik} from 'formik';
-import {RetailerRegisterSchema3} from '../../schemas/RetailerRegisterSchema3';
+import {VendorRegisterSchema3} from '../../schemas/VendorRegisterSchema3';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
-import {success} from '../../src/constants/ToastMessage';
+import { success } from '../../constants/ToastMessage';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [toggle, setToggle] = useState(true);
+
   const [selectedDocuments, setSelectedDocuments] = useState({
     vatCertificateDocument: null,
   });
@@ -43,15 +45,15 @@ export default function VendorDocument(nav) {
     emiratesIDDocument: '',
     emiratesIDNumber: '',
   };
+
   let formik = useFormik({
     initialValues,
-    validationSchema: RetailerRegisterSchema3,
+    validationSchema: VendorRegisterSchema3,
     onSubmit: async (values, action) => {
       setToggle(false);
       let formdata = new FormData();
-
       formdata.append('slide', '3');
-      formdata.append('user_type', 'seller');
+      formdata.append('user_type', 'vendor');
       formdata.append('doc_id', mainId);
       formdata.append('iban', values.cancelledChequeIBAN);
       formdata.append('emirates_id', values.emiratesIDNumber);
@@ -80,6 +82,7 @@ export default function VendorDocument(nav) {
         })
         .catch(error => {
           setToggle(true);
+
           success({
             type: 'error',
             text: error?.response?.data?.message || error?.message,
@@ -107,6 +110,7 @@ export default function VendorDocument(nav) {
       console.error('Error selecting document: ', err);
     }
   };
+
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     formik;
 
@@ -116,16 +120,18 @@ export default function VendorDocument(nav) {
         className="flex flex-col justify-center p-4   h-full bg-gray-100 !text-black
         ">
         <View className="relative flex flex-row items-center top-3 ">
-          <Image
-            style={styles.topNavigation}
-            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
-          />
+          <TouchableOpacity onPress={() => nav.navigation.navigate('business',{id:mainId})}>
+            <Image
+              style={styles.topNavigation}
+              source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+            />
+          </TouchableOpacity>
         </View>
-        <View className="mt-8">
+        <View className="mt-5">
           <Text
             className="text-[35px] text-[#00274D]"
-            style={{fontFamily: 'Roboto-Bold'}}>
-            Retailer Info
+            style={{fontFamily: 'Poppins-bold'}}>
+            Vendor Info
           </Text>
           <Text
             className="pt-2 text-xs text-gray-400"
@@ -239,7 +245,11 @@ export default function VendorDocument(nav) {
               className="h-[76px]"
               onPress={() =>
                 selectDocument('vatCertificateDocument', 'vat_certificate')
-              }>
+              }
+              onChangeText={handleChange('vatCertificateDocument')}
+              onBlur={handleBlur('vatCertificateDocument')}
+              name="vatCertificateDocument"
+              value={values?.vatCertificateDocument}>
               <Card.Title
                 className="bg-white shadow rounded-xl"
                 title={
@@ -319,15 +329,13 @@ export default function VendorDocument(nav) {
             toggle ? handleSubmit() : null;
           }}
           style={toggle ? styles.button : styles.button1}
-          className="flex flex-row items-center justify-center mt-5">
+          className="flex flex-row items-center justify-center mt-8">
           <Text
             className="text-white flex flex-row  text-[19px]"
             style={{fontFamily: 'Roboto-Regular'}}>
             SUBMIT
           </Text>
-          {toggle ? null : (
-            <ActivityIndicator size="small" className="pl-2" color="#fff" />
-          )}
+          {toggle ? null : <ActivityIndicator className="ml-2" size="small" color="#fff" />}
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -340,15 +348,17 @@ const styles = StyleSheet.create({
   },
   input: {
     margin: 3,
+
     borderWidth: 0,
     borderRadius: 12,
     paddingLeft: 12,
     color: 'gray',
     backgroundColor: 'white',
+    // borderRadius: 20,
     fontFamily: 'Poppins-Light',
   },
   button: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: '#F96900',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -361,13 +371,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     color: 'red',
   },
+  user: {
+    alignSelf: 'center',
+  },
   bar: {
     height: 5,
     backgroundColor: '#F96900',
     borderRadius: 10,
   },
   button: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: '#F96900',
     padding: 12,
     paddingHorizontal: 40,
     borderRadius: 10,

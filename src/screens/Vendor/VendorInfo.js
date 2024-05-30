@@ -11,31 +11,31 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import moment from 'moment';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {Avatar} from 'react-native-paper';
-import CountryPicker from 'react-native-country-picker-modal';
-import ImagePicker from 'react-native-image-crop-picker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useFormik} from 'formik';
-import {LogisticRegisterSchema} from '../../schemas/LogisticRegisterSchema';
+import CountryPicker from 'react-native-country-picker-modal';
+import {VendorRegisterSchema} from '../../schemas/VendorRegisterSchema';
+import ImagePicker from 'react-native-image-crop-picker';
+import moment from 'moment';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import {SendOtpSchema} from '../../schemas/SendOtpSchema';
 import OtpPopup from '../OtpPopup/OtpPopup';
-import {success} from '../../src/constants/ToastMessage';
+import { success } from '../../constants/ToastMessage';
+
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [image, setImage] = useState('');
-  const [countryCode, setCountryCode] = useState('AE'); // Default country code
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [dateSelected, setDateSelected] = useState('');
-  const [toggle, setToggle] = useState(true);
-
+  const [countryCode, setCountryCode] = useState('AE');
   const [errorValue, setErrorValue] = useState('');
   const [openPopup, setOpenPopup] = useState(false);
   const [verified, setVerified] = useState(false);
-
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [dateSelected, setDateSelected] = useState('');
+  const [toggle, setToggle] = useState(true);
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -49,14 +49,6 @@ export default function VendorInfo(nav) {
     formik.setFieldValue('dateOfBirth', moment(date).format('YYYY-MM-DD'));
     hideDatePicker();
   };
-
-  useEffect(() => {
-    Animated.timing(progress, {
-      toValue: 100,
-      duration: 2000,
-    }).start();
-  }, []);
-
   const initialValues = {
     fullName: '',
     email: '',
@@ -69,13 +61,13 @@ export default function VendorInfo(nav) {
 
   let formik = useFormik({
     initialValues,
-    validationSchema: LogisticRegisterSchema,
+    validationSchema: VendorRegisterSchema,
     onSubmit: async (values, action) => {
       setToggle(false);
       const formdata = new FormData();
       formdata.append('name', values.fullName);
       formdata.append('slide', '1');
-      formdata.append('user_type', 'logistic');
+      formdata.append('user_type', 'vendor');
       if (values?.image) {
         formdata.append('profile_photo', {
           uri: values.image.path,
@@ -87,7 +79,6 @@ export default function VendorInfo(nav) {
       formdata.append('country', values.isoCode);
       formdata.append('phone', `${values.country}-${values?.number}`);
       formdata.append('dob', values.dateOfBirth);
-      console.log(formdata, 'llll');
       await axios({
         method: 'post',
         url: `${environmentVariables?.apiUrl}/api/user/register`,
@@ -97,9 +88,9 @@ export default function VendorInfo(nav) {
         data: formdata,
       })
         .then(response => {
-          setToggle(true);
           success({type: 'success', text: response.data.message});
-          nav.navigation.navigate('logisbusiness', {id: response.data.data.id});
+          setToggle(true);
+          nav.navigation.navigate('business', {id: response?.data?.data?.id});
         })
         .catch(error => {
           setToggle(true);
@@ -119,6 +110,14 @@ export default function VendorInfo(nav) {
     handleSubmit,
     isValid,
   } = formik;
+
+  useEffect(() => {
+    Animated.timing(progress, {
+      toValue: 150,
+      duration: 2000,
+      useNativeDriver: false,
+    }).start();
+  }, []);
 
   const onSelectCountry = country => {
     const callingCodeWithPlus = `+${country.callingCode[0]}`;
@@ -144,7 +143,7 @@ export default function VendorInfo(nav) {
   };
 
   const renderCountry = country => {
-    return <Text>{country.callingCode}</Text>;
+    return <Text>{country.cca2}</Text>;
   };
 
   const sendOtp = async email => {
@@ -154,26 +153,25 @@ export default function VendorInfo(nav) {
       const response = await axios.get(
         `${environmentVariables?.apiUrl}/api/user/send_otp_to_email?email=${email}`,
       );
-
+      success({type: 'success', text: response.data.message});
       if (response?.data?.success) {
-        success({type: 'success', text: response.data.message});
         setOpenPopup(true);
       } else {
         setOpenPopup(false);
-        success({
-          type: 'error',
-          text: error?.response?.data?.message || error?.message,
-        });
       }
     } catch (validationError) {
       setErrorValue(validationError.message);
+      success({
+        type: 'error',
+        text: error?.response?.data?.message || error?.message,
+      });
     }
   };
 
   return (
-    <ScrollView>
+    <ScrollView keyboardShouldPersistTaps="handled">
       <View
-        className="flex flex-col p-4 h-full bg-gray-100 !text-black
+        className="flex flex-col p-4   h-full bg-gray-100 !text-black
         ">
         <View className="relative flex flex-row items-center top-3 ">
           <TouchableOpacity onPress={() => nav.navigation.navigate('signup')}>
@@ -187,7 +185,7 @@ export default function VendorInfo(nav) {
           <Text
             className="text-[35px] text-[#00274D]"
             style={{fontFamily: 'Roboto-Bold'}}>
-            Logistic Partner Info
+            Vendor Info
           </Text>
           <Text
             className="pt-2 text-xs text-gray-400"
@@ -195,13 +193,13 @@ export default function VendorInfo(nav) {
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
-        <View className="mt-5">
+        <View className="pt-5">
           <View className="flex flex-col">
             <View className="flex flex-row justify-between ">
               <Text
                 className="text-[#F96900]"
                 style={{fontFamily: 'Poppins-Regular'}}>
-                Profile Upload (1/4)
+                Profile Upload (1/3)
               </Text>
               <Text
                 className="text-[#F96900]"
@@ -227,7 +225,7 @@ export default function VendorInfo(nav) {
             <TouchableOpacity onPress={() => selectPhoto()}>
               <Avatar.Image
                 size={80}
-                style={styles.avatar}
+                style={{backgroundColor: 'red'}}
                 source={{
                   uri:
                     image == '' || image == null
@@ -235,6 +233,7 @@ export default function VendorInfo(nav) {
                       : image,
                 }}
               />
+
               <View className="relative top-[-12px] ">
                 <MaterialIcons
                   name={'edit'}
@@ -253,11 +252,10 @@ export default function VendorInfo(nav) {
               </View>
             </TouchableOpacity>
           </View>
-          {/* input fields */}
           <SafeAreaView>
             <Text
               className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
+              style={{fontFamily: 'Poppins-Medium'}}>
               Full Name
             </Text>
             <TextInput
@@ -274,10 +272,9 @@ export default function VendorInfo(nav) {
             {errors.fullName && touched.fullName && (
               <Text style={styles.errorHandle}>{errors.fullName}</Text>
             )}
-
             <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
+              className="text-[#00274D] px-3 mt-2"
+              style={{fontFamily: 'Poppins-Medium'}}>
               Email
             </Text>
             <View className="flex flex-row items-center pr-1.5 justify-between w-full bg-white rounded-[10px] py-0">
@@ -285,7 +282,7 @@ export default function VendorInfo(nav) {
                 <TextInput
                   style={styles.input}
                   placeholderTextColor="rgb(210, 210, 210)"
-                  placeholder="Example@gmail.com"
+                  placeholder="Example@gmail.com "
                   className="!border-none pl-4 !border-white"
                   borderRadius={10}
                   name="email"
@@ -295,29 +292,36 @@ export default function VendorInfo(nav) {
                 />
               </View>
               {verified ? (
-                <Text className="text-[10px] text-[#21d59b] font-[Poppins-SemiBold]">Verified</Text>
+                <Text className="text-[10px] text-[#21d59b]">Verified</Text>
               ) : (
                 <TouchableOpacity
-                  
+                  // className="text-[10px] text-[#f96900]"
                   onPress={() => sendOtp(values.email)}>
-                  <Text className="text-[10px] text-[#f96900] font-[Poppins-SemiBold]" >Verify</Text>
+                  <Text className="text-[10px] text-[#f96900] font-[Poppins-SemiBold]">
+                    Verify
+                  </Text>
                 </TouchableOpacity>
               )}
             </View>
             {errorValue ? (
-              <Text style={{color: 'red'}}>{errorValue}</Text>
+              <Text style={styles.errorHandle}>{errorValue}</Text>
             ) : (
               errors.email &&
               touched.email && (
-                <Text style={{color: 'red'}}>{errors.email}</Text>
+                <Text style={styles.errorHandle}>{errors.email}</Text>
               )
             )}
 
+            {/* {errors.country && touched.country && (
+              <Text style={{color: 'red'}}>{errors.country}</Text>
+            )} */}
+
             <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
+              className="text-[#00274D] px-3 mt-2"
+              style={{fontFamily: 'Poppins-Medium'}}>
               Phone Number
             </Text>
+
             <View className="flex flex-row items-center pl-2 w-full bg-white rounded-[10px] py-0">
               <CountryPicker
                 countryCode={countryCode}
@@ -354,15 +358,16 @@ export default function VendorInfo(nav) {
                 </Text>
               </View>
             </View>
+
             {errors.number && touched.number && (
               <Text style={styles.errorHandle}>{errors.number}</Text>
             )}
+
             <Text
               className="text-[#00274D] px-3 mt-2"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
+              style={{fontFamily: 'Poppins-Medium'}}>
               Date of Birth
             </Text>
-
             <View className="w-full ">
               <TouchableOpacity
                 className="flex flex-row w-full"
@@ -390,7 +395,6 @@ export default function VendorInfo(nav) {
                   isVisible={isDatePickerVisible}
                   mode="date"
                   onConfirm={handleConfirm}
-                  // onChange={dateFunction}
                   onCancel={hideDatePicker}
                   customStyles={{
                     datePicker: styles.datePicker,
@@ -403,7 +407,7 @@ export default function VendorInfo(nav) {
           </SafeAreaView>
         </View>
         <View className="pt-5">
-        <TouchableOpacity
+          <TouchableOpacity
             onPress={() => {
               toggle ? handleSubmit() : null;
             }}
@@ -418,6 +422,7 @@ export default function VendorInfo(nav) {
             {toggle ? null : <ActivityIndicator className="pl-2" size="small" color="#fff" />}
           </TouchableOpacity>
         </View>
+
         {openPopup && (
           <OtpPopup
             openPopup={openPopup}
@@ -435,13 +440,6 @@ const styles = StyleSheet.create({
     height: 15,
     width: 23.3,
   },
-  button1: {
-    backgroundColor: '#F6E0D1',
-    padding: 12,
-    borderRadius: 5,
-    alignItems: 'center',
-    color: 'red',
-  },
   input: {
     paddingVertical: 4,
     margin: 3,
@@ -452,6 +450,13 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#F96900',
+    padding: 12,
+    borderRadius: 5,
+    alignItems: 'center',
+    color: 'red',
+  },
+  button1: {
+    backgroundColor: '#F6E0D1',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -470,6 +475,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#F96900',
     borderRadius: 10,
   },
+  containerDate: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 250,
+    height: 250,
+  },
+  datePicker: {
+    backgroundColor: 'red',
+    borderRadius: 10,
+    width: 250,
+    height: 250,
+  },
+  datePickerContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   errorHandle: {
     color: 'red',
     paddingLeft: 20,
@@ -477,6 +499,6 @@ const styles = StyleSheet.create({
   },
   disabledButton: {
     backgroundColor: '#F96900',
-    opacity: 0.5,
+    opacity: 0.5, // Add opacity to make it look blurred
   },
 });

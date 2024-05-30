@@ -51,7 +51,7 @@ export default function Signup(nav) {
       showsVerticalScrollIndicator={false}
       >
         <View
-          className="flex flex-col px-4 pt-5 h-full bg-gray-100 !text-black
+          className="flex flex-col px-4 pt-5  h-full bg-gray-100 !text-black
     "
           style={{fontFamily: 'Poppins-Bold'}}>
           <TouchableOpacity onPress={() => navigation.goBack()}>

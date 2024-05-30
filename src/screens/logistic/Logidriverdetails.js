@@ -22,7 +22,7 @@ import DocumentPicker from 'react-native-document-picker';
 import {useFormik} from 'formik';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
-import { success } from '../../src/constants/ToastMessage';
+import { success } from '../../constants/ToastMessage';
 
 const vehicleTypeList = [
   {key: '1', value: 'Mini Truck'},

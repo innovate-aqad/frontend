@@ -4,16 +4,16 @@ import Home from './Home';
 import FlexiTrade from './FlexiTrade';
 import Insights from './Insights';
 import Entypo from 'react-native-vector-icons/Entypo';
-import MarketPlace from './MarketPlace';
 import {Image} from 'react-native';
 import MyAccountRoutes from './Account';
+import FeatureRoutes from './Features';
 
 const Tab = createBottomTabNavigator();
 const home = 'Home';
 const trade = 'FlexiTrade';
 const account = 'MyAccount';
 const insights = 'Insights';
-const place = 'MarketPlace';
+const place = 'Features';
 
 export default function Buttomtab() {
   return (
@@ -102,7 +102,7 @@ export default function Buttomtab() {
       <Tab.Screen name={trade} component={FlexiTrade} />
       <Tab.Screen name={account} component={MyAccountRoutes} />
       <Tab.Screen name={insights} component={Insights} />
-      <Tab.Screen name={place} component={MarketPlace} />
+      <Tab.Screen name={place} component={FeatureRoutes} />
     </Tab.Navigator>
   );
 }

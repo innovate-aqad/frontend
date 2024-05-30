@@ -18,7 +18,7 @@ import Addbutton from '../AddButton/Addbutton';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import {Divider} from 'react-native-paper';
-import { success } from '../../src/constants/ToastMessage';
+import { success } from '../../constants/ToastMessage';
 export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [inputs, setInputs] = useState([{address: '', po_box: ''}]);

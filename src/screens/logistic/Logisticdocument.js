@@ -16,7 +16,7 @@ import {useFormik} from 'formik';
 import {LogisticRegisterSchema3} from '../../schemas/LogisticRegisterSchema3';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
-import { success } from '../../src/constants/ToastMessage';
+import { success } from '../../constants/ToastMessage';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));

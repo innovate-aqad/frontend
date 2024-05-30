@@ -6,6 +6,7 @@ module.exports = {
     './components/**/*.{js,jsx,ts,tsx}',
     './Shared/**/*.{js,jsx,ts,tsx}',
     './otp_screen/**/*.{js,jsx,ts,tsx}',
+    './src/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
     extend: {},

@@ -1,22 +1,19 @@
-// export const black = '#191622';
-// export const bottomTabBg = '#110e18';
-// export const addBorder = '#1f1e22';
-// export const white = '#fff';
-// export const activeTabDot = '#6E44FF';
-// export const screenBackground = '#191622';
-// export const TextColor = '#FCFCFC';
-// export const SpinBuzzWaveNearby = ['#321989', '#220E64', '#160748', '#090122'];
-// export const Line = '#263238';
-// export const DescContainerBorder = '#272727';
 
+// use my sceen
+export const screenBackground = '#f5f5f5';
+export const white = '#fff';
+export const flexTradButtonColor = '#7e84a3';
+export const textColorCustom = '#f96900';
+export const blue = '#00274d';
+
+
+
+
+// Not Use My screeen
 export const black = '#191622';
-// export const bottomTabBg = '#110e18';
 export const bottomTabBg = '#FCFCFC';
 export const addBorder = '#1f1e22';
-export const white = '#fff';
 export const activeTabDot = '#6E44FF';
-export const screenBackground = '#FCFCFC';
-// export const screenBackground = '#191622';
 
 export const TextColor = '#263238';
 export const SpinBuzzWaveNearby = ['#321989', '#220E64', '#160748', '#090122'];
