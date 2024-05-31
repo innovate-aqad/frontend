@@ -59,5 +59,11 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "jest": {
+    "preset": "react-native",
+    "setupFiles": [
+      "frontend/jest/setup.js"
+    ]
   }
 }

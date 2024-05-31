@@ -1,8 +1,8 @@
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import React from 'react';
 
-import Homescreen from '../screens/Drawermenu/Homescreen';
-import Product from '../screens/Drawermenu/Product';
+import Homescreen from './Homesccreen';
+import Product from './Product';
 
 export default function AppStack() {
   const Drawer = createDrawerNavigator();
