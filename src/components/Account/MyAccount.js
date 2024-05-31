@@ -38,7 +38,7 @@ export default function MyAccount(nav) {
           <TouchableOpacity
             style={styles.btn}
             className="p-3 w-[48%] rounded-full"
-            onPress={() => nav.navigation.navigate('Login')}>
+            onPress={() => nav.navigation.navigate('Logins')}>
             <Text
               className="text-center text-white text-[13px]"
               style={{fontFamily: 'Poppins-Regular'}}>
