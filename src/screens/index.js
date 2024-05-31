@@ -1,6 +1,5 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {View} from 'react-native';
 import Login from './Login';
 import Signup from './Signup';
 import Buttomtab from '../components';
@@ -9,7 +8,6 @@ import Orders from './Vendor/Orderes';
 import Dashboard from './Vendor/Dashboard';
 import ProductIndex from './Vendor/ProductIndex';
 import Forgot from './Forgot';
-
 import VendorInfo from './Vendor/VendorInfo';
 import VendorBusiness from './Vendor/VendorBusiness';
 import VendorDocumet from './Vendor/VendorDocumet';
@@ -39,6 +37,7 @@ import PendingOrder from './PendingOrder/PendingOrder';
 import PDriverDetails from './PendingOrder/PDriverDetails';
 import PMain from '../screens/PendingOrder/PMain';
 import SplashScreen from './SplashScreen';
+import InventoryList from '../components/VendorCard/CardVendor';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -54,7 +53,6 @@ export default function Index() {
       <Stack.Screen name="dashboard" component={Dashboard} />
       <Stack.Screen name="productIndex" component={ProductIndex} />
       <Stack.Screen name="vendor" component={VendorInfo} />
-      {/* <Stack.Screen name="vendor" component={Profile} /> */}
       <Stack.Screen name="business" component={VendorBusiness} />
       <Stack.Screen name="document" component={VendorDocumet} />
       <Stack.Screen name="logistic" component={Logisticinfo} />
@@ -62,7 +60,6 @@ export default function Index() {
       <Stack.Screen name="logisdocument" component={Logisticdocument} />
       <Stack.Screen name="addbutton" component={Addbutton} />
       <Stack.Screen name="otpscreen" component={OtpScreen} />
-
       <Stack.Screen name="retailerIndex" component={RetailerIndex} />
       <Stack.Screen name="logisticIndex" component={LogisticIndex} />
       <Stack.Screen name="logidrivdetail" component={Logidriverdetails} />

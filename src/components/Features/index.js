@@ -13,8 +13,8 @@ export default function FeatureRoutes() {
         name="Feature"
         component={FeatureMain}
         options={{
-          headerShown: false,
-          title: 'Feature',
+          headerShown: true,
+          title: 'FEATURES',
           headerStyle: {
             backgroundColor: '#f4511e',
             borderRadius: 20,

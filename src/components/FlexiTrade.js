@@ -187,9 +187,9 @@ const MyComponent = () => {
             <Text style={styles.heading} className="pb-2">
               Highlights :
             </Text>
-            <View style={styles.listContainer}>
+            <View>
               {HighlightsData?.map((item, index) => (
-                <View className="flex flex-row">
+                <View key={index} className="flex flex-row">
                   <View
                     style={{
                       height: 6,

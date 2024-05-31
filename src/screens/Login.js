@@ -3,6 +3,7 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from 'react-native';
 import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
@@ -15,6 +16,7 @@ import {useFormik} from 'formik';
 import {LoginSchema} from '../schemas/LoginSchema';
 import {environmentVariables} from '../config/Config';
 import { success } from '../constants/ToastMessage';
+import { useNavigation } from '@react-navigation/native';
 // Make a request for a user with a given ID
 
 export default function Login(nav) {
@@ -63,6 +65,7 @@ export default function Login(nav) {
     });
 
 
+    const navigation=useNavigation()
   return (
     <ScrollView
       keyboardShouldPersistTaps="handled"
@@ -71,6 +74,12 @@ export default function Login(nav) {
       <View
         className="flex p-5 flex-col justify-center h-full bg-gray-100 !text-black"
         style={{fontFamily: 'Poppins-Bold'}}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image
+              style={styles.topNavigation}
+              source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
+            />
+          </TouchableOpacity>
         <View>
           <Text
             className="text-3xl text-[#00274D]"
@@ -264,6 +273,11 @@ export default function Login(nav) {
 }
 
 const styles = StyleSheet.create({
+  topNavigation: {
+    height: 15,
+    width: 23.3,
+    marginBottom: 20,
+  },
   input: {
     borderWidth: 1,
     color: 'gray',
