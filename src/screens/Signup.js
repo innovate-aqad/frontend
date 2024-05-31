@@ -31,7 +31,6 @@ export default function Signup(nav) {
   const redirectRetailer = () => {
     nav.navigation.navigate('retailer');
   };
-  
 
   useEffect(() => {
     const timer = setTimeout(() => {
