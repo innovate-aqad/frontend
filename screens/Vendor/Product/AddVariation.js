@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  TextInput,
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -18,20 +19,45 @@ import {useFormik} from 'formik';
 import {AddProductVariantSchema} from '../../../schemas/AddProductVariantSchema';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import {AddVariantionWareHouse} from '../../../Shared/AddVariationSelect';
+import {
+  AddVariantionType,
+  AddVariantionWareHouse,
+} from '../../../Shared/AddVariationSelect';
 
 export default function AddVariation() {
   const [size, setSize] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const [resData, setResData] = useState(null);
+  // const [resData, setResData] = useState(null);
   const [storedToken, setStoredToken] = useState(null);
   const [valueWareHouse, setValueWareHouse] = useState('');
+  const [valueVariation, setValueVariation] = useState('');
+  const [inputVariations, setInputVariations] = useState([
+    {valueVariation: '', valueVariationUnit: ''},
+  ]);
 
-  useEffect(async () => {
-    const storedToken = await AsyncStorage.getItem('_token');
-    console.log('storedToken,', storedToken);
-    setStoredToken(storedToken);
-  }, []);
+  const handleAddVariations = () => {
+    formik.setFieldValue('variations', [
+      ...inputVariations,
+      {valueVariation: '', valueVariationUnit: ''},
+    ]);
+    setInputVariations([
+      ...inputVariations,
+      {valueVariation: '', valueVariationUnit: ''},
+    ]);
+  };
+
+  const handleDeleteVariations = index => {
+    const updatedInputs = [...inputVariations];
+    updatedInputs.splice(index, 1);
+    setInputVariations(updatedInputs);
+    formik.setFieldValue('variations', updatedInputs);
+  };
+
+  // useEffect(async () => {
+  //   const storedToken = await AsyncStorage.getItem('_token');
+  //   console.log('storedToken,', storedToken);
+  //   setStoredToken(storedToken);
+  // }, []);
 
   const selectDoc = async nav => {
     try {
@@ -72,6 +98,9 @@ export default function AddVariation() {
     quantity: '',
     sku: '',
     valueWareHouse: '',
+    valueVariation: '',
+    valueVariationUnit: '',
+    variations: [{valueVariation: '', valueVariationUnit: ''}],
   };
   let formik = useFormik({
     initialValues,
@@ -122,30 +151,13 @@ export default function AddVariation() {
     return (bytes / 1024).toFixed(2); // Convert bytes to kilobytes and round to 2 decimal places
   };
 
-  const getWareHouseData = async () => {
-    try {
-      const response = await axios.get(
-        'http://localhost:2000/api/user/get_data',
-        {
-          headers: {_token: storedToken},
-        },
-      );
-
-      setResData(response?.data?.details);
-    } catch (error) {
-      console.log('error,///', error);
-    }
-
-    return () => {
-      setResData(null);
-      // Cleanup code here
-    };
+  const handleInputChange = (index, field, value) => {
+    const newVariations = [...inputVariations];
+    newVariations[index][field] = value;
+    setInputVariations(newVariations);
   };
-  useEffect(() => {
-    getWareHouseData();
-  }, [storedToken]);
 
-  console.log(resData);
+  console.log(errors, 'kddddddddddddd777', valueVariation);
   return (
     <ScrollView>
       <View className="flex flex-col gap-y-2 h-full mb-14  bg-[#f5f5f5]">
@@ -323,14 +335,18 @@ export default function AddVariation() {
             <View className="flex flex-row w-[100%]">
               <View className="w-[50%] pr-1">
                 <Text style={styles.textTitle}>Price</Text>
-                <InputTextField
-                  placeholderTextColor="00.00 AED"
+                <TextInput
+                  style={styles.input}
+                  placeholder="00.00 AED"
+                  className="!border-none pl-4 !border-white"
+                  borderRadius={10}
                   name="price"
                   value={values.price}
                   onChangeText={handleChange('price')}
                   onBlur={handleBlur('price')}
+                  placeholderTextColor="rgb(210, 210, 210)"
                 />
-                {touched.price && errors.price && (
+                {errors.price && touched.price && (
                   <Text style={{color: 'red', fontSize: 12}}>
                     {errors.price}
                   </Text>
@@ -338,8 +354,12 @@ export default function AddVariation() {
               </View>
               <View className="w-[50%] pl-1">
                 <Text style={styles.textTitle}>Compare Price at</Text>
-                <InputTextField
-                  placeholderTextColor="Enter Compare price"
+                <TextInput
+                  style={styles.input}
+                  placeholder="00.00 AED"
+                  className="!border-none pl-4 !border-white"
+                  borderRadius={10}
+                  placeholderTextColor="rgb(210, 210, 210)"
                   name="comparePriceAt"
                   value={values.comparePriceAt}
                   onChangeText={handleChange('comparePriceAt')}
@@ -356,8 +376,12 @@ export default function AddVariation() {
             <View className="flex flex-row w-[100%]">
               <View className="w-[50%] pr-1">
                 <Text style={styles.textTitle}>Quantity</Text>
-                <InputTextField
-                  placeholderTextColor="00.00 AED"
+                <TextInput
+                  style={styles.input}
+                  placeholder="00.00 AED"
+                  className="!border-none pl-4 !border-white"
+                  borderRadius={10}
+                  placeholderTextColor="rgb(210, 210, 210)"
                   name="quantity"
                   value={values.quantity}
                   onChangeText={handleChange('quantity')}
@@ -371,8 +395,12 @@ export default function AddVariation() {
               </View>
               <View className="w-[50%] pl-1">
                 <Text style={styles.textTitle}>SKU</Text>
-                <InputTextField
-                  placeholderTextColor="Enterprises SKU ID"
+                <TextInput
+                  style={styles.input}
+                  placeholder="00.00"
+                  className="!border-none pl-4 !border-white"
+                  borderRadius={10}
+                  placeholderTextColor="rgb(210, 210, 210)"
                   name="sku"
                   value={values.sku}
                   onChangeText={handleChange('sku')}
@@ -383,33 +411,56 @@ export default function AddVariation() {
                 )}
               </View>
             </View>
+
             <View className="flex flex-row w-full ">
               <View className="w-full pr-1">
                 <Text style={styles.textTitle}>Select Warehouse</Text>
                 <AddVariantionWareHouse
                   placeholderTextColor="Select warehouse"
-                  data={resData?.warehouse_addresses}
+                  // data={resData?.warehouse_addresses}
                   setValue={setValueWareHouse}
                   value={valueWareHouse}
                   formik={formik}
                 />
                 {errors.valueWareHouse && touched.valueWareHouse && (
-                  <Text style={styles.errorHandle}>
+                  <Text style={{color: 'red', fontSize: 12}}>
                     {errors.valueWareHouse}
+                  </Text>
+                )}
+              </View>
+            </View>
+
+            {/* <View className="flex flex-row w-full ">
+              <View className="w-full pr-1">
+                <Text style={styles.textTitle}>Variation</Text>
+                <AddVariantionType
+                  placeholderTextColor="Select variation"
+                  setValue={setValueVariation}
+                  value={valueVariation}
+                  formik={formik}
+                />
+                {errors.valueVariation && touched.valueVariation && (
+                  <Text style={{color: 'red', fontSize: 12}}>
+                    {errors.valueVariation}
                   </Text>
                 )}
               </View>
             </View>
             <View className="flex flex-row w-full ">
               <View className="w-full pr-1">
-                <Text style={styles.textTitle}>Variation</Text>
-                {/* <SelectInput placeholderTextColor="Select variation" /> */}
-              </View>
-            </View>
-            <View className="flex flex-row w-full ">
-              <View className="w-full pr-1">
                 <Text style={styles.textTitle}>Input Field</Text>
-                <InputTextField placeholderTextColor="Enter variation type" />
+                <TextInput
+                  placeholderTextColor="Enter variation value"
+                  name="valueVariationUnit"
+                  value={values.valueVariationUnit}
+                  onChangeText={handleChange('valueVariationUnit')}
+                  onBlur={handleBlur('valueVariationUnit')}
+                />
+                {touched.valueVariationUnit && errors.valueVariationUnit && (
+                  <Text style={{color: 'red', fontSize: 12}}>
+                    {errors.valueVariationUnit}
+                  </Text>
+                )}
               </View>
             </View>
 
@@ -418,7 +469,118 @@ export default function AddVariation() {
               <Text className="ml-2 text-center text-white font-[Roboto-Regular] text-[12px]">
                 Add Variations
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+
+            <View className="flex flex-col w-full">
+              {inputVariations.map((variation, index) => (
+                <View key={index} className="flex flex-column w-full mb-2">
+                  <View className="w-full pr-1">
+                    <Text style={styles.textTitle}>Variation</Text>
+                    <AddVariantionType
+                      placeholder="Select variation"
+                      placeholderTextColor="Select variation"
+                      setValue={value =>
+                        handleInputChange(index, 'valueVariation', value)
+                      }
+                      value={variation.valueVariation}
+                      formik={{
+                        setFieldValue: (field, value) =>
+                          handleInputChange(index, field, value),
+                      }}
+                    />
+                    {/* {formErrors[`valueVariation_${index}`] &&
+                      touchedFields[`valueVariation_${index}`] && (
+                        <Text style={{color: 'red', fontSize: 12}}>
+                          {formErrors[`valueVariation_${index}`]}
+                        </Text>
+                      )} */}
+                    {touched.variations &&
+                      touched.variations[index] &&
+                      errors.variations &&
+                      errors.variations[index] &&
+                      errors.variations[index].valueVariation && (
+                        <Text style={{color: 'red', fontSize: 12}}>
+                          {errors.variations[index].valueVariation}
+                        </Text>
+                      )}
+                  </View>
+                  <View className="w-full pr-1">
+                    <Text style={styles.textTitle}>Input Field</Text>
+                    <TextInput
+                      style={styles.input}
+                      className="!border-none pl-4 !border-white"
+                      borderRadius={10}
+                      placeholderTextColor="rgb(210, 210, 210)"
+                      placeholder="Enter variation value"
+                      name={`valueVariationUnit_${index}`}
+                      value={variation.valueVariationUnit}
+                      onChangeText={value =>
+                        handleInputChange(index, 'valueVariationUnit', value)
+                      }
+                      onBlur={() => handleBlur(index, 'valueVariationUnit')}
+                    />
+                    {touched.variations &&
+                      touched.variations[index] &&
+                      errors.variations &&
+                      errors.variations[index] &&
+                      errors.variations[index].valueVariationUnit && (
+                        <Text style={{color: 'red', fontSize: 12}}>
+                          {errors.variations[index].valueVariationUnit}
+                        </Text>
+                      )}
+
+                    {inputVariations?.length > 1 &&
+                      index !== 0 &&
+                      index !== inputVariations?.length - 1 && (
+                        <TouchableOpacity
+                          onPress={() => handleDeleteVariations(index)}>
+                          <View className="w-24 p-2 text-center bg-[#e6e9f4] items-center justify-center flex flex-row rounded-[5px] mt-2">
+                            <Image
+                              source={require('../../../Assets/image/trash.png')}
+                              style={{
+                                height: 18,
+                                width: 15,
+                                tintColor: '#7e84a3',
+                              }}
+                            />
+                            <Text className="text-center text-[#7e84a3] ml-2">
+                              Delete
+                            </Text>
+                          </View>
+                        </TouchableOpacity>
+                      )}
+
+                    {inputVariations?.length > 1 && index === 0 && (
+                      <TouchableOpacity
+                        onPress={() => handleDeleteVariations(index)}>
+                        <View className="w-24 p-2 text-center bg-[#e6e9f4] items-center justify-center flex flex-row rounded-[5px] mt-2">
+                          <Image
+                            source={require('../../../Assets/image/trash.png')}
+                            style={{
+                              height: 18,
+                              width: 15,
+                              tintColor: '#7e84a3',
+                            }}
+                          />
+                          <Text className="text-center text-[#7e84a3] ml-2">
+                            Delete
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                </View>
+              ))}
+              <TouchableOpacity
+                className="w-32 p-2 text-center bg-[#f96900] items-center justify-center flex flex-row rounded-[5px] mt-2"
+                onPress={handleAddVariations}>
+                <MaterialIcons name="add" size={18} color="white" />
+                <Text className="ml-2 text-center text-white font-[Roboto-Regular] text-[12px]">
+                  Add Variations
+                </Text>
+              </TouchableOpacity>
+            </View>
+
             <View className="mt-4">
               <TouchableOpacity
                 className="z-50 rounded-lg"
@@ -455,5 +617,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     color: 'red',
     marginTop: 8,
+  },
+  input: {
+    paddingTop: 4,
+    paddingBottom: 4,
+    marginTop: 3,
+    borderWidth: 1,
+    color: 'gray',
+    fontSize: 13,
+    backgroundColor: 'white',
+    fontFamily: 'Poppins-Light',
   },
 });

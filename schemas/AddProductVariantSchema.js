@@ -5,8 +5,16 @@ export const AddProductVariantSchema = Yup.object().shape({
     .min(1, 'At least one file is required')
     .required('Files are required'),
   price: Yup.string().min(1).required('Please Enter Price'),
-  comparePriceAt: Yup.string().min(5),
+  comparePriceAt: Yup.string(),
   quantity: Yup.string().min(1).required('Please Enter Quantity'),
   sku: Yup.string().min(1).required('Please Enter SKU'),
-  valueWareHouse: Yup.string().required('Please Select Brand'),
+  valueWareHouse: Yup.string().required('Please Select WareHouse'),
+  valueVariation: Yup.string().required('Please Select Variation'),
+  valueVariationUnit: Yup.string().required('Please Enter Variation Value'),
+  variations: Yup.array().of(
+    Yup.object().shape({
+      valueVariation: Yup.string().required('Please Select Variation'),
+      valueVariationUnit: Yup.string().required('Please Enter Variation Value'),
+    }),
+  ),
 });

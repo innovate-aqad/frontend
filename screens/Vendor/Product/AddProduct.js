@@ -168,7 +168,7 @@ export default function AddProduct(nav) {
     isValid,
   } = formik;
 
-  // console.log('powwwwwww', errors);
+  // console.log('powwwwwww', subCategoryData);
   return (
     <ScrollView>
       <View className="flex flex-col h-full mb-12  bg-[#f5f5f5]">
