@@ -14,6 +14,7 @@ import {useFormik} from 'formik';
 // import {environmentVariables} from '../config/Config';
 import {OtpSchema} from '../../schemas/OtpSchema';
 import {environmentVariables} from '../../config/Config';
+import {storeToken} from '../../Shared/EncryptionDecryption/Token';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function OtpScreen({route}) {
@@ -22,7 +23,6 @@ export default function OtpScreen({route}) {
   const initialValues = {
     otp: '',
   };
-  console.log;
   let formik = useFormik({
     initialValues,
     validationSchema: OtpSchema,
@@ -41,10 +41,20 @@ export default function OtpScreen({route}) {
       })
         .then(async response => {
           console.log(response.data.data.token, 'otpres');
-          const saveToken = await AsyncStorage.setItem(
-            '_token',
-            response?.data?.data.token,
-          );
+          // await AsyncStorage.removeItem('_token');
+          // const saveToken = await AsyncStorage.setItem(
+          //   '_token',
+          //   response?.data?.data.token,
+          // );
+
+          storeToken(response?.data?.data.token);
+          // const getToken = async () => {
+          //   const storedToken = await retrieveToken();
+          //   console.log('Stored Token:', storedToken);
+          // };
+
+          // getToken();
+
           action.resetForm();
           ToastAndroid.showWithGravityAndOffset(
             response.data.message,

@@ -12,6 +12,10 @@ import {
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  storeToken,
+  retrieveToken,
+} from '../../../Shared/EncryptionDecryption/Token';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 // import InputTextField from '../../../Shared/InputTextField';
@@ -38,13 +42,6 @@ export default function AddProduct(nav) {
   const [valueSubCategory, setValueSubCategory] = useState('');
   const [valueBrand, setValueBrand] = useState('');
   const [toggle, setToggle] = useState(true);
-  const [storedToken, setStoredToken] = useState(null);
-
-  useEffect(async () => {
-    const storedToken = await AsyncStorage.getItem('_token');
-    console.log('storedToken,', storedToken);
-    setStoredToken(storedToken);
-  }, []);
 
   const getCategoriedData = async () => {
     try {
@@ -102,16 +99,7 @@ export default function AddProduct(nav) {
     initialValues,
     validationSchema: AddProductSchema,
     onSubmit: async (values, action) => {
-      // console.log('ppooo', values, storedToken);
-      // nav.navigation.navigate('addVariation');
       setToggle(false);
-      // const formdata = new FormData();
-      // formdata.append('title', values.name);
-      // formdata.append('universal_standard_code', values?.upc);
-      // formdata.append('brand_id', values?.valueBrand);
-      // formdata.append('description', values.description);
-      // formdata.append('category_id', values.value);
-      // formdata.append('sub_category_id', values?.valueSubCategory);
 
       const data = {
         title: values.name,
@@ -121,7 +109,7 @@ export default function AddProduct(nav) {
         category_id: values.value,
         sub_category_id: values?.valueSubCategory,
       };
-
+      const storedToken = await retrieveToken();
       await axios({
         method: 'post',
         url: `${environmentVariables?.apiUrl}/api/product/add`,

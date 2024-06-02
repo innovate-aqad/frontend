@@ -20,9 +20,9 @@ import * as Yup from 'yup';
 // });
 
 export const AddProductVariantSchema = Yup.object().shape({
-  // selectedFiles: Yup.array()
-  //   .min(1, 'At least one file is required')
-  //   .required('Files are required'),
+  selectedFiles: Yup.array()
+    .min(1, 'At least one file is required')
+    .required('Files are required'),
   variationType: Yup.string().min(1).required('Please Select Variiaton'),
   variationValue: Yup.string().min(1).required('Please Enter Variiaton Value'),
   price: Yup.string().min(1).required('Please Enter Price'),
