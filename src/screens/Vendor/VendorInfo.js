@@ -24,6 +24,7 @@ import {environmentVariables} from '../../config/Config';
 import {SendOtpSchema} from '../../schemas/SendOtpSchema';
 import OtpPopup from '../OtpPopup/OtpPopup';
 import { success } from '../../constants/ToastMessage';
+import VelidationSymbol from '../../constants/VelidationSymbol';
 
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -256,7 +257,7 @@ export default function VendorInfo(nav) {
             <Text
               className="text-[#00274D] px-3"
               style={{fontFamily: 'Poppins-Medium'}}>
-              Full Name
+              Full Name <VelidationSymbol/>
             </Text>
             <TextInput
               style={styles.input}
@@ -275,7 +276,7 @@ export default function VendorInfo(nav) {
             <Text
               className="text-[#00274D] px-3 mt-2"
               style={{fontFamily: 'Poppins-Medium'}}>
-              Email
+              Email <VelidationSymbol/>
             </Text>
             <View className="flex flex-row items-center pr-1.5 justify-between w-full bg-white rounded-[10px] py-0">
               <View className="w-[90%]">
@@ -319,7 +320,7 @@ export default function VendorInfo(nav) {
             <Text
               className="text-[#00274D] px-3 mt-2"
               style={{fontFamily: 'Poppins-Medium'}}>
-              Phone Number
+              Phone Number <VelidationSymbol/>
             </Text>
 
             <View className="flex flex-row items-center pl-2 w-full bg-white rounded-[10px] py-0">
@@ -366,7 +367,7 @@ export default function VendorInfo(nav) {
             <Text
               className="text-[#00274D] px-3 mt-2"
               style={{fontFamily: 'Poppins-Medium'}}>
-              Date of Birth
+              Date of Birth <VelidationSymbol/>
             </Text>
             <View className="w-full ">
               <TouchableOpacity

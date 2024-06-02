@@ -7,10 +7,11 @@ import {
   FlatList,
   TouchableOpacity,
   SafeAreaView,
+  Image,
 } from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
 import {Card} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { POPPINS, ROBOTO } from '../../constants/CustomFontFamily';
+import { blue, screenBackground } from '../../constants/Theme';
 
 const OutletCard = ({
   index,
@@ -19,11 +20,10 @@ const OutletCard = ({
   handleBlur,
   onEdit,
   onDelete,
-  ScrollView,
 }) => {
   return (
     <Card style={styles.card}>
-      <Card.Content>
+      <Card.Content className="">
         <Text style={styles.heading}>{`Outlet Address (${index + 1})`}</Text>
 
         <TextInput
@@ -44,14 +44,17 @@ const OutletCard = ({
           onBlur={handleBlur(`poBox${index}`)}
         />
         <View style={styles.iconContainer}>
-          <View style={styles.iconEdit}>
-            <TouchableOpacity onPress={() => onEdit(index)}>
-              <Icon name="pencil-outline" size={24} color="#00274D" />
+          
+          <View style={styles.iconEditdel}>
+            <TouchableOpacity style={{flex:1,flexDirection:"row",justifyContent:"center",alignItems:"center",gap:6}} onPress={() => onDelete(index)}>
+              <Image style={{height:18,width:15,tintColor:"#f0142f"}} source={require("../../Assets/image/trash.png")} />
+              <Text style={{fontFamily:ROBOTO.RobotoRegular,color:"#f0142f",fontSize:12}}>Remove</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.iconEditdel}>
-            <TouchableOpacity onPress={() => onDelete(index)}>
-              <Icon name="trash-outline" size={24} color="#00274D" />
+          <View style={styles.iconEdit}>
+            <TouchableOpacity style={{flex:1,flexDirection:"row",justifyContent:"center",alignItems:"center",gap:6}} onPress={() => onEdit(index)}>
+              <Image style={{height:18,width:18,tintColor:"#0058ff"}} source={require("../../Assets/image/vendor/edit.png")} />
+              <Text style={{fontFamily:ROBOTO.RobotoRegular,color:"#0058ff",fontSize:12}}>Edit</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -81,29 +84,33 @@ const OutletList = ({outlets, handleChange, handleBlur, onEdit, onDelete}) => {
 
 const styles = StyleSheet.create({
   card: {
-    margin: 10,
+    margin: 5,
     backgroundColor: '#FFF',
+    borderRadius:15,
+    shadowColor:screenBackground
   },
   heading: {
-    color: '#00274d',
-    fontFamily: 'Poppins-Medium',
-    fontSize: 16,
+    color: blue,
+    fontFamily: POPPINS.PoppinsMedium,
+    fontSize: 13,
     marginBottom: 10,
   },
   label: {
-    color: '#00274D',
+    color: blue,
     fontFamily: 'Poppins-Medium',
     marginBottom: 8,
+    fontSize:13
   },
   input: {
-    backgroundColor: '#f5f5f5',
-    borderColor: '#F5F5F5',
+    backgroundColor: screenBackground,
+    borderColor: screenBackground,
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingVertical: 7,
     fontFamily: 'Poppins-Light',
     marginBottom: 16,
+    fontSize:11,
     color: 'red',
   },
   iconContainer: {
@@ -115,17 +122,15 @@ const styles = StyleSheet.create({
     height: 35,
     width: 100,
     borderRadius: 5,
-    backgroundColor: '#26f0142f',
+    backgroundColor: '#E6EEFF',
     alignItems: 'center',
-    paddingTop: 4,
   },
   iconEditdel: {
     height: 35,
     width: 100,
     borderRadius: 5,
-    backgroundColor: '#26f0142f',
+    backgroundColor: '#FDDCE0',
     alignItems: 'center',
-    paddingTop: 4,
   },
 });
 
@@ -133,7 +138,6 @@ const data = [
   {outletAddress: '', poBox: ''},
   {outletAddress: '', poBox: ''},
   {outletAddress: '', poBox: ''},
-  // Add more outlet data as needed
 ];
 
 class MainComponent extends React.Component {

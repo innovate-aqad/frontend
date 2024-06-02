@@ -19,6 +19,7 @@ import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import {Divider} from 'react-native-paper';
 import { success } from '../../constants/ToastMessage';
+import VelidationSymbol from '../../constants/VelidationSymbol';
 export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [inputs, setInputs] = useState([{address: '', po_box: ''}]);
@@ -185,7 +186,7 @@ export default function VendorBusiness(nav) {
           <Text
             className="text-[#00274D] mt-5 pl-1"
             style={{fontFamily: 'Poppins-Medium'}}>
-            Company Name
+            Company Name <VelidationSymbol/>
           </Text>
           <TextInput
             style={styles.input}
@@ -205,7 +206,7 @@ export default function VendorBusiness(nav) {
           <Text
             className="text-[#00274D] pl-1 mt-1"
             style={{fontFamily: 'Poppins-Medium'}}>
-            Designation
+            Designation <VelidationSymbol/>
           </Text>
           <TextInput
             style={styles.input}
@@ -241,7 +242,7 @@ export default function VendorBusiness(nav) {
           <Text
             className="text-[#00274D] pl-1 mt-1"
             style={{fontFamily: 'Poppins-Medium'}}>
-            Company Address Line 1
+            Company Address Line 1 <VelidationSymbol/>
           </Text>
           <TextInput
             style={styles.input}
@@ -310,7 +311,7 @@ export default function VendorBusiness(nav) {
               <Text
                 className="text-[#00274D]"
                 style={{fontFamily: 'Poppins-Medium'}}>
-                PO Box
+                PO Box <VelidationSymbol/>
               </Text>
               <TextInput
                 style={[

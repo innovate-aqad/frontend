@@ -4,7 +4,7 @@ import Login from './Login';
 import Signup from './Signup';
 import Buttomtab from '../components';
 import Products from './Vendor/Product/Products';
-import Orders from './Vendor/Orderes';
+import Orders from './Vendor/Order/Orderes';
 import Dashboard from './Vendor/Dashboard';
 import ProductIndex from './Vendor/ProductIndex';
 import Forgot from './Forgot';

@@ -18,6 +18,7 @@ import AddbuttonForRetailer from '../AddButton/AddbuttonForRetailer';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import { success } from '../../constants/ToastMessage';
+import VelidationSymbol from '../../constants/VelidationSymbol';
 export default function VendorBusiness(nav) {
   const [toggle,setToggle]=useState(true)
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -123,7 +124,6 @@ export default function VendorBusiness(nav) {
     return <Text>{country.callingCode}</Text>;
   };
 
-  console.log('999', errors);
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <View
@@ -181,7 +181,7 @@ export default function VendorBusiness(nav) {
               <Text
                 className="text-[#00274D] mt-5 pl-1"
                 style={{fontFamily: 'Poppins-Medium'}}>
-                Company Name
+                Company Name <VelidationSymbol/>
               </Text>
               <TextInput
                 style={styles.input}
@@ -198,7 +198,7 @@ export default function VendorBusiness(nav) {
                 <Text style={styles.errorHandle}>{errors.companyName}</Text>
               )}
 
-              <Text style={styles.textStyle}>Designation</Text>
+              <Text style={styles.textStyle}>Designation <VelidationSymbol/></Text>
               <TextInput
                 style={styles.input}
                 placeholderTextColor="rgb(210, 210, 210)"
@@ -226,7 +226,7 @@ export default function VendorBusiness(nav) {
                 onChangeText={handleChange('tradeLicenseNo')}
                 onBlur={handleBlur('tradeLicenseNo')}
               />
-              <Text style={styles.textStyle}>Company Address Line 1</Text>
+              <Text style={styles.textStyle}>Company Address Line 1 <VelidationSymbol/></Text>
               <TextInput
                 style={styles.input}
                 placeholderTextColor="rgb(210, 210, 210)"
@@ -292,7 +292,7 @@ export default function VendorBusiness(nav) {
                   <Text
                     className="text-[#00274D]"
                     style={{fontFamily: 'Poppins-Medium'}}>
-                    PO Box
+                    PO Box <VelidationSymbol/>
                   </Text>
                   <TextInput
                     style={[
@@ -329,15 +329,6 @@ export default function VendorBusiness(nav) {
             </SafeAreaView>
           </View>
           <View className="pt-5">
-            {/* <TouchableOpacity
-              onPress={() => handleSubmit()}
-              style={styles.button}>
-              <Text
-                className="text-white "
-                style={{fontFamily: 'Poppins-SemiBold'}}>
-                PROCEED
-              </Text>
-            </TouchableOpacity> */}
             <TouchableOpacity
             onPress={() => {
               toggle ? handleSubmit() : null;

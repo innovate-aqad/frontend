@@ -13,7 +13,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 
-export default function Orders() {
+export default function Orders(nav) {
   const [tab, setTab] = useState('All Orders');
   const [searchText, setSearchText] = useState('');
   const [show, setShow] = useState();
@@ -48,7 +48,7 @@ export default function Orders() {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             style={styles.topNavigation}
-            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
+            source={require('../../../Assets/image/drawable-xhdpi/arrow_left.png')}
           />
         </TouchableOpacity>
         <Text
@@ -155,7 +155,7 @@ export default function Orders() {
         </Text>
         <Image
           style={{height: 18, width: 18}}
-          source={require('../../Assets/image/drawable-hdpi/apps_sort.png')}
+          source={require('../../../Assets/image/drawable-hdpi/apps_sort.png')}
         />
       </View>
       <SafeAreaView>
@@ -163,13 +163,15 @@ export default function Orders() {
           <View className="">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9]?.map((item, index) => {
               return (
-                <View
+                <TouchableOpacity
                   key={index}
                   className={
                     !(show == index)
                       ? 'flex flex-row mx-3 items-center justify-center'
                       : 'flex flex-row items-center justify-center'
-                  }>
+                  }
+                  onPress={()=>nav.navigation.navigate("orderDetail")}
+                  >
                   <View
                     className={
                       !(show == index)
@@ -180,7 +182,7 @@ export default function Orders() {
                       <View className="bg-[#FDEEE3] h-[50px] w-[50px] rounded-full border border-[#FDD7BC] p-3">
                         <Image
                           style={{height: 22, width: 29.5}}
-                          source={require('../../Assets/image/drawable-xhdpi/pngwing_com_9.png')}
+                          source={require('../../../Assets/image/drawable-xhdpi/pngwing_com_9.png')}
                         />
                       </View>
                       <View>
@@ -261,7 +263,7 @@ export default function Orders() {
                       <TouchableOpacity className="p-3 bg-blue-100 rounded-xl">
                         <Image
                           style={{tintColor: '#6d93f2', height: 17, width: 17}}
-                          source={require('../../Assets/image/pencil.png')}
+                          source={require('../../../Assets/image/pencil.png')}
                         />
                       </TouchableOpacity>
                     </View>
@@ -269,12 +271,12 @@ export default function Orders() {
                       <TouchableOpacity className="p-3 bg-red-100 rounded-xl">
                         <Image
                           style={{tintColor: '#df6886', height: 17, width: 17}}
-                          source={require('../../Assets/image/trash.png')}
+                          source={require('../../../Assets/image/trash.png')}
                         />
                       </TouchableOpacity>
                     </View>
                   </View>
-                </View>
+                </TouchableOpacity>
               );
             })}
           </View>

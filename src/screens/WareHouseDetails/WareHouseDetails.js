@@ -6,44 +6,27 @@ import {
   View,
   Text,
   Image,
-  Divider,
   ScrollView,
 } from 'react-native';
 
 import WareHouseCard from '../WareHouseDetails/WareHouseCard';
+import {screenBackground} from '../../constants/Theme';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const MyComponent = () => {
-  const [value, setValue] = React.useState('left');
-
+const WareHouseDetails = () => {
   return (
     <ScrollView>
-      <View>
-        <View className="relative top-0 flex flex-row items-center px-5 pt-7 pb-2 bg-[#f96900] rounded-b-[15px] ">
-          <Image
-            style={styles.topNavigation}
-            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
-          />
-          <Text
-            className="flex justify-center w-[80%] text-center text-white"
-            style={{
-              fontFamily: 'Poppins-Bold',
-              fontSize: 20,
-              textTransform: 'uppercase',
-            }}>
-            warehouse details
-          </Text>
-        </View>
-        <View className="flex flex-col   p-5  ">
+      <View style={{backgroundColor: screenBackground}}>
+        <View className="flex flex-col p-3 mb-24">
           <WareHouseCard />
-
-          {/* <View className="flex flex-col  pl-2  ">
-          <TouchableOpacity
-            // onPress={() => handleAddPair()}
-            style={styles.buttonAdd}>
-            <Text>Add</Text>
+          <TouchableOpacity>
+            <View className="w-24 p-2 text-center bg-[#f96900] items-center justify-center flex flex-row rounded-[5px] mt-2">
+              <MaterialIcons name="add" size={18} color="white" />
+              <Text className="ml-2 text-center text-white font-[Roboto-Regular] text-[12px]">
+                Add
+              </Text>
+            </View>
           </TouchableOpacity>
-        </View> */}
-
           <View className="pt-5">
             <TouchableOpacity
               onPress={() => handleSubmit()}
@@ -59,8 +42,6 @@ const MyComponent = () => {
             </TouchableOpacity>
           </View>
         </View>
-
-        {/* divider */}
       </View>
     </ScrollView>
   );
@@ -141,4 +122,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyComponent;
+export default WareHouseDetails;

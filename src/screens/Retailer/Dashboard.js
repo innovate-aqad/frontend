@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {Divider} from 'react-native-paper';
 import SvgUri from 'react-native-svg-uri';
 import badgeCheck from '../../Assets/image/drawable/badge_check.svg';
@@ -347,7 +348,7 @@ export default function Dashboard(nav) {
                   <View className="flex flex-col justify-between ">
                     <Text
                       className="text-[#5a607f] font-[Poppins-Medium]"
-                      style={{fontSize: 13}}>
+                      style={{fontSize: 10}}>
                       {item.name}
                     </Text>
                     <Text
@@ -374,12 +375,18 @@ export default function Dashboard(nav) {
                       backgroundColor: item.bgColor,
                       borderColor: item.borderColor,
                     }}>
-                    <SvgUri
+                      {
+                        index===0 ?
+                        <SvgUri
                       style={{tintColor: 'red'}}
                       width={item.width}
                       height={item.height}
                       source={item.img}
                     />
+                      :
+                    
+                    <EvilIcons  name="close-o" size={33} color={'#cbcbcb'}/>
+                      }
                   </View>
                 </View>
               ))}
@@ -404,11 +411,11 @@ export default function Dashboard(nav) {
                   key={index}
                   className="w-[47%] flex flex-row items-center justify-between">
                   <Text
-                    className={'text-[#131523] font-[Poppins-Regular]'}
-                    style={{fontSize: 12}}>
+                    className={'text-[#131523] text-[10px] font-[Poppins-Regular]'}
+                   >
                     {item.name}
                   </Text>
-                  <Text className={'text-[#131523] font-[Poppins-Bold]'}>
+                  <Text className={'text-[#131523] text-[10px] font-[Poppins-Bold]'}>
                     {item.percentage}
                   </Text>
                 </View>

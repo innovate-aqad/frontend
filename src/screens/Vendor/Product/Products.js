@@ -13,13 +13,14 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import SelectDropDown from '../../../Shared/SelectDropDown';
+import { headerColor } from '../../../constants/Theme';
 
 export default function Products(nav) {
   const [searchText, setSearchText] = useState('');
   const handleSearch = () => {};
   return (
     <View className="w-full h-full bg-[#f5f5f5]">
-      <View className="relative top-0 flex flex-row items-center px-5 pt-7 pb-2  rounded-b-[15px]">
+      <View className="relative top-0 flex flex-row items-center px-5 pt-7 pb-2 rounded-b-[15px]" style={{backgroundColor:headerColor}}>
         <Image
           style={styles.topNavigation}
           source={require('../../../Assets/image/drawable-xhdpi/arrow_left.png')}
