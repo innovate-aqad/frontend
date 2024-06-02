@@ -10,17 +10,7 @@ import {
   ToastAndroid,
   ActivityIndicator,
 } from 'react-native';
-import {Card} from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  storeToken,
-  retrieveToken,
-} from '../../../Shared/EncryptionDecryption/Token';
-
-import AntDesign from 'react-native-vector-icons/AntDesign';
-// import InputTextField from '../../../Shared/InputTextField';
-const mockData = ['S', 'M', 'L', 'XL', 'XXL'];
-import DocumentPicker from 'react-native-document-picker';
+import {retrieveToken} from '../../../Shared/EncryptionDecryption/Token';
 import {
   SelectInput,
   SelectInputBrand,
@@ -121,6 +111,7 @@ export default function AddProduct(nav) {
         },
       })
         .then(response => {
+          console.log('yesyesyesyesyes', response?.data);
           ToastAndroid.showWithGravityAndOffset(
             response?.data?.message,
             ToastAndroid.TOP,
@@ -128,21 +119,22 @@ export default function AddProduct(nav) {
             25,
             50,
           );
-          nav.navigation.navigate('addVariation');
+          nav.navigation.navigate('addVariation', {
+            id: response?.data?.data?.id,
+          });
           setToggle(true);
-          // nav.navigation.navigate('business', {id: response?.data?.data?.id});
         })
         .catch(error => {
           console.log('rtttt', error?.response?.data?.message, error?.message);
           // nav.navigation.navigate('addVariation');
           setToggle(true);
-          // ToastAndroid.showWithGravityAndOffset(
-          //   error?.response?.data?.message || error?.message,
-          //   ToastAndroid.TOP,
-          //   ToastAndroid.CENTER,
-          //   25,
-          //   50,
-          // );
+          ToastAndroid.showWithGravityAndOffset(
+            error?.response?.data?.message || error?.message,
+            ToastAndroid.TOP,
+            ToastAndroid.CENTER,
+            25,
+            50,
+          );
         });
     },
   });

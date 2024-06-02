@@ -28,6 +28,8 @@ import {environmentVariables} from '../../../config/Config';
 import {retrieveToken} from '../../../Shared/EncryptionDecryption/Token';
 
 export default function AddVariation(nav) {
+  const mainId = nav.route.params.id;
+  console.log(mainId, 'llklklkl');
   const [size, setSize] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [inputVariations, setInputVariations] = useState([
@@ -103,18 +105,7 @@ export default function AddVariation(nav) {
       formData.append('sku', values?.sku);
       formData.append('variation', values?.variationType);
       formData.append('input_field', Number(values?.variationValue));
-      // formData.append('warehouse_arr', values?.wareHouses);
-      // formData.append('product_images_arr', values?.selectedFiles);
-      formData.append('product_id', '788e1fa8344e4b33a86db1aea9296c34');
-      // let mainArr = [];
-      // for (let i = 0; i < values?.wareHouses.length; i++) {
-      //   mainArr.push(values?.wareHouses[i]);
-      //   // formData.append(`warehouse_arr[${i}].[po_box]`, values?.wareHouses[i].po_box);
-      //   // formData.append(`warehouse_arr[${i}].[quantity]`, values?.wareHouses[i][quantity]);
-      // }
-      // formData.append(`warehouse_arr`, mainArr);
-      // console.log('989898989989', mainArr);
-
+      formData.append('product_id', mainId);
       values.wareHouses.forEach((warehouse, index) => {
         formData.append(`warehouse_arr[${index}][po_box]`, warehouse.po_box);
         formData.append(
@@ -122,7 +113,6 @@ export default function AddVariation(nav) {
           warehouse.quantity,
         );
       });
-
       values?.selectedFiles?.forEach((driver, index) => {
         formData.append(`product_images_arr`, {
           uri: driver.uri,
@@ -181,19 +171,12 @@ export default function AddVariation(nav) {
     formik.setFieldValue('wareHouses', updatedWarehouses);
   };
 
-  // const handleInputChangeSelect = (index, name, value) => {
-  //   const updatedWareHouses = [...formik.values.wareHouses];
-  //   updatedWareHouses[index][name] = value;
-  //   formik.setFieldValue('wareHouses', updatedWareHouses);
-  // };
   const handleInputChangeSelect = (index, field, value) => {
-    // console.log('formik.values.wareHouses', formik.values.wareHouses);
     const updatedWarehouses = formik.values.wareHouses.map((warehouse, i) =>
       i === index ? {...warehouse, [field]: value} : warehouse,
     );
     formik.setFieldValue('wareHouses', updatedWarehouses);
   };
-  console.log(errors, 'kddddddddddddd777', values?.variations);
 
   return (
     <ScrollView>
@@ -291,7 +274,6 @@ export default function AddVariation(nav) {
             )}
 
             <View className="flex flex-col w-full">
-              {/* {inputVariations.map((variation, index) => ( */}
               <View className="flex flex-column w-full mb-2">
                 <View className="w-full pr-1">
                   <Text style={styles.textTitle}>Variation</Text>
@@ -334,7 +316,6 @@ export default function AddVariation(nav) {
                     )}
                 </View>
               </View>
-              {/* // ))} */}
             </View>
 
             <View className="flex flex-row w-[100%]">
@@ -379,25 +360,6 @@ export default function AddVariation(nav) {
             </View>
 
             <View className="flex flex-row w-[100%]">
-              {/* <View className="w-[50%] pr-1">
-                <Text style={styles.textTitle}>Quantity</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="00.00 AED"
-                  className="!border-none pl-4 !border-white"
-                  borderRadius={10}
-                  placeholderTextColor="rgb(210, 210, 210)"
-                  name="quantity"
-                  value={values.quantity}
-                  onChangeText={handleChange('quantity')}
-                  onBlur={handleBlur('quantity')}
-                />
-                {touched.quantity && errors.quantity && (
-                  <Text style={{color: 'red', fontSize: 12}}>
-                    {errors.quantity}
-                  </Text>
-                )}
-              </View> */}
               <View className="w-[100%] pl-1">
                 <Text style={styles.textTitle}>SKU</Text>
                 <TextInput
@@ -499,15 +461,6 @@ export default function AddVariation(nav) {
                 </Text>
               </TouchableOpacity>
             </View>
-
-            {/* <TouchableOpacity
-              className="w-32 p-2 text-center bg-[#f96900] items-center justify-center flex flex-row rounded-[5px] mt-2"
-              onPress={handleAddWareHouses}>
-              <MaterialIcons name="add" size={18} color="white" />
-              <Text className="ml-2 text-center text-white font-[Roboto-Regular] text-[12px]">
-                Add New Variation
-              </Text>
-            </TouchableOpacity> */}
             <View className="mt-4">
               <TouchableOpacity
                 className="z-50 rounded-lg"
