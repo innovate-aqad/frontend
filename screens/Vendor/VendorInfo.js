@@ -237,6 +237,18 @@ export default function VendorInfo(nav) {
     }
   };
 
+  const handleNameChange = text => {
+    const regex = /^[a-zA-Z\s]*$/;
+    if (regex.test(text)) {
+      formik.setFieldValue('fullName', text);
+    }
+  };
+  const handleNumberChange = text => {
+    const regex = /^[0-9\s]*$/;
+    if (regex.test(text)) {
+      formik.setFieldValue('number', text);
+    }
+  };
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <View
@@ -328,6 +340,7 @@ export default function VendorInfo(nav) {
               Full Name
             </Text>
             <TextInput
+              type="text"
               style={styles.input}
               placeholderTextColor="rgb(210, 210, 210)"
               placeholder="Enter your Name"
@@ -335,7 +348,7 @@ export default function VendorInfo(nav) {
               borderRadius={10}
               name="fullName"
               value={values.fullName}
-              onChangeText={handleChange('fullName')}
+              onChangeText={handleNameChange}
               onBlur={handleBlur('fullName')}
             />
             {errors.fullName && touched.fullName && (
@@ -409,12 +422,13 @@ export default function VendorInfo(nav) {
               <Text className="pl-2 text-xl text-[#cbcbcb]">|</Text>
               <View className="flex flex-row items-center justify-between w-[70%]">
                 <TextInput
+                  type="text"
                   placeholderTextColor="rgb(210, 210, 210)"
                   placeholder="Enter your phone number"
                   className="!border-none py-1.5 pl-2  !border-white text-[#cbcbcb]"
                   name="number"
                   value={values.number}
-                  onChangeText={handleChange('number')}
+                  onChangeText={handleNumberChange}
                   onBlur={handleBlur('number')}
                   maxLength={14}
                 />

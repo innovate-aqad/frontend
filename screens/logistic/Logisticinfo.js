@@ -181,6 +181,18 @@ export default function VendorInfo(nav) {
     }
   };
 
+  const handleNameChange = text => {
+    const regex = /^[a-zA-Z\s]*$/;
+    if (regex.test(text)) {
+      formik.setFieldValue('fullName', text);
+    }
+  };
+  const handleNumberChange = text => {
+    const regex = /^[0-9\s]*$/;
+    if (regex.test(text)) {
+      formik.setFieldValue('number', text);
+    }
+  };
   return (
     <ScrollView>
       <View
@@ -279,7 +291,7 @@ export default function VendorInfo(nav) {
               borderRadius={10}
               name="fullName"
               value={values.fullName}
-              onChangeText={handleChange('fullName')}
+              onChangeText={handleNameChange}
               onBlur={handleBlur('fullName')}
             />
             {errors.fullName && touched.fullName && (
@@ -349,7 +361,7 @@ export default function VendorInfo(nav) {
                   className="!border-none py-1.5 pl-2  !border-white text-[#cbcbcb]"
                   name="number"
                   value={values.number}
-                  onChangeText={handleChange('number')}
+                  onChangeText={handleNumberChange}
                   onBlur={handleBlur('number')}
                   maxLength={14}
                 />
@@ -371,7 +383,7 @@ export default function VendorInfo(nav) {
               style={{fontFamily: 'Poppins-SemiBold'}}>
               Date of Birth
             </Text>
-            
+
             <View className="w-full ">
               <TouchableOpacity
                 className="flex flex-row w-full"
@@ -424,8 +436,13 @@ export default function VendorInfo(nav) {
               style={{fontFamily: 'Roboto-Regular'}}>
               PROCEED
             </Text>
-            {toggle ?null :
-              <ActivityIndicator size="small" className="ml-5" color="#00274d" />}
+            {toggle ? null : (
+              <ActivityIndicator
+                size="small"
+                className="ml-5"
+                color="#00274d"
+              />
+            )}
           </TouchableOpacity>
         </View>
         {openPopup && (

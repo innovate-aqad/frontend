@@ -50,7 +50,6 @@ export default function VendorInfo(nav) {
     hideDatePicker();
   };
 
-
   useEffect(() => {
     Animated.timing(progress, {
       toValue: 150,
@@ -72,7 +71,7 @@ export default function VendorInfo(nav) {
   let formik = useFormik({
     initialValues,
     validationSchema: RetailerRegisterSchema,
-    onSubmit: async (values) => {
+    onSubmit: async values => {
       setToggle(false);
       const formdata = new FormData();
       formdata.append('name', values.fullName);
@@ -107,7 +106,7 @@ export default function VendorInfo(nav) {
             25,
             50,
           );
-          
+
           nav.navigation.navigate('retailerbusi', {id: response.data.data.id});
         })
         .catch(error => {
@@ -179,6 +178,18 @@ export default function VendorInfo(nav) {
     }
   };
 
+  const handleNameChange = text => {
+    const regex = /^[a-zA-Z\s]*$/;
+    if (regex.test(text)) {
+      formik.setFieldValue('fullName', text);
+    }
+  };
+  const handleNumberChange = text => {
+    const regex = /^[0-9\s]*$/;
+    if (regex.test(text)) {
+      formik.setFieldValue('number', text);
+    }
+  };
   return (
     <ScrollView>
       <View
@@ -223,7 +234,8 @@ export default function VendorInfo(nav) {
             <View className="bg-[#F6E0D1] rounded-[10px]">
               <Animated.View
                 style={[
-                  {height: 5, backgroundColor: '#F96900', borderRadius: 10},{width: progress,}
+                  {height: 5, backgroundColor: '#F96900', borderRadius: 10},
+                  {width: progress},
                 ]}
               />
             </View>
@@ -284,7 +296,7 @@ export default function VendorInfo(nav) {
               borderRadius={10}
               name="fullName"
               value={values.fullName}
-              onChangeText={handleChange('fullName')}
+              onChangeText={handleNameChange}
               onBlur={handleBlur('fullName')}
             />
             {errors.fullName && touched.fullName && (
@@ -355,7 +367,7 @@ export default function VendorInfo(nav) {
                   className="!border-none py-1.5 pl-2  !border-white text-[#cbcbcb]"
                   name="number"
                   value={values.number}
-                  onChangeText={handleChange('number')}
+                  onChangeText={handleNumberChange}
                   onBlur={handleBlur('number')}
                   maxLength={14}
                 />
@@ -374,15 +386,12 @@ export default function VendorInfo(nav) {
               <Text style={styles.errorHandle}>{errors.number}</Text>
             )}
 
-           
-
-
             <Text
               className="text-[#00274D] px-3 mt-2"
               style={{fontFamily: 'Poppins-SemiBold'}}>
               Date of Birth
             </Text>
-          
+
             <View className="w-full ">
               <TouchableOpacity
                 className="flex flex-row w-full"
@@ -470,7 +479,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Light',
   },
   button: {
-    backgroundColor: '#F96900', 
+    backgroundColor: '#F96900',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
