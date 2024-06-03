@@ -8,6 +8,8 @@ export const blue = '#00274d';
 export const headerColor = '#f96900';
 export const grayColor = '#7e84a3';
 export const btnBackround = '#f96900';
+export const lightGray = '#cbcbcb';
+
 
 
 
