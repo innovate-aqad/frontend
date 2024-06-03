@@ -1,11 +1,11 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Image} from 'react-native';
-import Orders from './Orders';
 import Dashboard from './Dashboard';
 import Cart from './CartScreen/index';
 import WholesalesIndex from './WholesalesPage';
 import AccountIndex from './Account';
+import Orders from '../Vendor/Order/Orderes';
 
 const Tab = createBottomTabNavigator();
 const wholesales = 'Wholesales';

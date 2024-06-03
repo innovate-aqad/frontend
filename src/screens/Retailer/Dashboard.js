@@ -12,6 +12,7 @@ import {
 import Octicons from 'react-native-vector-icons/Octicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Divider} from 'react-native-paper';
 import SvgUri from 'react-native-svg-uri';
 import badgeCheck from '../../Assets/image/drawable/badge_check.svg';
@@ -44,7 +45,7 @@ export default function Dashboard(nav) {
   useEffect(() => {
     const interval = setInterval(() => {
       if (scrollViewRef.current) {
-        scrollOffset += scrollWidth; 
+        scrollOffset += scrollWidth;
         if (scrollOffset > contentWidth) {
           scrollOffset = 0;
         }
@@ -116,7 +117,7 @@ export default function Dashboard(nav) {
               <View className=" bg-[#f96900] rounded h-1 py-0.5 w-[23%]"></View>
               <View className=" bg-slate-300 rounded h-1 py-0.5 w-[23%]"></View>
             </View>
-            <Text className="text-[#00274d] mt-1 font-[Poppins-Bold]">
+            <Text className="text-[#00274d] mt-1 font-[Roboto-Bold] " style={{fontSize:13}}>
               Order Id #2324390
             </Text>
             <View className="flex flex-row justify-between mt-2">
@@ -164,7 +165,7 @@ export default function Dashboard(nav) {
           </View>
         </View>
         <View className="mt-2">
-          <Text className="text-[#00274d]  px-3 font-[Poppins-Bold]">
+          <Text  style={{color:"#00274d",fontSize:13,fontFamily:"Roboto-Bold",paddingLeft:15}}>
             Low Stocks
           </Text>
           <ScrollView
@@ -198,9 +199,11 @@ export default function Dashboard(nav) {
           </ScrollView>
         </View>
         <View className="mt-2">
-          <Text className="text-[#00274d] px-3 font-[Poppins-Bold]">
+          <View>
+          <Text  style={{color:"#00274d",fontSize:13,fontFamily:"Roboto-Bold",paddingLeft:15}}>
             Recent Stock
           </Text>
+          </View>
           <ScrollView
             ref={scrollViewRef}
             horizontal
@@ -225,13 +228,14 @@ export default function Dashboard(nav) {
                 <View
                   style={{
                     borderWidth: 1,
-                    borderColor: '#f5c4b3',
+                    borderColor: '#cbcbcb',
                     borderRadius: 50,
                     overflow: 'hidden',
+                    padding:8
                   }}>
                   <Image
-                    style={{height: 46, width: 46, borderRadius: 23}}
-                    source={require('../../Assets/image/drawable-hdpi/mask_group_2.png')}
+                    style={{height: 35, width: 35, borderRadius: 23}}
+                    source={{uri:"https://media.croma.com/image/upload/v1701615047/Croma%20Assets/Communication/Wearable%20Devices/Images/301656_0_mwallh.png"}}
                   />
                 </View>
                 <View
@@ -259,10 +263,10 @@ export default function Dashboard(nav) {
 
         <View className="px-3">
           <View className="mt-2">
-            <Text className="text-[#00274d] font-[Poppins-Bold]">
+            <Text  style={{color:"#00274d",fontSize:13,fontFamily:"Roboto-Bold"}}>
               Key Performance Inputs (KPI's)
             </Text>
-            <View className="flex flex-row justify-between mt-1 gap-x-2">
+            <View className="flex flex-row justify-between mt-2 gap-x-2">
               {[
                 {
                   name: 'Order Placed',
@@ -287,7 +291,7 @@ export default function Dashboard(nav) {
                   <View className="flex flex-col justify-between ">
                     <Text
                       className="text-[#5a607f] font-[Poppins-Medium]"
-                      style={{fontSize: 13}}>
+                      style={{fontSize: 10}}>
                       {item.name}
                     </Text>
                     <Text
@@ -296,11 +300,18 @@ export default function Dashboard(nav) {
                       14570
                     </Text>
                     <View className="flex flex-row">
-                      <Text
-                        className="text-green-500 font-[Poppins-SemiBold]"
-                        style={{fontSize: 8}}>
-                        2.3%
-                      </Text>
+                      <View className="flex flex-row">
+                        <Text
+                          className="text-[#3dd598] font-[Poppins-SemiBold]"
+                          style={{fontSize: 8}}>
+                          2.3%
+                        </Text>
+                        <MaterialCommunityIcons
+                          name="arrow-down-thin"
+                          size={12}
+                          color={'#3dd598'}
+                        />
+                      </View>
                       <Text
                         className="text-[#7e84a3] font-[Poppins-SemiBold] px-2"
                         style={{fontSize: 8}}>
@@ -309,7 +320,7 @@ export default function Dashboard(nav) {
                     </View>
                   </View>
                   <View
-                    className="border flex ml-2.5 flex-col justify-center h-[45px] w-[45px] items-center rounded-full"
+                    className="border flex flex-col justify-center h-[45px] w-[45px] items-center rounded-full"
                     style={{
                       backgroundColor: item.bgColor,
                       borderColor: item.borderColor,
@@ -357,11 +368,18 @@ export default function Dashboard(nav) {
                       14570
                     </Text>
                     <View className="flex flex-row">
-                      <Text
-                        className="text-green-500 font-[Poppins-SemiBold]"
-                        style={{fontSize: 8}}>
-                        2.3%
-                      </Text>
+                      <View className="flex flex-row">
+                        <Text
+                          className="text-[#f0142f] font-[Poppins-SemiBold]"
+                          style={{fontSize: 8}}>
+                          2.3%
+                        </Text>
+                        <MaterialCommunityIcons
+                          name="arrow-down-thin"
+                          size={12}
+                          color={'#f0142f'}
+                        />
+                      </View>
                       <Text
                         className="text-[#7e84a3] font-[Poppins-SemiBold] px-2"
                         style={{fontSize: 8}}>
@@ -375,18 +393,16 @@ export default function Dashboard(nav) {
                       backgroundColor: item.bgColor,
                       borderColor: item.borderColor,
                     }}>
-                      {
-                        index===0 ?
-                        <SvgUri
-                      style={{tintColor: 'red'}}
-                      width={item.width}
-                      height={item.height}
-                      source={item.img}
-                    />
-                      :
-                    
-                    <EvilIcons  name="close-o" size={33} color={'#cbcbcb'}/>
-                      }
+                    {index === 0 ? (
+                      <SvgUri
+                        style={{tintColor: 'red'}}
+                        width={item.width}
+                        height={item.height}
+                        source={item.img}
+                      />
+                    ) : (
+                      <EvilIcons name="close-o" size={33} color={'#cbcbcb'} />
+                    )}
                   </View>
                 </View>
               ))}
@@ -394,7 +410,7 @@ export default function Dashboard(nav) {
           </View>
 
           <View className="p-2 my-3 bg-white rounded-lg shadow-lg">
-            <Text className="font-[Poppins-Bold] text-[#00274d]">
+            <Text  style={{color:"#00274d",fontSize:13,fontFamily:"Roboto-Bold"}}>
               Leading Category
             </Text>
             <Divider style={{backgroundColor: '#e6e9f4', marginVertical: 4}} />
@@ -411,11 +427,15 @@ export default function Dashboard(nav) {
                   key={index}
                   className="w-[47%] flex flex-row items-center justify-between">
                   <Text
-                    className={'text-[#131523] text-[10px] font-[Poppins-Regular]'}
-                   >
+                    className={
+                      'text-[#131523] text-[10px] font-[Poppins-Regular]'
+                    }>
                     {item.name}
                   </Text>
-                  <Text className={'text-[#131523] text-[10px] font-[Poppins-Bold]'}>
+                  <Text
+                    className={
+                      'text-[#131523] text-[10px] font-[Poppins-Bold]'
+                    }>
                     {item.percentage}
                   </Text>
                 </View>

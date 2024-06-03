@@ -78,7 +78,7 @@ export default function OtpScreen({route}) {
       showsVerticalScrollIndicator={false}
       >
       <View className="m-5">
-        <TouchableOpacity onPress={() => route.navigation.navigate('Login')}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             style={styles.topNavigation}
             source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
@@ -138,9 +138,9 @@ export default function OtpScreen({route}) {
               </Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity className="mt-5 w-14" onPress={()=>resend()}>
+          {/* <TouchableOpacity className="mt-5 w-14" onPress={()=>resend()}>
             <Text className="text-blue-600 ">resend</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </ScrollView>

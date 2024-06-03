@@ -5,20 +5,16 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
+import Search from '../../../Shared/Search';
 
 export default function Orders(nav) {
   const [tab, setTab] = useState('All Orders');
-  const [searchText, setSearchText] = useState('');
   const [show, setShow] = useState();
-
-  const handleSearch = () => {};
 
   const tabNavigatePage = value => {
     console.log(value, 'ramsasalsklaalskfalk');
@@ -43,7 +39,7 @@ export default function Orders(nav) {
 
   const navigation = useNavigation();
   return (
-    <View className="w-full h-full bg-[#f5f5f5]">
+    <View className="w-full bg-[#f5f5f5]">
       <View className="flex-row rounded-b-xl bg-[#f96900] px-4 pb-2 pt-7 items-center">
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
@@ -58,24 +54,7 @@ export default function Orders(nav) {
         </Text>
       </View>
       <View className="p-3 px-5 gap-y-3">
-        <View style={styles.container}>
-          <TextInput
-            style={styles.input}
-            placeholder="Search..."
-            underlineColorAndroid="transparent"
-            value={searchText}
-            // textColor='#cbcbcb'
-            placeholderTextColor={'#cbcbcb'}
-            keyboardType="default"
-            disableFullscreenUI={true}
-            onChangeText={text => setSearchText(text)}
-            onSubmitEditing={handleSearch}
-          />
-
-          <TouchableOpacity className="pr-2" onPress={handleSearch}>
-            <AntDesign name="search1" size={24} color="#cbcbcb" />
-          </TouchableOpacity>
-        </View>
+        <Search />
         <View className="flex flex-row justify-around gap-x-3">
           <TouchableOpacity
             onPress={() => tabNavigatePage('All Orders')}
@@ -158,10 +137,10 @@ export default function Orders(nav) {
           source={require('../../../Assets/image/drawable-hdpi/apps_sort.png')}
         />
       </View>
-      <SafeAreaView>
-        <ScrollView keyboardShouldPersistTaps="handled">
-          <View className="">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9]?.map((item, index) => {
+      <ScrollView keyboardShouldPersistTaps="handled">
+        <View className="mb-16">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]?.map(
+            (item, index) => {
               return (
                 <TouchableOpacity
                   key={index}
@@ -170,8 +149,7 @@ export default function Orders(nav) {
                       ? 'flex flex-row mx-3 items-center justify-center'
                       : 'flex flex-row items-center justify-center'
                   }
-                  onPress={()=>nav.navigation.navigate("orderDetail")}
-                  >
+                  onPress={() => nav.navigation.navigate('orderDetail')}>
                   <View
                     className={
                       !(show == index)
@@ -278,43 +256,19 @@ export default function Orders(nav) {
                   </View>
                 </TouchableOpacity>
               );
-            })}
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+            },
+          )}
+        </View>
+      </ScrollView>
     </View>
   );
 }
 //
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderColor: 'white',
-    backgroundColor: 'white',
-    borderRadius: 15,
-    paddingHorizontal: 10,
-    borderBottomWidth: 0,
-  },
+
   topNavigation: {
     height: 15,
     width: 23.3,
     tintColor: 'white',
-  },
-  input: {
-    flex: 1,
-    height: 45,
-    backgroundColor: 'white',
-    borderColor: 'white',
-    paddingRight: 5,
-    color: '#cbcbcb',
-    borderWidth: 2,
-    marginLeft: 5,
-  },
-  button: {
-    backgroundColor: '#F96900',
-    padding: 12,
-    alignItems: 'center',
-    color: 'red',
   },
 });

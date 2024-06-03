@@ -4,6 +4,9 @@ import {Button, View} from 'react-native';
 import {Text} from 'react-native-svg';
 import MyAccount from './MyAccount';
 import PersonalInformation from './PersonalInformation';
+import PersonalInfo from '../../../Shared/MyAccoount/PersonalInfo';
+import CompanyDetail from '../../../Shared/MyAccoount/CompanyDetail';
+import WareHouseDetails from '../../../Shared/MyAccoount/WareHouseDetails/WareHouseDetails';
 
 const stack = createNativeStackNavigator();
 
@@ -18,7 +21,7 @@ export default function AccountIndex() {
           title: 'MY ACCOUNT',
           headerStyle: {
             backgroundColor: '#f4511e',
-            borderRadius:20
+            borderRadius: 20,
           },
           headerTitleAlign: 'center',
           headerTintColor: '#fff',
@@ -36,7 +39,7 @@ export default function AccountIndex() {
           title: 'PERSONAL INFO',
           headerStyle: {
             backgroundColor: '#f4511e',
-            borderRadius:20
+            borderRadius: 20,
           },
           headerTitleAlign: 'center',
           headerTintColor: '#fff',
@@ -47,10 +50,64 @@ export default function AccountIndex() {
         }}
       />
 
-      
+      {/* <stack.Screen
+        name="outlet"
+        component={PersonalInfo}
+        options={{
+          headerShown: true,
+          title: 'Outlet Details',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+            borderRadius: 20,
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+          },
+        }}
+      /> */}
+      <stack.Screen
+        name="company"
+        component={CompanyDetail}
+        options={{
+          headerShown: true,
+          title: 'Company Details',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+            borderRadius: 20,
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+          },
+        }}
+      />
+      <stack.Screen
+        name="outlet"
+        component={WareHouseDetails}
+        options={{
+          headerShown: true,
+          title: 'Outlet Details',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+            borderRadius: 20,
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+          },
+        }}
+      />
+
+      {/* WareHouseDetails */}
     </stack.Navigator>
   );
 }
-
 
 // PersonalInformation
