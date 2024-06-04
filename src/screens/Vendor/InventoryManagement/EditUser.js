@@ -209,21 +209,12 @@ export default function EditUser(nav) {
           <View className="mt-5">
             <Text style={styles.textStyle}>Role</Text>
             <View className="flex flex-col px-1">
-              <Checkbox label={'Edit Product'} />
+            <Checkbox label={'Product'} />
               <View className="mt-1.5">
-                <Checkbox label={'Accept Order'} />
+                <Checkbox label={'Order'} />
               </View>
               <View className="mt-1.5">
-                <Checkbox label={'View Only'} />
-              </View>
-              <View className="mt-1.5">
-                <Checkbox label={'Insight Access'} />
-              </View>
-              <View className="mt-1.5">
-                <Checkbox label={'Product Price'} />
-              </View>
-              <View className="mt-1.5">
-                <Checkbox label={'Dashboard Access'} />
+                <Checkbox label={'Inventory'} />
               </View>
             </View>
           </View>

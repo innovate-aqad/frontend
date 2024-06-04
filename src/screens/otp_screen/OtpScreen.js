@@ -2,13 +2,11 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ToastAndroid,
   ScrollView,
   Image,
-  Button,
 } from 'react-native';
-import React, {useEffect, useState,useRef} from 'react';
-import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {useFormik} from 'formik';
@@ -16,9 +14,7 @@ import OTPTextInput from 'react-native-otp-textinput';
 import {OtpSchema} from '../../schemas/OtpSchema';
 import {environmentVariables} from '../../config/Config';
 import {success} from '../../constants/ToastMessage';
-import VelidationSymbol from '../../constants/VelidationSymbol';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {storeToken} from '../../Shared/EncryptionDecryption/Token';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function OtpScreen({route}) {
