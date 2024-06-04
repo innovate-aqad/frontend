@@ -8,17 +8,16 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-
-import WareHouseCard from '../WareHouseDetails/WareHouseCard';
-import {screenBackground} from '../../constants/Theme';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import OutletList from './WareHouseCard';
+import { screenBackground } from '../../../constants/Theme';
 
 const WareHouseDetails = () => {
   return (
     <ScrollView>
       <View style={{backgroundColor: screenBackground}}>
         <View className="flex flex-col p-3 mb-24">
-          <WareHouseCard />
+          <OutletList/>
           <TouchableOpacity>
             <View className="w-24 p-2 text-center bg-[#f96900] items-center justify-center flex flex-row rounded-[5px] mt-2">
               <MaterialIcons name="add" size={18} color="white" />

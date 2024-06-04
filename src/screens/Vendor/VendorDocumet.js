@@ -18,6 +18,7 @@ import {VendorRegisterSchema3} from '../../schemas/VendorRegisterSchema3';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import { success } from '../../constants/ToastMessage';
+import VelidationSymbol from '../../constants/VelidationSymbol';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -239,7 +240,7 @@ export default function VendorDocument(nav) {
           </View>
           <View className="mt-3">
             <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
-              VAT Certificate
+              VAT Certificate <VelidationSymbol/>
             </Text>
             <TouchableOpacity
               className="h-[76px]"

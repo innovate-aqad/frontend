@@ -10,8 +10,8 @@ import {
   Image,
 } from 'react-native';
 import {Card} from 'react-native-paper';
-import { POPPINS, ROBOTO } from '../../constants/CustomFontFamily';
-import { blue, screenBackground } from '../../constants/Theme';
+import { POPPINS, ROBOTO } from '../../../constants/CustomFontFamily';
+import { blue, screenBackground } from '../../../constants/Theme';
 
 const OutletCard = ({
   index,
@@ -47,13 +47,13 @@ const OutletCard = ({
           
           <View style={styles.iconEditdel}>
             <TouchableOpacity style={{flex:1,flexDirection:"row",justifyContent:"center",alignItems:"center",gap:6}} onPress={() => onDelete(index)}>
-              <Image style={{height:18,width:15,tintColor:"#f0142f"}} source={require("../../Assets/image/trash.png")} />
+              <Image style={{height:18,width:15,tintColor:"#f0142f"}} source={require("../../../Assets/image/trash.png")} />
               <Text style={{fontFamily:ROBOTO.RobotoRegular,color:"#f0142f",fontSize:12}}>Remove</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.iconEdit}>
             <TouchableOpacity style={{flex:1,flexDirection:"row",justifyContent:"center",alignItems:"center",gap:6}} onPress={() => onEdit(index)}>
-              <Image style={{height:18,width:18,tintColor:"#0058ff"}} source={require("../../Assets/image/vendor/edit.png")} />
+              <Image style={{height:18,width:18,tintColor:"#0058ff"}} source={require("../../../Assets/image/vendor/edit.png")} />
               <Text style={{fontFamily:ROBOTO.RobotoRegular,color:"#0058ff",fontSize:12}}>Edit</Text>
             </TouchableOpacity>
           </View>

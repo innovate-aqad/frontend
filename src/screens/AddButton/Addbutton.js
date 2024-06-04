@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {Divider} from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import VelidationSymbol from '../../constants/VelidationSymbol';
 
 export default function Addbutton({
   inputs,
@@ -39,7 +40,7 @@ export default function Addbutton({
     <View style={styles.container}>
       {values.warehouse_addresses.map((input, index) => (
         <View key={index}>
-          <Text style={styles.label}>Warehouse Address</Text>
+          <Text style={styles.label}>Warehouse Address <VelidationSymbol/></Text>
           <TextInput
             style={styles.input}
             placeholder="Enter warehouse address"
@@ -61,7 +62,7 @@ export default function Addbutton({
               </Text>
             )}
           <Text style={styles.label} className="mt-2">
-            PO Box
+            PO Box <VelidationSymbol/>
           </Text>
           <TextInput
             style={styles.input}

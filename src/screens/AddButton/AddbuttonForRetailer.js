@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Text,
   TextInput,
   TouchableOpacity,
   View,
   StyleSheet,
-  SafeAreaView,
   Image,
 } from 'react-native';
 import { Divider } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import VelidationSymbol from '../../constants/VelidationSymbol';
 export default function AddbuttonForRetailer({
   inputs,
   setInputs,
@@ -19,39 +19,12 @@ export default function AddbuttonForRetailer({
   handlePairInputChange,
   values,
 }) {
-  // const [inputs, setInputs] = useState([]);
 
-  // const handleAdd = () => {
-  //   setInputs([...inputs, {address: '', po_box: ''}]);
-  // };
-
-  // const handleDelete = index => {
-  //   const updatedInputs = [...inputs];
-  //   updatedInputs.splice(index, 1);
-  //   setInputs(updatedInputs);
-  // };
-
-  const handleAdd = () => {
-    setInputs([...inputs, {address: '', po_box: ''}]);
-    console.log(inputs);
-  };
-
-  const handleDelete = index => {
-    const updatedInputs = [...inputs];
-    updatedInputs.splice(index, 1);
-    setInputs(updatedInputs);
-  };
-
-  const handleInputChange = (text, index, field) => {
-    const updatedInputs = [...inputs];
-    updatedInputs[index][field] = text;
-    setInputs(updatedInputs);
-  };
   return (
     <View style={styles.container}>
       {values.outlet_addresses.map((input, index) => (
         <View key={index}>
-          <Text style={styles.label}>Outlet Address</Text>
+          <Text style={styles.label}>Outlet Address <VelidationSymbol/></Text>
           <TextInput
             style={styles.input}
             placeholder="Enter Outlet address"
@@ -70,7 +43,7 @@ export default function AddbuttonForRetailer({
                 {errors.outlet_addresses[index].address}
               </Text>
             )}
-          <Text style={styles.label}>PO Box</Text>
+          <Text style={styles.label}>PO Box <VelidationSymbol/></Text>
           <TextInput
             style={styles.input}
             placeholder="Enter PO"

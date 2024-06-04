@@ -8,6 +8,8 @@ import {
   FlatList,
 } from 'react-native';
 import {Card, IconButton} from 'react-native-paper';
+import { blue, screenBackground, white } from '../../constants/Theme';
+import { POPPINS } from '../../constants/CustomFontFamily';
 
 const MyComponent = () => {
   const [show, setShow] = useState(null);
@@ -15,7 +17,7 @@ const MyComponent = () => {
   const data = [
     {
       id: '1',
-      productName: 'Product 1',
+      productName: 'Rustic Bronze Computer ...',
       orderNumber: '#AQADORDER001',
       timeAgo: '2m ago',
       unitPrice: '50 AED',
@@ -46,7 +48,6 @@ const MyComponent = () => {
       category: 'Clothing',
       image: require('../../Assets/image/drawable-xhdpi/pngwing_com_9.png'),
     },
-    // Add more items as needed
   ];
 
   const toggleShow = index => {
@@ -68,44 +69,22 @@ const MyComponent = () => {
                   <Text style={styles.orderNumber}>{item.orderNumber}</Text>
                   <View style={styles.timeContainer}>
                     <View style={styles.dot} />
-                    <Text style={styles.timeText}>{item.timeAgo}</Text>
+                    <Text style={styles.timeText}>{item.timeAgo} </Text>
                   </View>
                 </View>
                 <Text style={styles.unitPrice}>Per Unit: {item.unitPrice}</Text>
               </View>
             </View>
-            <View>
+            <View className="flex flex-col items-center justify-center">
               <Text style={styles.price}>{item.price}</Text>
             </View>
-            {/* <TouchableOpacity
-              onPress={() => toggleShow(index)}
-              style={styles.menuButton}>
-              <Entypo name="dots-three-vertical" size={20} color="#cbcbcb" />
-            </TouchableOpacity> */}
           </View>
           <View style={styles.labelsRow}>
-            {/* <Text style={styles.orderLabel}>Order</Text> */}
             <Text style={styles.skuLabel}>{item.sku}</Text>
             <Text style={styles.categoryLabel}>{item.category}</Text>
           </View>
         </Card.Content>
       </Card>
-      {show === index && (
-        <View style={styles.actionsContainer}>
-          <TouchableOpacity style={styles.editButton}>
-            <Image
-              style={styles.editIcon}
-              source={require('../../Assets/image/pencil.png')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.deleteButton}>
-            <Image
-              style={styles.deleteIcon}
-              source={require('../../Assets/image/trash.png')}
-            />
-          </TouchableOpacity>
-        </View>
-      )}
     </View>
   );
 
@@ -120,12 +99,14 @@ const MyComponent = () => {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    marginVertical: 8,
+    marginVertical: 4,
+    
   },
   card: {
-    marginHorizontal: 12,
     justifyContent: 'left',
     alignItems: 'left',
+    backgroundColor:white,
+    shadowColor:screenBackground
   },
   cardOpen: {
     marginHorizontal: 12,
@@ -148,6 +129,8 @@ const styles = StyleSheet.create({
     padding: 3,
     justifyContent: 'left',
     alignItems: 'left',
+    alignItems:"center",
+    justifyContent:"center"
   },
   productImage: {
     height: 22,
@@ -159,9 +142,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   productName: {
-    color: '#00274d',
-    fontSize: 13,
-    fontFamily: 'Poppins-Regular',
+    color: blue,
+    fontSize: 10,
+    fontFamily: POPPINS.PoppinsMedium,
     letterSpacing: 0.08,
   },
   infoRow: {
@@ -183,10 +166,12 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     height: 4,
     width: 4,
+    marginLeft:10
   },
   timeText: {
     color: '#7e84a3',
     fontSize: 8,
+    paddingLeft:4,
     fontFamily: 'Poppins-Regular',
   },
   unitPrice: {
@@ -197,8 +182,9 @@ const styles = StyleSheet.create({
   price: {
     color: '#f96900',
     fontSize: 13,
-    paddingBottom: 3,
     fontFamily: 'Poppins-Medium',
+    alignItems:"center",
+    justifyContent:"center"
   },
   menuButton: {
     marginTop: 3,
@@ -220,8 +206,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-SemiBold',
   },
   skuLabel: {
-    color: '#5a607f',
-    backgroundColor: '#e6e9f4',
+    color: '#cbcbcb',
+    backgroundColor: '#F2F3F6',
     textAlign: 'center',
     height: 12,
     borderRadius: 12,
@@ -230,8 +216,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-SemiBold',
   },
   categoryLabel: {
-    color: '#5a607f',
-    backgroundColor: '#e6e9f4',
+    color: '#cbcbcb',
+    backgroundColor: '#F2F3F6',
     textAlign: 'center',
     height: 12,
     borderRadius: 12,

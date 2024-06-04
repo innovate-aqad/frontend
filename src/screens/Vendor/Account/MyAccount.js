@@ -8,12 +8,10 @@ import feedback_review from '../../../Assets/image/myaccount/feedback_review.svg
 import headset from '../../../Assets/image/myaccount/headset.svg';
 import language from '../../../Assets/image/myaccount/language.svg';
 import assept_document from '../../../Assets/image/myaccount/assept_document.svg';
-import outlet from '../../../Assets/image/retailer/home_location_alt.svg';
+import greater from '../../../Assets/image/myaccount/greater.svg';
 
 import angle from '../../../Assets/image/angle-small-right.png';
 import SvgUri from 'react-native-svg-uri';
-import {ROBOTO} from '../../../constants/CustomFontFamily';
-import {blue} from '../../../constants/Theme';
 
 export default function MyAccount(nav) {
   return (
@@ -66,15 +64,23 @@ export default function MyAccount(nav) {
           />
         </TouchableOpacity>
       </View>
-
-      <TouchableOpacity onPress={()=>nav.navigation.navigate('outlet')}>
+      {/* warehouse */}
+      <TouchableOpacity onPress={() => nav.navigation.navigate('warehouse')}>
         <View className="flex flex-row items-center justify-between p-2 pl-6 pr-4 bg-white rounded-lg">
           <View className="flex flex-row items-center rounded-full gap-x-2 pr-7 ">
-            <SvgUri width={24} height={24} source={outlet} />
-
+            <Image
+              style={{
+                height: 24,
+                width: 18,
+                borderRadius: 40,
+                tintColor: '#7e84a3',
+              }}
+              source={require('../../../Assets/image/drawable-hdpi/user.png')}
+            />
             <Text
-              style={[styles.textStyle,{paddingLeft:10}]}>
-              Outlet Details
+              className="text-[#00274d] pl-4 text-[13px]"
+              style={{fontFamily: 'Poppins-Regular'}}>
+              Warehouse Details
             </Text>
           </View>
 
@@ -84,12 +90,13 @@ export default function MyAccount(nav) {
           />
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={()=>nav.navigation.navigate('company')}>
+      <TouchableOpacity onPress={()=>nav.navigation.navigate("companyDetails")}>
         <View className="flex flex-row items-center justify-between p-2 pl-6 pr-4 bg-white rounded-lg">
           <View className="flex flex-row items-center rounded-full gap-x-4 pr-7 ">
             <SvgUri width={24} height={24} source={briefcase} />
             <Text
-              style={styles.textStyle}>
+              className="text-[#00274d] text-[13px]"
+              style={{fontFamily: 'Roboto-Regular'}}>
               Company Details
             </Text>
           </View>
@@ -105,7 +112,8 @@ export default function MyAccount(nav) {
           <View className="flex flex-row items-center rounded-full gap-x-4 pr-7 ">
             <SvgUri width={24} height={24} source={credit_card} />
             <Text
-              style={styles.textStyle}>
+              className="text-[#00274d] text-[13px]"
+              style={{fontFamily: 'Roboto-Regular'}}>
               Payment
             </Text>
           </View>
@@ -121,13 +129,14 @@ export default function MyAccount(nav) {
           <View className="flex flex-row items-center rounded-full gap-x-4 pr-7 ">
             <SvgUri width={24} height={24} source={language} />
             <Text
-              style={styles.textStyle}>
+              className="text-[#00274d] text-[13px]"
+              style={{fontFamily: 'Roboto-Regular'}}>
               Language
             </Text>
           </View>
 
           <View className="flex flex-row items-center gap-x-5">
-            <Text className="text-[#f96900] text-[13px]" style={{fontFamily:ROBOTO.RobotoRegular}}>English</Text>
+            <Text className="text-[#f96900] text-[13px]">English</Text>
             <Image
               style={{height: 25, width: 13, tintColor: '#7e84a3'}}
               source={require('../../../Assets/image/angle-small-right.png')}
@@ -140,7 +149,8 @@ export default function MyAccount(nav) {
           <View className="flex flex-row items-center rounded-full gap-x-4 pr-7 ">
             <SvgUri width={24} height={21.6} source={setting} />
             <Text
-              style={styles.textStyle}>
+              className="text-[#00274d] text-[13px]"
+              style={{fontFamily: 'Roboto-Regular'}}>
               Settings
             </Text>
           </View>
@@ -156,7 +166,8 @@ export default function MyAccount(nav) {
           <View className="flex flex-row items-center rounded-full gap-x-4 pr-7 ">
             <SvgUri width={24} height={24} source={headset} />
             <Text
-              style={styles.textStyle}>
+              className="text-[#00274d] text-[13px]"
+              style={{fontFamily: 'Roboto-Regular'}}>
               Support
             </Text>
           </View>
@@ -175,7 +186,8 @@ export default function MyAccount(nav) {
               source={feedback_review}
             />
             <Text
-              style={styles.textStyle}>
+              className="text-[#00274d] text-[13px]"
+              style={{fontFamily: 'Roboto-Regular'}}>
               Reviews & Feedback
             </Text>
           </View>
@@ -191,7 +203,8 @@ export default function MyAccount(nav) {
           <View className="flex flex-row items-center rounded-full gap-x-4 pr-7 ">
             <SvgUri width={24} height={24} source={assept_document} />
             <Text
-              style={styles.textStyle}>
+              className="text-[#00274d] text-[13px]"
+              style={{fontFamily: 'Roboto-Regular'}}>
               Term & Conditions
             </Text>
           </View>
@@ -211,5 +224,4 @@ const styles = StyleSheet.create({
     height: 15,
     width: 23.3,
   },
-  textStyle: {fontFamily: ROBOTO.RobotoRegular, fontSize: 13, color: blue},
 });

@@ -5,17 +5,14 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import {Divider} from 'react-native-paper';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Search from '../../../Shared/Search';
 
 export default function Wholesales(nav) {
-  const [searchText, setSearchText] = useState('');
   const [tab, setTab] = useState('All');
-  const handleSearch = () => {};
   const scrollViewRef = useRef(null);
   const [contentWidth, setContentWidth] = useState(0);
   const scrollWidth = Dimensions.get('window').width;
@@ -24,13 +21,13 @@ export default function Wholesales(nav) {
   useEffect(() => {
     const interval = setInterval(() => {
       if (scrollViewRef.current) {
-        scrollOffset += scrollWidth; // Adjust this value based on the width of your screen or items
+        scrollOffset += scrollWidth;
         if (scrollOffset > contentWidth) {
           scrollOffset = 0;
         }
         scrollViewRef.current.scrollTo({x: scrollOffset, animated: true});
       }
-    }, 2000); // Adjust the interval as needed
+    }, 2000); 
 
     return () => clearInterval(interval);
   }, [contentWidth, scrollWidth]);
@@ -47,54 +44,15 @@ export default function Wholesales(nav) {
       setTab('All');
     }
   };
-
-  const showMenu = index => {
-    if (show === index) {
-      setShow();
-    } else {
-      setShow(index);
-    }
-  };
-
-
-
   return (
     <View className="w-full h-full bg-[#f5f5f5]">
-      {/* <View className="relative top-0 flex flex-row items-center px-5 pt-7 pb-2 bg-[#f96900] rounded-b-[15px]">
-        <Image
-          style={styles.topNavigation}
-          source={require('../../../Assets/image/drawable-xhdpi/arrow_left.png')}
-        />
-        <Text
-          className="flex justify-center w-[80%] text-center text-white"
-          style={{fontFamily: 'Poppins-Bold', fontSize: 20}}>
-          WHOLESALES
-        </Text>
-      </View> */}
       <View className="px-3">
-        <View style={styles.container}>
-          <TextInput
-            style={styles.input}
-            placeholder="Search..."
-            underlineColorAndroid="transparent"
-            value={searchText}
-            // textColor='#cbcbcb'
-            placeholderTextColor={'#cbcbcb'}
-            keyboardType="default"
-            disableFullscreenUI={true}
-            onChangeText={text => setSearchText(text)}
-            onSubmitEditing={handleSearch}
-          />
-
-          <TouchableOpacity onPress={handleSearch}>
-            <AntDesign name="search1" size={24} color="#cbcbcb" />
-          </TouchableOpacity>
-        </View>
+      <Search/>
       </View>
 
       <View className="mt-3">
         <TouchableOpacity>
-          <Text className="text-[#00274d]  px-3 font-[Poppins-Bold]">
+          <Text className="text-[#00274d]  px-4 font-[Roboto-Bold]">
             Categories
           </Text>
         </TouchableOpacity>
@@ -120,7 +78,9 @@ export default function Wholesales(nav) {
                 <Image
                   style={{height: 74, width: 74}}
                   className=""
-                  source={require('../../../Assets/image/drawable-hdpi/mask_group_2.png')}
+                  source={{
+                    uri: 'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/99486859-0ff3-46b4-949b-2d16af2ad421/custom-nike-dunk-high-by-you-shoes.png',
+                  }}
                 />
               </View>
               <Text
@@ -166,51 +126,71 @@ export default function Wholesales(nav) {
         ))}
       </View>
 
-      <ScrollView className="">
+      <ScrollView className="mt-3 mb-20">
         <View
-          className="p-3 mb-20"
+          className="p-3"
           style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', gap: 14}}>
+          <View className="w-40 h-16 mt-2">
+            <Text
+              className="text-[#f96900] font-[Roboto-Bold]"
+              style={{lineHeight: 23, fontSize: 20}}>
+              Popular
+            </Text>
+            <Text
+              className="text-[#f96900] font-[Roboto-Bold]"
+              style={{lineHeight: 23, fontSize: 20}}>
+              Products
+            </Text>
+          </View>
           {[
-            {heading: 'Popular Products'},
             {
               brand: 'Nice',
               dec: 'Considero casus adduco....',
               price: '150 AED',
+              imgUrl:
+                'https://t3.ftcdn.net/jpg/06/12/00/18/360_F_612001823_TkzT0xmIgagoDCyQ0yuJYEGu8j6VNVYT.jpg',
             },
             {
               brand: 'Nice',
               dec: 'Considero casus adduco....',
               price: '150 AED',
+              imgUrl: '',
             },
             {
               brand: 'Nice',
               dec: 'Considero casus adduco....',
               price: '150 AED',
+              imgUrl: '',
             },
             {
               brand: 'Nice',
               dec: 'Considero casus adduco....',
               price: '150 AED',
+              imgUrl: '',
             },
             {
               brand: 'Nice',
               dec: 'Considero casus adduco....',
               price: '150 AED',
+              imgUrl: '',
             },
             {
               brand: 'Nice',
               dec: 'Considero casus adduco....',
               price: '150 AED',
+              imgUrl: '',
             },
             {
               brand: 'Nice',
               dec: 'Considero casus adduco....',
               price: '150 AED',
+              imgUrl: '',
             },
             {
               brand: 'Nice',
               dec: 'Considero casus adduco....',
               price: '150 AED',
+              imgUrl: '',
             },
             {
               brand: 'Nice',
@@ -226,48 +206,39 @@ export default function Wholesales(nav) {
             <View
               key={index}
               className={
-                index === 0
-                  ? 'h-12'
+                index % 2 == 1
+                  ? 'bg-white relative !mt-[-125px] shadow rounded-[12px]'
                   : 'flex flex-col bg-white shadow rounded-[12px]'
               }>
-              {index === 0 ? (
-                <View className="w-40 h-20 mt-2">
-                  <Text
-                    className="text-[#f96900] text-[20px] font-[Poppins-Bold]"
-                    style={{lineHeight: 23}}>
-                    Populars
+              <TouchableOpacity
+                className=""
+                onPress={() => {
+                  nav.navigation.navigate('productDetails');
+                }}>
+                <Image
+                  style={{
+                    height: 115,
+                    width: 160,
+                    borderTopRightRadius: 12,
+                    borderTopLeftRadius: 12,
+                  }}
+                  className=""
+                  source={{
+                    uri: 'https://t3.ftcdn.net/jpg/06/12/00/18/360_F_612001823_TkzT0xmIgagoDCyQ0yuJYEGu8j6VNVYT.jpg',
+                  }}
+                />
+                <View className="flex flex-col pt-2 after:pl-2">
+                  <Text className="text-[#7e84a3] text-[10px] font-[Poppins-Light]">
+                    {item.brand}
                   </Text>
-                  <Text
-                    className="text-[#f96900] text-[20px] font-[Poppins-Bold]"
-                    style={{lineHeight: 23}}>
-                    Products
+                  <Text className="text-[#00274d] text-[10px] font-[Poppins-Regular]">
+                    {item.dec}
+                  </Text>
+                  <Text className="text-[#f96900] text-[13px] font-[Poppins-SemiBold]">
+                    {item.price}
                   </Text>
                 </View>
-              ) : (
-                <TouchableOpacity onPress={()=>{nav.navigation.navigate('productDetails')}}>
-                  <Image
-                    style={{
-                      height: 115,
-                      width: 160,
-                      borderTopRightRadius: 12,
-                      borderTopLeftRadius: 12,
-                    }}
-                    className=""
-                    source={require('../../../Assets/image/drawable-hdpi/mask_group_2.png')}
-                  />
-                  <View className="flex flex-col pt-2 after:pl-2">
-                    <Text className="text-[#7e84a3] text-[10px] font-[Poppins-Light]">
-                      {item.brand}
-                    </Text>
-                    <Text className="text-[#00274d] text-[10px] font-[Poppins-Regular]">
-                      {item.dec}
-                    </Text>
-                    <Text className="text-[#f96900] text-[13px] font-[Poppins-SemiBold]">
-                      {item.price}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              )}
+              </TouchableOpacity>
             </View>
           ))}
         </View>

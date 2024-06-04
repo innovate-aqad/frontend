@@ -3,10 +3,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Dashboard from './Dashboard';
 import Insights from '../../components/Insights';
 import {Image, ScrollView} from 'react-native';
-import Orders from './Orderes';
-// import Products from './Product/index';
-import MyAccount from './MyAccount';
 import ProductRoutes from './Product';
+import AccountIndex from './Account';
+import OrderRoutes from './Order';
 
 const Tab = createBottomTabNavigator();
 const product = 'Products';
@@ -103,9 +102,9 @@ export default function ProductIndex() {
       <Tab.Screen name={trade} component={Dashboard} />
       <Tab.Screen name={product} component={ProductRoutes} />
       
-      <Tab.Screen name={account} component={MyAccount} />
+      <Tab.Screen name={account} component={AccountIndex} />
       <Tab.Screen name={insights} component={Insights} />
-      <Tab.Screen name={order} component={Orders} />
+      <Tab.Screen name={order} component={OrderRoutes} />
     </Tab.Navigator>
   );
 }

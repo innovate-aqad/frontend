@@ -5,18 +5,24 @@ import {
   ToastAndroid,
   ScrollView,
   Image,
+  Button,
 } from 'react-native';
-import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
+import React, {useRef} from 'react';
+import { StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {useFormik} from 'formik';
-// import {environmentVariables} from '../config/Config';
+import OTPTextInput from 'react-native-otp-textinput';
 import {OtpSchema} from '../../schemas/OtpSchema';
 import {environmentVariables} from '../../config/Config';
+import {success} from '../../constants/ToastMessage';
+import VelidationSymbol from '../../constants/VelidationSymbol';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default function OtpScreen({route}) {
+  const otpInputRef = useRef(null);
   const {email} = route.params;
+  console.log(route.params,"route.params");
   const navigation = useNavigation();
   const initialValues = {
     otp: '',
@@ -39,17 +45,16 @@ export default function OtpScreen({route}) {
         },
       })
         .then(response => {
-          console.log(response.data, 'otpres');
+          console.log(response.data.data.user_type, 'otpres');
           action.resetForm();
-          ToastAndroid.showWithGravityAndOffset(
-            response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
-
-          navigation.navigate('dashboard');
+          success({type: 'success', text: response.data.message});
+          if (response.data.data.user_type === 'vendor') {
+            navigation.navigate('productIndex');
+          } else if (response.data.data.user_type === 'retailer') {
+            navigation.navigate('retailerIndex');
+          } else {
+            navigation.navigate('logisticIndex');
+          }
         })
         .catch(error => {
           console.log('error', error);
@@ -70,49 +75,51 @@ export default function OtpScreen({route}) {
     <ScrollView
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={{flexGrow: 1}}
-      showsVerticalScrollIndicator={false}>
+      showsVerticalScrollIndicator={false}
+      >
       <View className="m-5">
-        <TouchableOpacity onPress={() => route.navigation.navigate('Login')}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             style={styles.topNavigation}
             source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
           />
         </TouchableOpacity>
-        <View className="mt-5">
-          <Text
-            className="text-3xl text-[#00274D]"
-            style={{fontFamily: 'Roboto-Bold'}}>
-            Welcome Back
-          </Text>
-          <Text
-            className="text-xs text-gray-400"
-            style={{fontFamily: 'Poppins-Light'}}>
+      </View>
+      <View>
+      <Text
+            className="text-xl flex items-center justify-center text-center text-[#00274D]"
+            style={{fontFamily: 'Roboto-Regular'}}>
             Please enter your OTP to verify your user account and log in.
           </Text>
-        </View>
       </View>
 
       <View
         className="flex px-4 flex-col justify-center items-center my-auto  bg-gray-100 !text-black"
-        style={{fontFamily: 'Poppins-Bold'}}>
+       >
+           
         <View className="w-full">
+          <View className="mx-auto mb-4">
+            <View className="flex items-center justify-center w-14 h-14 mx-auto rounded-full bg-[#f6d9c4]">
+              <MaterialIcons name="verified-user" color={'#f96900'} size={35} />
+            </View>
           <Text
-            className="px-3 text-black"
+            className="px-3 text-lg text-black"
             style={{fontFamily: 'Poppins-SemiBold'}}>
-            Please Enter OTP
+            Please Enter OTP 
+            {/* <VelidationSymbol/> */}
           </Text>
+          </View>
           <View className="">
-            <TextInput
-              name="otp"
-              style={styles.input}
-              value={values.otp}
-              onChangeText={handleChange('otp')}
+            <OTPTextInput
+              ref={otpInputRef}
+              handleTextChange={text => formik.setFieldValue('otp', text)}
               onBlur={handleBlur('otp')}
-              placeholderTextColor="rgb(210, 210, 210)"
-              placeholder="Enter OTP"
-              className="!border-none pl-4 py-1.5 !border-white"
-              borderRadius={10}
-              maxLength={4}
+              tintColor={'red'}
+              // textInputStyle={{
+              //   color: '#00274d',
+              //   fontFamily: 'Roboto-ExtraBold',
+              // }}
+              textInputStyle={styles.otpInput}
             />
             {errors.otp && touched.otp && (
               <Text style={{color: 'red'}}>{errors.otp}</Text>
@@ -131,6 +138,9 @@ export default function OtpScreen({route}) {
               </Text>
             </TouchableOpacity>
           </View>
+          {/* <TouchableOpacity className="mt-5 w-14" onPress={()=>resend()}>
+            <Text className="text-blue-600 ">resend</Text>
+          </TouchableOpacity> */}
         </View>
       </View>
     </ScrollView>
@@ -138,6 +148,17 @@ export default function OtpScreen({route}) {
 }
 
 const styles = StyleSheet.create({
+  otpInput: {
+    color: '#00274d',
+    fontFamily: 'Roboto-ExtraBold',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#00274d',
+    width: 50,
+    height: 50,
+    textAlign: 'center',
+  },
   topNavigation: {
     height: 15,
     width: 23.3,

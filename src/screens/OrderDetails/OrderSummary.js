@@ -1,17 +1,18 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Card} from 'react-native-paper';
+import { POPPINS, ROBOTO } from '../../constants/CustomFontFamily';
+import { screenBackground, white } from '../../constants/Theme';
 
 const InventoryList = () => {
   const data = {
     id: '1',
     content: [
-      '2024-05-01', // Order Date from backend
-      '12345', // Order ID from backend
-      'Sample', // Subtitle from backend
-      '$10', // VAT & Fees from backend
-      '$5', // Discount from backend
-      // TOTAL from backend
+      '16th September 2024', 
+      '12345', 
+      'Sample',
+      '$10', 
+      '$5', 
     ],
     heading: 'Order Summary',
   };
@@ -23,8 +24,8 @@ const InventoryList = () => {
           <Text style={styles.heading}>{data.heading}</Text>
         </View>
         <View style={styles.line} />
-        <View style={styles.cardContent}>
-          <View style={styles.leftSide}>
+        {/* <View style={styles.cardContent}>
+          <View>
             {[
               'Order Date',
               'Order ID',
@@ -44,11 +45,34 @@ const InventoryList = () => {
               </View>
             ))}
           </View>
+        </View> */}
+        <View className="flex flex-col">
+          <View className="flex flex-row justify-between">
+            <Text style={styles.contentText}>Order Date</Text>
+            <Text style={styles.contentText1}>16th September 2024</Text>
+          </View>
+          <View className="flex flex-row justify-between">
+            <Text style={styles.contentText}>Order ID</Text>
+            <Text style={styles.contentText1}>SI81125730019800907</Text>
+          </View>
+          <View className="flex flex-row justify-between">
+            <Text style={styles.contentText}>Subtotal (4)</Text>
+            <Text style={styles.contentText1}>5000 AED</Text>
+          </View>
+          <View className="flex flex-row justify-between">
+            <Text style={styles.contentText}>VAT & Fees (5%)</Text>
+            <Text style={[styles.contentText1,{color:"#f0142f"}]}>+30 AED</Text>
+          </View>
+          <View className="flex flex-row justify-between">
+            <Text style={styles.contentText}>Discount</Text>
+            <Text style={[styles.contentText1 ,{color:"#21d59b"}]}>-130 AED</Text>
+          </View>
+
         </View>
-        <View style={styles.lineAfterDiscount} />
-        <View style={styles.total}>
-          <Text style={styles.total1}>TOTAL </Text>
-          <Text style={styles.rightSide2}>4900 ADE </Text>
+        <View style={styles.line} />
+        <View className="flex flex-row justify-between">
+          <Text style={{color:"#f96900",fontSize:20,fontFamily:POPPINS.PoppinsMedium}}>TOTAL </Text>
+          <Text style={{color:"#f96900",fontSize:20,fontFamily:POPPINS.PoppinsMedium}}>4900 ADE </Text>
         </View>
       </Card.Content>
     </Card>
@@ -57,7 +81,9 @@ const InventoryList = () => {
 
 const styles = StyleSheet.create({
   card: {
-    margin: 10,
+    margin: 0,
+    shadowColor:"#A9A9A9",
+    backgroundColor:white
   },
   header: {
     flexDirection: 'row',
@@ -66,8 +92,8 @@ const styles = StyleSheet.create({
   },
   heading: {
     color: '#00274d',
-    fontFamily: 'Poppins-Medium',
-    fontSize: 16,
+    fontFamily: ROBOTO.RobotoBold,
+    fontSize: 13,
   },
   cardContent: {
     flexDirection: 'row',
@@ -88,13 +114,19 @@ const styles = StyleSheet.create({
   },
   contentText: {
     color: '#7e84a3',
-    fontFamily: 'Poppins-Regular',
-    fontSize: 14,
-    marginVertical: 2,
+    fontFamily: POPPINS.PoppinsLight,
+    fontSize: 13,
+    letterSpacing:0.08
+  },
+  contentText1: {
+    color: '#7e84a3',
+    fontFamily: POPPINS.PoppinsRegular,
+    fontSize: 13,
+    letterSpacing:0.08
   },
   line: {
     height: 1,
-    backgroundColor: 'lightgray',
+    backgroundColor: '#ECEDF1',
     marginVertical: 10,
   },
   lineAfterDiscount: {

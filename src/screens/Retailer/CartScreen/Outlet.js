@@ -244,7 +244,7 @@ export default function Outlet(nav) {
 
           <TouchableOpacity
             className="z-50 mt-10 rounded-xl "
-            onPress={() => nav.navigation.navigate('details')}
+            onPress={() =>console.warn("No any action bottons")}
             style={styles.button}>
             <Text
               className="text-white text-[20px]"

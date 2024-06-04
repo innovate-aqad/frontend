@@ -17,6 +17,7 @@ import {LoginSchema} from '../schemas/LoginSchema';
 import {environmentVariables} from '../config/Config';
 import { success } from '../constants/ToastMessage';
 import { useNavigation } from '@react-navigation/native';
+import VelidationSymbol from '../constants/VelidationSymbol';
 // Make a request for a user with a given ID
 
 export default function Login(nav) {
@@ -56,7 +57,7 @@ export default function Login(nav) {
           .then(response => {
             action.resetForm();
             success({type: 'success', text: response.data.message})
-            nav.navigation.navigate('otpscreen', {email: values.email});
+            nav.navigation.navigate('otpscreen', {email: values.email,handleSubmit});
           })
           .catch(error => {
             success({type: 'error', text: error?.response?.data?.message || error?.message})
@@ -97,7 +98,7 @@ export default function Login(nav) {
             <Text
               className="text-[#00274D] px-3"
               style={{fontFamily: 'Poppins-Medium'}}>
-              Your Email
+              Your Email <VelidationSymbol/>
             </Text>
             <View>
               <TextInput
@@ -128,7 +129,7 @@ export default function Login(nav) {
             <Text
               className="text-[#00274D] px-3 mt-3"
               style={{fontFamily: 'Poppins-Medium'}}>
-              Password
+              Password <VelidationSymbol/>
             </Text>
 
             <View>

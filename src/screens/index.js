@@ -4,7 +4,7 @@ import Login from './Login';
 import Signup from './Signup';
 import Buttomtab from '../components';
 import Products from './Vendor/Product/Products';
-import Orders from './Vendor/Orderes';
+import Orders from './Vendor/Order/Orderes';
 import Dashboard from './Vendor/Dashboard';
 import ProductIndex from './Vendor/ProductIndex';
 import Forgot from './Forgot';
@@ -38,6 +38,10 @@ import PDriverDetails from './PendingOrder/PDriverDetails';
 import PMain from '../screens/PendingOrder/PMain';
 import SplashScreen from './SplashScreen';
 import InventoryList from '../components/VendorCard/CardVendor';
+import InventoryManagement from './Vendor/InventoryManagement/InventoryManagement';
+import AddUserInfo from './Vendor/InventoryManagement/AddUserInfo';
+import UserList from './Vendor/InventoryManagement/UserList';
+import EditUser from './Vendor/InventoryManagement/EditUser';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -77,6 +81,17 @@ export default function Index() {
       <Stack.Screen name="warehousedetails" component={WareHouseDetails} />
       <Stack.Screen name="pending" component={PendingOrder} />
       <Stack.Screen name="pmain" component={PMain} />
+
+
+
+
+      {/* Inventory Management start */}
+      <Stack.Screen name="inventoryManagement" component={InventoryManagement} />
+      <Stack.Screen name="addUserInfo" component={AddUserInfo} />
+      <Stack.Screen name="userList" component={UserList} />
+      <Stack.Screen name="editUser" component={EditUser} />
+      {/* Inventory Management end */}
+      
     </Stack.Navigator>
   );
 }
