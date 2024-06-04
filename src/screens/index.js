@@ -38,6 +38,10 @@ import PDriverDetails from './PendingOrder/PDriverDetails';
 import PMain from '../screens/PendingOrder/PMain';
 import SplashScreen from './SplashScreen';
 import InventoryList from '../components/VendorCard/CardVendor';
+import Pie_charts from './Pie_Chart/Pie_charts';
+import Line_Chart from './Pie_Chart/Line_Chart';
+import Line_Chartwob from './Pie_Chart/Line_Chartwob';
+import Pie_App from './Pie_Chart/Pie_App';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -77,6 +81,10 @@ export default function Index() {
       <Stack.Screen name="warehousedetails" component={WareHouseDetails} />
       <Stack.Screen name="pending" component={PendingOrder} />
       <Stack.Screen name="pmain" component={PMain} />
+      <Stack.Screen name="piechart" component={Pie_charts} />
+      <Stack.Screen name="linechart" component={Line_Chart} />
+      <Stack.Screen name="linechartwob" component={Line_Chartwob} />
+      <Stack.Screen name="pieapp" component={Pie_App} />
     </Stack.Navigator>
   );
 }
