@@ -1,28 +1,24 @@
 package com.omino
 
 import android.app.Application
-import android.content.Context
-import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactNativeHost
 import com.facebook.react.ReactPackage
-import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint
-import com.facebook.react.defaults.DefaultReactNativeHost
-import com.facebook.soloader.SoLoader
-import com.swmansion.reanimated.ReanimatedPackage
+import com.facebook.react.shell.MainReactPackage
+import java.util.*
 
 class MainApplication : Application(), ReactApplication {
 
-    private val mReactNativeHost: ReactNativeHost = object : DefaultReactNativeHost(this) {
+    private val mReactNativeHost: ReactNativeHost = object : ReactNativeHost(this) {
         override fun getUseDeveloperSupport(): Boolean {
             return BuildConfig.DEBUG
         }
 
         override fun getPackages(): List<ReactPackage> {
-            val packages: List<ReactPackage> = PackageList(this).packages
-            // Packages that cannot be autolinked yet can be added manually here, for example:
-            // packages.add(new MyReactNativePackage());
-            return packages
+            return Arrays.asList<ReactPackage>(
+                MainReactPackage()
+                // Add additional packages here
+            )
         }
 
         override fun getJSMainModuleName(): String {
@@ -30,16 +26,6 @@ class MainApplication : Application(), ReactApplication {
         }
     }
 
-    override fun getReactNativeHost(): ReactNativeHost {
-        return mReactNativeHost
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        SoLoader.init(this, /* native exopackage */ false)
-        if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
-            DefaultNewArchitectureEntryPoint.load()
-        }
-        ReactNativeFlipper.initializeFlipper(this, reactNativeHost.reactInstanceManager)
-    }
+    override val reactNativeHost: ReactNativeHost
+        get() = mReactNativeHost
 }
