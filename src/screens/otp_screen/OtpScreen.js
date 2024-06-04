@@ -7,8 +7,8 @@ import {
   Image,
   Button,
 } from 'react-native';
-import React, {useRef} from 'react';
-import { StyleSheet} from 'react-native';
+import React, {useEffect, useState,useRef} from 'react';
+import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {useFormik} from 'formik';
@@ -18,7 +18,9 @@ import {environmentVariables} from '../../config/Config';
 import {success} from '../../constants/ToastMessage';
 import VelidationSymbol from '../../constants/VelidationSymbol';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {storeToken} from '../../Shared/EncryptionDecryption/Token';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function OtpScreen({route}) {
   const otpInputRef = useRef(null);
   const {email} = route.params;
@@ -27,7 +29,6 @@ export default function OtpScreen({route}) {
   const initialValues = {
     otp: '',
   };
-  console.log;
   let formik = useFormik({
     initialValues,
     validationSchema: OtpSchema,
@@ -45,7 +46,6 @@ export default function OtpScreen({route}) {
         },
       })
         .then(response => {
-          console.log(response.data.data.user_type, 'otpres');
           action.resetForm();
           success({type: 'success', text: response.data.message});
           if (response.data.data.user_type === 'vendor') {
@@ -58,18 +58,19 @@ export default function OtpScreen({route}) {
         })
         .catch(error => {
           console.log('error', error);
-          ToastAndroid.showWithGravityAndOffset(
-            error.response.data.message,
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
+          success({type: 'success', text: error.response.data.message});
+          
         });
     },
   });
+
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     formik;
+
+  useEffect(async () => {
+    const storedToken = await AsyncStorage.getItem('_token');
+    console.log('storedToken,', storedToken);
+  }, []);
 
   return (
     <ScrollView
