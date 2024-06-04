@@ -8,15 +8,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import SvgUri from 'react-native-svg-uri';
-import inventory from '../../../Assets/image/vendor/inventory.svg';
 import {
   blue,
   btnBackround,
   grayColor,
   lightGray,
   screenBackground,
-  textColorCustom,
   white,
 } from '../../../constants/Theme';
 import {POPPINS, ROBOTO} from '../../../constants/CustomFontFamily';
@@ -57,10 +54,7 @@ export default function EditUser(nav) {
   };
 
   const handleConfirm = date => {
-    // console.warn('A date has been picked: ', date);
-    // setWorkDate(moment(date).format('YYYY-MM-DD'));
     setDateSelected(moment(date).format('YYYY-MM-DD'));
-    // formik.setFieldValue('dateOfBirth', moment(date).format('YYYY-MM-DD'));
     hideDatePicker();
   };
 
