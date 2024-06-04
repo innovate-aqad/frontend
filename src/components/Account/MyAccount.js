@@ -38,7 +38,7 @@ export default function MyAccount(nav) {
           <TouchableOpacity
             style={styles.btn}
             className="p-3 w-[48%] rounded-full"
-            onPress={() => nav.navigation.navigate('Logins')}>
+            onPress={() => nav.navigation.navigate('Login')}>
             <Text
               className="text-center text-white text-[13px]"
               style={{fontFamily: 'Poppins-Regular'}}>
@@ -48,7 +48,7 @@ export default function MyAccount(nav) {
           <TouchableOpacity
             style={{backgroundColor: '#e6e9f4'}}
             className="p-3 w-[48%] rounded-full"
-            onPress={() => nav.navigation.navigate('inventoryManagement')}>
+            onPress={() => nav.navigation.navigate('pieapp')}>
             <Text
               className="text-center text-[13px]"
               style={{fontFamily: 'Poppins-Regular', color: '#00274d'}}>
@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
   },
   btn: {
     color: 'white',
-    backgroundColor: "#f96900",
+    backgroundColor: '#f96900',
   },
 });

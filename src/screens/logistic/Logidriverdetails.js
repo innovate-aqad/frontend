@@ -22,7 +22,7 @@ import DocumentPicker from 'react-native-document-picker';
 import {useFormik} from 'formik';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
-import { success } from '../../constants/ToastMessage';
+import {success} from '../../constants/ToastMessage';
 
 const vehicleTypeList = [
   {key: '1', value: 'Mini Truck'},
@@ -647,7 +647,9 @@ export default function VendorInfo(nav) {
               style={{fontFamily: 'Roboto-Regular'}}>
               SUBMIT
             </Text>
-            {toggle ? null : <ActivityIndicator className="pl-2" size="small" color="#fff" />}
+            {toggle ? null : (
+              <ActivityIndicator className="pl-2" size="small" color="#fff" />
+            )}
           </TouchableOpacity>
         </View>
       </View>
@@ -659,7 +661,7 @@ const styles = StyleSheet.create({
     borderColor: 'red',
     borderRadius: 5,
     borderWidth: 1,
-    padding: 2, 
+    padding: 2,
   },
   checked: {
     borderColor: '#f96900',

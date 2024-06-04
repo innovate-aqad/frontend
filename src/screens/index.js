@@ -42,6 +42,10 @@ import InventoryManagement from './Vendor/InventoryManagement/InventoryManagemen
 import AddUserInfo from './Vendor/InventoryManagement/AddUserInfo';
 import UserList from './Vendor/InventoryManagement/UserList';
 import EditUser from './Vendor/InventoryManagement/EditUser';
+import Pie_charts from './Pie_Chart/Pie_charts';
+import Line_Chart from './Pie_Chart/Line_Chart';
+import Line_Chartwob from './Pie_Chart/Line_Chartwob';
+import Pie_App from './Pie_Chart/Pie_App';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -92,6 +96,10 @@ export default function Index() {
       <Stack.Screen name="editUser" component={EditUser} />
       {/* Inventory Management end */}
       
+      <Stack.Screen name="piechart" component={Pie_charts} />
+      <Stack.Screen name="linechart" component={Line_Chart} />
+      <Stack.Screen name="linechartwob" component={Line_Chartwob} />
+      <Stack.Screen name="pieapp" component={Pie_App} />
     </Stack.Navigator>
   );
 }
