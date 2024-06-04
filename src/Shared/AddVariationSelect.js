@@ -17,7 +17,7 @@ export const AddVariantionType = ({placeholder, value, setValue, formik}) => {
         const storedToken = await retrieveToken();
 
         const response = await axios.get(
-          'http://localhost:2000/api/si_unit/get',
+          `${environmentVariables?.apiUrl}/api/si_unit/get`,
           {
             headers: {_token: storedToken},
           },
@@ -91,7 +91,7 @@ export const AddWareHouseType = ({placeholder, value, setValue, formik}) => {
       try {
         const storedToken = await retrieveToken();
         const response = await axios.get(
-          'http://localhost:2000/api/user/get_data',
+          `${environmentVariables?.apiUrl}/api/user/get_data`,
           {
             headers: {_token: storedToken},
           },

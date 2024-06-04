@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView, Image} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import {StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -17,10 +11,11 @@ import {success} from '../../constants/ToastMessage';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {removeToken, storeToken} from '../../Shared/EncryptionDecryption/Token';
 export default function OtpScreen({route}) {
   const otpInputRef = useRef(null);
   const {email} = route.params;
-  console.log(route.params,"route.params");
+  console.log(route.params, 'route.params');
   const navigation = useNavigation();
   const initialValues = {
     otp: '',
@@ -41,9 +36,12 @@ export default function OtpScreen({route}) {
           otp: values.otp,
         },
       })
-        .then(response => {
+        .then(async response => {
           action.resetForm();
           success({type: 'success', text: response.data.message});
+          console.log('ffff', response?.data?.data?.token);
+          await storeToken(response?.data?.data?.token);
+          // await removeToken();
           if (response.data.data.user_type === 'vendor') {
             navigation.navigate('productIndex');
           } else if (response.data.data.user_type === 'retailer') {
@@ -55,7 +53,6 @@ export default function OtpScreen({route}) {
         .catch(error => {
           console.log('error', error);
           success({type: 'success', text: error.response.data.message});
-          
         });
     },
   });
@@ -72,8 +69,7 @@ export default function OtpScreen({route}) {
     <ScrollView
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={{flexGrow: 1}}
-      showsVerticalScrollIndicator={false}
-      >
+      showsVerticalScrollIndicator={false}>
       <View className="m-5">
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
@@ -83,28 +79,25 @@ export default function OtpScreen({route}) {
         </TouchableOpacity>
       </View>
       <View>
-      <Text
-            className="text-xl flex items-center justify-center text-center text-[#00274D]"
-            style={{fontFamily: 'Roboto-Regular'}}>
-            Please enter your OTP to verify your user account and log in.
-          </Text>
+        <Text
+          className="text-xl flex items-center justify-center text-center text-[#00274D]"
+          style={{fontFamily: 'Roboto-Regular'}}>
+          Please enter your OTP to verify your user account and log in.
+        </Text>
       </View>
 
-      <View
-        className="flex px-4 flex-col justify-center items-center my-auto  bg-gray-100 !text-black"
-       >
-           
+      <View className="flex px-4 flex-col justify-center items-center my-auto  bg-gray-100 !text-black">
         <View className="w-full">
           <View className="mx-auto mb-4">
             <View className="flex items-center justify-center w-14 h-14 mx-auto rounded-full bg-[#f6d9c4]">
               <MaterialIcons name="verified-user" color={'#f96900'} size={35} />
             </View>
-          <Text
-            className="px-3 text-lg text-black"
-            style={{fontFamily: 'Poppins-SemiBold'}}>
-            Please Enter OTP 
-            {/* <VelidationSymbol/> */}
-          </Text>
+            <Text
+              className="px-3 text-lg text-black"
+              style={{fontFamily: 'Poppins-SemiBold'}}>
+              Please Enter OTP
+              {/* <VelidationSymbol/> */}
+            </Text>
           </View>
           <View className="">
             <OTPTextInput

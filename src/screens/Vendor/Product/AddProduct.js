@@ -100,6 +100,7 @@ export default function AddProduct(nav) {
         sub_category_id: values?.valueSubCategory,
       };
       const storedToken = await retrieveToken();
+      console.log('55555', storedToken);
       await axios({
         method: 'post',
         url: `${environmentVariables?.apiUrl}/api/product/add`,
