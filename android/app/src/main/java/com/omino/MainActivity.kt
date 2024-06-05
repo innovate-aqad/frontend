@@ -8,7 +8,9 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnable
 import com.facebook.react.defaults.DefaultReactActivityDelegate
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView
 
-class MainActivity : ReactActivity() {
+import com.reactnativenavigation.NavigationActivity;
+
+public class MainActivity extends NavigationActivity {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(null)
