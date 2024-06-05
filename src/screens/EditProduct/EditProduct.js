@@ -1,35 +1,36 @@
-import React, {useEffect, useState} from 'react';
 import {
-  Image,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  TextInput,
-  ToastAndroid,
-  ActivityIndicator,
 } from 'react-native';
-import {retrieveToken} from '../../../Shared/EncryptionDecryption/Token';
-import {
-  SelectInput,
-  SelectInputBrand,
-  SelectInputSubCategory,
-} from '../../../Shared/SelectInput';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import {environmentVariables} from '../../config/Config';
+import {retrieveToken} from '../../Shared/EncryptionDecryption/Token';
+import {SelectInput} from '../../Shared/SelectInput';
 import {useFormik} from 'formik';
-import {AddProductSchema} from '../../../schemas/AddProductSchema';
-import {environmentVariables} from '../../../config/Config';
-import {useNavigation} from '@react-navigation/native';
+import {AddProductSchema} from '../../schemas/AddProductSchema';
 
-export default function AddProduct(nav) {
+const EditProduct = nav => {
+  const mainId = nav.route.params.id;
   const [categoryData, setCategoryData] = useState([]);
   const [subCategoryData, setSubCategoryData] = useState([]);
   const [brandData, setBrandData] = useState([]);
+  const [resData, setResData] = useState([]);
   const [value, setValue] = useState('');
-  const [valueSubCategory, setValueSubCategory] = useState('');
-  const [valueBrand, setValueBrand] = useState('');
-  const [toggle, setToggle] = useState(true);
+  // const [valueSubCategory, setValueSubCategory] = useState('');
+  // const [valueBrand, setValueBrand] = useState('');
+  console.log('ooooooo', mainId);
+  const initialValues = {
+    value: '',
+    valueSubCategory: '',
+    valueBrand: '',
+    name: '',
+    upc: '',
+    description: '',
+  };
 
   const getCategoriedData = async () => {
     try {
@@ -74,20 +75,31 @@ export default function AddProduct(nav) {
     getBranddData();
   }, [value]);
 
-  const initialValues = {
-    value: '',
-    valueSubCategory: '',
-    valueBrand: '',
-    name: '',
-    upc: '',
-    description: '',
-  };
+  useEffect(() => {
+    const getProductData = async () => {
+      try {
+        const storedToken = await retrieveToken();
+
+        const response = await axios.get(
+          `${environmentVariables?.apiUrl}/api/product/get_by_id?product_id=${mainId}`,
+          {headers: {_token: storedToken}},
+        );
+        const productData = response?.data?.data;
+        setResData(productData);
+        setValue(productData?.category_id || '');
+      } catch (error) {
+        console.log(error, 'ppooerror');
+        setResData([]);
+      }
+    };
+    getProductData();
+  }, []);
 
   let formik = useFormik({
     initialValues,
     validationSchema: AddProductSchema,
     onSubmit: async (values, action) => {
-      setToggle(false);
+      // setToggle(false);
 
       const data = {
         title: values.name,
@@ -97,44 +109,44 @@ export default function AddProduct(nav) {
         category_id: values.value,
         sub_category_id: values?.valueSubCategory,
       };
-      const storedToken = await retrieveToken();
-      console.log('55555', storedToken);
-      await axios({
-        method: 'post',
-        url: `${environmentVariables?.apiUrl}/api/product/add`,
-        data: data,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          _token: storedToken,
-        },
-      })
-        .then(response => {
-          console.log('yesyesyesyesyes', response?.data);
-          ToastAndroid.showWithGravityAndOffset(
-            response?.data?.message,
-            ToastAndroid.TOP,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
-          nav.navigation.navigate('addVariation', {
-            id: response?.data?.data?.id,
-          });
-          setToggle(true);
-        })
-        .catch(error => {
-          console.log('rtttt', error?.response?.data?.message, error?.message);
-          // nav.navigation.navigate('addVariation');
-          setToggle(true);
-          ToastAndroid.showWithGravityAndOffset(
-            error?.response?.data?.message || error?.message,
-            ToastAndroid.TOP,
-            ToastAndroid.CENTER,
-            25,
-            50,
-          );
-        });
+      // const storedToken = await retrieveToken();
+      // console.log('55555', storedToken);
+      // await axios({
+      //   method: 'post',
+      //   url: `${environmentVariables?.apiUrl}/api/product/add`,
+      //   data: data,
+      //   headers: {
+      //     Accept: 'application/json',
+      //     'Content-Type': 'application/json',
+      //     _token: storedToken,
+      //   },
+      // })
+      //   .then(response => {
+      //     console.log('yesyesyesyesyes', response?.data);
+      //     ToastAndroid.showWithGravityAndOffset(
+      //       response?.data?.message,
+      //       ToastAndroid.TOP,
+      //       ToastAndroid.CENTER,
+      //       25,
+      //       50,
+      //     );
+      //     nav.navigation.navigate('addVariation', {
+      //       id: response?.data?.data?.id,
+      //     });
+      //     setToggle(true);
+      //   })
+      //   .catch(error => {
+      //     console.log('rtttt', error?.response?.data?.message, error?.message);
+      //     // nav.navigation.navigate('addVariation');
+      //     setToggle(true);
+      //     ToastAndroid.showWithGravityAndOffset(
+      //       error?.response?.data?.message || error?.message,
+      //       ToastAndroid.TOP,
+      //       ToastAndroid.CENTER,
+      //       25,
+      //       50,
+      //     );
+      //   });
     },
   });
   const {
@@ -146,8 +158,6 @@ export default function AddProduct(nav) {
     handleSubmit,
     isValid,
   } = formik;
-
-  // console.log('powwwwwww', subCategoryData);
   return (
     <ScrollView>
       <View className="flex flex-col h-full mb-12  bg-[#f5f5f5]">
@@ -167,17 +177,17 @@ export default function AddProduct(nav) {
                   data={categoryData}
                   setValue={setValue}
                   value={value}
-                  formik={formik}
-                  // name="value"
-                  // onChangeText={handleChange('value')}
-                  // onBlur={handleBlur('value')}
+                  formik={{
+                    setFieldValue: (field, value) =>
+                      (initialValues[field] = value),
+                  }}
                 />
                 {errors.value && touched.value && (
                   <Text style={styles.errorHandle}>{errors.value}</Text>
                 )}
               </View>
             </View>
-            <View className="flex flex-row w-full ">
+            {/* <View className="flex flex-row w-full ">
               <View className="w-full pr-1">
                 <Text style={styles.textTitle}>Product Sub Category</Text>
                 <SelectInputSubCategory
@@ -269,7 +279,7 @@ export default function AddProduct(nav) {
                   <Text style={styles.errorHandle}>{errors.description}</Text>
                 )}
               </View>
-            </View>
+            </View> */}
 
             <View className="mt-4">
               <TouchableOpacity
@@ -291,7 +301,9 @@ export default function AddProduct(nav) {
       </View>
     </ScrollView>
   );
-}
+};
+
+export default EditProduct;
 
 const styles = StyleSheet.create({
   topNavigation: {

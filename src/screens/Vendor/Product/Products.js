@@ -199,10 +199,14 @@ export default function Products(nav) {
                 <Text>Data not Available</Text>
               ) : (
                 resProductData?.map((item, index) => {
+                  console.log('lll', item);
                   return (
-                    <View
+                    <TouchableOpacity
                       key={index}
-                      className="flex flex-row items-center justify-around p-3 mt-1.5 bg-white shadow rounded-xl">
+                      className="flex flex-row items-center justify-around p-3 mt-1.5 bg-white shadow rounded-xl"
+                      onPress={() =>
+                        nav?.navigation?.navigate('editProduct', {id: item?.id})
+                      }>
                       <View className="bg-[#FDEEE3] h-[50px] w-[50px] rounded-full border border-[#FDD7BC] p-3">
                         <Image
                           style={{height: 22, width: 29.5}}
@@ -244,7 +248,7 @@ export default function Products(nav) {
                           color="#cbcbcb"
                         />
                       </View>
-                    </View>
+                    </TouchableOpacity>
                   );
                 })
               )}
