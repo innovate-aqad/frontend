@@ -27,6 +27,7 @@ export default function Products(nav) {
   const [resProductData, setResProductData] = useState([]);
   useEffect(async () => {
     const storedToken = await retrieveToken();
+    console.log('uuiuiuiuu', storedToken);
     const getCategoryData = async () => {
       try {
         setLoader(true);
@@ -48,7 +49,7 @@ export default function Products(nav) {
       } catch (error) {
         setLoader(false);
         setResCatData([]);
-        console.log(error, 'eroorr');
+        console.log(error?.response?.data?.message, 'eroorr');
       }
     };
     const getProductsData = async () => {

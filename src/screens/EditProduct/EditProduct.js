@@ -1,7 +1,10 @@
 import {
+  ActivityIndicator,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -9,20 +12,27 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import {retrieveToken} from '../../Shared/EncryptionDecryption/Token';
-import {SelectInput} from '../../Shared/SelectInput';
+import {
+  SelectInput,
+  SelectInputBrand,
+  SelectInputSubCategory,
+} from '../../Shared/SelectInput';
 import {useFormik} from 'formik';
 import {AddProductSchema} from '../../schemas/AddProductSchema';
 
 const EditProduct = nav => {
   const mainId = nav.route.params.id;
+  const [toggle, setToggle] = useState(false);
   const [categoryData, setCategoryData] = useState([]);
   const [subCategoryData, setSubCategoryData] = useState([]);
   const [brandData, setBrandData] = useState([]);
   const [resData, setResData] = useState([]);
   const [value, setValue] = useState('');
-  // const [valueSubCategory, setValueSubCategory] = useState('');
-  // const [valueBrand, setValueBrand] = useState('');
-  console.log('ooooooo', mainId);
+  const [valueSubCategory, setValueSubCategory] = useState('');
+  const [valueBrand, setValueBrand] = useState('');
+  const [id, setId] = useState('');
+
+  // console.log('ooooooo', mainId);
   const initialValues = {
     value: '',
     valueSubCategory: '',
@@ -75,23 +85,33 @@ const EditProduct = nav => {
     getBranddData();
   }, [value]);
 
-  useEffect(() => {
-    const getProductData = async () => {
-      try {
-        const storedToken = await retrieveToken();
+  const getProductData = async () => {
+    try {
+      const storedToken = await retrieveToken();
 
-        const response = await axios.get(
-          `${environmentVariables?.apiUrl}/api/product/get_by_id?product_id=${mainId}`,
-          {headers: {_token: storedToken}},
-        );
-        const productData = response?.data?.data;
-        setResData(productData);
-        setValue(productData?.category_id || '');
-      } catch (error) {
-        console.log(error, 'ppooerror');
-        setResData([]);
-      }
-    };
+      const response = await axios.get(
+        `${environmentVariables?.apiUrl}/api/product/get_by_id?product_id=${mainId}`,
+        {headers: {_token: storedToken}},
+      );
+      const productData = response?.data?.data;
+      console.log('111111111111111111', productData);
+      setResData(productData);
+      setValue(productData?.category_id);
+      setValueSubCategory(productData?.sub_category_id);
+      setValueBrand(productData?.brand_id);
+      setId(productData?.id);
+      formik.setFieldValue('name', productData?.title);
+      formik.setFieldValue('upc', productData?.universal_standard_code);
+      formik.setFieldValue('description', productData?.description);
+      formik.setFieldValue('value', productData?.category_id);
+      formik.setFieldValue('valueSubCategory', productData?.sub_category_id);
+      formik.setFieldValue('valueBrand', productData?.brand_id);
+    } catch (error) {
+      console.log(error, 'ppooerror');
+      setResData([]);
+    }
+  };
+  useEffect(() => {
     getProductData();
   }, []);
 
@@ -99,8 +119,9 @@ const EditProduct = nav => {
     initialValues,
     validationSchema: AddProductSchema,
     onSubmit: async (values, action) => {
-      // setToggle(false);
+      setToggle(true);
 
+      console.log('values?.upc', values?.upc);
       const data = {
         title: values.name,
         universal_standard_code: values?.upc,
@@ -108,45 +129,47 @@ const EditProduct = nav => {
         description: values.description,
         category_id: values.value,
         sub_category_id: values?.valueSubCategory,
+        id,
       };
-      // const storedToken = await retrieveToken();
-      // console.log('55555', storedToken);
-      // await axios({
-      //   method: 'post',
-      //   url: `${environmentVariables?.apiUrl}/api/product/add`,
-      //   data: data,
-      //   headers: {
-      //     Accept: 'application/json',
-      //     'Content-Type': 'application/json',
-      //     _token: storedToken,
-      //   },
-      // })
-      //   .then(response => {
-      //     console.log('yesyesyesyesyes', response?.data);
-      //     ToastAndroid.showWithGravityAndOffset(
-      //       response?.data?.message,
-      //       ToastAndroid.TOP,
-      //       ToastAndroid.CENTER,
-      //       25,
-      //       50,
-      //     );
-      //     nav.navigation.navigate('addVariation', {
-      //       id: response?.data?.data?.id,
-      //     });
-      //     setToggle(true);
-      //   })
-      //   .catch(error => {
-      //     console.log('rtttt', error?.response?.data?.message, error?.message);
-      //     // nav.navigation.navigate('addVariation');
-      //     setToggle(true);
-      //     ToastAndroid.showWithGravityAndOffset(
-      //       error?.response?.data?.message || error?.message,
-      //       ToastAndroid.TOP,
-      //       ToastAndroid.CENTER,
-      //       25,
-      //       50,
-      //     );
-      //   });
+      const storedToken = await retrieveToken();
+      console.log('55555', storedToken);
+      await axios({
+        method: 'post',
+        url: `${environmentVariables?.apiUrl}/api/product/add`,
+        data: data,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          _token: storedToken,
+        },
+      })
+        .then(response => {
+          console.log('yesyesyesyesyes', response?.data);
+          ToastAndroid.showWithGravityAndOffset(
+            response?.data?.message,
+            ToastAndroid.TOP,
+            ToastAndroid.CENTER,
+            25,
+            50,
+          );
+          getProductData();
+          // nav.navigation.navigate('addVariation', {
+          //   id: response?.data?.data?.id,
+          // });
+          setToggle(false);
+        })
+        .catch(error => {
+          console.log('rtttt', error?.response?.data?.message, error?.message);
+          // nav.navigation.navigate('addVariation');
+          setToggle(false);
+          ToastAndroid.showWithGravityAndOffset(
+            error?.response?.data?.message || error?.message,
+            ToastAndroid.TOP,
+            ToastAndroid.CENTER,
+            25,
+            50,
+          );
+        });
     },
   });
   const {
@@ -187,7 +210,7 @@ const EditProduct = nav => {
                 )}
               </View>
             </View>
-            {/* <View className="flex flex-row w-full ">
+            <View className="flex flex-row w-full ">
               <View className="w-full pr-1">
                 <Text style={styles.textTitle}>Product Sub Category</Text>
                 <SelectInputSubCategory
@@ -242,7 +265,7 @@ const EditProduct = nav => {
             <View className="flex flex-row w-full ">
               <View className="w-full pr-1">
                 <Text style={styles.textTitle}>
-                  UPC (Universal Product Code)
+                  UPC (Universal Product Code)(Non Editable)
                 </Text>
                 <TextInput
                   style={styles.input}
@@ -254,6 +277,7 @@ const EditProduct = nav => {
                   value={values.upc}
                   onChangeText={handleChange('upc')}
                   onBlur={handleBlur('upc')}
+                  readOnly
                 />
                 {errors.upc && touched.upc && (
                   <Text style={styles.errorHandle}>{errors.upc}</Text>
@@ -279,7 +303,7 @@ const EditProduct = nav => {
                   <Text style={styles.errorHandle}>{errors.description}</Text>
                 )}
               </View>
-            </View> */}
+            </View>
 
             <View className="mt-4">
               <TouchableOpacity
@@ -289,11 +313,12 @@ const EditProduct = nav => {
                 <Text
                   className="text-white"
                   style={{fontFamily: 'Poppins-SemiBold'}}>
-                  ADD PRODUCT
+                  {toggle ? (
+                    <ActivityIndicator size="small" color="#00274d" />
+                  ) : (
+                    'Edit PRODUCT'
+                  )}
                 </Text>
-                {/* {toggle ? null : (
-                  <ActivityIndicator size="small" color="#00274d" />
-                )} */}
               </TouchableOpacity>
             </View>
           </View>

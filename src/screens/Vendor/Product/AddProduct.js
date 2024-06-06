@@ -168,9 +168,6 @@ export default function AddProduct(nav) {
                   setValue={setValue}
                   value={value}
                   formik={formik}
-                  // name="value"
-                  // onChangeText={handleChange('value')}
-                  // onBlur={handleBlur('value')}
                 />
                 {errors.value && touched.value && (
                   <Text style={styles.errorHandle}>{errors.value}</Text>
