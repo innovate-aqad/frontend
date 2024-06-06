@@ -47,6 +47,7 @@ import Line_Chart from './Pie_Chart/Line_Chart';
 import Line_Chartwob from './Pie_Chart/Line_Chartwob';
 import Pie_App from './Pie_Chart/Pie_App';
 import EditProduct from './EditProduct/EditProduct';
+import EditProductVariant from './EditProductVariant/EditProductVariant';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -87,6 +88,7 @@ export default function Index() {
       <Stack.Screen name="pending" component={PendingOrder} />
       <Stack.Screen name="pmain" component={PMain} />
       <Stack.Screen name="editProduct" component={EditProduct} />
+      <Stack.Screen name="editProductVariant" component={EditProductVariant} />
 
       {/* Inventory Management start */}
       <Stack.Screen

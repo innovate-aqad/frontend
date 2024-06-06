@@ -322,6 +322,19 @@ const EditProduct = nav => {
               </TouchableOpacity>
             </View>
           </View>
+          {resData?.variation_arr?.map((item, index) => {
+            return (
+              <TouchableOpacity
+                key={index}
+                onPress={() =>
+                  nav?.navigation?.navigate('editProductVariant', {
+                    id: item?.id,
+                  })
+                }>
+                <Text>{item?.sku}</Text>
+              </TouchableOpacity>
+            );
+          })}
         </ScrollView>
       </View>
     </ScrollView>
