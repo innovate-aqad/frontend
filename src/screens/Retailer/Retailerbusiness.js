@@ -17,10 +17,13 @@ import {RetailerRegisterSchema2} from '../../schemas/RetailerRegisterSchema2';
 import AddbuttonForRetailer from '../AddButton/AddbuttonForRetailer';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
-import { success } from '../../constants/ToastMessage';
+import {success} from '../../constants/ToastMessage';
 import VelidationSymbol from '../../constants/VelidationSymbol';
+import CustomStyle from '../../Styles';
+import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
+import {blue, textColorCustom, white} from '../../constants/Theme';
 export default function VendorBusiness(nav) {
-  const [toggle,setToggle]=useState(true)
+  const [toggle, setToggle] = useState(true);
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [countryCode, setCountryCode] = useState('AE');
   const [inputs, setInputs] = useState([{address: '', po_box: ''}]);
@@ -40,8 +43,8 @@ export default function VendorBusiness(nav) {
   let formik = useFormik({
     initialValues,
     validationSchema: RetailerRegisterSchema2,
-    onSubmit: async (values) => {
-      setToggle(false)
+    onSubmit: async values => {
+      setToggle(false);
       const formdata = {
         company_name: values.companyName,
         slide: '2',
@@ -55,7 +58,7 @@ export default function VendorBusiness(nav) {
         outlet_addresses: values?.outlet_addresses,
         doc_id: mainId,
       };
-    
+
       await axios({
         method: 'post',
         url: `${environmentVariables?.apiUrl}/api/user/register`,
@@ -66,12 +69,12 @@ export default function VendorBusiness(nav) {
         data: formdata,
       })
         .then(response => {
-          setToggle(true)
+          setToggle(true);
           success({type: 'success', text: response.data.message});
           nav.navigation.navigate('reatilerdocs', {id: response.data.data.id});
         })
         .catch(error => {
-          setToggle(true)
+          setToggle(true);
           success({
             type: 'error',
             text: error?.response?.data?.message || error?.message,
@@ -137,14 +140,8 @@ export default function VendorBusiness(nav) {
         </View>
 
         <View className="mt-8">
-          <Text
-            className="text-[35px] text-[#00274D]"
-            style={{fontFamily: 'Roboto-Bold'}}>
-            Retailer Info
-          </Text>
-          <Text
-            className="pt-2 text-xs text-gray-400"
-            style={{fontFamily: 'Poppins-Light'}}>
+          <Text style={CustomStyle.signupHeading}>Retailer Info</Text>
+          <Text style={CustomStyle.signupSubDec}>
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
@@ -153,13 +150,17 @@ export default function VendorBusiness(nav) {
             <View className="flex flex-col">
               <View className="flex flex-row justify-between ">
                 <Text
-                  className="text-[#F96900]"
-                  style={{fontFamily: 'Poppins-Regular'}}>
+                  style={{
+                    fontFamily: POPPINS.PoppinsRegular,
+                    color: textColorCustom,
+                  }}>
                   Profile Upload (2/3)
                 </Text>
                 <Text
-                  className="text-[#F96900]"
-                  style={{fontFamily: 'Poppins-Regular'}}>
+                  style={{
+                    fontFamily: POPPINS.PoppinsRegular,
+                    color: textColorCustom,
+                  }}>
                   66%
                 </Text>
               </View>
@@ -178,10 +179,8 @@ export default function VendorBusiness(nav) {
             </View>
 
             <SafeAreaView>
-              <Text
-                className="text-[#00274D] mt-5 pl-1"
-                style={{fontFamily: 'Poppins-Medium'}}>
-                Company Name <VelidationSymbol/>
+              <Text className="pl-1 mt-5" style={CustomStyle.inputLabel}>
+                Company Name <VelidationSymbol />
               </Text>
               <TextInput
                 style={styles.input}
@@ -198,7 +197,9 @@ export default function VendorBusiness(nav) {
                 <Text style={styles.errorHandle}>{errors.companyName}</Text>
               )}
 
-              <Text style={styles.textStyle}>Designation <VelidationSymbol/></Text>
+              <Text style={styles.textStyle}>
+                Designation <VelidationSymbol />
+              </Text>
               <TextInput
                 style={styles.input}
                 placeholderTextColor="rgb(210, 210, 210)"
@@ -226,7 +227,9 @@ export default function VendorBusiness(nav) {
                 onChangeText={handleChange('tradeLicenseNo')}
                 onBlur={handleBlur('tradeLicenseNo')}
               />
-              <Text style={styles.textStyle}>Company Address Line 1 <VelidationSymbol/></Text>
+              <Text style={styles.textStyle}>
+                Company Address Line 1 <VelidationSymbol />
+              </Text>
               <TextInput
                 style={styles.input}
                 placeholderTextColor="rgb(210, 210, 210)"
@@ -264,8 +267,8 @@ export default function VendorBusiness(nav) {
               <View className="flex flex-row justify-between mt-2 gap-x-1">
                 <View style={styles.inputContainer}>
                   <Text
-                    className="text-[#00274D] pl-1"
-                    style={{fontFamily: 'Poppins-Medium'}}>
+                    className="pl-1"
+                    style={{fontFamily: POPPINS.PoppinsMedium, color: blue}}>
                     Country
                   </Text>
                   <View className="p-1.5 bg-white rounded-[10px]">
@@ -290,9 +293,8 @@ export default function VendorBusiness(nav) {
 
                 <View style={styles.inputContainer}>
                   <Text
-                    className="text-[#00274D]"
-                    style={{fontFamily: 'Poppins-Medium'}}>
-                    PO Box <VelidationSymbol/>
+                    style={{fontFamily: POPPINS.PoppinsMedium, color: blue}}>
+                    PO Box <VelidationSymbol />
                   </Text>
                   <TextInput
                     style={[
@@ -330,19 +332,20 @@ export default function VendorBusiness(nav) {
           </View>
           <View className="pt-5">
             <TouchableOpacity
-            onPress={() => {
-              toggle ? handleSubmit() : null;
-            }}
-            style={toggle ? styles.button : styles.button1}
-            className="flex flex-row items-center justify-center">
-            <Text
-              className="text-white flex flex-row  text-[19px]"
-              style={{fontFamily: 'Roboto-Regular'}}>
-              PROCEED
-            </Text>
-            {toggle ?null :
-              <ActivityIndicator size="small" className="pl-2" color="#fff" />}
-          </TouchableOpacity>
+              onPress={() => {
+                toggle ? handleSubmit() : null;
+              }}
+              style={toggle ? styles.button : styles.button1}
+              className="flex flex-row items-center justify-center">
+              <Text
+                className="flex flex-row  text-[19px]"
+                style={{fontFamily: ROBOTO.RobotoRegular, color: white}}>
+                PROCEED
+              </Text>
+              {toggle ? null : (
+                <ActivityIndicator size="small" className="pl-2" color="#fff" />
+              )}
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -352,7 +355,7 @@ export default function VendorBusiness(nav) {
 const styles = StyleSheet.create({
   textStyle: {
     color: '#00274D',
-    fontFamily: 'Poppins-Medium',
+    fontFamily: POPPINS.PoppinsMedium,
     paddingLeft: 4,
     marginTop: 4,
   },
@@ -376,11 +379,11 @@ const styles = StyleSheet.create({
     margin: 3,
     borderWidth: 1,
     color: 'gray',
-    backgroundColor: 'white',
-    fontFamily: 'Poppins-Light',
+    backgroundColor: white,
+    fontFamily: POPPINS.PoppinsLight,
   },
   button: {
-    backgroundColor: '#F96900',
+    backgroundColor: textColorCustom,
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -393,7 +396,7 @@ const styles = StyleSheet.create({
   },
   bar: {
     height: 5,
-    backgroundColor: '#F96900',
+    backgroundColor: textColorCustom,
     borderRadius: 10,
   },
   containerside: {
@@ -410,7 +413,7 @@ const styles = StyleSheet.create({
   },
   errorHandle: {
     color: 'red',
-    fontFamily: 'Poppins-Medium',
+    fontFamily: POPPINS.PoppinsMedium,
     paddingLeft: 15,
     fontSize: 12,
   },

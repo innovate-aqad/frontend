@@ -16,7 +16,10 @@ import {useFormik} from 'formik';
 import {LogisticRegisterSchema3} from '../../schemas/LogisticRegisterSchema3';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
-import { success } from '../../constants/ToastMessage';
+import {success} from '../../constants/ToastMessage';
+import {blue, textColorCustom, white} from '../../constants/Theme';
+import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
+import CustomStyle from '../../Styles';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -73,7 +76,7 @@ export default function VendorDocument(nav) {
       })
         .then(response => {
           setToggle(true);
-          success({type: 'success', text: response.data.message})
+          success({type: 'success', text: response.data.message});
           nav.navigation.navigate('logidrivdetail', {
             id: response.data.data.id,
           });
@@ -162,9 +165,7 @@ export default function VendorDocument(nav) {
             </Text>
           </View>
           <View className="mt-3">
-            <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
-              Trade Licence
-            </Text>
+            <Text style={CustomStyle.inputLabel}>Trade Licence</Text>
             <TouchableOpacity
               className="h-[76px]"
               onPress={() => selectDocument('tradeLicense', 'trade_license')}>
@@ -191,7 +192,7 @@ export default function VendorDocument(nav) {
             </TouchableOpacity>
           </View>
           <View className="mt-3">
-            <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
+            <Text style={CustomStyle.inputLabel}>
               Cancelled Cheque / IBAN sdksdf
             </Text>
             <TouchableOpacity
@@ -234,9 +235,7 @@ export default function VendorDocument(nav) {
             />
           </View>
           <View className="mt-3">
-            <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
-              VAT Certificate
-            </Text>
+            <Text style={CustomStyle.inputLabel}>VAT Certificate</Text>
             <TouchableOpacity
               className="h-[76px]"
               onPress={() =>
@@ -279,9 +278,7 @@ export default function VendorDocument(nav) {
         </View>
         {/* emirates */}
         <View className="mt-3">
-          <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
-            Emirates ID
-          </Text>
+          <Text style={CustomStyle.inputLabel}>Emirates ID</Text>
           <TouchableOpacity
             className="h-[76px]"
             onPress={() =>
@@ -327,11 +324,13 @@ export default function VendorDocument(nav) {
           style={toggle ? styles.button : styles.button1}
           className="flex flex-row items-center justify-center mt-8">
           <Text
-            className="text-white flex flex-row  text-[19px]"
-            style={{fontFamily: 'Roboto-Regular'}}>
+            className="flex flex-row  text-[19px]"
+            style={{fontFamily: ROBOTO.RobotoRegular, color: white}}>
             SUBMIT
           </Text>
-          {toggle ? null : <ActivityIndicator className="pl-2" size="small" color="#fff" />}
+          {toggle ? null : (
+            <ActivityIndicator className="pl-2" size="small" color={white} />
+          )}
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -355,11 +354,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingLeft: 12,
     color: 'gray',
-    backgroundColor: 'white',
-    fontFamily: 'Poppins-Light',
+    backgroundColor: white,
+    fontFamily: POPPINS.PoppinsLight,
   },
   button: {
-    backgroundColor: '#F96900',
+    backgroundColor: textColorCustom,
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -367,11 +366,11 @@ const styles = StyleSheet.create({
   },
   bar: {
     height: 5,
-    backgroundColor: '#F96900',
+    backgroundColor: textColorCustom,
     borderRadius: 10,
   },
   button: {
-    backgroundColor: '#F96900',
+    backgroundColor: textColorCustom,
     padding: 12,
     paddingHorizontal: 40,
     borderRadius: 10,

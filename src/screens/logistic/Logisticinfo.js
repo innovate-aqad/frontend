@@ -23,7 +23,11 @@ import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import {SendOtpSchema} from '../../schemas/SendOtpSchema';
 import OtpPopup from '../OtpPopup/OtpPopup';
-import { success } from '../../constants/ToastMessage';
+import {success} from '../../constants/ToastMessage';
+import CustomStyle from '../../Styles';
+import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
+import {blue, textColorCustom, white} from '../../constants/Theme';
+import VelidationSymbol from '../../constants/VelidationSymbol';
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [image, setImage] = useState('');
@@ -195,15 +199,10 @@ export default function VendorInfo(nav) {
             />
           </TouchableOpacity>
         </View>
+
         <View className="mt-8">
-          <Text
-            className="text-[35px] text-[#00274D]"
-            style={{fontFamily: 'Roboto-Bold'}}>
-            Logistic Partner Info
-          </Text>
-          <Text
-            className="pt-2 text-xs text-gray-400"
-            style={{fontFamily: 'Poppins-Light'}}>
+          <Text style={CustomStyle.signupHeading}>Logistic Partner Info</Text>
+          <Text style={CustomStyle.signupSubDec}>
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
@@ -211,13 +210,17 @@ export default function VendorInfo(nav) {
           <View className="flex flex-col">
             <View className="flex flex-row justify-between ">
               <Text
-                className="text-[#F96900]"
-                style={{fontFamily: 'Poppins-Regular'}}>
+                style={{
+                  fontFamily: POPPINS.PoppinsRegular,
+                  color: textColorCustom,
+                }}>
                 Profile Upload (1/4)
               </Text>
               <Text
-                className="text-[#F96900]"
-                style={{fontFamily: 'Poppins-Regular'}}>
+                style={{
+                  fontFamily: POPPINS.PoppinsRegular,
+                  color: textColorCustom,
+                }}>
                 36%
               </Text>
             </View>
@@ -229,8 +232,12 @@ export default function VendorInfo(nav) {
 
           <View>
             <Text
-              className="text-[20px] text-[#00274D] pt-3"
-              style={{fontFamily: 'Roboto-Medium'}}>
+              className="pt-3"
+              style={{
+                fontFamily: ROBOTO.RobotoMedium,
+                color: blue,
+                fontSize: 20,
+              }}>
               Personal Information
             </Text>
           </View>
@@ -267,10 +274,8 @@ export default function VendorInfo(nav) {
           </View>
           {/* input fields */}
           <SafeAreaView>
-            <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Full Name
+            <Text className="px-3" style={CustomStyle.inputLabel}>
+              Full Name <VelidationSymbol />
             </Text>
             <TextInput
               style={styles.input}
@@ -287,13 +292,11 @@ export default function VendorInfo(nav) {
               <Text style={styles.errorHandle}>{errors.fullName}</Text>
             )}
 
-            <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Email
+            <Text className="px-3" style={CustomStyle.inputLabel}>
+              Email <VelidationSymbol />
             </Text>
             <View className="flex flex-row items-center pr-1.5 justify-between w-full bg-white rounded-[10px] py-0">
-              <View className="w-[90%]">
+              <View className="w-[88%]">
                 <TextInput
                   style={styles.input}
                   placeholderTextColor="rgb(210, 210, 210)"
@@ -307,28 +310,29 @@ export default function VendorInfo(nav) {
                 />
               </View>
               {verified ? (
-                <Text className="text-[10px] text-[#21d59b] font-[Poppins-SemiBold]">Verified</Text>
+                <Text className="text-[10px] text-[#21d59b] font-[Poppins-SemiBold]">
+                  Verified
+                </Text>
               ) : (
-                <TouchableOpacity
-                  
-                  onPress={() => sendOtp(values.email)}>
-                  <Text className="text-[10px] text-[#f96900] font-[Poppins-SemiBold]" >Verify</Text>
+                <TouchableOpacity onPress={() => sendOtp(values.email)}>
+                  <Text className="text-[10px] text-[#f96900] font-[Poppins-SemiBold]">
+                    Verify
+                  </Text>
                 </TouchableOpacity>
               )}
             </View>
+
             {errorValue ? (
-              <Text style={{color: 'red'}}>{errorValue}</Text>
+              <Text style={styles.errorHandle}>{errorValue}</Text>
             ) : (
               errors.email &&
               touched.email && (
-                <Text style={{color: 'red'}}>{errors.email}</Text>
+                <Text style={styles.errorHandle}>{errors.email}</Text>
               )
             )}
 
-            <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Phone Number
+            <Text className="px-3" style={CustomStyle.inputLabel}>
+              Phone Number <VelidationSymbol />
             </Text>
             <View className="flex flex-row items-center pl-2 w-full bg-white rounded-[10px] py-0">
               <CountryPicker
@@ -351,6 +355,7 @@ export default function VendorInfo(nav) {
                   placeholder="Enter your phone number"
                   className="!border-none py-1.5 pl-2  !border-white text-[#cbcbcb]"
                   name="number"
+                  keyboardType='phone-pad'
                   value={values.number}
                   onChangeText={handleNumberChange}
                   onBlur={handleBlur('number')}
@@ -359,8 +364,8 @@ export default function VendorInfo(nav) {
                 <Text
                   className={
                     values.number.length >= 10
-                      ? 'text-[10px] text-[#21d59b]'
-                      : 'text-[10px] text-[#f96900]'
+                      ? 'text-[10px] text-[#21d59b] font-[Poppins-SemiBold]'
+                      : 'text-[10px] text-[#f96900] font-[Poppins-SemiBold]'
                   }>
                   {values.number.length >= 10 ? 'Verified' : 'Invalid'}
                 </Text>
@@ -369,10 +374,8 @@ export default function VendorInfo(nav) {
             {errors.number && touched.number && (
               <Text style={styles.errorHandle}>{errors.number}</Text>
             )}
-            <Text
-              className="text-[#00274D] px-3 mt-2"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Date of Birth
+            <Text className="px-3 mt-2" style={CustomStyle.inputLabel}>
+              Date of Birth <VelidationSymbol />
             </Text>
 
             <View className="w-full ">
@@ -391,8 +394,8 @@ export default function VendorInfo(nav) {
                 title="Show date picker!">
                 <View className="">
                   <Text
-                    className="flex flex-row w-full font-[Poppins-Light] text-[13px]"
-                    style={{color: '#cbcbcb', paddingHorizontal: 10, flex: 1}}>
+                    className="flex flex-row w-full text-[13px]"
+                    style={{color: '#cbcbcb', paddingHorizontal: 10, flex: 1,fontFamily:POPPINS.PoppinsLight}}>
                     {dateSelected
                       ? moment(dateSelected).format('DD / MM / YYYY')
                       : 'DD / MM / YYYY'}
@@ -415,7 +418,7 @@ export default function VendorInfo(nav) {
           </SafeAreaView>
         </View>
         <View className="pt-5">
-        <TouchableOpacity
+          <TouchableOpacity
             onPress={() => {
               toggle ? handleSubmit() : null;
             }}
@@ -423,15 +426,15 @@ export default function VendorInfo(nav) {
             style={[styles.button, (!verified || !isValid) && styles.button1]}
             className="flex flex-row items-center justify-center mt-8">
             <Text
-              className="text-white flex flex-row  text-[19px]"
-              style={{fontFamily: 'Roboto-Regular'}}>
+              className=" flex flex-row  text-[19px]"
+              style={{fontFamily: ROBOTO.RobotoRegular,color:white}}>
               SUBMIT
             </Text>
             {toggle ? null : (
               <ActivityIndicator
                 size="small"
                 className="ml-5"
-                color="#00274d"
+                color="#fffs"
               />
             )}
           </TouchableOpacity>
@@ -465,11 +468,11 @@ const styles = StyleSheet.create({
     margin: 3,
     borderWidth: 1,
     color: 'gray',
-    backgroundColor: 'white',
-    fontFamily: 'Poppins-Light',
+    backgroundColor: white,
+    fontFamily: POPPINS.PoppinsLight,
   },
   button: {
-    backgroundColor: '#F96900',
+    backgroundColor: textColorCustom,
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -485,7 +488,7 @@ const styles = StyleSheet.create({
   },
   bar: {
     height: 5,
-    backgroundColor: '#F96900',
+    backgroundColor: textColorCustom,
     borderRadius: 10,
   },
   errorHandle: {
@@ -494,7 +497,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   disabledButton: {
-    backgroundColor: '#F96900',
+    backgroundColor: textColorCustom,
     opacity: 0.5,
   },
 });

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {FlatList, View, Text, StyleSheet} from 'react-native';
 import {Card, IconButton} from 'react-native-paper';
 import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
-import {blue, flexTradButtonColor, white} from '../../constants/Theme';
+import {blue, flexTradButtonColor, grayColor, white} from '../../constants/Theme';
 
 export default function RetailerFeatures() {
   const [openCards, setOpenCards] = useState({});
@@ -142,13 +142,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   heading: {
-    color: '#00274d',
+    color: blue,
     fontFamily: 'Poppins-Medium',
     fontSize: 13,
   },
   content: {
     marginTop: -10,
-    color: '#7e84a3',
+    color: grayColor,
     fontFamily: 'Poppins-Regular',
     fontSize: 10,
   },

@@ -17,7 +17,7 @@ const SplashScreen = () => {
       // auth().currentUser
       //   ? navigation.dispatch(StackActions.replace('productIndex'))
       //   :
-         navigation.dispatch(StackActions.replace('bottomTab'));
+         navigation.dispatch(StackActions.replace('universalButtomtab'));
     }, 3000);
   }, []);
   return (

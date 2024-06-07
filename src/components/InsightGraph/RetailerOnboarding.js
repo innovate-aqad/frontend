@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Dimensions, View, Text, StyleSheet} from 'react-native';
 import {BarChart} from 'react-native-chart-kit';
-
+import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
+import {blue, btnBackround, grayColor, lightGray, white} from '../../constants/Theme';
 const screenWidth = Dimensions.get('window').width;
 
 const chartConfig = {
@@ -12,15 +13,16 @@ const chartConfig = {
   color: (opacity = 1) => `rgba(255, 116, 32, ${opacity})`,
   strokeWidth: 2, // optional, default 3
   barPercentage: 0.5,
+  labelColor: (opacity = 1) => grayColor,
   useShadowColorFromDataset: false, // optional
   decimalPlaces: 0, // Remove decimal values on y-axis
   propsForBackgroundLines: {
-    stroke: '#000000', // Background lines color
+    stroke: "#f1f1f5", // Background lines color
     strokeDasharray: '', // Remove dashed background lines
   },
 };
 
-const MyBarChart = () => {
+const RetailerOnboarding = () => {
   const [chartData, setChartData] = useState({
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [
@@ -74,17 +76,24 @@ const MyBarChart = () => {
   }, []);
 
   return (
-    <View style={styles.outerContainer}>
+    <View style={styles.outerContainer} className="pb-4">
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Retailers Onboarding</Text>
-        <Text style={[styles.headerText, styles.totalRetailersText]}>
-          Total Retailers:
-          {chartData.datasets[0].data.reduce((a, b) => a + b, 0)}
-        </Text>
+        <View className="flex flex-row">
+          <Text style={[styles.totalRetailersText]}>Total Retailers:</Text>
+          <Text
+            style={{
+              color: grayColor,
+              fontFamily: POPPINS.PoppinsSemiBold,
+              fontSize: 15,
+            }}>
+            {chartData.datasets[0].data.reduce((a, b) => a + b, 0)}
+          </Text>
+        </View>
       </View>
       <BarChart
         data={chartData}
-        width={screenWidth - 64} // Adjusting width to fit within the container padding
+        width={screenWidth - 64}
         height={220}
         chartConfig={chartConfig}
         style={styles.chartStyle}
@@ -96,7 +105,7 @@ const MyBarChart = () => {
           <View
             style={[
               styles.legendColor,
-              {backgroundColor: 'rgba(255, 116, 32, 1)'},
+              {backgroundColor: btnBackround},
             ]}
           />
           <Text style={styles.legendText}>Retailer</Text>
@@ -105,7 +114,7 @@ const MyBarChart = () => {
           <View
             style={[
               styles.legendColor,
-              {backgroundColor: 'rgba(255, 0, 255, 1)'},
+              {backgroundColor: "#fee8d9"},
             ]}
           />
           <Text style={styles.legendText}>Estimated Target</Text>
@@ -118,11 +127,10 @@ const MyBarChart = () => {
 const styles = StyleSheet.create({
   outerContainer: {
     marginVertical: 16,
-    paddingHorizontal: 16,
-    paddingTop: 40, // Space for headers within the container
-    backgroundColor: '#fff',
+    paddingHorizontal: 0,
+    backgroundColor: white,
     borderRadius: 15,
-    shadowColor: '#000',
+    shadowColor: lightGray,
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.8,
     shadowRadius: 2,
@@ -140,20 +148,20 @@ const styles = StyleSheet.create({
     zIndex: 1, // Ensure the header is on top of the chart
   },
   headerText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#00274d', // Adjust color if needed to ensure visibility
+    fontSize: 13,
+    fontFamily: ROBOTO.RobotoBold,
+    color: blue,
   },
   totalRetailersText: {
-    borderWidth: 1,
-    borderColor: 'gray', // Updated border color to gray
+    color: grayColor,
     paddingHorizontal: 8,
     paddingVertical: 4,
-    borderRadius: 5,
+    fontSize: 10,
+    fontFamily: POPPINS.PoppinsMedium,
   },
   chartStyle: {
     marginTop: 40, // Space between the headers and the chart
-    borderRadius: 16,
+    // borderRadius: 16,
   },
   legendContainer: {
     flexDirection: 'row',
@@ -168,15 +176,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   legendColor: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
     marginRight: 4,
   },
   legendText: {
-    fontSize: 14,
-    color: '#00274d',
+    fontSize: 10,
+    fontFamily:POPPINS.PoppinsMedium,
+    letterSpacing:0.07,
+    color: grayColor,
   },
 });
 
-export default MyBarChart;
+export default RetailerOnboarding;

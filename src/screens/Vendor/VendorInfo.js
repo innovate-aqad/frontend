@@ -23,8 +23,18 @@ import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import {SendOtpSchema} from '../../schemas/SendOtpSchema';
 import OtpPopup from '../OtpPopup/OtpPopup';
-import { success } from '../../constants/ToastMessage';
+import {success} from '../../constants/ToastMessage';
 import VelidationSymbol from '../../constants/VelidationSymbol';
+import {
+  blue,
+  grayColor,
+  lightGray,
+  screenBackground,
+  textColorCustom,
+  white,
+} from '../../constants/Theme';
+import CustomStyle from '../../Styles';
+import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
 
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -184,25 +194,19 @@ export default function VendorInfo(nav) {
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <View
-        className="flex flex-col p-4   h-full bg-gray-100 !text-black
-        ">
+        className="flex flex-col h-full p-4 "
+        style={{backgroundColor: screenBackground}}>
         <View className="relative flex flex-row items-center top-3 ">
           <TouchableOpacity onPress={() => nav.navigation.navigate('signup')}>
             <Image
-              style={styles.topNavigation}
+              style={CustomStyle.topNavigation}
               source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
             />
           </TouchableOpacity>
         </View>
         <View className="mt-8">
-          <Text
-            className="text-[35px] text-[#00274D]"
-            style={{fontFamily: 'Roboto-Bold'}}>
-            Vendor Info
-          </Text>
-          <Text
-            className="pt-2 text-xs text-gray-400"
-            style={{fontFamily: 'Poppins-Light'}}>
+          <Text style={CustomStyle.signupHeading}>Vendor Info</Text>
+          <Text style={CustomStyle.signupSubDec}>
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
@@ -210,13 +214,17 @@ export default function VendorInfo(nav) {
           <View className="flex flex-col">
             <View className="flex flex-row justify-between ">
               <Text
-                className="text-[#F96900]"
-                style={{fontFamily: 'Poppins-Regular'}}>
+                style={{
+                  fontFamily: POPPINS.PoppinsRegular,
+                  color: textColorCustom,
+                }}>
                 Profile Upload (1/3)
               </Text>
               <Text
-                className="text-[#F96900]"
-                style={{fontFamily: 'Poppins-Regular'}}>
+                style={{
+                  fontFamily: POPPINS.PoppinsRegular,
+                  color: textColorCustom,
+                }}>
                 36%
               </Text>
             </View>
@@ -228,8 +236,8 @@ export default function VendorInfo(nav) {
 
           <View>
             <Text
-              className="text-[20px] text-[#00274D] pt-3"
-              style={{fontFamily: 'Roboto-Medium'}}>
+              className="pt-3"
+              style={{fontFamily: 'Roboto-Medium', color: blue, fontSize: 20}}>
               Personal Information
             </Text>
           </View>
@@ -267,9 +275,9 @@ export default function VendorInfo(nav) {
           </View>
           <SafeAreaView>
             <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-Medium'}}>
-              Full Name <VelidationSymbol/>
+              className="px-3"
+              style={{fontFamily: POPPINS.PoppinsMedium, color: blue}}>
+              Full Name <VelidationSymbol />
             </Text>
             <TextInput
               type="text"
@@ -287,12 +295,12 @@ export default function VendorInfo(nav) {
               <Text style={styles.errorHandle}>{errors.fullName}</Text>
             )}
             <Text
-              className="text-[#00274D] px-3 mt-2"
-              style={{fontFamily: 'Poppins-Medium'}}>
-              Email <VelidationSymbol/>
+              className="px-3 mt-2 "
+              style={{fontFamily: POPPINS.PoppinsMedium, color: blue}}>
+              Email <VelidationSymbol />
             </Text>
             <View className="flex flex-row items-center pr-1.5 justify-between w-full bg-white rounded-[10px] py-0">
-              <View className="w-[90%]">
+              <View className="w-[88%]">
                 <TextInput
                   style={styles.input}
                   placeholderTextColor="rgb(210, 210, 210)"
@@ -306,12 +314,23 @@ export default function VendorInfo(nav) {
                 />
               </View>
               {verified ? (
-                <Text className="text-[10px] text-[#21d59b]">Verified</Text>
+                <Text
+                  style={{
+                    color: '#21d59b',
+                    fontSize: 10,
+                    fontFamily: POPPINS.PoppinsSemiBold,
+                    
+                  }}>
+                  Verified
+                </Text>
               ) : (
-                <TouchableOpacity
-                  // className="text-[10px] text-[#f96900]"
-                  onPress={() => sendOtp(values.email)}>
-                  <Text className="text-[10px] text-[#f96900] font-[Poppins-SemiBold]">
+                <TouchableOpacity onPress={() => sendOtp(values.email)}>
+                  <Text
+                    style={{
+                      color: textColorCustom,
+                      fontFamily: POPPINS.PoppinsSemiBold,
+                      fontSize: 10,
+                    }}>
                     Verify
                   </Text>
                 </TouchableOpacity>
@@ -325,15 +344,10 @@ export default function VendorInfo(nav) {
                 <Text style={styles.errorHandle}>{errors.email}</Text>
               )
             )}
-
-            {/* {errors.country && touched.country && (
-              <Text style={{color: 'red'}}>{errors.country}</Text>
-            )} */}
-
             <Text
-              className="text-[#00274D] px-3 mt-2"
-              style={{fontFamily: 'Poppins-Medium'}}>
-              Phone Number <VelidationSymbol/>
+              className="px-3 mt-2"
+              style={{fontFamily: POPPINS.PoppinsMedium, color: blue}}>
+              Phone Number <VelidationSymbol />
             </Text>
 
             <View className="flex flex-row items-center pl-2 w-full bg-white rounded-[10px] py-0">
@@ -364,11 +378,12 @@ export default function VendorInfo(nav) {
                   maxLength={14}
                 />
                 <Text
-                  className={
-                    values.number.length >= 10
-                      ? 'text-[10px] text-[#21d59b]'
-                      : 'text-[10px] text-[#f96900]'
-                  }>
+                  style={values.number.length >= 10 ?{color: '#21d59b',
+                  fontSize: 10,
+                  fontFamily: POPPINS.PoppinsSemiBold,} : {color: '#f96900',
+                  fontSize: 10,
+                  fontFamily: POPPINS.PoppinsSemiBold,}}
+                  >
                   {values.number.length >= 10 ? 'Verified' : 'Invalid'}
                 </Text>
               </View>
@@ -379,9 +394,9 @@ export default function VendorInfo(nav) {
             )}
 
             <Text
-              className="text-[#00274D] px-3 mt-2"
-              style={{fontFamily: 'Poppins-Medium'}}>
-              Date of Birth <VelidationSymbol/>
+              className="px-3 mt-2"
+              style={{fontFamily: POPPINS.PoppinsMedium, color: blue}}>
+              Date of Birth <VelidationSymbol />
             </Text>
             <View className="w-full ">
               <TouchableOpacity
@@ -400,7 +415,7 @@ export default function VendorInfo(nav) {
                 <View className="">
                   <Text
                     className="flex flex-row w-full font-[Poppins-Light] text-[13px]"
-                    style={{color: '#cbcbcb', paddingHorizontal: 10, flex: 1}}>
+                    style={{color: lightGray, paddingHorizontal: 10, flex: 1}}>
                     {dateSelected
                       ? moment(dateSelected).format('DD / MM / YYYY')
                       : 'DD / MM / YYYY'}
@@ -430,11 +445,17 @@ export default function VendorInfo(nav) {
             style={[styles.button, (!verified || !isValid) && styles.button1]}
             className="flex flex-row items-center justify-center mt-8">
             <Text
-              className="text-white flex flex-row  text-[19px]"
-              style={{fontFamily: 'Roboto-Regular'}}>
+              className="flex flex-row "
+              style={{
+                fontFamily: ROBOTO.RobotoRegular,
+                color: white,
+                fontSize: 19,
+              }}>
               SUBMIT
             </Text>
-            {toggle ? null : <ActivityIndicator className="pl-2" size="small" color="#fff" />}
+            {toggle ? null : (
+              <ActivityIndicator className="pl-2" size="small" color="#fff" />
+            )}
           </TouchableOpacity>
         </View>
 
@@ -451,20 +472,16 @@ export default function VendorInfo(nav) {
   );
 }
 const styles = StyleSheet.create({
-  topNavigation: {
-    height: 15,
-    width: 23.3,
-  },
   input: {
     paddingVertical: 4,
     margin: 3,
     borderWidth: 1,
-    color: 'gray',
-    backgroundColor: 'white',
-    fontFamily: 'Poppins-Light',
+    color: lightGray,
+    backgroundColor: white,
+    fontFamily: POPPINS.PoppinsLight,
   },
   button: {
-    backgroundColor: '#F96900',
+    backgroundColor: textColorCustom,
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -487,7 +504,7 @@ const styles = StyleSheet.create({
   },
   bar: {
     height: 5,
-    backgroundColor: '#F96900',
+    backgroundColor: textColorCustom,
     borderRadius: 10,
   },
   containerDate: {
@@ -513,7 +530,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   disabledButton: {
-    backgroundColor: '#F96900',
-    opacity: 0.5, // Add opacity to make it look blurred
+    backgroundColor: textColorCustom,
+    opacity: 0.5,
   },
 });

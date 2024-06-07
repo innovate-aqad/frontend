@@ -7,33 +7,37 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import {Card, IconButton} from 'react-native-paper';
+import {Card} from 'react-native-paper';
+import {
+  customGreen,
+  grayColor,
+  lightGray,
+  white,
+} from '../../../../constants/Theme';
+import {POPPINS} from '../../../../constants/CustomFontFamily';
 
 const initialData = [
   {
     id: '1',
-    title: 'Card Title 1',
-    subtitle: 'Card Subtitle 1',
-    imageUrl: 'https://png.pngtree.com/png-vector/20230928/ourmid/pngtree-young-indian-man-png-image_10149659.png',
+    title: 'Card Title 1 73377',
+    subtitle: 'DL : 28678-0271 48866',
+    imageUrl:
+      'https://png.pngtree.com/png-vector/20230928/ourmid/pngtree-young-indian-man-png-image_10149659.png',
     verified: true,
   },
   {
     id: '2',
     title: 'Card Title 2',
-    subtitle: 'Card Subtitle 2',
-    imageUrl: 'https://png.pngtree.com/png-vector/20230928/ourmid/pngtree-young-indian-man-png-image_10149659.png',
+    subtitle: 'DL : 28678-0271 48866',
+    imageUrl:
+      'https://png.pngtree.com/png-vector/20230928/ourmid/pngtree-young-indian-man-png-image_10149659.png',
     verified: false,
   },
   // Add more items as needed
 ];
 
-const DriverVehicleDetails = () => {
+const VehicleList = () => {
   const [data, setData] = useState(initialData);
-
-  const handleDelete = id => {
-    setData(data.filter(item => item.id !== id));
-  };
-
   const renderItem = ({item}) => (
     <Card style={styles.card}>
       <Card.Content style={styles.cardContent}>
@@ -45,17 +49,11 @@ const DriverVehicleDetails = () => {
           <Text style={styles.subtitle}>{item.subtitle}</Text>
         </View>
         <View style={styles.rightSection}>
-          {item.verified && (
-            <TouchableOpacity mode="contained" onPress={() => {}}>
+          
+            <TouchableOpacity mode="contained">
               <Text style={styles.verified}>Verified</Text>
             </TouchableOpacity>
-          )}
-          <IconButton
-            icon="trash-can-outline"
-            color="#ff0000"
-            size={20}
-            onPress={() => handleDelete(item.id)}
-          />
+         
         </View>
       </Card.Content>
     </Card>
@@ -72,11 +70,16 @@ const DriverVehicleDetails = () => {
 
 const styles = StyleSheet.create({
   card: {
-    margin: 10,
+    margin: 0,
+    marginVertical: 4,
+    shadowColor: grayColor,
+    backgroundColor: white,
+    paddingVertical: 0,
   },
   cardContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingVertical: 10,
   },
   leftSection: {
     flex: 1,
@@ -90,22 +93,25 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   squareImage: {
-    borderRadius: 5,
+    borderRadius: 15,
     width: 60,
-    height: 50,
+    height: 60,
   },
   title: {
     fontSize: 13,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: POPPINS.PoppinsMedium,
+    color: grayColor,
   },
   subtitle: {
     fontSize: 13,
-    color: '#cbcbcb',
-    fontFamily: 'Poppins-Regular',
+    color: lightGray,
+    fontFamily: POPPINS.PoppinsRegular,
   },
   verified: {
-    color: '#21d59b',
+    color: customGreen,
+    fontSize: 10,
+    fontFamily: POPPINS.PoppinsSemiBold,
   },
 });
 
-export default DriverVehicleDetails;
+export default VehicleList;

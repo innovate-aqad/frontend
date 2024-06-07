@@ -18,7 +18,8 @@ import {
   textColorCustom,
   white,
 } from '../constants/Theme';
-import { success } from '../constants/ToastMessage';
+import {success} from '../constants/ToastMessage';
+import CustomStyle from '../Styles';
 
 const HighlightsData = [
   {dec: 'Instant encashment of sale invoices to enhance cash flow'},
@@ -44,7 +45,7 @@ const MyComponent = () => {
         style={{backgroundColor: screenBackground}}>
         <View className="flex-row items-center pb-3">
           <Image
-            style={styles.topNavigation}
+            style={CustomStyle.topNavigation}
             source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
           />
           <Text
@@ -214,15 +215,13 @@ const MyComponent = () => {
                 onPress={() => {
                   setChecked(!checked);
                 }}
-                
-                
               />
               <Text
                 style={{
                   fontSize: 10,
                   fontFamily: POPPINS.PoppinsMedium,
                   color: blue,
-                  marginTop:6
+                  marginTop: 6,
                 }}>
                 Both vendors and retailers must transact through the AQAD
                 platform.Both parties must be registered and approved on AQAD
@@ -231,7 +230,9 @@ const MyComponent = () => {
           </View>
           <View className="pt-5 mb-8">
             <TouchableOpacity
-              onPress={() => success({type:"success",text:"Lets Go For Flexi Trade"})}
+              onPress={() =>
+                success({type: 'success', text: 'Lets Go For Flexi Trade'})
+              }
               style={styles.buttonsub}>
               <Text
                 className="text-white "
@@ -247,10 +248,6 @@ const MyComponent = () => {
 };
 
 const styles = StyleSheet.create({
-  topNavigation: {
-    height: 15,
-    width: 23.3,
-  },
   heading: {
     color: textColorCustom,
     fontFamily: POPPINS.PoppinsSemiBold,
@@ -301,27 +298,6 @@ const styles = StyleSheet.create({
     borderColor: '#F96900',
     color: 'white',
   },
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderColor: 'white',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    // marginHorizontal: 10,
-    borderBottomWidth: 0,
-    marginTop: 10,
-  },
-  input: {
-    flex: 1,
-    height: 40,
-    backgroundColor: 'white',
-    borderColor: 'white',
-    paddingRight: 5,
-    color: '#cbcbcb',
-    borderWidth: 2,
-    marginLeft: 5,
-  },
   imagecentre: {
     height: 210.5,
     width: 218.8,
@@ -334,7 +310,7 @@ const styles = StyleSheet.create({
   },
 
   listItem: {
-    color: '#7e84a3', 
+    color: '#7e84a3',
     fontFamily: POPPINS.PoppinsRegular,
     fontSize: 10,
     letterSpacing: 0.08,
@@ -346,7 +322,7 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   buttonsub: {
-    backgroundColor: '#F96900', 
+    backgroundColor: '#F96900',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',

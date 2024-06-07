@@ -19,7 +19,7 @@ const chartConfig = {
   bezier: true, // Ensure the curve is smooth
 };
 
-const MyLineChart = () => {
+const OrderReceive = () => {
   const [chartData, setChartData] = useState({
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [
@@ -166,4 +166,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyLineChart;
+export default OrderReceive;

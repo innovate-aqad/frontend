@@ -2,7 +2,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import Login from './Login';
 import Signup from './Signup';
-import Buttomtab from '../components';
 import Products from './Vendor/Product/Products';
 import Orders from './Vendor/Order/Orderes';
 import Dashboard from './Vendor/Dashboard';
@@ -42,17 +41,14 @@ import InventoryManagement from './Vendor/InventoryManagement/InventoryManagemen
 import AddUserInfo from './Vendor/InventoryManagement/AddUserInfo';
 import UserList from './Vendor/InventoryManagement/UserList';
 import EditUser from './Vendor/InventoryManagement/EditUser';
-import Pie_charts from './Pie_Chart/Pie_charts';
-import Line_Chart from './Pie_Chart/Line_Chart';
-import Line_Chartwob from './Pie_Chart/Line_Chartwob';
-import Pie_App from './Pie_Chart/Pie_App';
+import UniversalButtomtab from '../components';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="SplashScreen" component={SplashScreen} />
-      <Stack.Screen name="bottomTab" component={Buttomtab} />
+      <Stack.Screen name="universalButtomtab" component={UniversalButtomtab} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="signup" component={Signup} />
       <Stack.Screen name="products" component={Products} />
@@ -95,11 +91,6 @@ export default function Index() {
       <Stack.Screen name="userList" component={UserList} />
       <Stack.Screen name="editUser" component={EditUser} />
       {/* Inventory Management end */}
-      
-      <Stack.Screen name="piechart" component={Pie_charts} />
-      <Stack.Screen name="linechart" component={Line_Chart} />
-      <Stack.Screen name="linechartwob" component={Line_Chartwob} />
-      <Stack.Screen name="pieapp" component={Pie_App} />
     </Stack.Navigator>
   );
 }

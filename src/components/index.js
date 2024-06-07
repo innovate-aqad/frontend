@@ -7,6 +7,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {Image} from 'react-native';
 import MyAccountRoutes from './Account';
 import FeatureRoutes from './Features';
+import featureImage from '../Assets/image/universal/circle-star.svg' 
+import SvgUri from 'react-native-svg-uri';
 
 const Tab = createBottomTabNavigator();
 const home = 'Home';
@@ -15,7 +17,7 @@ const account = 'MyAccount';
 const insights = 'Insights';
 const place = 'Features';
 
-export default function Buttomtab() {
+export default function UniversalButtomtab() {
   return (
     <Tab.Navigator
       initialRouteName={home}
@@ -67,10 +69,11 @@ export default function Buttomtab() {
             );
           } else {
             return (
-              <Image
-                style={{height: 24, width: 24,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
-                source={require('../Assets/image/drawable-hdpi/marketplace.png')}
-              />
+              <SvgUri width={24} height={24} fill={iconName = focused ?"#f96900" :"#cbcbcb"} source={featureImage} />
+              // <Image
+              //   style={{height: 24, width: 24,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
+              //   source={require('../Assets/image/drawable-hdpi/marketplace.png')}
+              // />
             );
           }
         },

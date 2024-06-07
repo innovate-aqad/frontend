@@ -1,16 +1,15 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
-// import  from '../Shared/DrawerHome';
-
-//
+import { blue, flexTradButtonColor } from '../constants/Theme';
+import { POPPINS } from '../constants/CustomFontFamily';
 
 export default function Header() {
   return (
     <View className="flex flex-row items-center justify-between p-3 px-5 bg-white">
       <View className="">
         <Image
-          style={{height: 21, width: 24,tintColor:"#7e84a3"}}
+          style={{height: 21, width: 24,tintColor:flexTradButtonColor}}
           className=""
           source={require('../Assets/image/bars-sort.png')}
         />
@@ -28,7 +27,7 @@ export default function Header() {
         </Text>
       </View>
       <View>
-        <Octicons name="bell" size={12.5} color={'#F96900'} />
+        <Octicons name="bell" size={12.5} color={blue} />
         <Text className="absolute text-center flex flex-col justify-center pt-0.2 items-center w-[17px] h-[15px] text-[10px] text-white bg-[#f96900] rounded-full right-1 top-1">
           10
         </Text>
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     borderRadius: 11.5,
   },
   fontFamily: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: POPPINS.PoppinsBold,
     fontSize: 12,
   },
 });

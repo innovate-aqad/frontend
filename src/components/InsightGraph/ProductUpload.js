@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Dimensions, View, Text, StyleSheet} from 'react-native';
 import {LineChart} from 'react-native-chart-kit';
+import { blue, grayColor, lightGray, white } from '../../constants/Theme';
+import { POPPINS, ROBOTO } from '../../constants/CustomFontFamily';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -8,19 +10,20 @@ const chartConfig = {
   backgroundGradientFrom: '#fff',
   backgroundGradientFromOpacity: 0,
   backgroundGradientTo: '#fff',
-  // backgroundGradientToOpacity: 0.5,
+  backgroundGradientToOpacity: 0.5,
   color: (opacity = 1) => `rgba(3, 138, 255, ${opacity})`,
   strokeWidth: 2, // optional, default 3
   barPercentage: 0.5,
-
+  labelColor: (opacity = 1) => grayColor,
   decimalPlaces: 0, // Remove decimal values on y-axis
   propsForBackgroundLines: {
-    // Background lines color
-    // Remove dashed background lines
+    stroke: "#f1f1f5", // Background lines color
+    strokeDasharray: '', // Remove dashed background lines
+    
   },
 };
 
-const MyBarChart = () => {
+const ProductUpload = () => {
   const [chartData, setChartData] = useState({
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [
@@ -46,7 +49,6 @@ const MyBarChart = () => {
               resolve({
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                 retailersData: [42, 22, 42, 42, 52, 62],
-                // estimatedTargetData: [18, 28, 38, 48, 58, 68],
               }),
             1000,
           ),
@@ -59,10 +61,6 @@ const MyBarChart = () => {
               data: response.retailersData,
               color: (opacity = 1) => `rgba(45, 85, 255, ${opacity})`, // Orange color for retailers
             },
-            // {
-            //   data: response.estimatedTargetData,
-            //   color: (opacity = 1) => `rgba(255, 0, 255, ${opacity})`, // Pink color for estimated target
-            // },
           ],
         });
       } catch (error) {
@@ -76,15 +74,22 @@ const MyBarChart = () => {
   return (
     <View style={styles.outerContainer}>
       <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Product Uploaded</Text>
-        <Text style={[styles.headerText, styles.totalRetailersText]}>
-          Total Products:
-          {chartData.datasets[0].data.reduce((a, b) => a + b, 0)}
-        </Text>
+        <Text style={styles.headerText}>Product Uploaded </Text>
+        <View className="flex flex-row">
+          <Text style={[styles.totalRetailersText]}>Total Products:</Text>
+          <Text
+            style={{
+              color: grayColor,
+              fontFamily: POPPINS.PoppinsSemiBold,
+              fontSize: 15,
+            }}>
+            {chartData.datasets[0].data.reduce((a, b) => a + b, 0)}
+          </Text>
+        </View>
       </View>
       <LineChart
         data={chartData}
-        width={screenWidth - 64} // Adjusting width to fit within the container padding
+        width={screenWidth - 44} // Adjusting width to fit within the container padding
         height={220}
         chartConfig={chartConfig}
         style={styles.chartStyle}
@@ -97,12 +102,11 @@ const MyBarChart = () => {
 
 const styles = StyleSheet.create({
   outerContainer: {
-    marginVertical: 16,
-    paddingHorizontal: 16,
-    paddingTop: 40, // Space for headers within the container
-    backgroundColor: '#fff',
+    marginVertical: 2,
+    paddingHorizontal: 0,
+    backgroundColor: white,
     borderRadius: 15,
-    shadowColor: '#000',
+    shadowColor: lightGray,
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.8,
     shadowRadius: 2,
@@ -120,16 +124,16 @@ const styles = StyleSheet.create({
     zIndex: 1, // Ensure the header is on top of the chart
   },
   headerText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#00274d', // Adjust color if needed to ensure visibility
+    fontSize: 13,
+    fontFamily: ROBOTO.RobotoBold,
+    color: blue,
   },
   totalRetailersText: {
-    borderWidth: 1,
-    borderColor: 'gray', // Updated border color to gray
+    color: grayColor,
     paddingHorizontal: 8,
     paddingVertical: 4,
-    borderRadius: 5,
+    fontSize: 10,
+    fontFamily: POPPINS.PoppinsMedium,
   },
   chartStyle: {
     marginTop: 40, // Space between the headers and the chart
@@ -137,4 +141,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyBarChart;
+export default ProductUpload;

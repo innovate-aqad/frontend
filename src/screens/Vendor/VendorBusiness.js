@@ -20,6 +20,8 @@ import {environmentVariables} from '../../config/Config';
 import {Divider} from 'react-native-paper';
 import { success } from '../../constants/ToastMessage';
 import VelidationSymbol from '../../constants/VelidationSymbol';
+import CustomStyle from '../../Styles';
+import { ROBOTO } from '../../constants/CustomFontFamily';
 export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [inputs, setInputs] = useState([{address: '', po_box: ''}]);
@@ -143,15 +145,13 @@ export default function VendorBusiness(nav) {
           </TouchableOpacity>
         </View>
 
-        <View className="mt-8">
+        <View className="mt-5">
           <Text
-            className="text-[35px] text-[#00274D]"
-            style={{fontFamily: 'Roboto-Bold'}}>
+            style={CustomStyle.signupHeading}>
             Vendor Info
           </Text>
           <Text
-            className="pt-2 text-xs text-gray-400"
-            style={{fontFamily: 'Poppins-Light'}}>
+            style={CustomStyle.signupSubDec}>
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
@@ -184,12 +184,12 @@ export default function VendorBusiness(nav) {
         </View>
         <SafeAreaView>
           <Text
-            className="text-[#00274D] mt-5 pl-1"
-            style={{fontFamily: 'Poppins-Medium'}}>
+            className="pl-1 mt-5 "
+            style={CustomStyle.inputLabel}>
             Company Name <VelidationSymbol/>
           </Text>
           <TextInput
-            style={styles.input}
+            style={CustomStyle.inputStyle}
             placeholderTextColor="rgb(210, 210, 210)"
             placeholder="Enter Company Name"
             className="!border-none pl-4 !border-white"
@@ -204,12 +204,12 @@ export default function VendorBusiness(nav) {
           )}
 
           <Text
-            className="text-[#00274D] pl-1 mt-1"
-            style={{fontFamily: 'Poppins-Medium'}}>
+            className="pl-1 mt-1"
+            style={CustomStyle.inputLabel}>
             Designation <VelidationSymbol/>
           </Text>
           <TextInput
-            style={styles.input}
+            style={CustomStyle.inputStyle}
             placeholderTextColor="rgb(210, 210, 210)"
             placeholder="Designation"
             className="!border-none pl-4 !border-white"
@@ -224,12 +224,12 @@ export default function VendorBusiness(nav) {
           )}
 
           <Text
-            className="text-[#00274D] pl-1 mt-1"
-            style={{fontFamily: 'Poppins-Medium'}}>
+            className="pl-1 mt-1"
+            style={CustomStyle.inputLabel}>
             Trade Licence Number
           </Text>
           <TextInput
-            style={styles.input}
+            style={CustomStyle.inputStyle}
             placeholderTextColor="rgb(210, 210, 210)"
             placeholder="Company Registered ID"
             className="!border-none pl-4 !border-white"
@@ -240,12 +240,12 @@ export default function VendorBusiness(nav) {
             onBlur={handleBlur('tradeLicenseNo')}
           />
           <Text
-            className="text-[#00274D] pl-1 mt-1"
-            style={{fontFamily: 'Poppins-Medium'}}>
+            className="pl-1 mt-1"
+            style={CustomStyle.inputLabel}>
             Company Address Line 1 <VelidationSymbol/>
           </Text>
           <TextInput
-            style={styles.input}
+            style={CustomStyle.inputStyle}
             placeholderTextColor="rgb(210, 210, 210)"
             placeholder="Enter Address line 1"
             className="!border-none pl-4 !border-white"
@@ -260,12 +260,12 @@ export default function VendorBusiness(nav) {
           )}
 
           <Text
-            className="text-[#00274D] pl-1 mt-1"
-            style={{fontFamily: 'Poppins-Medium'}}>
+            className="pl-1 mt-1 "
+            style={CustomStyle.inputLabel}>
             Company Address Line 2
           </Text>
           <TextInput
-            style={styles.input}
+            style={CustomStyle.inputStyle}
             placeholderTextColor="rgb(210, 210, 210)"
             placeholder="Enter Address line 2"
             className="!border-none pl-4 !border-white"
@@ -283,8 +283,8 @@ export default function VendorBusiness(nav) {
           <View className="flex flex-row justify-between gap-x-2">
             <View style={styles.inputContainer}>
               <Text
-                className="text-[#00274D] pl-1"
-                style={{fontFamily: 'Poppins-Medium'}}>
+                className="pl-1"
+                style={CustomStyle.inputLabel}>
                 Country
               </Text>
               <View className="p-1.5 bg-white rounded-[10px]">
@@ -309,8 +309,7 @@ export default function VendorBusiness(nav) {
             
             <View style={styles.inputContainer}>
               <Text
-                className="text-[#00274D]"
-                style={{fontFamily: 'Poppins-Medium'}}>
+                style={CustomStyle.inputLabel}>
                 PO Box <VelidationSymbol/>
               </Text>
               <TextInput
@@ -356,7 +355,7 @@ export default function VendorBusiness(nav) {
             className="flex flex-row items-center justify-center">
             <Text
               className="text-white flex flex-row  text-[19px]"
-              style={{fontFamily: 'Roboto-Regular'}}>
+              style={{fontFamily: ROBOTO.RobotoRegular}}>
               PROCEED
             </Text>
             {toggle ?null :
@@ -375,14 +374,6 @@ const styles = StyleSheet.create({
   topNavigation: {
     height: 15,
     width: 23.3,
-  },
-  input: {
-    paddingVertical: 4,
-    margin: 3,
-    borderWidth: 1,
-    color: 'gray',
-    backgroundColor: 'white',
-    fontFamily: 'Poppins-Light',
   },
   button: {
     backgroundColor: '#F96900',

@@ -4,9 +4,9 @@ import Dashboard from './Dashboard';
 import {Image, ScrollView} from 'react-native';
 import Support from './Support';
 import Deliveries from './Deliveries';
-import MyAccount from './MyAccount';
 import headset from '../../Assets/image/myaccount/headset.svg';
 import SvgUri from 'react-native-svg-uri';
+import AccountIndex from './MyAccount';
 
 const Tab = createBottomTabNavigator();
 const support = 'Support';
@@ -94,7 +94,7 @@ export default function LogisticIndex() {
       <Tab.Screen name={trade} component={Dashboard} />
       <Tab.Screen name={support} component={Support} />
       <Tab.Screen name={deliveries} component={Deliveries} />
-      <Tab.Screen name={account} component={MyAccount} />
+      <Tab.Screen name={account} component={AccountIndex} />
       
     </Tab.Navigator>
   );

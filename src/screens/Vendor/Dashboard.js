@@ -284,7 +284,6 @@ export default function Dashboard(nav) {
 
 
             />
-            {/* <BarChartDashboard/> */}
           </View>
         </View>
         

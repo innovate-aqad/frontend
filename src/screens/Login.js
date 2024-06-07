@@ -18,7 +18,9 @@ import {environmentVariables} from '../config/Config';
 import { success } from '../constants/ToastMessage';
 import { useNavigation } from '@react-navigation/native';
 import VelidationSymbol from '../constants/VelidationSymbol';
-// Make a request for a user with a given ID
+import { POPPINS, ROBOTO } from '../constants/CustomFontFamily';
+import { black, blue, grayColor, lightGray, screenBackground, textColorCustom, white } from '../constants/Theme';
+import CustomButton from '../Shared/CustomButton';
 
 export default function Login(nav) {
   const [isEnabled, setIsEnabled] = React.useState(false);
@@ -73,8 +75,9 @@ export default function Login(nav) {
       contentContainerStyle={{flexGrow: 1}}
       showsVerticalScrollIndicator={false}>
       <View
-        className="flex p-5 flex-col justify-center h-full bg-gray-100 !text-black"
-        style={{fontFamily: 'Poppins-Bold'}}>
+        className="flex flex-col justify-center h-full p-5"
+        style={{backgroundColor:screenBackground}}
+        >
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image
               style={styles.topNavigation}
@@ -83,21 +86,19 @@ export default function Login(nav) {
           </TouchableOpacity>
         <View>
           <Text
-            className="text-3xl text-[#00274D]"
-            style={{fontFamily: 'Roboto-Bold'}}>
+            style={{fontFamily: ROBOTO.RobotoBold,color:blue,fontSize:35}}>
             Welcome Back
           </Text>
           <Text
-            className="text-xs text-gray-400"
-            style={{fontFamily: 'Poppins-Light'}}>
+            style={{fontFamily: POPPINS.PoppinsLight,fontSize:13,color:"#7c7c7c"}}>
             Please enter your email and password for login
           </Text>
         </View>
         <View className="w-full pt-10">
           <SafeAreaView>
             <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-Medium'}}>
+              className="px-1"
+              style={{fontFamily: POPPINS.PoppinsMedium,fontSize:13,color:blue}}>
               Your Email <VelidationSymbol/>
             </Text>
             <View>
@@ -110,7 +111,7 @@ export default function Login(nav) {
                 placeholderTextColor="rgb(210, 210, 210)"
                 placeholder="example@gmail.com"
                 className="!border-none pl-4 py-1.5 !border-white"
-                borderRadius={18}
+                borderRadius={10}
               />
 
               {errors.email && touched.email && (
@@ -127,22 +128,22 @@ export default function Login(nav) {
             </View>
 
             <Text
-              className="text-[#00274D] px-3 mt-3"
-              style={{fontFamily: 'Poppins-Medium'}}>
+              className="px-3 mt-3"
+              style={{fontFamily: POPPINS.PoppinsMedium,fontSize:13,color:blue}}>
               Password <VelidationSymbol/>
             </Text>
 
             <View>
-              <View style={styles.container1}>
+              <View style={styles.passwordContainer}>
                 <TextInput
-                  style={styles.input1}
+                  style={styles.password}
                   placeholder="Enter your password"
                   underlineColorAndroid="transparent"
                   // maxLength={6}
                   secureTextEntry={!showPassword}
                   keyboardType="default"
                   disableFullscreenUI={true}
-                  borderRadius={18}
+                  borderRadius={10}
                   placeholderTextColor="rgb(210, 210, 210)"
                   name="password"
                   value={values.password}
@@ -154,7 +155,7 @@ export default function Login(nav) {
                   <Icon
                     name={showPassword ? 'eye-slash' : 'eye'}
                     size={24}
-                    color={showPassword ? '#00274D' : '#cbcbcb'}
+                    color={showPassword ? blue : lightGray}
                   />
                 </TouchableOpacity>
               </View>
@@ -180,16 +181,16 @@ export default function Login(nav) {
               <View style={{borderWidth: 0, borderColor: 'transparent'}}>
                 <ToggleSwitch
                   isOn={isEnabled}
-                  onColor="#00274D"
-                  offColor="gray"
+                  onColor={blue}
+                  offColor={grayColor}
                   // label="Example label"
-                  labelStyle={{color: 'black', fontWeight: '900'}}
+                  labelStyle={{color: black, fontWeight: '900'}}
                   size="small"
                   onToggle={isOn => rememberMe(isOn)}
                 />
               </View>
 
-              <Text style={styles.label1} className="text-[#00274D]">
+              <Text style={styles.label1}>
                 Remember me
               </Text>
             </View>
@@ -203,71 +204,58 @@ export default function Login(nav) {
         </View>
         <View className="w-full">
           <View>
-            <TouchableOpacity
-              onPress={() => handleSubmit()}
-              style={styles.button}>
-              <Text
-                className="text-white text-[18px]"
-                style={{fontFamily: 'Roboto-Regular'}}>
-                LOGIN
-              </Text>
-            </TouchableOpacity>
+            <CustomButton onPress={() => handleSubmit()} text={"LOGIN"} />
           </View>
 
           <View
             className="py-5"
             style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View style={{flex: 1, height: 1}} className="bg-gray-300" />
-            <View>
+            <View style={{flex: 1, height: 1,backgroundColor:lightGray}} />
+            
               <Text
-                className="text-gray-400"
                 style={{
                   width: 50,
                   textAlign: 'center',
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: POPPINS.PoppinsMedium,
+                  color:lightGray
                 }}>
                 OR
               </Text>
-            </View>
-            <View style={{flex: 1, height: 1}} className="bg-gray-300" />
+            <View style={{flex: 1, height: 1,backgroundColor:lightGray}} />
           </View>
         </View>
         <View className="flex flex-col gap-y-2">
-          <TouchableOpacity className="flex-row items-center !px-4 py-2 my-1 bg-white border border-white rounded-full">
-            <AntDesign name="google" color={'black'} size={22} />
-            <Text className=" text-center font-[Roboto-Regular] text-[#00274D] flex-1">
+          <TouchableOpacity className="flex-row items-center !px-4 py-2 my-1 bg-white rounded-[10px]">
+            <AntDesign name="google" color={blue} size={22} />
+            <Text className="flex-1" style={styles.socialText}>
               Sign up with Google
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity className="flex-row items-center !px-4 py-2 my-1 bg-white border !border-white rounded-full">
+          <TouchableOpacity className="flex-row items-center !px-4 py-2 my-1 bg-white rounded-[10px]">
             <View>
-              <AntDesign name="apple1" color={'black'} size={22} />
+              <AntDesign name="apple1" color={blue} size={22} />
             </View>
-            <Text className=" text-center font-[Roboto-Regular] text-[#00274D] flex-1">
+            <Text className="flex-1" style={styles.socialText} >
               Sign up with Apple
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity className="flex-row !px-4 py-2 items-center my-1 bg-white border !border-white rounded-full">
-            <Ionicons name="finger-print-outline" color={'black'} size={22} />
-            <Text className=" text-center font-[Roboto-Regular] text-[#00274D] flex-1">
+          <TouchableOpacity className="flex-row !px-4 py-2 items-center my-1 bg-white rounded-[10px]">
+            <Ionicons name="finger-print-outline" color={blue} size={22} />
+            <Text className="flex-1" style={styles.socialText}>
               Sign up with UEA Pass
             </Text>
           </TouchableOpacity>
         </View>
         <View className="flex flex-row items-center justify-center mt-8">
-          <Text className="text-gray-400 font-[Roboto-Regular]">
+          <Text style={{fontFamily:ROBOTO.RobotoRegular,fontSize:13,color:blue}}>
             New to AQAD ?
           </Text>
           <TouchableOpacity
             className="px-5 "
             onPress={() => {
-              // nav.navigation.navigate('signup');
-              // nav.navigation.navigate('logidrivdetail', {
-              //   id: 'd3c410d0a9c54ee39f1a70057cb6df6d',
-              // });
-              nav.navigation.navigate('productIndex');
+              nav.navigation.navigate('signup');
             }}>
-            <Text className="text-[#F96900] font-[Roboto-Regular]">
+            <Text style={{fontFamily:ROBOTO.RobotoRegular,fontSize:13,color:textColorCustom}}>
               Sign Up
             </Text>
           </TouchableOpacity>
@@ -285,48 +273,43 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    color: 'gray',
-    backgroundColor: 'white',
-    fontFamily: 'Poppins-Light',
+    color: grayColor,
+    backgroundColor: white,
+    fontFamily: POPPINS.PoppinsLight,
     paddingHorizontal: 18,
   },
   checkboxContainer: {
     marginBottom: 10,
   },
-  checkbox: {
-    alignSelf: 'center',
-  },
   label1: {
     margin: 8,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: POPPINS.PoppinsMedium,
+    color:blue
   },
-  button: {
-    backgroundColor: '#F96900', // Default button color
-    padding: 12,
-    paddingHorizontal: 40,
-    borderRadius: 10,
-    alignItems: 'center',
-    color: 'red',
-  },
-
-  container1: {
+  passwordContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: 'white',
-    backgroundColor: 'white',
-    borderRadius: 25,
+    borderColor: white,
+    backgroundColor: white,
+    borderRadius: 10,
     paddingHorizontal: 18,
-    // marginHorizontal: 10,
     borderBottomWidth: 0,
   },
-  input1: {
+  password: {
     flex: 1,
     height: 40,
-    backgroundColor: 'white',
-    borderColor: 'white',
+    backgroundColor: white,
+    borderColor: white,
     paddingRight: 5,
-    color: '#cbcbcb',
+    color: lightGray,
     borderWidth: 2,
     // marginLeft: 5,
   },
+  socialText:{
+    fontFamily:ROBOTO.RobotoRegular,
+    fontSize:13,
+    color:blue,
+    alignItems:"center",
+    textAlign:"center"
+  }
 });
