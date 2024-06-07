@@ -5,6 +5,7 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import {MenuProvider} from 'react-native-popup-menu';
 import Toast from 'react-native-toast-message';
 import Index from './src/screens';
+import Main_App from './src/screens/vendor_drawer/Main_App';
 
 // const Stack=createNativeStackNavigator()
 export default function App() {
@@ -13,7 +14,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <MenuProvider>
-        <Index />
+        {/* <Index /> */}
+        <Main_App />
         <Toast />
       </MenuProvider>
     </NavigationContainer>

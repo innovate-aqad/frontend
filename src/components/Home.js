@@ -18,7 +18,7 @@ export default function Home() {
   const handleSearch = () => {};
   return (
     <View className="flex flex-col pb-20">
-      <Header></Header>
+      {/* <Header></Header> */}
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{flexGrow: 1}}

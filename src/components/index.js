@@ -42,33 +42,47 @@ export default function Buttomtab() {
                 color={(iconName = focused ? '#F96900' : color)}
               />
             );
-            
           } else if (rn === trade) {
             return (
               <Image
-                style={{height: 24, width: 24,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
+                style={{
+                  height: 24,
+                  width: 24,
+                  tintColor: (iconName = focused ? '#f96900' : '#cbcbcb'),
+                }}
                 source={require('../Assets/image/drawable-hdpi/boxes.png')}
               />
             );
-          }
-          else if (rn === account) {
+          } else if (rn === account) {
             return (
               <Image
-                style={{height: 23, width: 17.3,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
+                style={{
+                  height: 23,
+                  width: 17.3,
+                  tintColor: (iconName = focused ? '#f96900' : '#cbcbcb'),
+                }}
                 source={require('../Assets/image/drawable-hdpi/user.png')}
               />
             );
           } else if (rn === insights) {
             return (
               <Image
-                style={{height: 24, width: 24,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
+                style={{
+                  height: 24,
+                  width: 24,
+                  tintColor: (iconName = focused ? '#f96900' : '#cbcbcb'),
+                }}
                 source={require('../Assets/image/drawable-hdpi/chart_histogram.png')}
               />
             );
           } else {
             return (
               <Image
-                style={{height: 24, width: 24,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
+                style={{
+                  height: 24,
+                  width: 24,
+                  tintColor: (iconName = focused ? '#f96900' : '#cbcbcb'),
+                }}
                 source={require('../Assets/image/drawable-hdpi/marketplace.png')}
               />
             );
@@ -93,8 +107,7 @@ export default function Buttomtab() {
         },
         tabBarActiveTintColor: '#F96900',
 
-        headerShadowVisible:false
-        
+        headerShadowVisible: false,
       })}
       // screenOptions={{headerShown: false}}
     >
