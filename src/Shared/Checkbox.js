@@ -21,7 +21,7 @@ export default function Checkbox({label}) {
           ) : null}
         </Text>
       </TouchableOpacity>
-      <Text style={styles.lebel}>{label ? label : "Checked"}</Text>
+      <Text style={styles.lebel}>{label ? label : null}</Text>
     </View>
   );
 }

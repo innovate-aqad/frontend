@@ -50,7 +50,7 @@ export default function MyAccount(nav) {
           <TouchableOpacity
             style={{backgroundColor: '#e6e9f4'}}
             className="p-3 w-[48%] rounded-full"
-            onPress={() => nav.navigation.navigate('logisticIndex')}>
+            onPress={()=>nav.navigation.navigate('inventoryLists')}>
             <Text
               className="text-center text-[13px]"
               style={{fontFamily: POPPINS.PoppinsRegular,color:blue}}>

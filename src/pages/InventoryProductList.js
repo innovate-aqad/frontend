@@ -1,8 +1,11 @@
 import React from 'react';
 import {FlatList, Text, View, StyleSheet} from 'react-native';
-import {POPPINS} from '../constants/CustomFontFamily';
-import {blue, grayColor, white} from '../constants/Theme';
-import Checkbox from './Checkbox';
+import Checkbox from '../Shared/Checkbox';
+import { blue, grayColor, white } from '../constants/Theme';
+import { POPPINS } from '../constants/CustomFontFamily';
+// import {POPPINS} from '../constants/CustomFontFamily';
+// import {blue, grayColor, white} from '../constants/Theme';
+// import Checkbox from './Checkbox';
 
 const data = [
   {id: '1', title: 'Item 1'},
@@ -28,7 +31,7 @@ const data = [
 
 ];
 
-const TextLine = () => {
+const InventoryProductList = () => {
   const renderItem = ({item}) =>
     item.id === '1' ? (
       <View className="flex flex-row">
@@ -131,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TextLine;
+export default InventoryProductList;

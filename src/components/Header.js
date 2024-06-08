@@ -1,10 +1,10 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
 import { blue, flexTradButtonColor } from '../constants/Theme';
 import { POPPINS } from '../constants/CustomFontFamily';
 
-export default function Header() {
+export default function Header(nav) {
   return (
     <View className="flex flex-row items-center justify-between p-3 px-5 bg-white">
       <View className="">
@@ -26,12 +26,12 @@ export default function Header() {
           AL QUTUB Al DHAHABI
         </Text>
       </View>
-      <View>
+      <TouchableOpacity>
         <Octicons name="bell" size={12.5} color={blue} />
         <Text className="absolute text-center flex flex-col justify-center pt-0.2 items-center w-[17px] h-[15px] text-[10px] text-white bg-[#f96900] rounded-full right-1 top-1">
           10
         </Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }

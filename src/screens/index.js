@@ -42,6 +42,8 @@ import AddUserInfo from './Vendor/InventoryManagement/AddUserInfo';
 import UserList from './Vendor/InventoryManagement/UserList';
 import EditUser from './Vendor/InventoryManagement/EditUser';
 import UniversalButtomtab from '../components';
+import InventoryLists from "./Vendor/InventoryManagement/InventoryList"
+import TextLine from '../Shared/TextLine';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -90,6 +92,8 @@ export default function Index() {
       <Stack.Screen name="addUserInfo" component={AddUserInfo} />
       <Stack.Screen name="userList" component={UserList} />
       <Stack.Screen name="editUser" component={EditUser} />
+      <Stack.Screen name="inventoryLists" component={InventoryLists} />
+      <Stack.Screen name="textLine" component={TextLine} />
       {/* Inventory Management end */}
     </Stack.Navigator>
   );
