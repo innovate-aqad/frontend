@@ -22,6 +22,7 @@ export default function Signup(nav) {
 
   const redirectVendor = () => {
     nav.navigation.navigate('piechart');
+    nav.navigation.navigate('vendor');
     // nav.navigation.navigate('pmain');
   };
   const redirectLogistic = () => {
