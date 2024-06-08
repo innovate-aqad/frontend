@@ -39,9 +39,9 @@ export default function CustomDrawerContent(props) {
           <View
             className="flex flex-row  
     ">
-            <SvgUri source={comment}></SvgUri>
+            <SvgUri source={comment} style={styles.svg}></SvgUri>
 
-            <Text style={styles.drawerLabel}>Chat with us</Text>
+            <Text style={styles.drawerLabel}>Chat With Us</Text>
           </View>
           {/* <Entypo
             name={isChatExpanded ? 'chevron-up' : 'chevron-down'}
@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
+    paddingTop: 30,
 
     position: 'relative',
   },
@@ -137,10 +138,14 @@ const styles = StyleSheet.create({
   },
   menuText: {
     position: 'absolute',
-    left: '50%',
+    left: '40%',
     // transform: [{ translateX: -50% }],
-    fontSize: 18,
-    color: '#000',
+    fontSize: 20,
+    color: '#00274d',
+    fontFamily: 'Roboto-Bold',
+    textTransform: 'uppercase',
+    paddingTop: 30,
+    letterSpacing: 1,
   },
 
   drawerItem: {
@@ -157,15 +162,23 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   drawerLabel: {
-    fontSize: 16,
-    paddingLeft: 20,
+    fontSize: 15,
+    paddingLeft: 28,
+    fontFamily: 'Poppins-Regular',
+    color: '#7e84a3',
   },
   drawerLabel2: {
-    fontSize: 16,
-    paddingLeft: 34,
+    fontSize: 13,
+    paddingLeft: 42,
+    fontFamily: 'Poppins-Regular',
+    color: '#7e84a3',
   },
   tinyLogo: {
     height: 8,
     width: 14,
+  },
+  svg: {
+    height: 24,
+    width: 24,
   },
 });

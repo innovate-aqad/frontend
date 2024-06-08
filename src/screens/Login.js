@@ -4,8 +4,9 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -15,10 +16,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {useFormik} from 'formik';
 import {LoginSchema} from '../schemas/LoginSchema';
 import {environmentVariables} from '../config/Config';
-import { success } from '../constants/ToastMessage';
-import { useNavigation } from '@react-navigation/native';
+import {success} from '../constants/ToastMessage';
+import {useNavigation} from '@react-navigation/native';
 import VelidationSymbol from '../constants/VelidationSymbol';
-// Make a request for a user with a given ID
+import NetInfo from '@react-native-community/netinfo';
 
 export default function Login(nav) {
   const [isEnabled, setIsEnabled] = React.useState(false);
@@ -36,37 +37,71 @@ export default function Login(nav) {
     email: '',
     password: '',
   };
+
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     useFormik({
       initialValues,
       validationSchema: LoginSchema,
       onSubmit: async (values, action) => {
-        console.log('values', values);
-        await axios({
-          method: 'post',
-          url: `${environmentVariables?.apiUrl}/api/user/login`,
+        NetInfo.fetch().then(state => {
+          console.log(state, 'statestate');
+          if (state.isConnected) {
+            if (state.type === 'wifi' && state.isInternetReachable) {
+              Alert.alert('Connection Info', 'You are connected to WiFi');
+            } else if (state.type === 'cellular' && state.isInternetReachable) {
+              Alert.alert(
+                'Connection Info',
+                'You are connected to Mobile Data',
+              );
+            } else {
+              Alert.alert('Connection Info', 'No internet connection');
+            }
+            handleOnlineLogin(values, action);
+          } else {
+            Alert.alert('Connection Info', 'No internet connection');
+          }
+        });
+      },
+    });
+
+  const handleOnlineLogin = async (values, action) => {
+    try {
+      const response = await axios.post(
+        `${environmentVariables?.apiUrl}/api/user/login`,
+        {
+          email: values.email,
+          password: values.password,
+        },
+        {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
-          data: {
-            email: values.email,
-            password: values.password,
-          },
-        })
-          .then(response => {
-            action.resetForm();
-            success({type: 'success', text: response.data.message})
-            nav.navigation.navigate('otpscreen', {email: values.email,handleSubmit});
-          })
-          .catch(error => {
-            success({type: 'error', text: error?.response?.data?.message || error?.message})
-          });
-      },
+        },
+      );
+      action.resetForm();
+      success({type: 'success', text: response.data.message});
+      nav.navigation.navigate('otpscreen', {email: values.email, handleSubmit});
+    } catch (error) {
+      success({
+        type: 'error',
+        text: error?.response?.data?.message || error?.message,
+      });
+    }
+  };
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      console.log('Connection type', state.type);
+      console.log('Is connected?', state.isConnected);
+      console.log('Is internet reachable?', state.isInternetReachable);
     });
 
+    return () => unsubscribe();
+  }, []);
 
-    const navigation=useNavigation()
   return (
     <ScrollView
       keyboardShouldPersistTaps="handled"
@@ -75,12 +110,12 @@ export default function Login(nav) {
       <View
         className="flex p-5 flex-col justify-center h-full bg-gray-100 !text-black"
         style={{fontFamily: 'Poppins-Bold'}}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image
-              style={styles.topNavigation}
-              source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
-            />
-          </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            style={styles.topNavigation}
+            source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
+          />
+        </TouchableOpacity>
         <View>
           <Text
             className="text-3xl text-[#00274D]"
@@ -98,7 +133,7 @@ export default function Login(nav) {
             <Text
               className="text-[#00274D] px-3"
               style={{fontFamily: 'Poppins-Medium'}}>
-              Your Email <VelidationSymbol/>
+              Your Email <VelidationSymbol />
             </Text>
             <View>
               <TextInput
@@ -112,7 +147,6 @@ export default function Login(nav) {
                 className="!border-none pl-4 py-1.5 !border-white"
                 borderRadius={18}
               />
-
               {errors.email && touched.email && (
                 <Text
                   style={{
@@ -129,7 +163,7 @@ export default function Login(nav) {
             <Text
               className="text-[#00274D] px-3 mt-3"
               style={{fontFamily: 'Poppins-Medium'}}>
-              Password <VelidationSymbol/>
+              Password <VelidationSymbol />
             </Text>
 
             <View>
@@ -138,7 +172,6 @@ export default function Login(nav) {
                   style={styles.input1}
                   placeholder="Enter your password"
                   underlineColorAndroid="transparent"
-                  // maxLength={6}
                   secureTextEntry={!showPassword}
                   keyboardType="default"
                   disableFullscreenUI={true}
@@ -149,7 +182,6 @@ export default function Login(nav) {
                   onChangeText={handleChange('password')}
                   onBlur={handleBlur('password')}
                 />
-
                 <TouchableOpacity onPress={toggleShowPassword}>
                   <Icon
                     name={showPassword ? 'eye-slash' : 'eye'}
@@ -158,7 +190,6 @@ export default function Login(nav) {
                   />
                 </TouchableOpacity>
               </View>
-
               {errors.password && touched.password && (
                 <Text
                   style={{
@@ -182,13 +213,11 @@ export default function Login(nav) {
                   isOn={isEnabled}
                   onColor="#00274D"
                   offColor="gray"
-                  // label="Example label"
                   labelStyle={{color: 'black', fontWeight: '900'}}
                   size="small"
                   onToggle={isOn => rememberMe(isOn)}
                 />
               </View>
-
               <Text style={styles.label1} className="text-[#00274D]">
                 Remember me
               </Text>
@@ -197,7 +226,7 @@ export default function Login(nav) {
               className="text-[#00274D]"
               style={{fontFamily: 'Poppins-Medium'}}
               onPress={gotoForgot}>
-              Forget Password ?
+              Forget Password?
             </Text>
           </View>
         </View>
@@ -256,16 +285,12 @@ export default function Login(nav) {
         </View>
         <View className="flex flex-row items-center justify-center mt-8">
           <Text className="text-gray-400 font-[Roboto-Regular]">
-            New to AQAD ?
+            New to AQAD?
           </Text>
           <TouchableOpacity
             className="px-5 "
             onPress={() => {
-              // nav.navigation.navigate('signup');
-              // nav.navigation.navigate('logidrivdetail', {
-              //   id: 'd3c410d0a9c54ee39f1a70057cb6df6d',
-              // });
-              nav.navigation.navigate('productIndex');
+              nav.navigation.navigate('signup');
             }}>
             <Text className="text-[#F96900] font-[Roboto-Regular]">
               Sign Up
@@ -308,7 +333,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     color: 'red',
   },
-
   container1: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -316,7 +340,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 25,
     paddingHorizontal: 18,
-    // marginHorizontal: 10,
     borderBottomWidth: 0,
   },
   input1: {
@@ -327,6 +350,5 @@ const styles = StyleSheet.create({
     paddingRight: 5,
     color: '#cbcbcb',
     borderWidth: 2,
-    // marginLeft: 5,
   },
 });

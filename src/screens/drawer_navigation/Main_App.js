@@ -1,5 +1,6 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import {View, TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
 import Aboutus from './Aboutus';
 import FAQ from './FAQ';
 import Rating from './Rating';
@@ -56,6 +57,8 @@ export default function Main_App() {
         component={FAQ}
         options={{
           drawerIcon: () => <SvgUri source={messages_question}></SvgUri>,
+          title: "FAQ's",
+          drawerLabelStyle: styles.drawerLabel,
         }}
       />
       <Drawer.Screen
@@ -63,6 +66,8 @@ export default function Main_App() {
         component={Aboutus}
         options={{
           drawerIcon: () => <SvgUri source={info}></SvgUri>,
+          title: 'About Us',
+          drawerLabelStyle: styles.drawerLabel,
         }}
       />
       <Drawer.Screen
@@ -70,7 +75,8 @@ export default function Main_App() {
         component={Rating}
         options={{
           drawerIcon: () => <SvgUri source={feedback_review}></SvgUri>,
-          title: 'ratttingrattting',
+          title: 'Ratings & Feedbacks',
+          drawerLabelStyle: styles.drawerLabel,
         }}
       />
       <Drawer.Screen
@@ -78,6 +84,8 @@ export default function Main_App() {
         component={Settings}
         options={{
           drawerIcon: () => <SvgUri source={settings}></SvgUri>,
+          title: 'Settings',
+          drawerLabelStyle: styles.drawerLabel,
         }}
       />
       {/* chat with us */}
@@ -112,3 +120,11 @@ export default function Main_App() {
     </Drawer.Navigator>
   );
 }
+const styles = StyleSheet.create({
+  drawerLabel: {
+    fontSize: 15,
+
+    fontFamily: 'Poppins-Regular',
+    color: '#7e84a3',
+  },
+});

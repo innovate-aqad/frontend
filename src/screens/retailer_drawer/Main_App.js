@@ -5,12 +5,11 @@ import CustomDrawerContent from './CustomDrawerContent';
 import SvgUri from 'react-native-svg-uri';
 import messages_question from '../../Assets/image/messages_question.svg';
 import info from '../../Assets/image/info.svg';
-import feedback_review from '../../Assets/image/feedback_review.svg';
-import EPR_CRM from './EPR_CRM';
-import Use_Managemant from './Use_Managemant';
-import Invent_Management from './Invent_Management';
-import Dashboard from '../../screens/Vendor/Dashboard';
-import Settings from './Settings';
+
+import User_Mnagement from './User_Mnagement';
+import Invent_Mnagement from './Invent_Mnagement';
+import Dashboard from '../../screens/Retailer/Dashboard';
+
 import {View, TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
 
 const Drawer = createDrawerNavigator();
@@ -45,19 +44,21 @@ export default function Main_App() {
       {/* remaining screens */}
       {/* <Drawer.Screen name="Request a Call" component={Requestcall} /> */}
       <Drawer.Screen
-        name="epr"
-        component={EPR_CRM}
+        name="invent"
+        component={Invent_Mnagement}
         options={{
           drawerIcon: () => <SvgUri source={messages_question}></SvgUri>,
-          title: 'ERP & CRM Integration',
+          title: 'invent mng',
+          drawerLabelStyle: styles.drawerLabel,
         }}
       />
       <Drawer.Screen
         name="usermang"
-        component={Use_Managemant}
+        component={User_Mnagement}
         options={{
           drawerIcon: () => <SvgUri source={info}></SvgUri>,
           title: 'User Management',
+          drawerLabelStyle: styles.drawerLabel,
         }}
       />
       {/* <Drawer.Screen
