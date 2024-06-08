@@ -4,27 +4,22 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import { blue, flexTradButtonColor } from '../constants/Theme';
 import { POPPINS } from '../constants/CustomFontFamily';
 
-export default function Header(nav) {
+export default function Header({navigation}) {
   return (
-    <View className="flex flex-row items-center justify-between p-3 px-5 bg-white">
-      <View className="">
+    <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.openDrawer()}>
         <Image
           style={{height: 21, width: 24,tintColor:flexTradButtonColor}}
           className=""
           source={require('../Assets/image/bars-sort.png')}
         />
-        {/* <DrawerHome/> */}
-      </View>
-      <View className="flex flex-col items-center gap-x-3">
+      </TouchableOpacity>
+      <View style={styles.titleContainer}>
         <Image
           style={styles.tinyLogo}
-          className=""
           source={require('../Assets/image/omniIcon.jpeg')}
         />
-
-        <Text className="text-[#050605]" style={styles.fontFamily}>
-          AL QUTUB Al DHAHABI
-        </Text>
+        <Text style={styles.title}>AL QUTUB Al DHAHABI</Text>
       </View>
       <TouchableOpacity>
         <Octicons name="bell" size={12.5} color={blue} />
@@ -37,6 +32,22 @@ export default function Header(nav) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 15,
+    backgroundColor: 'white',
+  },
+  menuIcon: {
+    height: 21,
+    width: 24,
+    tintColor: '#7e84a3',
+  },
+  titleContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
   tinyLogo: {
     width: 30.9,
     height: 29.8,
@@ -45,5 +56,22 @@ const styles = StyleSheet.create({
   fontFamily: {
     fontFamily: POPPINS.PoppinsBold,
     fontSize: 12,
+    color: '#050605',
+  },
+  notificationContainer: {
+    position: 'relative',
+  },
+  notificationBadge: {
+    position: 'absolute',
+    top: -5,
+    right: -5,
+    backgroundColor: '#f96900',
+    color: 'white',
+    borderRadius: 7.5,
+    width: 17,
+    height: 15,
+    textAlign: 'center',
+    fontSize: 10,
+    lineHeight: 15,
   },
 });

@@ -58,7 +58,7 @@ export default function Dashboard(nav) {
 
   return (
     <View className="flex flex-col pb-20">
-      <View className="flex flex-row items-center justify-between p-3 px-5 bg-white">
+      {/* <View className="flex flex-row items-center justify-between p-3 px-5 bg-white">
         <View className="">
           <Image
             style={{height: 21, width: 24, tintColor: '#7e84a3'}}
@@ -83,7 +83,7 @@ export default function Dashboard(nav) {
             10
           </Text>
         </View>
-      </View>
+      </View> */}
 
       <ScrollView
         style={{marginBottom: 58}}
@@ -117,7 +117,9 @@ export default function Dashboard(nav) {
               <View className=" bg-[#f96900] rounded h-1 py-0.5 w-[23%]"></View>
               <View className=" bg-slate-300 rounded h-1 py-0.5 w-[23%]"></View>
             </View>
-            <Text className="text-[#00274d] mt-1 font-[Roboto-Bold] " style={{fontSize:13}}>
+            <Text
+              className="text-[#00274d] mt-1 font-[Roboto-Bold] "
+              style={{fontSize: 13}}>
               Order Id #2324390
             </Text>
             <View className="flex flex-row justify-between mt-2">
@@ -165,7 +167,13 @@ export default function Dashboard(nav) {
           </View>
         </View>
         <View className="mt-2">
-          <Text  style={{color:"#00274d",fontSize:13,fontFamily:"Roboto-Bold",paddingLeft:15}}>
+          <Text
+            style={{
+              color: '#00274d',
+              fontSize: 13,
+              fontFamily: 'Roboto-Bold',
+              paddingLeft: 15,
+            }}>
             Low Stocks
           </Text>
           <ScrollView
@@ -200,9 +208,15 @@ export default function Dashboard(nav) {
         </View>
         <View className="mt-2">
           <View>
-          <Text  style={{color:"#00274d",fontSize:13,fontFamily:"Roboto-Bold",paddingLeft:15}}>
-            Recent Stock
-          </Text>
+            <Text
+              style={{
+                color: '#00274d',
+                fontSize: 13,
+                fontFamily: 'Roboto-Bold',
+                paddingLeft: 15,
+              }}>
+              Recent Stock
+            </Text>
           </View>
           <ScrollView
             ref={scrollViewRef}
@@ -231,11 +245,13 @@ export default function Dashboard(nav) {
                     borderColor: '#cbcbcb',
                     borderRadius: 50,
                     overflow: 'hidden',
-                    padding:8
+                    padding: 8,
                   }}>
                   <Image
                     style={{height: 35, width: 35, borderRadius: 23}}
-                    source={{uri:"https://media.croma.com/image/upload/v1701615047/Croma%20Assets/Communication/Wearable%20Devices/Images/301656_0_mwallh.png"}}
+                    source={{
+                      uri: 'https://media.croma.com/image/upload/v1701615047/Croma%20Assets/Communication/Wearable%20Devices/Images/301656_0_mwallh.png',
+                    }}
                   />
                 </View>
                 <View
@@ -263,7 +279,12 @@ export default function Dashboard(nav) {
 
         <View className="px-3">
           <View className="mt-2">
-            <Text  style={{color:"#00274d",fontSize:13,fontFamily:"Roboto-Bold"}}>
+            <Text
+              style={{
+                color: '#00274d',
+                fontSize: 13,
+                fontFamily: 'Roboto-Bold',
+              }}>
               Key Performance Inputs (KPI's)
             </Text>
             <View className="flex flex-row justify-between mt-2 gap-x-2">
@@ -410,7 +431,12 @@ export default function Dashboard(nav) {
           </View>
 
           <View className="p-2 my-3 bg-white rounded-lg shadow-lg">
-            <Text  style={{color:"#00274d",fontSize:13,fontFamily:"Roboto-Bold"}}>
+            <Text
+              style={{
+                color: '#00274d',
+                fontSize: 13,
+                fontFamily: 'Roboto-Bold',
+              }}>
               Leading Category
             </Text>
             <Divider style={{backgroundColor: '#e6e9f4', marginVertical: 4}} />

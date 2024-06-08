@@ -4,8 +4,9 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -15,12 +16,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {useFormik} from 'formik';
 import {LoginSchema} from '../schemas/LoginSchema';
 import {environmentVariables} from '../config/Config';
-import { success } from '../constants/ToastMessage';
-import { useNavigation } from '@react-navigation/native';
+import {success} from '../constants/ToastMessage';
+import {useNavigation} from '@react-navigation/native';
 import VelidationSymbol from '../constants/VelidationSymbol';
 import { POPPINS, ROBOTO } from '../constants/CustomFontFamily';
 import { black, blue, grayColor, lightGray, screenBackground, textColorCustom, white } from '../constants/Theme';
 import CustomButton from '../Shared/CustomButton';
+import NetInfo from '@react-native-community/netinfo';
 
 export default function Login(nav) {
   const [isEnabled, setIsEnabled] = React.useState(false);
@@ -38,37 +40,71 @@ export default function Login(nav) {
     email: '',
     password: '',
   };
+
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     useFormik({
       initialValues,
       validationSchema: LoginSchema,
       onSubmit: async (values, action) => {
-        console.log('values', values);
-        await axios({
-          method: 'post',
-          url: `${environmentVariables?.apiUrl}/api/user/login`,
+        NetInfo.fetch().then(state => {
+          console.log(state, 'statestate');
+          if (state.isConnected) {
+            if (state.type === 'wifi' && state.isInternetReachable) {
+              Alert.alert('Connection Info', 'You are connected to WiFi');
+            } else if (state.type === 'cellular' && state.isInternetReachable) {
+              Alert.alert(
+                'Connection Info',
+                'You are connected to Mobile Data',
+              );
+            } else {
+              Alert.alert('Connection Info', 'No internet connection');
+            }
+            handleOnlineLogin(values, action);
+          } else {
+            Alert.alert('Connection Info', 'No internet connection');
+          }
+        });
+      },
+    });
+
+  const handleOnlineLogin = async (values, action) => {
+    try {
+      const response = await axios.post(
+        `${environmentVariables?.apiUrl}/api/user/login`,
+        {
+          email: values.email,
+          password: values.password,
+        },
+        {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
-          data: {
-            email: values.email,
-            password: values.password,
-          },
-        })
-          .then(response => {
-            action.resetForm();
-            success({type: 'success', text: response.data.message})
-            nav.navigation.navigate('otpscreen', {email: values.email,handleSubmit});
-          })
-          .catch(error => {
-            success({type: 'error', text: error?.response?.data?.message || error?.message})
-          });
-      },
+        },
+      );
+      action.resetForm();
+      success({type: 'success', text: response.data.message});
+      nav.navigation.navigate('otpscreen', {email: values.email, handleSubmit});
+    } catch (error) {
+      success({
+        type: 'error',
+        text: error?.response?.data?.message || error?.message,
+      });
+    }
+  };
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      console.log('Connection type', state.type);
+      console.log('Is connected?', state.isConnected);
+      console.log('Is internet reachable?', state.isInternetReachable);
     });
 
+    return () => unsubscribe();
+  }, []);
 
-    const navigation=useNavigation()
   return (
     <ScrollView
       keyboardShouldPersistTaps="handled"
@@ -113,7 +149,6 @@ export default function Login(nav) {
                 className="!border-none pl-4 py-1.5 !border-white"
                 borderRadius={10}
               />
-
               {errors.email && touched.email && (
                 <Text
                   style={{
@@ -139,7 +174,6 @@ export default function Login(nav) {
                   style={styles.password}
                   placeholder="Enter your password"
                   underlineColorAndroid="transparent"
-                  // maxLength={6}
                   secureTextEntry={!showPassword}
                   keyboardType="default"
                   disableFullscreenUI={true}
@@ -150,7 +184,6 @@ export default function Login(nav) {
                   onChangeText={handleChange('password')}
                   onBlur={handleBlur('password')}
                 />
-
                 <TouchableOpacity onPress={toggleShowPassword}>
                   <Icon
                     name={showPassword ? 'eye-slash' : 'eye'}
@@ -159,7 +192,6 @@ export default function Login(nav) {
                   />
                 </TouchableOpacity>
               </View>
-
               {errors.password && touched.password && (
                 <Text
                   style={{
@@ -198,7 +230,7 @@ export default function Login(nav) {
               className="text-[#00274D]"
               style={{fontFamily: 'Poppins-Medium'}}
               onPress={gotoForgot}>
-              Forget Password ?
+              Forget Password?
             </Text>
           </View>
         </View>
@@ -303,7 +335,6 @@ const styles = StyleSheet.create({
     paddingRight: 5,
     color: lightGray,
     borderWidth: 2,
-    // marginLeft: 5,
   },
   socialText:{
     fontFamily:ROBOTO.RobotoRegular,
