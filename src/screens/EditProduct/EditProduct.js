@@ -329,6 +329,7 @@ const EditProduct = nav => {
                 onPress={() =>
                   nav?.navigation?.navigate('editProductVariant', {
                     id: item?.id,
+                    productId: id,
                   })
                 }>
                 <Text>{item?.sku}</Text>

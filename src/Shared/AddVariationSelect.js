@@ -5,6 +5,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {retrieveToken} from './EncryptionDecryption/Token';
+import {environmentVariables} from '../../config/Config';
 
 const data = [{address: 'Djdjdj', po_box: 'Jdndnd'}];
 
@@ -24,7 +25,7 @@ export const AddVariantionType = ({placeholder, value, setValue, formik}) => {
         );
         setResData(response.data.data);
       } catch (error) {
-        console.log('error', error);
+        console.log('error111', error?.message, error?.response?.data?.message);
       }
     };
     getVariationData();
@@ -98,12 +99,53 @@ export const AddWareHouseType = ({placeholder, value, setValue, formik}) => {
         );
 
         setResData(response?.data?.details);
+        console.log(
+          'fhfhfhf',
+          response?.data?.details?.warehouse_addresses,
+          value,
+        );
+
+        const selectedWarehouse =
+          response?.data?.details?.warehouse_addresses?.find(
+            warehouse => warehouse.po_box === value,
+          );
+        if (selectedWarehouse) {
+          formik.setFieldValue(
+            'wareHouses',
+            formik.values.wareHouses.map(wh => {
+              if (wh.po_box === value) {
+                return {...wh, po_box: selectedWarehouse.po_box};
+              }
+              return wh;
+            }),
+          );
+        }
       } catch (error) {
         console.log('error,///', error);
       }
     };
     getWareHouseData();
   }, []);
+
+  // useEffect(() => {
+  //   // Set the initial value of the po_box field when value changes
+  //   if (value && resData?.warehouse_addresses?.length > 0) {
+  //     const selectedWarehouse = resData.warehouse_addresses.find(
+  //       warehouse => warehouse.po_box === value,
+  //     );
+  //     if (selectedWarehouse) {
+  //       formik.setFieldValue(
+  //         'wareHouses',
+  //         formik.values.wareHouses.map(wh => {
+  //           if (wh.po_box === value) {
+  //             return {...wh, po_box: selectedWarehouse.po_box};
+  //           }
+  //           return wh;
+  //         }),
+  //       );
+  //     }
+  //   }
+  // }, [value, resData, formik]);
 
   const renderItem = item => (
     <View style={styles.itemContainer}>
@@ -140,6 +182,7 @@ export const AddWareHouseType = ({placeholder, value, setValue, formik}) => {
       placeholder={placeholder}
       value={value}
       onChange={item => {
+        console.log('item.po_box', item.po_box);
         setValue(item.po_box);
         formik.setFieldValue(
           'wareHouses',
