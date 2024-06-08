@@ -22,56 +22,7 @@ import InventoryProductList from '../../../pages/InventoryProductList';
 // MaterialCommunityIcons
 
 export default function InventoryList(nav) {
-  const data = [
-    {id: '1'},
-    {id: '2'},
-    {id: '3'},
-    {id: '4'},
-    {id: '5'},
-    {id: '6'},
-    {id: '7'},
-    {id: '8'},
-    {id: '9'},
-    {id: '10'},
-    {id: '11'},
-    {id: '12'},
-    {id: '13'},
-    {id: '14'},
-  ];
 
-  const renderItem = ({item}) => {
-    console.log(item, 'titletitletitle');
-    <View className="flex flex-row items-center bg-black ">
-      <View
-        className="flex flex-row items-center justify-center pl-3 bg-black"
-        style={{width: 130}}>
-        <View>
-          <Checkbox />
-        </View>
-        <Text style={styles.category}>{item.id}</Text>
-        <Text style={[styles.category, {backgroundColor: white}]}>
-          Rustic Concrete Sausages
-        </Text>
-      </View>
-      <View className="flex flex-row">
-        <Text
-          style={[
-            styles.td,
-            {
-              marginLeft: 10,
-            },
-          ]}>
-          Home Appliance
-        </Text>
-        <Text style={[styles.td]}>Electronis</Text>
-        <Text style={[styles.td]}>Microless</Text>
-        <Text style={[styles.td]}>123876487</Text>
-        <Text style={[styles.td]}>1400</Text>
-        <Text style={[styles.td]}>1232</Text>
-        <Text style={[styles.td]}>50000</Text>
-      </View>
-    </View>;
-  };
   return (
     <View className="flex flex-col" style={{backgroundColor: screenBackground}}>
       <View className="flex-row rounded-b-xl bg-[#f96900] px-4 pb-2 pt-7 items-center">
@@ -101,7 +52,7 @@ export default function InventoryList(nav) {
           />
         </View>
       </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={true}>
+      <ScrollView className="" horizontal showsHorizontalScrollIndicator={true}>
        <InventoryProductList/>
       </ScrollView>
     </View>

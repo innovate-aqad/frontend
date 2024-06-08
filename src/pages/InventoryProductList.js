@@ -57,7 +57,7 @@ const InventoryProductList = () => {
         <Text style={[styles.header, {width: 100, paddingLeft: 10}]}>PRICE</Text>
       </View>
     ) : (
-      <View className="flex flex-row items-center ">
+      <View className="flex flex-row items-center">
         <View
           className="flex flex-row items-center justify-center h-full pl-3 bg-white "
           style={{width: 130}}>
@@ -87,13 +87,14 @@ const InventoryProductList = () => {
           <Text style={[styles.td]}>50000</Text>
         </View>
       </View>
-    );
+    )
 
   return (
     <FlatList
       data={data}
       renderItem={renderItem}
       keyExtractor={item => item.id}
+     className="rotate-0"
     />
   );
 };
