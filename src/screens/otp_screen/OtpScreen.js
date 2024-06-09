@@ -14,7 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {removeToken, storeToken} from '../../Shared/EncryptionDecryption/Token';
 export default function OtpScreen({route}) {
   const otpInputRef = useRef(null);
-  const {email} = route.params;
+  const {email, type} = route.params;
   console.log(route.params, 'route.params');
   const navigation = useNavigation();
   const initialValues = {
@@ -24,46 +24,83 @@ export default function OtpScreen({route}) {
     initialValues,
     validationSchema: OtpSchema,
     onSubmit: async (values, action) => {
-      await axios({
-        method: 'post',
-        url: `${environmentVariables?.apiUrl}/api/user/login_with_otp`,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        data: {
-          email,
-          otp: values.otp,
-        },
-      })
-        .then(async response => {
-          action.resetForm();
-          success({type: 'success', text: response.data.message});
-          console.log('ffff', response?.data?.data?.token);
-          await storeToken(response?.data?.data?.token);
-          // await removeToken();
-          if (response.data.data.user_type === 'vendor') {
-            navigation.navigate('productIndex');
-          } else if (response.data.data.user_type === 'retailer') {
-            navigation.navigate('retailerIndex');
-          } else {
-            navigation.navigate('logisticIndex');
-          }
+      if (type == 'forget') {
+        await axios({
+          method: 'put',
+          url: `${environmentVariables?.apiUrl}/api/user/verify_otp`,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          data: {
+            email,
+            otp_code: values.otp,
+          },
         })
-        .catch(error => {
-          console.log('error', error);
-          success({type: 'success', text: error.response.data.message});
-        });
+          .then(async response => {
+            console.log('rrrrrrr', response?.data);
+            // action.resetForm();
+            // success({type: 'success', text: response.data.message});
+            // console.log('ffff', response?.data?.data?.token);
+            // await storeToken(response?.data?.data?.token);
+            // // await removeToken();
+            // if (response.data.data.user_type === 'vendor') {
+            //   navigation.navigate('productIndex');
+            // } else if (response.data.data.user_type === 'retailer') {
+            //   navigation.navigate('retailerIndex');
+            // } else {
+            navigation.navigate('verifypassword', {
+              email,
+              otp_code: values.otp,
+            });
+            // }
+          })
+          .catch(error => {
+            console.log('error', error);
+            success({type: 'success', text: error.response.data.message});
+          });
+      } else {
+        await axios({
+          method: 'post',
+          url: `${environmentVariables?.apiUrl}/api/user/login_with_otp`,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          data: {
+            email,
+            otp: values.otp,
+          },
+        })
+          .then(async response => {
+            action.resetForm();
+            success({type: 'success', text: response.data.message});
+            console.log('ffff', response?.data?.data?.token);
+            await storeToken(response?.data?.data?.token);
+            // await removeToken();
+            if (response.data.data.user_type === 'vendor') {
+              navigation.navigate('productIndex');
+            } else if (response.data.data.user_type === 'retailer') {
+              navigation.navigate('retailerIndex');
+            } else {
+              navigation.navigate('logisticIndex');
+            }
+          })
+          .catch(error => {
+            console.log('error', error);
+            success({type: 'success', text: error.response.data.message});
+          });
+      }
     },
   });
 
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     formik;
 
-  useEffect(async () => {
-    const storedToken = await AsyncStorage.getItem('_token');
-    console.log('storedToken,', storedToken);
-  }, []);
+  // useEffect(async () => {
+  //   const storedToken = await AsyncStorage.getItem('_token');
+  //   console.log('storedToken,', storedToken);
+  // }, []);
 
   return (
     <ScrollView

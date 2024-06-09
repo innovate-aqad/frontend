@@ -48,6 +48,7 @@ import Line_Chartwob from './Pie_Chart/Line_Chartwob';
 import Pie_App from './Pie_Chart/Pie_App';
 import EditProduct from './EditProduct/EditProduct';
 import EditProductVariant from './EditProductVariant/EditProductVariant';
+import VerifyPassword from './VerifyPassword/VerifyPassword';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -60,6 +61,7 @@ export default function Index() {
       <Stack.Screen name="products" component={Products} />
       <Stack.Screen name="orders" component={Orders} />
       <Stack.Screen name="forgot" component={Forgot} />
+      <Stack.Screen name="verifypassword" component={VerifyPassword} />
       <Stack.Screen name="dashboard" component={Dashboard} />
       <Stack.Screen name="productIndex" component={ProductIndex} />
       <Stack.Screen name="vendor" component={VendorInfo} />

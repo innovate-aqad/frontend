@@ -8,56 +8,67 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useFormik} from 'formik';
 import {LoginSchema} from '../schemas/LoginSchema';
-import {environmentVariables} from '../config/Config';
-import {success} from '../constants/ToastMessage';
+import {environmentVariables} from '../../config/Config';
+import {success} from '../../constants/ToastMessage';
 import {useNavigation} from '@react-navigation/native';
-import VelidationSymbol from '../constants/VelidationSymbol';
+import VelidationSymbol from '../../constants/VelidationSymbol';
+import {VerifyPasswordSchema} from '../../schemas/VerifyPasswordSchema';
 // Make a request for a user with a given ID
 
-export default function Login(nav) {
+export default function VerifyPassword({route}) {
   const [isEnabled, setIsEnabled] = React.useState(false);
   const rememberMe = () => setIsEnabled(previousState => !previousState);
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
+  const {email, otp_code} = route.params;
+  //   console.log('  const {email, otp_code} = route.params;', email, otp_code);
   const gotoForgot = () => {
     nav.navigation.navigate('forgot');
   };
 
   const initialValues = {
-    email: '',
     password: '',
+    confirmPassword: '',
   };
+
+  const navigation = useNavigation();
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     useFormik({
       initialValues,
-      validationSchema: LoginSchema,
+      validationSchema: VerifyPasswordSchema,
       onSubmit: async (values, action) => {
-        console.log('values', values);
+        console.log(
+          'values_verify_passsword',
+          values?.password,
+          email,
+          otp_code,
+        );
         await axios({
-          method: 'post',
-          url: `${environmentVariables?.apiUrl}/api/user/login`,
+          method: 'put ',
+          url: `${environmentVariables?.apiUrl}/api/user/reset_password`,
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
           data: {
-            email: values.email,
+            email: email,
             password: values.password,
+            otp_code: otp_code,
           },
         })
           .then(response => {
             action.resetForm();
             success({type: 'success', text: response.data.message});
-            nav.navigation.navigate('otpscreen', {
-              email: values.email,
-              type: 'login',
-              handleSubmit,
-            });
+            navigation.navigate('Login');
           })
           .catch(error => {
+            console.log(
+              error?.message,
+              error?.response?.data?.message,
+              `${environmentVariables?.apiUrl}/api/user/reset_password`,
+            );
             success({
               type: 'error',
               text: error?.response?.data?.message || error?.message,
@@ -66,7 +77,7 @@ export default function Login(nav) {
       },
     });
 
-  const navigation = useNavigation();
+  //   const navigation = useNavigation();
   return (
     <ScrollView
       keyboardShouldPersistTaps="handled"
@@ -78,7 +89,7 @@ export default function Login(nav) {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             style={styles.topNavigation}
-            source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
+            source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
           />
         </TouchableOpacity>
         <View>
@@ -90,42 +101,11 @@ export default function Login(nav) {
           <Text
             className="text-xs text-gray-400"
             style={{fontFamily: 'Poppins-Light'}}>
-            Please enter your email and password for login
+            Please Verify Your Account
           </Text>
         </View>
         <View className="w-full pt-10">
           <SafeAreaView>
-            <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-Medium'}}>
-              Your Email <VelidationSymbol />
-            </Text>
-            <View>
-              <TextInput
-                name="email"
-                style={styles.input}
-                value={values.email}
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                placeholderTextColor="rgb(210, 210, 210)"
-                placeholder="example@gmail.com"
-                className="!border-none pl-4 py-1.5 !border-white"
-                borderRadius={18}
-              />
-
-              {errors.email && touched.email && (
-                <Text
-                  style={{
-                    color: 'red',
-                    paddingLeft: 20,
-                    paddingTop: 2,
-                    fontSize: 12,
-                  }}>
-                  {errors.email}
-                </Text>
-              )}
-            </View>
-
             <Text
               className="text-[#00274D] px-3 mt-3"
               style={{fontFamily: 'Poppins-Medium'}}>
@@ -172,8 +152,55 @@ export default function Login(nav) {
               )}
             </View>
           </SafeAreaView>
+          <SafeAreaView>
+            <Text
+              className="text-[#00274D] px-3 mt-3"
+              style={{fontFamily: 'Poppins-Medium'}}>
+              Confirm Password <VelidationSymbol />
+            </Text>
 
-          <View
+            <View>
+              <View style={styles.container1}>
+                <TextInput
+                  style={styles.input1}
+                  placeholder="Enter your password"
+                  underlineColorAndroid="transparent"
+                  // maxLength={6}
+                  secureTextEntry={!showPassword}
+                  keyboardType="default"
+                  disableFullscreenUI={true}
+                  borderRadius={18}
+                  placeholderTextColor="rgb(210, 210, 210)"
+                  name="confirmPassword"
+                  value={values.confirmPassword}
+                  onChangeText={handleChange('confirmPassword')}
+                  onBlur={handleBlur('confirmPassword')}
+                />
+
+                <TouchableOpacity onPress={toggleShowPassword}>
+                  <Icon
+                    name={showPassword ? 'eye-slash' : 'eye'}
+                    size={24}
+                    color={showPassword ? '#00274D' : '#cbcbcb'}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              {errors.confirmPassword && touched.confirmPassword && (
+                <Text
+                  style={{
+                    color: 'red',
+                    paddingLeft: 20,
+                    paddingTop: 2,
+                    fontSize: 12,
+                  }}>
+                  {errors.confirmPassword}
+                </Text>
+              )}
+            </View>
+          </SafeAreaView>
+
+          {/* <View
             style={styles.checkboxContainer}
             className="flex flex-row items-center justify-between">
             <View className="flex flex-row items-center">
@@ -193,15 +220,10 @@ export default function Login(nav) {
                 Remember me
               </Text>
             </View>
-            <Text
-              className="text-[#00274D]"
-              style={{fontFamily: 'Poppins-Medium'}}
-              onPress={gotoForgot}>
-              Forget Password ?
-            </Text>
-          </View>
+         
+          </View> */}
         </View>
-        <View className="w-full">
+        <View className="w-full mt-5">
           <View>
             <TouchableOpacity
               onPress={() => handleSubmit()}
@@ -209,68 +231,10 @@ export default function Login(nav) {
               <Text
                 className="text-white text-[18px]"
                 style={{fontFamily: 'Roboto-Regular'}}>
-                LOGIN
+                UPDATE
               </Text>
             </TouchableOpacity>
           </View>
-
-          <View
-            className="py-5"
-            style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View style={{flex: 1, height: 1}} className="bg-gray-300" />
-            <View>
-              <Text
-                className="text-gray-400"
-                style={{
-                  width: 50,
-                  textAlign: 'center',
-                  fontFamily: 'Poppins-Medium',
-                }}>
-                OR
-              </Text>
-            </View>
-            <View style={{flex: 1, height: 1}} className="bg-gray-300" />
-          </View>
-        </View>
-        <View className="flex flex-col gap-y-2">
-          <TouchableOpacity className="flex-row items-center !px-4 py-2 my-1 bg-white border border-white rounded-full">
-            <AntDesign name="google" color={'black'} size={22} />
-            <Text className=" text-center font-[Roboto-Regular] text-[#00274D] flex-1">
-              Sign up with Google
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity className="flex-row items-center !px-4 py-2 my-1 bg-white border !border-white rounded-full">
-            <View>
-              <AntDesign name="apple1" color={'black'} size={22} />
-            </View>
-            <Text className=" text-center font-[Roboto-Regular] text-[#00274D] flex-1">
-              Sign up with Apple
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity className="flex-row !px-4 py-2 items-center my-1 bg-white border !border-white rounded-full">
-            <Ionicons name="finger-print-outline" color={'black'} size={22} />
-            <Text className=" text-center font-[Roboto-Regular] text-[#00274D] flex-1">
-              Sign up with UEA Pass
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View className="flex flex-row items-center justify-center mt-8">
-          <Text className="text-gray-400 font-[Roboto-Regular]">
-            New to AQAD ?
-          </Text>
-          <TouchableOpacity
-            className="px-5 "
-            onPress={() => {
-              // nav.navigation.navigate('signup');
-              // nav.navigation.navigate('logidrivdetail', {
-              //   id: 'd3c410d0a9c54ee39f1a70057cb6df6d',
-              // });
-              nav.navigation.navigate('productIndex');
-            }}>
-            <Text className="text-[#F96900] font-[Roboto-Regular]">
-              Sign Up
-            </Text>
-          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>

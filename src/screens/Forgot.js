@@ -12,6 +12,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ToggleSwitch from 'toggle-switch-react-native';
 import axios from 'axios';
+import {useFormik} from 'formik';
+import {environmentVariables} from '../../config/Config';
+import {ForgetPasswordSchema} from '../schemas/ForgetPasswordSchema';
+import {success} from '../constants/ToastMessage';
 
 // Make a request for a user with a given ID
 
@@ -24,16 +28,13 @@ export default function Forgot(nav) {
   const redirect = () => {
     // nav.navigation.navigate('productIndex')
 
-    console.log(email, 'emailemailemail');
-    console.log(password, 'passwordpasswordpasswordpassword');
-
-    ToastAndroid.showWithGravityAndOffset(
-      'A wild toast appeared!',
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50,
-    );
+    // ToastAndroid.showWithGravityAndOffset(
+    //   'A wild toast appeared!',
+    //   ToastAndroid.LONG,
+    //   ToastAndroid.BOTTOM,
+    //   25,
+    //   50,
+    // );
 
     axios
       .get('/user?ID=12345')
@@ -50,6 +51,52 @@ export default function Forgot(nav) {
         // always executed
       });
   };
+
+  const initialValues = {
+    email: '',
+  };
+  const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
+    useFormik({
+      initialValues,
+      validationSchema: ForgetPasswordSchema,
+      onSubmit: async (values, action) => {
+        console.log('values', values);
+        await axios({
+          method: 'put',
+          url: `${environmentVariables?.apiUrl}/api/user/forgot_password`,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          data: {
+            email: values.email,
+          },
+        })
+          .then(response => {
+            console.log('response', response);
+
+            // action.resetForm();
+            success({type: 'success', text: response.data.message});
+            nav.navigation.navigate('otpscreen', {
+              email: values.email,
+              type:"forget",
+              handleSubmit,
+            });
+          })
+          .catch(error => {
+            console.log(
+              'error',
+              error?.response?.data?.message,
+              error?.message,
+              environmentVariables?.apiUrl,
+            );
+            success({
+              type: 'error',
+              text: error?.response?.data?.message || error?.message,
+            });
+          });
+      },
+    });
 
   return (
     <View
@@ -75,14 +122,27 @@ export default function Forgot(nav) {
             Your Email
           </Text>
           <TextInput
-            name="temail"
-            onChangeText={setEmail}
+            name="email"
             style={styles.input}
             placeholderTextColor="rgb(210, 210, 210)"
             placeholder="example@gmail.com"
             className="!border-none pl-4 !border-white"
             borderRadius={18}
+            value={values.email}
+            onChangeText={handleChange('email')}
+            onBlur={handleBlur('email')}
           />
+          {errors.email && touched.email && (
+            <Text
+              style={{
+                color: 'red',
+                paddingLeft: 20,
+                paddingTop: 2,
+                fontSize: 12,
+              }}>
+              {errors.email}
+            </Text>
+          )}
         </SafeAreaView>
         <View
           style={styles.checkboxContainer}
@@ -113,7 +173,9 @@ export default function Forgot(nav) {
       </View>
       <View className="w-full">
         <View>
-          <TouchableOpacity onPress={() => redirect()} style={styles.button}>
+          <TouchableOpacity
+            onPress={() => handleSubmit()}
+            style={styles.button}>
             <Text
               className="text-white"
               style={{fontFamily: 'Poppins-SemiBold'}}>
