@@ -8,20 +8,22 @@ import Index from './src/screens';
 import Main_App from './src/screens/retailer_drawer/Main_App';
 import Login from './src/screens/Login';
 import SplashScreen from './src/screens/SplashScreen';
+import AppStack from './src/screens/stacknavigator/AppStack';
 
 // const Stack=createNativeStackNavigator()
 export default function App() {
   const [isEnabled, setIsEnabled] = React.useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (
-    <NavigationContainer>
-      <MenuProvider>
-        {/* <Index /> */}
-        {/* <Login /> */}
-        <Main_App />
-        {/* <SplashScreen /> */}
-        <Toast />
-      </MenuProvider>
-    </NavigationContainer>
+    <AppStack />
+    // <NavigationContainer>
+    //   <MenuProvider>
+    //     {/* <Index /> */}
+    //     {/* <Login /> */}
+    //     <Main_App />
+    //     {/* <SplashScreen /> */}
+    //     <Toast />
+    //   </MenuProvider>
+    // </NavigationContainer>
   );
 }
