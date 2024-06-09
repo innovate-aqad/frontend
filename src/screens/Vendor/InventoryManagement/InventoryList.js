@@ -52,9 +52,7 @@ export default function InventoryList(nav) {
           />
         </View>
       </View>
-      <ScrollView className="" horizontal showsHorizontalScrollIndicator={true}>
        <InventoryProductList/>
-      </ScrollView>
     </View>
   );
 }

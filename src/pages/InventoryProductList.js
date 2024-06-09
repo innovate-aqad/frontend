@@ -1,8 +1,8 @@
 import React from 'react';
-import {FlatList, Text, View, StyleSheet} from 'react-native';
+import {FlatList, Text, View, StyleSheet, ScrollView} from 'react-native';
 import Checkbox from '../Shared/Checkbox';
-import { blue, grayColor, white } from '../constants/Theme';
-import { POPPINS } from '../constants/CustomFontFamily';
+import {blue, grayColor, white} from '../constants/Theme';
+import {POPPINS} from '../constants/CustomFontFamily';
 // import {POPPINS} from '../constants/CustomFontFamily';
 // import {blue, grayColor, white} from '../constants/Theme';
 // import Checkbox from './Checkbox';
@@ -28,7 +28,6 @@ const data = [
   {id: '19', title: 'Item 3'},
   {id: '20', title: 'Item 3'},
   {id: '21', title: 'Item 3'},
-
 ];
 
 const InventoryProductList = () => {
@@ -48,19 +47,23 @@ const InventoryProductList = () => {
         <Text style={[styles.header, {width: 100, paddingLeft: 10}]}>
           SUB CATEGORY
         </Text>
-        <Text style={[styles.header, {width: 100, paddingLeft: 10}]}>BRAND</Text>
+        <Text style={[styles.header, {width: 100, paddingLeft: 10}]}>
+          BRAND
+        </Text>
         <Text style={[styles.header, {width: 100, paddingLeft: 10}]}>UPC</Text>
         <Text style={[styles.header, {width: 100, paddingLeft: 10}]}>
           IN STOCK
         </Text>
         <Text style={[styles.header, {width: 100, paddingLeft: 10}]}>SKU</Text>
-        <Text style={[styles.header, {width: 100, paddingLeft: 10}]}>PRICE</Text>
+        <Text style={[styles.header, {width: 100, paddingLeft: 10}]}>
+          PRICE
+        </Text>
       </View>
     ) : (
       <View className="flex flex-row items-center">
         <View
-          className="flex flex-row items-center justify-center h-full pl-3 bg-white "
-          style={{width: 130}}>
+          className="flex flex-row gap-x-[-3px] items-center justify-center h-full pl-5 bg-white "
+          style={{width: 130, position: 'fixed'}}>
           <View>
             <Checkbox />
           </View>
@@ -69,7 +72,7 @@ const InventoryProductList = () => {
             Rustic Concrete Sausages
           </Text>
         </View>
-        <View className="flex flex-row">
+        <View className="relative left-0 flex flex-row">
           <Text
             style={[
               styles.td,
@@ -87,15 +90,19 @@ const InventoryProductList = () => {
           <Text style={[styles.td]}>50000</Text>
         </View>
       </View>
-    )
+    );
 
   return (
-    <FlatList
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={item => item.id}
-     className="rotate-0"
-    />
+    // <View className="!w-full h-full rotate-90">
+      <ScrollView horizontal showsHorizontalScrollIndicator={true}>
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          // className="w-full rotate-90"
+        />
+      </ScrollView>
+    // </View>
   );
 };
 
