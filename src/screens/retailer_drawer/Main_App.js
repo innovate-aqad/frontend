@@ -11,6 +11,7 @@ import Invent_Mnagement from './Invent_Mnagement';
 import Dashboard from '../../screens/Retailer/Dashboard';
 
 import {View, TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
+import Index from '..';
 
 const Drawer = createDrawerNavigator();
 
@@ -19,19 +20,28 @@ const userContact = 'user@example.com'; // Replace with actual contact informati
 export default function Main_App() {
   return (
     <Drawer.Navigator
-      initialRouteName="vendordash"
-      drawerContent={props => (
-        <CustomDrawerContent {...props} userContact={userContact} />
-      )}
-      screenOptions={({navigation}) => ({
-        header: () => <Header navigation={navigation} />,
-        drawerStyle: {
-          width: '80%',
-        },
-        // drawerActiveTintColor: '#6200EE', // Customize this to your preferred active color
-        // drawerInactiveTintColor: '#000000',
-      })}>
+    initialRouteName="indexPage"
+    drawerContent={props => (
+      <CustomDrawerContent {...props} userContact={userContact} />
+    )}
+    screenOptions={({navigation}) => ({
+      header: () => <Header navigation={navigation} />,
+      drawerStyle: {
+        width: '80%',
+      },
+      // drawerActiveTintColor: '#6200EE', // Customize this to your preferred active color
+      // drawerInactiveTintColor: '#000000',
+    })}
+    >
       {/* bottom tab */}
+      <Drawer.Screen
+        name="indexPage"
+        options={{
+          headerShown: false,
+        }}
+        component={Index}
+      />
+
       <Drawer.Screen
         name="vendordash"
         component={Dashboard}

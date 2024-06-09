@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
-import { blue, flexTradButtonColor } from '../constants/Theme';
+import { blue, flexTradButtonColor, grayColor } from '../constants/Theme';
 import { POPPINS } from '../constants/CustomFontFamily';
 
 export default function Header({navigation}) {
@@ -19,7 +19,7 @@ export default function Header({navigation}) {
           style={styles.tinyLogo}
           source={require('../Assets/image/omniIcon.jpeg')}
         />
-        <Text style={styles.title}>AL QUTUB Al DHAHABI</Text>
+        <Text className="text-[#050605]" style={styles.fontFamily}>AL QUTUB Al DHAHABI</Text>
       </View>
       <TouchableOpacity>
         <Octicons name="bell" size={12.5} color={blue} />
@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'column',
     alignItems: 'center',
+    color:grayColor
   },
   tinyLogo: {
     width: 30.9,
