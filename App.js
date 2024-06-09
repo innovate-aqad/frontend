@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
+
+import {StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {MenuProvider} from 'react-native-popup-menu';
@@ -15,15 +16,11 @@ export default function App() {
   const [isEnabled, setIsEnabled] = React.useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (
-    <AppStack />
-    // <NavigationContainer>
-    //   <MenuProvider>
-    //     {/* <Index /> */}
-    //     {/* <Login /> */}
-    //     <Main_App />
-    //     {/* <SplashScreen /> */}
-    //     <Toast />
-    //   </MenuProvider>
-    // </NavigationContainer>
+    <NavigationContainer>
+      <MenuProvider>
+        <AppStack />
+        {/* <Index /> */}
+      </MenuProvider>
+    </NavigationContainer>
   );
 }

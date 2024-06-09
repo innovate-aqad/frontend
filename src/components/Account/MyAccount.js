@@ -48,7 +48,7 @@ export default function MyAccount(nav) {
           <TouchableOpacity
             style={{backgroundColor: '#e6e9f4'}}
             className="p-3 w-[48%] rounded-full"
-            onPress={() => nav.navigation.navigate('pieapp')}>
+            onPress={() => nav.navigation.navigate('signup')}>
             <Text
               className="text-center text-[13px]"
               style={{fontFamily: 'Poppins-Regular', color: '#00274d'}}>
