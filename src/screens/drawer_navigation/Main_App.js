@@ -1,10 +1,10 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {View, TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import Aboutus from './Aboutus';
 import FAQ from './FAQ';
 import Rating from './Rating';
-import Requestcall from './Requestcall';
 import Settings from './Settings';
 import Buttomtab from '../../components/index';
 import Header from '../../components/Header';
@@ -13,7 +13,6 @@ import WhatsAppMessage from './chatwithus/WhatsAppMessage';
 import AqadApp from './chatwithus/AqadApp';
 import Contact from './requestacall/Contact';
 import Sales from './requestacall/Sales';
-
 import Technical from './requestacall/Technical';
 import SvgUri from 'react-native-svg-uri';
 import messages_question from '../../Assets/image/messages_question.svg';
@@ -25,6 +24,13 @@ const Drawer = createDrawerNavigator();
 
 const userContact = 'user@example.com'; // Replace with actual contact information
 
+const shouldShowHeader = route => {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? route.name;
+  console.log(route.name, 'nameeee');
+  console.log('Current route:', routeName); // Debugging route name
+  return routeName === 'bottomTab' || routeName === 'Home';
+};
+
 export default function Main_App() {
   return (
     <Drawer.Navigator
@@ -32,14 +38,17 @@ export default function Main_App() {
       drawerContent={props => (
         <CustomDrawerContent {...props} userContact={userContact} />
       )}
-      screenOptions={({navigation}) => ({
-        header: () => <Header navigation={navigation} />,
-        drawerStyle: {
-          width: '80%',
-        },
-        // drawerActiveTintColor: '#6200EE', // Customize this to your preferred active color
-        // drawerInactiveTintColor: '#000000',
-      })}>
+      screenOptions={({route, navigation}) => {
+        const showHeader = shouldShowHeader(route);
+
+        return {
+          header: () =>
+            showHeader ? <Header navigation={navigation} /> : null,
+          drawerStyle: {
+            width: '80%',
+          },
+        };
+      }}>
       {/* bottom tab */}
       <Drawer.Screen
         name="bottomTab"
@@ -48,15 +57,15 @@ export default function Main_App() {
           drawerLabel: () => null,
           title: '',
           drawerItemStyle: {height: 0},
+          headerShown: true,
         }}
       />
       {/* remaining screens */}
-      {/* <Drawer.Screen name="Request a Call" component={Requestcall} /> */}
       <Drawer.Screen
         name="FAQ'S"
         component={FAQ}
         options={{
-          drawerIcon: () => <SvgUri source={messages_question}></SvgUri>,
+          drawerIcon: () => <SvgUri source={messages_question} />,
           title: "FAQ's",
           drawerLabelStyle: styles.drawerLabel,
         }}
@@ -65,7 +74,7 @@ export default function Main_App() {
         name="About Us"
         component={Aboutus}
         options={{
-          drawerIcon: () => <SvgUri source={info}></SvgUri>,
+          drawerIcon: () => <SvgUri source={info} />,
           title: 'About Us',
           drawerLabelStyle: styles.drawerLabel,
         }}
@@ -74,7 +83,7 @@ export default function Main_App() {
         name="Rating & Feedback"
         component={Rating}
         options={{
-          drawerIcon: () => <SvgUri source={feedback_review}></SvgUri>,
+          drawerIcon: () => <SvgUri source={feedback_review} />,
           title: 'Ratings & Feedbacks',
           drawerLabelStyle: styles.drawerLabel,
         }}
@@ -83,7 +92,7 @@ export default function Main_App() {
         name="Settings"
         component={Settings}
         options={{
-          drawerIcon: () => <SvgUri source={settings}></SvgUri>,
+          drawerIcon: () => <SvgUri source={settings} />,
           title: 'Settings',
           drawerLabelStyle: styles.drawerLabel,
         }}
@@ -101,17 +110,15 @@ export default function Main_App() {
       />
       {/* Request a call */}
       <Drawer.Screen
-        name="tecchnical"
+        name="technical"
         component={Technical}
         options={{drawerLabel: () => null, title: ''}}
       />
-
       <Drawer.Screen
         name="sales"
         component={Sales}
         options={{drawerLabel: () => null, title: ''}}
       />
-
       <Drawer.Screen
         name="contact"
         component={Contact}
@@ -120,10 +127,10 @@ export default function Main_App() {
     </Drawer.Navigator>
   );
 }
+
 const styles = StyleSheet.create({
   drawerLabel: {
     fontSize: 15,
-
     fontFamily: 'Poppins-Regular',
     color: '#7e84a3',
   },

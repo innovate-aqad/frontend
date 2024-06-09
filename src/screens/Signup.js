@@ -20,6 +20,18 @@ export default function Signup(nav) {
     setBgColor(newColor);
   };
 
+  const redirectVendor = () => {
+    nav.navigation.navigate('vendor');
+    // nav.navigation.navigate('pmain');
+  };
+  const redirectLogistic = () => {
+    // nav.navigation.navigate('logidrivdetail');
+    nav.navigation.navigate('logistic');
+  };
+  const redirectRetailer = () => {
+    nav.navigation.navigate('retailer');
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setBgColor('bg-white');
