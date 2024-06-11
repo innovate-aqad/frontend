@@ -53,9 +53,8 @@ import CustomStyle from '../Styles';
 export default function Home() {
   return (
     <View
-      className="flex flex-col pb-20"
+      className="flex flex-col"
       style={{backgroundColor: screenBackground}}>
-      <Header></Header>
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{flexGrow: 1}}

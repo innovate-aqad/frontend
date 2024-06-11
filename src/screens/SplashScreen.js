@@ -2,11 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Image, Text, ActivityIndicator} from 'react-native';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import NetInfo from '@react-native-community/netinfo';
-import Main_App from './drawer_navigation/Main_App';
-// import auth from '@react-native-firebase/auth';
-// import { currentDrawerTab, currentTab, saveUserData } from '../redux/Actions/CommonActions';
-// import { useDispatch } from 'react-redux';
-
 const SplashScreen = () => {
   const navigation = useNavigation();
   // const dispatch = useDispatch();

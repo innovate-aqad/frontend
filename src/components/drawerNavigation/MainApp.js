@@ -19,19 +19,20 @@ import messages_question from '../../Assets/image/messages_question.svg';
 import info from '../../Assets/image/info.svg';
 import feedback_review from '../../Assets/image/feedback_review.svg';
 import settings from '../../Assets/image/settings.svg';
+import { POPPINS } from '../../constants/CustomFontFamily';
+import { grayColor } from '../../constants/Theme';
 
 const Drawer = createDrawerNavigator();
-
-const userContact = 'user@example.com'; // Replace with actual contact information
+const userContact = 'user@example.com'; 
 
 const shouldShowHeader = route => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? route.name;
   console.log(route.name, 'nameeee');
-  console.log('Current route:', routeName); // Debugging route name
-  return routeName === 'bottomTab' || routeName === 'Home';
+  console.log('Current route:', routeName);
+  return routeName === 'bottomTab' || routeName === 'Home' || routeName === 'Insights' ;
 };
-
-export default function Main_App() {
+// 
+export default function MainApp() {
   return (
     <Drawer.Navigator
       initialRouteName="bottomTab"
@@ -92,7 +93,7 @@ export default function Main_App() {
         name="Settings"
         component={Settings}
         options={{
-          drawerIcon: () => <SvgUri source={settings} />,
+          drawerIcon: () => <SvgUri source={settings} height={24} width={22} />,
           title: 'Settings',
           drawerLabelStyle: styles.drawerLabel,
         }}
@@ -131,7 +132,7 @@ export default function Main_App() {
 const styles = StyleSheet.create({
   drawerLabel: {
     fontSize: 15,
-    fontFamily: 'Poppins-Regular',
-    color: '#7e84a3',
+    fontFamily: POPPINS.PoppinsRegular,
+    color: grayColor,
   },
 });

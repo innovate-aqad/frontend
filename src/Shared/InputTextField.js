@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, TextInput, View } from 'react-native'
+import { grayColor } from '../constants/Theme'
 
 export default function InputTextField({onPress,placeholderTextColor,numberOfLines}) {
   return (
@@ -7,7 +8,7 @@ export default function InputTextField({onPress,placeholderTextColor,numberOfLin
         <TextInput
             style={styles.input}
             onPress={onPress}
-            placeholderTextColor="rgb(210, 210, 210)"
+            placeholderTextColor={grayColor}
             placeholder={placeholderTextColor ? placeholderTextColor :"search"}
             className="!border-none pl-4 !border-white"
             borderRadius={10}

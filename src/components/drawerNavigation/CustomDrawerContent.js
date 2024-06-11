@@ -3,13 +3,13 @@ import {View, TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
 import {
   DrawerContentScrollView,
   DrawerItemList,
-  DrawerItem,
 } from '@react-navigation/drawer';
 import Entypo from 'react-native-vector-icons/Entypo';
 import SvgUri from 'react-native-svg-uri';
 import comment from '../../Assets/image/comment.svg';
 import phone_call from '../../Assets/image/phone_call.svg';
-import angle_small_down from '../../Assets/image/angle_small_down.png';
+import { blue, grayColor } from '../../constants/Theme';
+import { POPPINS } from '../../constants/CustomFontFamily';
 
 export default function CustomDrawerContent(props) {
   console.log(props, 'props====');
@@ -33,30 +33,23 @@ export default function CustomDrawerContent(props) {
         </TouchableOpacity>
         <Text style={styles.menuText}>Menu</Text>
       </View>
-      {/* chat with us */}
       <View style={styles.customItemContainer}>
         <TouchableOpacity onPress={toggleChat} style={styles.drawerItem}>
           <View
-            className="flex flex-row  
-    ">
+            className="flex flex-row ">
             <SvgUri source={comment} style={styles.svg}></SvgUri>
 
             <Text style={styles.drawerLabel}>Chat With Us</Text>
           </View>
-          {/* <Entypo
-            name={isChatExpanded ? 'chevron-up' : 'chevron-down'}
-            size={24}
-            color="#000"
-          /> */}
 
           {isChatExpanded ? (
             <Image
               source={require('../../Assets/image/angle_small_down.png')}
-              style={styles.tinyLogo}></Image>
+              style={{height:7.2,width:14}} />
           ) : (
             <Image
-              source={require('../../Assets/image/angle-small-right.png')}
-              style={styles.tinyLogo}></Image>
+              source={require('../../Assets/image/universal/angle-down.png')}
+              style={[styles.tinyLogo,{tintColor:grayColor}]} />
           )}
         </TouchableOpacity>
         {isChatExpanded && (
@@ -74,29 +67,21 @@ export default function CustomDrawerContent(props) {
           </View>
         )}
       </View>
-      {/* Request a call */}
       <View style={styles.customItemContainer}>
         <TouchableOpacity onPress={toggleRequest} style={styles.drawerItem}>
           <View
-            className="flex flex-row  
-    ">
+            className="flex flex-row ">
             <SvgUri source={phone_call}></SvgUri>
             <Text style={styles.drawerLabel}>Request a Call</Text>
           </View>
-
-          {/* <Entypo
-            name={isRequestExpanded ? 'chevron-up' : 'chevron-down'}
-            size={24}
-            color="#000"
-          /> */}
           {isRequestExpanded ? (
             <Image
               source={require('../../Assets/image/angle_small_down.png')}
-              style={styles.tinyLogo}></Image>
+              style={styles.tinyLogo} />
           ) : (
             <Image
-              source={require('../../Assets/image/angle_small_down.png')}
-              style={styles.tinyLogo}></Image>
+              source={require('../../Assets/image/universal/angle-down.png')}
+              style={[styles.tinyLogo,{tintColor:grayColor}]} />
           )}
         </TouchableOpacity>
         {isRequestExpanded && (
@@ -130,7 +115,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     paddingTop: 30,
-
     position: 'relative',
   },
   menuButton: {
@@ -139,9 +123,8 @@ const styles = StyleSheet.create({
   menuText: {
     position: 'absolute',
     left: '40%',
-    // transform: [{ translateX: -50% }],
     fontSize: 20,
-    color: '#00274d',
+    color: blue,
     fontFamily: 'Roboto-Bold',
     textTransform: 'uppercase',
     paddingTop: 30,
@@ -164,17 +147,17 @@ const styles = StyleSheet.create({
   drawerLabel: {
     fontSize: 15,
     paddingLeft: 28,
-    fontFamily: 'Poppins-Regular',
-    color: '#7e84a3',
+    fontFamily: POPPINS.PoppinsRegular,
+    color: grayColor,
   },
   drawerLabel2: {
     fontSize: 13,
     paddingLeft: 42,
-    fontFamily: 'Poppins-Regular',
-    color: '#7e84a3',
+    fontFamily: POPPINS.PoppinsRegular,
+    color: grayColor,
   },
   tinyLogo: {
-    height: 8,
+    height: 7.2,
     width: 14,
   },
   svg: {

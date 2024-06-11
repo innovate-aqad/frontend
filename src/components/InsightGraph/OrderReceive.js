@@ -1,113 +1,107 @@
-import React, {useEffect, useState} from 'react';
-import {Dimensions, View, Text, StyleSheet} from 'react-native';
-import {LineChart} from 'react-native-chart-kit';
+import React from 'react';
+import {Image, StyleSheet, Dimensions, Text, View} from 'react-native';
+import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
+import {
+  blue,
+  customGreen,
+  customRed,
+  grayColor,
+} from '../../constants/Theme';
+import Svg, {Polyline, LinearGradient, Stop} from 'react-native-svg';
 
-const screenWidth = Dimensions.get('window').width;
+export default function OrderReceive() {
+  const data = [0, 45, 28, 50,20, 70, 0];
+  const screenWidth = Dimensions.get('window').width;
+  const graphHeight = 80;
+  const graphWidth = 150;
 
-const chartConfig = {
-  backgroundGradientFrom: '#fff',
-  backgroundGradientFromOpacity: 0,
-  backgroundGradientTo: '#fff',
-  color: (opacity = 1) => `rgba(183, 244, 216, ${opacity})`,
-  strokeWidth: 2, // optional, default 3
-  barPercentage: 0.5,
-  decimalPlaces: 0, // Remove decimal values on y-axis
-  propsForBackgroundLines: {
-    stroke: '#e3e3e3', // Background lines color
-  },
-  withDots: false, // Remove dots
-  bezier: true, // Ensure the curve is smooth
-};
-
-const OrderReceive = () => {
-  const [chartData, setChartData] = useState({
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [
-      {
-        data: [15, 30, 45, 60, 75, 90], // Initial data for retailers
-        color: (opacity = 1) => `rgba(45, 85, 255, ${opacity})`, // Blue color for retailers
-      },
-    ],
-  });
-
-  useEffect(() => {
-    // Simulate fetching the chart data from the backend
-    const fetchChartData = async () => {
-      try {
-        // Simulated API response
-        const response = await new Promise(resolve =>
-          setTimeout(
-            () =>
-              resolve({
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                retailersData: [42, 22, 42, 42, 52, 62],
-              }),
-            1000,
-          ),
-        );
-
-        setChartData({
-          labels: response.labels,
-          datasets: [
-            {
-              data: response.retailersData,
-              color: (opacity = 1) => `rgba(45, 85, 255, ${opacity})`, // Blue color for retailers
-            },
-          ],
-        });
-      } catch (error) {
-        console.error('Error fetching chart data:', error);
-      }
-    };
-
-    fetchChartData();
-  }, []);
-
+  // Calculate points for the graph
+  const points = data.map((point, index) => {
+    const x = (index / (data.length - 1)) * graphWidth;
+    const y = graphHeight - (point / 100) * graphHeight;
+    return `${x},${y}`;
+  }).join(' ');
   return (
-    <View style={styles.outerContainer}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Product Uploaded</Text>
-        <Text style={[styles.headerText, styles.totalRetailersText]}>
-          Total Products:{' '}
-          {chartData.datasets[0].data.reduce((a, b) => a + b, 0)}
-        </Text>
-      </View>
-      <View style={styles.contentContainer}>
-        <View style={styles.leftContainer}>
-          <Text style={styles.leftHeaderText}>June 2025</Text>
-          <Text style={styles.leftValueText}>356k</Text>
-          <Text style={styles.leftComparisonText}>1.3% than last year</Text>
+    <View className="mx-4 my-3 mb-8 ">
+      <View className="p-4 bg-white rounded-[15px]">
+        <View style={styles.headerContainer}>
+          <Text style={styles.headerText}>Order Received </Text>
+          <View className="flex flex-row">
+            <Text style={[styles.totalRetailersText]}>Total Order :</Text>
+            <Text
+              style={{
+                color: grayColor,
+                fontFamily: POPPINS.PoppinsSemiBold,
+                fontSize: 15,
+              }}>
+              84578
+            </Text>
+          </View>
         </View>
-        <View style={styles.rightContainer}>
-          <LineChart
-            data={chartData}
-            width={screenWidth / 2 - 32} // Adjusting width to fit within the container padding
-            height={220}
-            chartConfig={chartConfig}
-            style={styles.chartStyle}
-            yAxisSuffix=" "
-          />
+        <View className="flex flex-row justify-between mt-10">
+          <View className="flex flex-col">
+            <Text
+              style={{
+                color: customGreen,
+                fontFamily: POPPINS.PoppinsMedium,
+                fontSize: 10,
+              }}>
+              June 2025
+            </Text>
+            <Text
+              style={{
+                color: '#131523',
+                fontFamily: POPPINS.PoppinsSemiBold,
+                fontSize: 28,
+                letterSpacing: 0.12,
+              }}>
+              356k
+            </Text>
+            <View className="flex flex-row items-center">
+              <Text
+                style={{
+                  color: customRed,
+                  fontFamily: POPPINS.PoppinsMedium,
+                  fontSize: 16,
+                }}>
+                1.3%
+                <Image
+                  source={require('../../Assets/image/universal/ic_arrow_narrow_up.png')}
+                  style={{height: 16, width: 16}}
+                />
+              </Text>
+              <Text
+                style={{
+                  color: grayColor,
+                  fontFamily: POPPINS.PoppinsMedium,
+                  fontSize: 12,
+                }}>
+                than last year{' '}
+              </Text>
+            </View>
+          </View>
+          <View className="h-20 mt-1 ml-2 w-44">
+            <View style={styles.container}>
+              <Svg height={graphHeight} width={graphWidth}>
+                <LinearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <Stop offset="0%" stopColor="#1fd286" stopOpacity="0.8" />
+                  <Stop offset="100%" stopColor="#ffffff" stopOpacity="0.2" />
+                </LinearGradient>
+                <Polyline
+                  points={points}
+                  fill="url(#grad)"
+                  stroke="#1fd286"
+                  strokeWidth="2"
+                />
+              </Svg>
+            </View>
+          </View>
         </View>
       </View>
     </View>
   );
-};
-
+}
 const styles = StyleSheet.create({
-  outerContainer: {
-    marginVertical: 16,
-    paddingHorizontal: 16,
-    paddingTop: 40, // Space for headers within the container
-    backgroundColor: '#fff',
-    borderRadius: 15,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
-    width: '90%', // Adjusting width to reduce the size
-    alignSelf: 'center',
-  },
   headerContainer: {
     position: 'absolute',
     top: 10,
@@ -118,52 +112,15 @@ const styles = StyleSheet.create({
     zIndex: 1, // Ensure the header is on top of the chart
   },
   headerText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#00274d', // Adjust color if needed to ensure visibility
+    fontSize: 13,
+    fontFamily: ROBOTO.RobotoBold,
+    color: blue,
   },
   totalRetailersText: {
-    borderWidth: 1,
-    borderColor: 'gray', // Updated border color to gray
+    color: grayColor,
     paddingHorizontal: 8,
     paddingVertical: 4,
-    borderRadius: 5,
-  },
-  contentContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 40, // Space between the headers and the content
-  },
-  leftContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingRight: 16,
-  },
-  leftHeaderText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#00274d',
-  },
-  leftValueText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#00274d',
-    marginVertical: 8,
-  },
-  leftComparisonText: {
-    fontSize: 14,
-    color: '#00274d',
-  },
-  rightContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  chartStyle: {
-    borderRadius: 16,
+    fontSize: 10,
+    fontFamily: POPPINS.PoppinsMedium,
   },
 });
-
-export default OrderReceive;

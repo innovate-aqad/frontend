@@ -94,7 +94,7 @@ const RetailerOnboarding = () => {
       <BarChart
         data={chartData}
         width={screenWidth - 64}
-        height={220}
+        height={160}
         chartConfig={chartConfig}
         style={styles.chartStyle}
         yAxisSuffix=" "
