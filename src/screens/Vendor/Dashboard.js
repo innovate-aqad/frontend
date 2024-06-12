@@ -49,7 +49,7 @@ export default function Dashboard(nav) {
   return (
     <ScrollView>
     <View className="flex flex-col pb-20">
-      <Header></Header>
+      {/* <Header></Header> */}
       <View className="p-3 px-5 gap-y-2">
         <View style={styles.container}>
           <TextInput

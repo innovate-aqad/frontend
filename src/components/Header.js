@@ -5,6 +5,7 @@ import { blue, flexTradButtonColor, grayColor } from '../constants/Theme';
 import { POPPINS } from '../constants/CustomFontFamily';
 
 export default function Header({navigation}) {
+  console.log(navigation,"navigationnavigation====>");
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.openDrawer()}>

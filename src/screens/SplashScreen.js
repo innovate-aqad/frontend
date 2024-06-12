@@ -11,16 +11,12 @@ const SplashScreen = () => {
   useEffect(() => {
     // Subscribe to network state updates
     const unsubscribe = NetInfo.addEventListener(state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
-      console.log('Is internet reachable?', state.isInternetReachable);
       setIsConnected(state.isConnected);
       setIsInternetReachable(state.isInternetReachable);
     });
 
     // Initial check
     NetInfo.fetch().then(state => {
-      console.log(state, 'statestate');
       setIsConnected(state.isConnected);
       setIsInternetReachable(state.isInternetReachable);
     });

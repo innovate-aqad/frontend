@@ -1,38 +1,44 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import Header from '../../components/Header';
+// import Header from '../../components/Header';
 import CustomDrawerContent from './CustomDrawerContent';
 import SvgUri from 'react-native-svg-uri';
-import messages_question from '../../Assets/image/messages_question.svg';
-import info from '../../Assets/image/info.svg';
-import feedback_review from '../../Assets/image/feedback_review.svg';
+import messages_question from '../../../Assets/image/messages_question.svg';
+import info from '../../../Assets/image/info.svg';
 import EPR_CRM from './EPR_CRM';
 import Use_Managemant from './Use_Managemant';
-import Invent_Management from './Invent_Management';
-import Dashboard from '../../screens/Vendor/Dashboard';
-import Settings from './Settings';
-import {View, TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
+// import Dashboard from '../screens/Vendor/Dashboard';
+import {StyleSheet} from 'react-native';
+import Header from '../../../components/Header';
+import Dashboard from '../Dashboard';
 
 const Drawer = createDrawerNavigator();
 
-const userContact = 'user@example.com'; // Replace with actual contact information
+const userContact = 'user@example.com'; 
 
-export default function Main_App() {
+const shouldShowHeader = route => {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? route.name;
+  console.log(route.name, 'nameeee======>');
+  console.log('Current route:', routeName);
+  return routeName === 'bottomTab' || routeName === 'Home' || routeName === 'Insights' ;
+};
+
+export default function VendorDrawer() {
   return (
     <Drawer.Navigator
       initialRouteName="vendordash"
       drawerContent={props => (
         <CustomDrawerContent {...props} userContact={userContact} />
       )}
-      screenOptions={({navigation}) => ({
+      screenOptions={({route,navigation}) => ({
         header: () => <Header navigation={navigation} />,
         drawerStyle: {
           width: '80%',
         },
-        // drawerActiveTintColor: '#6200EE', // Customize this to your preferred active color
-        // drawerInactiveTintColor: '#000000',
-      })}>
-      {/* bottom tab */}
+      })}
+      
+      
+      >
       <Drawer.Screen
         name="vendordash"
         component={Dashboard}
@@ -42,8 +48,6 @@ export default function Main_App() {
           drawerItemStyle: {height: 0},
         }}
       />
-      {/* remaining screens */}
-      {/* <Drawer.Screen name="Request a Call" component={Requestcall} /> */}
       <Drawer.Screen
         name="epr"
         component={EPR_CRM}

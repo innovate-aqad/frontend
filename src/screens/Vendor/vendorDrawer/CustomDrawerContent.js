@@ -7,9 +7,9 @@ import {
 } from '@react-navigation/drawer';
 import Entypo from 'react-native-vector-icons/Entypo';
 import SvgUri from 'react-native-svg-uri';
-import comment from '../../Assets/image/comment.svg';
-import phone_call from '../../Assets/image/phone_call.svg';
-import angle_small_down from '../../Assets/image/angle_small_down.png';
+import comment from '../../../Assets/image/comment.svg';
+import phone_call from '../../../Assets/image/phone_call.svg';
+import angle_small_down from '../../../Assets/image/angle_small_down.png';
 
 export default function CustomDrawerContent(props) {
   console.log(props, 'props====');
