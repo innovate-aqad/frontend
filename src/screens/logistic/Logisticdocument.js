@@ -16,13 +16,13 @@ import {useFormik} from 'formik';
 import {LogisticRegisterSchema3} from '../../schemas/LogisticRegisterSchema3';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
-import { success } from '../../constants/ToastMessage';
+import {success} from '../../constants/ToastMessage';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [toggle, setToggle] = useState(true);
   const [selectedDocuments, setSelectedDocuments] = useState({
-    vatCertificateDocument: null,
+    vat_certificate: null,
   });
 
   const mainId = nav.route.params.id;
@@ -34,11 +34,11 @@ export default function VendorDocument(nav) {
   }, []);
 
   const initialValues = {
-    tradeLicense: '',
-    cancelledChequeDocument: '',
+    trade_license: '',
+    cheque_scan: '',
     cancelledChequeIBAN: '',
-    vatCertificateDocument: '',
-    emiratesIDDocument: '',
+    vat_certificate: '',
+    emirate_id_pic: '',
     emiratesIDNumber: '',
   };
 
@@ -47,6 +47,7 @@ export default function VendorDocument(nav) {
     validationSchema: LogisticRegisterSchema3,
     onSubmit: async (values, action) => {
       setToggle(false);
+      console.log('values', values?.trade_license);
       let formdata = new FormData();
       formdata.append('slide', '3');
       formdata.append('user_type', 'logistic');
@@ -73,7 +74,7 @@ export default function VendorDocument(nav) {
       })
         .then(response => {
           setToggle(true);
-          success({type: 'success', text: response.data.message})
+          success({type: 'success', text: response.data.message});
           nav.navigation.navigate('logidrivdetail', {
             id: response.data.data.id,
           });
@@ -167,10 +168,10 @@ export default function VendorDocument(nav) {
             </Text>
             <TouchableOpacity
               className="h-[76px]"
-              onPress={() => selectDocument('tradeLicense', 'trade_license')}>
+              onPress={() => selectDocument('trade_license', 'trade_license')}>
               <Card.Title
                 className="bg-white shadow rounded-xl"
-                title={selectedDocuments.tradeLicense || 'Click to Upload'}
+                title={selectedDocuments.trade_license || 'Click to Upload'}
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{
@@ -189,6 +190,9 @@ export default function VendorDocument(nav) {
                 )}
               />
             </TouchableOpacity>
+            {errors.trade_license && touched.trade_license && (
+              <Text style={{color: 'red'}}>{errors.trade_license}</Text>
+            )}
           </View>
           <View className="mt-3">
             <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
@@ -196,14 +200,10 @@ export default function VendorDocument(nav) {
             </Text>
             <TouchableOpacity
               className="h-[76px]"
-              onPress={() =>
-                selectDocument('cancelledChequeDocument', 'cheque_scan')
-              }>
+              onPress={() => selectDocument('cheque_scan', 'cheque_scan')}>
               <Card.Title
                 className="bg-white shadow rounded-xl"
-                title={
-                  selectedDocuments.cancelledChequeDocument || 'Click to Upload'
-                }
+                title={selectedDocuments.cheque_scan || 'Click to Upload'}
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{
@@ -240,17 +240,15 @@ export default function VendorDocument(nav) {
             <TouchableOpacity
               className="h-[76px]"
               onPress={() =>
-                selectDocument('vatCertificateDocument', 'vat_certificate')
+                selectDocument('vat_certificate', 'vat_certificate')
               }
-              onChangeText={handleChange('vatCertificateDocument')}
-              onBlur={handleBlur('vatCertificateDocument')}
-              name="vatCertificateDocument"
-              value={values?.vatCertificateDocument}>
+              onChangeText={handleChange('vat_certificate')}
+              onBlur={handleBlur('vat_certificate')}
+              name="vat_certificate"
+              value={values?.vat_certificate}>
               <Card.Title
                 className="bg-white shadow rounded-xl"
-                title={
-                  selectedDocuments.vatCertificateDocument || 'Click to Upload'
-                }
+                title={selectedDocuments.vat_certificate || 'Click to Upload'}
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{
@@ -269,12 +267,9 @@ export default function VendorDocument(nav) {
                 )}
               />
             </TouchableOpacity>
-            {errors.vatCertificateDocument &&
-              touched.vatCertificateDocument && (
-                <Text style={{color: 'red'}}>
-                  {errors.vatCertificateDocument}
-                </Text>
-              )}
+            {errors.vat_certificate && touched.vat_certificate && (
+              <Text style={{color: 'red'}}>{errors.vat_certificate}</Text>
+            )}
           </View>
         </View>
         {/* emirates */}
@@ -284,12 +279,10 @@ export default function VendorDocument(nav) {
           </Text>
           <TouchableOpacity
             className="h-[76px]"
-            onPress={() =>
-              selectDocument('emiratesIDDocument', 'emirate_id_pic')
-            }>
+            onPress={() => selectDocument('emirate_id_pic', 'emirate_id_pic')}>
             <Card.Title
               className="bg-white shadow rounded-xl"
-              title={selectedDocuments.emiratesIDDocument || 'Click to Upload'}
+              title={selectedDocuments.emirate_id_pic || 'Click to Upload'}
               titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
               subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
               subtitleStyle={{
@@ -331,7 +324,9 @@ export default function VendorDocument(nav) {
             style={{fontFamily: 'Roboto-Regular'}}>
             SUBMIT
           </Text>
-          {toggle ? null : <ActivityIndicator className="pl-2" size="small" color="#fff" />}
+          {toggle ? null : (
+            <ActivityIndicator className="pl-2" size="small" color="#fff" />
+          )}
         </TouchableOpacity>
       </View>
     </ScrollView>
