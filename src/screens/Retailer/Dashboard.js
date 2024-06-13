@@ -58,7 +58,7 @@ export default function Dashboard(nav) {
 
   return (
     <View className="flex flex-col pb-20">
-      {/* <View className="flex flex-row items-center justify-between p-3 px-5 bg-white">
+      <View className="flex flex-row items-center justify-between p-3 px-5 bg-white">
         <View className="">
           <Image
             style={{height: 21, width: 24, tintColor: '#7e84a3'}}
@@ -83,7 +83,7 @@ export default function Dashboard(nav) {
             10
           </Text>
         </View>
-      </View> */}
+      </View>
 
       <ScrollView
         style={{marginBottom: 58}}

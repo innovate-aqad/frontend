@@ -14,6 +14,7 @@ export const skyBlue = '#0058ff';
 export const lowGray = '#7c7c7c';
 export const customGreen = '#21d59b';
 export const customRed = '#f0142f';
+export const customLightState = '#e6e9f4';
 
 
 

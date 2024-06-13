@@ -1,44 +1,53 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-// import Header from '../../components/Header';
 import CustomDrawerContent from './CustomDrawerContent';
 import SvgUri from 'react-native-svg-uri';
 import messages_question from '../../../Assets/image/messages_question.svg';
 import info from '../../../Assets/image/info.svg';
 import EPR_CRM from './EPR_CRM';
 import Use_Managemant from './Use_Managemant';
-// import Dashboard from '../screens/Vendor/Dashboard';
 import {StyleSheet} from 'react-native';
 import Header from '../../../components/Header';
 import Dashboard from '../Dashboard';
+import ProductIndex from '../ProductIndex';
 
 const Drawer = createDrawerNavigator();
 
-const userContact = 'user@example.com'; 
+const userContact = 'user@example.com';
 
 const shouldShowHeader = route => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? route.name;
   console.log(route.name, 'nameeee======>');
   console.log('Current route:', routeName);
-  return routeName === 'bottomTab' || routeName === 'Home' || routeName === 'Insights' ;
+  return (
+    routeName === 'bottomTab' ||
+    routeName === 'Home' ||
+    routeName === 'Insights'
+  );
 };
 
 export default function VendorDrawer() {
   return (
     <Drawer.Navigator
-      initialRouteName="vendordash"
+      initialRouteName="productIndex"
       drawerContent={props => (
         <CustomDrawerContent {...props} userContact={userContact} />
       )}
-      screenOptions={({route,navigation}) => ({
+      screenOptions={({route, navigation}) => ({
         header: () => <Header navigation={navigation} />,
         drawerStyle: {
           width: '80%',
         },
-      })}
-      
-      
-      >
+      })}>
+      <Drawer.Screen
+        name="productIndex"
+        component={ProductIndex}
+        options={{
+          drawerLabel: () => null,
+          title: '',
+          drawerItemStyle: {height: 0},
+        }}
+      />
       <Drawer.Screen
         name="vendordash"
         component={Dashboard}
@@ -48,6 +57,7 @@ export default function VendorDrawer() {
           drawerItemStyle: {height: 0},
         }}
       />
+
       <Drawer.Screen
         name="epr"
         component={EPR_CRM}

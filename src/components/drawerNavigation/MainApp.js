@@ -49,7 +49,8 @@ export default function MainApp() {
             width: '80%',
           },
         };
-      }}>
+      }}
+      >
       {/* bottom tab */}
       <Drawer.Screen
         name="bottomTab"

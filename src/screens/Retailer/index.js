@@ -5,7 +5,7 @@ import Dashboard from './Dashboard';
 import Cart from './CartScreen/index';
 import WholesalesIndex from './WholesalesPage';
 import AccountIndex from './Account';
-import Orders from '../Vendor/Order/Orderes';
+import OrderRoutes from './Orders';
 
 const Tab = createBottomTabNavigator();
 const wholesales = 'Wholesales';
@@ -104,7 +104,7 @@ export default function RetailerIndex() {
       
       <Tab.Screen name={account} component={AccountIndex} />
       
-      <Tab.Screen name={order} component={Orders} />
+      <Tab.Screen name={order} component={OrderRoutes} />
       <Tab.Screen name={cart} component={Cart} />
     </Tab.Navigator>
   );

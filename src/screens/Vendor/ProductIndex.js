@@ -15,6 +15,7 @@ const insights = 'Insights';
 const order = 'Orders';
 
 export default function ProductIndex() {
+  
   return (
     <Tab.Navigator
       initialRouteName={trade}
