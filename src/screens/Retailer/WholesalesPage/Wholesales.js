@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
   Image,
   ScrollView,
@@ -10,9 +11,14 @@ import {
 } from 'react-native';
 import {Divider} from 'react-native-paper';
 import Search from '../../../Shared/Search';
+import {environmentVariables} from '../../../../config/Config';
+import axios from 'axios';
+import {retrieveToken} from '../../../Shared/EncryptionDecryption/Token';
 
 export default function Wholesales(nav) {
   const [tab, setTab] = useState('All');
+  const [loader, setLoader] = useState(false);
+  const [resCatData, setResCatData] = useState([]);
   const scrollViewRef = useRef(null);
   const [contentWidth, setContentWidth] = useState(0);
   const scrollWidth = Dimensions.get('window').width;
@@ -27,7 +33,7 @@ export default function Wholesales(nav) {
         }
         scrollViewRef.current.scrollTo({x: scrollOffset, animated: true});
       }
-    }, 2000); 
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [contentWidth, scrollWidth]);
@@ -44,10 +50,42 @@ export default function Wholesales(nav) {
       setTab('All');
     }
   };
+
+  useEffect(async () => {
+    const storedToken = await retrieveToken();
+    const getCategoryData = async () => {
+      try {
+        setLoader(true);
+        const getData = await axios.get(
+          `${environmentVariables?.apiUrl}/api/category/get`,
+          {
+            headers: {
+              _token: storedToken,
+            },
+          },
+        );
+        if (getData?.data?.success) {
+          setResCatData(getData?.data?.data);
+          setLoader(true);
+        } else {
+          setResCatData([]);
+          setLoader(true);
+        }
+      } catch (error) {
+        setLoader(false);
+        setResCatData([]);
+        console.log(error?.response?.data?.message, 'eroorr');
+      }
+    };
+
+    getCategoryData();
+  }, []);
+
+  console.log(resCatData, 'resCatData');
   return (
     <View className="w-full h-full bg-[#f5f5f5]">
       <View className="px-3">
-      <Search/>
+        <Search />
       </View>
 
       <View className="mt-3">
@@ -63,7 +101,38 @@ export default function Wholesales(nav) {
           showsHorizontalScrollIndicator={false}
           onContentSizeChange={width => setContentWidth(width)}
           style={{flexDirection: 'row', marginTop: 8, gap: 8}}>
-          {[
+          {loader ? (
+            <View style={styles.activityIndivator} >
+              <ActivityIndicator />
+            </View>
+          ) : resCatData?.length == 0 ? (
+            <Text>Data not Available</Text>
+          ) : (
+            resCatData?.map((item, index) => (
+              <View key={index}>
+                <View className="flex flex-col mr-2 bg-white rounded-lg shadow p-1.5">
+                  <Image
+                    style={{height: 74, width: 74}}
+                    className=""
+                    source={{
+                      uri: `${environmentVariables?.apiUrl}/uploads/category/${item?.category_image}`,
+                    }}
+                  />
+                </View>
+
+                <Text
+                  className="pt-1 text-center"
+                  style={{
+                    fontFamily: 'Poppins-Regular',
+                    color: '#00274d',
+                    fontSize: 10,
+                  }}>
+                  {item.title}
+                </Text>
+              </View>
+            ))
+          )}
+          {/* {[
             {name: 'Fresh Food'},
             {name: 'Grocery'},
             {name: 'Beverages'},
@@ -93,7 +162,7 @@ export default function Wholesales(nav) {
                 {item.name}
               </Text>
             </View>
-          ))}
+          ))} */}
         </ScrollView>
       </View>
       <Divider className="bg-[#e6e9f4] m-3" />
@@ -273,5 +342,11 @@ const styles = StyleSheet.create({
     height: 15,
     width: 23.3,
     tintColor: 'white',
+  },
+
+  activityIndivator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

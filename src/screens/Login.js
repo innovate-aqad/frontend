@@ -261,11 +261,12 @@ export default function Login(nav) {
           <TouchableOpacity
             className="px-5 "
             onPress={() => {
-              nav.navigation.navigate('signup');
+              // nav.navigation.navigate('signup');
               // nav.navigation.navigate('logidrivdetail', {
               //   id: 'd3c410d0a9c54ee39f1a70057cb6df6d',
               // });
               // nav.navigation.navigate('productIndex');
+              nav.navigation.navigate('retailerIndex');
             }}>
             <Text className="text-[#F96900] font-[Roboto-Regular]">
               Sign Up
