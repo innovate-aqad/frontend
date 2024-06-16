@@ -18,7 +18,9 @@ import {retrieveToken} from '../../../Shared/EncryptionDecryption/Token';
 export default function Wholesales(nav) {
   const [tab, setTab] = useState('All');
   const [loader, setLoader] = useState(false);
+  const [loader1, setLoader1] = useState(false);
   const [resCatData, setResCatData] = useState([]);
+  const [resProductData, setResProductData] = useState([]);
   const scrollViewRef = useRef(null);
   const [contentWidth, setContentWidth] = useState(0);
   const scrollWidth = Dimensions.get('window').width;
@@ -39,7 +41,7 @@ export default function Wholesales(nav) {
   }, [contentWidth, scrollWidth]);
 
   const tabNavigatePage = value => {
-    console.log(value, 'ramsasalsklaalskfalk');
+    // console.log(value, 'ramsasalsklaalskfalk');
     if (value === 'Top Sales') {
       setTab('Top Sales');
     } else if (value === 'Features') {
@@ -66,10 +68,10 @@ export default function Wholesales(nav) {
         );
         if (getData?.data?.success) {
           setResCatData(getData?.data?.data);
-          setLoader(true);
+          setLoader(false);
         } else {
           setResCatData([]);
-          setLoader(true);
+          setLoader(false);
         }
       } catch (error) {
         setLoader(false);
@@ -78,10 +80,43 @@ export default function Wholesales(nav) {
       }
     };
 
+    const getProductsData = async () => {
+      try {
+        setLoader1(true);
+        const getData = await axios.get(
+          `${environmentVariables?.apiUrl}/api/product/get?search=productname&filter=all_status`,
+          {
+            headers: {
+              _token: storedToken,
+            },
+          },
+        );
+        // console.log('111111111112222222', getData?.data);
+        if (getData?.data?.success) {
+          setResProductData(getData?.data?.data);
+          setLoader1(false);
+        } else {
+          setResProductData([]);
+          setLoader1(false);
+        }
+      } catch (error) {
+        setLoader1(false);
+        setResProductData([]);
+        console.log(
+          error,
+          'eroorr12',
+          error?.response?.data?.message,
+          error?.message,
+        );
+      }
+    };
+
+    getProductsData();
+
     getCategoryData();
   }, []);
 
-  console.log(resCatData, 'resCatData');
+  // console.log(resProductData, 'resCatData');
   return (
     <View className="w-full h-full bg-[#f5f5f5]">
       <View className="px-3">
@@ -102,7 +137,7 @@ export default function Wholesales(nav) {
           onContentSizeChange={width => setContentWidth(width)}
           style={{flexDirection: 'row', marginTop: 8, gap: 8}}>
           {loader ? (
-            <View style={styles.activityIndivator} >
+            <View style={styles.activityIndivator}>
               <ActivityIndicator />
             </View>
           ) : resCatData?.length == 0 ? (
@@ -211,67 +246,8 @@ export default function Wholesales(nav) {
               Products
             </Text>
           </View>
-          {[
-            {
-              brand: 'Nice',
-              dec: 'Considero casus adduco....',
-              price: '150 AED',
-              imgUrl:
-                'https://t3.ftcdn.net/jpg/06/12/00/18/360_F_612001823_TkzT0xmIgagoDCyQ0yuJYEGu8j6VNVYT.jpg',
-            },
-            {
-              brand: 'Nice',
-              dec: 'Considero casus adduco....',
-              price: '150 AED',
-              imgUrl: '',
-            },
-            {
-              brand: 'Nice',
-              dec: 'Considero casus adduco....',
-              price: '150 AED',
-              imgUrl: '',
-            },
-            {
-              brand: 'Nice',
-              dec: 'Considero casus adduco....',
-              price: '150 AED',
-              imgUrl: '',
-            },
-            {
-              brand: 'Nice',
-              dec: 'Considero casus adduco....',
-              price: '150 AED',
-              imgUrl: '',
-            },
-            {
-              brand: 'Nice',
-              dec: 'Considero casus adduco....',
-              price: '150 AED',
-              imgUrl: '',
-            },
-            {
-              brand: 'Nice',
-              dec: 'Considero casus adduco....',
-              price: '150 AED',
-              imgUrl: '',
-            },
-            {
-              brand: 'Nice',
-              dec: 'Considero casus adduco....',
-              price: '150 AED',
-              imgUrl: '',
-            },
-            {
-              brand: 'Nice',
-              dec: 'Considero casus adduco....',
-              price: '150 AED',
-            },
-            {
-              brand: 'Nice',
-              dec: 'Considero casus adduco....',
-              price: '150 AED',
-            },
-          ].map((item, index) => (
+
+          {resProductData?.map((item, index) => (
             <View
               key={index}
               className={
@@ -282,7 +258,7 @@ export default function Wholesales(nav) {
               <TouchableOpacity
                 className=""
                 onPress={() => {
-                  nav.navigation.navigate('productDetails');
+                  nav.navigation.navigate('productDetails', {id: item?.id});
                 }}>
                 <Image
                   style={{
@@ -293,18 +269,18 @@ export default function Wholesales(nav) {
                   }}
                   className=""
                   source={{
-                    uri: 'https://t3.ftcdn.net/jpg/06/12/00/18/360_F_612001823_TkzT0xmIgagoDCyQ0yuJYEGu8j6VNVYT.jpg',
+                    uri: `${environmentVariables?.apiUrl}/uploads/vendor/product/${item?.variation_arr?.[0]?.product_images_arr?.[0]?.image}`,
                   }}
                 />
                 <View className="flex flex-col pt-2 after:pl-2">
                   <Text className="text-[#7e84a3] text-[10px] font-[Poppins-Light]">
-                    {item.brand}
+                    {item.title}
                   </Text>
                   <Text className="text-[#00274d] text-[10px] font-[Poppins-Regular]">
-                    {item.dec}
+                    {item.description}
                   </Text>
                   <Text className="text-[#f96900] text-[13px] font-[Poppins-SemiBold]">
-                    {item.price}
+                    {item?.variation_arr?.[0]?.price} AED
                   </Text>
                 </View>
               </TouchableOpacity>

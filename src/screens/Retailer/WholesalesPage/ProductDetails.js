@@ -16,7 +16,8 @@ import addToCart from '../../../Assets/image/drawable/cartI.svg';
 
 const mockData = ['UK1', 'UK2', 'UK3', 'UK4', 'UK5'];
 
-export default function ProductDetails() {
+export default function ProductDetails(nav) {
+  const mainId = nav.route.params.id;
   const [size, setSize] = useState([]);
 
   const scrollViewRef = useRef(null);
