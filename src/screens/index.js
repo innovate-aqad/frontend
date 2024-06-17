@@ -50,6 +50,9 @@ import SuccessAuthontication from '../Shared/settings/twoFactors/SuccessAuthonti
 import MainApp from '../components/drawerNavigation/MainApp';
 import OtpVerify from './OtpVerify';
 import VendorDrawer from './Vendor/vendorDrawer/VendorDrawer';
+import Support from '../RemainingPageSetup/Support';
+import RattingReview from '../RemainingPageSetup/RattingReview';
+import Appearance from '../Shared/settings/Appearane';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -114,8 +117,18 @@ export default function Index() {
       <Stack.Screen name="continue" component={Continue} />
       <Stack.Screen name="verifyEnable" component={VerifyEnable} />
       <Stack.Screen name="successAuthontication" component={SuccessAuthontication} />
+
+
+      <Stack.Screen name="appearance" component={Appearance} />
       
       {/* setting page end */}
+
+
+
+      {/* remaining page start */}
+      <Stack.Screen name="support" component={Support} />
+      <Stack.Screen name="rattingReview" component={RattingReview} />
+      {/* remaining page end Support */}
     </Stack.Navigator>
   );
 }

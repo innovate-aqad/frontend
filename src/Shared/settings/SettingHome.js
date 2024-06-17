@@ -83,7 +83,9 @@ export default function SettingHome(nav) {
           /> */}
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={()=>nav.navigation.navigate("changePassword")} className="flex mt-1.5 flex-row items-center justify-between p-2 pl-6 pr-4 bg-white rounded-[10px]">
+      <TouchableOpacity
+        onPress={() => nav.navigation.navigate('changePassword')}
+        className="flex mt-1.5 flex-row items-center justify-between p-2 pl-6 pr-4 bg-white rounded-[10px]">
         <View className="flex flex-row items-center rounded-full gap-x-2 pr-7 ">
           <SvgUri width={24} height={24} source={key} />
 
@@ -104,7 +106,9 @@ export default function SettingHome(nav) {
           source={require('../../Assets/image/angle-small-right.png')}
         />
       </TouchableOpacity>
-      <TouchableOpacity onPress={()=>nav.navigation.navigate("getStarted")} className="flex mt-1.5 flex-row items-center justify-between p-2 pl-6 pr-4 bg-white rounded-[10px]">
+      <TouchableOpacity
+        onPress={() => nav.navigation.navigate('getStarted')}
+        className="flex mt-1.5 flex-row items-center justify-between p-2 pl-6 pr-4 bg-white rounded-[10px]">
         <View className="flex flex-row items-center rounded-full gap-x-2 pr-7 ">
           <SvgUri width={24} height={24} source={lock} />
 
@@ -178,7 +182,9 @@ export default function SettingHome(nav) {
           />
         </View>
       </TouchableOpacity>
-      <TouchableOpacity className="flex mt-1.5 flex-row items-center justify-between p-2 pl-6 pr-4 bg-white rounded-[10px]">
+      <TouchableOpacity
+        onPress={() => nav.navigation.navigate('appearance')}
+        className="flex mt-1.5 flex-row items-center justify-between p-2 pl-6 pr-4 bg-white rounded-[10px]">
         <View className="flex flex-row items-center rounded-full gap-x-2 pr-7 ">
           <SvgUri width={24} height={24} source={eclipse_alt} />
 

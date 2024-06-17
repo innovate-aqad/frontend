@@ -15,7 +15,6 @@ import {POPPINS, ROBOTO} from '../../../../constants/CustomFontFamily';
 import CustomButton from '../../../../Shared/CustomButton';
 import DrawerModal from './orderCardModal/CommentRatting';
 import SharingFeedback from './orderCardModal/SharingFeedback';
-// import { grayColor } from '../../../../constants/Theme';
 
 const OrderDetails = (nav) => {
   const [value, setValue] = React.useState('left');

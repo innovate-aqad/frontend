@@ -9,6 +9,7 @@ import {
   white,
 } from '../../constants/Theme';
 import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
+import TermCondition from '../../Shared/TermCondition';
 export default function MyAccount(nav) {
   const navigation = useNavigation();
   return (
@@ -60,7 +61,7 @@ export default function MyAccount(nav) {
             style={{backgroundColor: '#e6e9f4'}}
             className="p-3 w-[48%] rounded-full"
             onPress={() => {
-              nav.navigation.navigate('retailerIndex');
+              nav.navigation.navigate('setting');
               // navigation.replace('VendorDrawer')
             }}>
             <Text
@@ -71,6 +72,7 @@ export default function MyAccount(nav) {
           </TouchableOpacity>
         </View>
       </View>
+      {/* <TermCondition/> */}
     </View>
   );
 }
