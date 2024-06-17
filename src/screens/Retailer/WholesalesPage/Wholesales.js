@@ -84,14 +84,16 @@ export default function Wholesales(nav) {
       try {
         setLoader1(true);
         const getData = await axios.get(
-          `${environmentVariables?.apiUrl}/api/product/get?search=productname&filter=all_status`,
+          `${environmentVariables?.apiUrl}/api/product/get`,
           {
             headers: {
               _token: storedToken,
             },
           },
         );
-        // console.log('111111111112222222', getData?.data);
+
+        console.log('111111111112222222', getData?.data?.data);
+
         if (getData?.data?.success) {
           setResProductData(getData?.data?.data);
           setLoader1(false);
@@ -247,45 +249,57 @@ export default function Wholesales(nav) {
             </Text>
           </View>
 
-          {resProductData?.map((item, index) => (
-            <View
-              key={index}
-              className={
-                index % 2 == 1
-                  ? 'bg-white relative !mt-[-125px] shadow rounded-[12px]'
-                  : 'flex flex-col bg-white shadow rounded-[12px]'
-              }>
-              <TouchableOpacity
-                className=""
-                onPress={() => {
-                  nav.navigation.navigate('productDetails', {id: item?.id});
-                }}>
-                <Image
-                  style={{
-                    height: 115,
-                    width: 160,
-                    borderTopRightRadius: 12,
-                    borderTopLeftRadius: 12,
-                  }}
-                  className=""
-                  source={{
-                    uri: `${environmentVariables?.apiUrl}/uploads/vendor/product/${item?.variation_arr?.[0]?.product_images_arr?.[0]?.image}`,
-                  }}
-                />
-                <View className="flex flex-col pt-2 after:pl-2">
-                  <Text className="text-[#7e84a3] text-[10px] font-[Poppins-Light]">
-                    {item.title}
-                  </Text>
-                  <Text className="text-[#00274d] text-[10px] font-[Poppins-Regular]">
-                    {item.description}
-                  </Text>
-                  <Text className="text-[#f96900] text-[13px] font-[Poppins-SemiBold]">
-                    {item?.variation_arr?.[0]?.price} AED
-                  </Text>
-                </View>
-              </TouchableOpacity>
+          {loader1 ? (
+            <View style={styles.activityIndivator}>
+              <ActivityIndicator />
             </View>
-          ))}
+          ) : resProductData?.length == 0 ? (
+            <Text>Data not Available</Text>
+          ) : (
+            resProductData?.map((item, index) => (
+              <View
+                key={index}
+                className={
+                  index % 2 == 1
+                    ? 'bg-white relative !mt-[-125px] shadow rounded-[12px]'
+                    : 'flex flex-col bg-white shadow rounded-[12px]'
+                }>
+                {console.log('item', item)}
+                <TouchableOpacity
+                  className=""
+                  onPress={() => {
+                    nav.navigation.navigate('productDetails', {
+                      id: item?.id,
+                      categoryId: item?.category_id,
+                    });
+                  }}>
+                  <Image
+                    style={{
+                      height: 115,
+                      width: 160,
+                      borderTopRightRadius: 12,
+                      borderTopLeftRadius: 12,
+                    }}
+                    className=""
+                    source={{
+                      uri: `${environmentVariables?.apiUrl}/uploads/vendor/product/${item?.variation_arr?.[0]?.product_images_arr?.[0]?.image}`,
+                    }}
+                  />
+                  <View className="flex flex-col pt-2 after:pl-2">
+                    <Text className="text-[#7e84a3] text-[10px] font-[Poppins-Light]">
+                      {item.title}
+                    </Text>
+                    <Text className="text-[#00274d] text-[10px] font-[Poppins-Regular]">
+                      {item.description}
+                    </Text>
+                    <Text className="text-[#f96900] text-[13px] font-[Poppins-SemiBold]">
+                      {item?.variation_arr?.[0]?.price} AED
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ))
+          )}
         </View>
       </ScrollView>
     </View>
