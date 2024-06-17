@@ -38,7 +38,7 @@ export default function ProductDetails(nav) {
 
   const getProductsById = async () => {
     const storedToken = await retrieveToken();
-    console.log('000000000', storedToken);
+    console.log('000000000', mainId);
 
     try {
       setLoader(true);
@@ -107,21 +107,24 @@ export default function ProductDetails(nav) {
     return () => clearInterval(interval);
   }, [contentWidth, scrollWidth]);
   // console.log('44444222', resProductData);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleSelect = index => {
-    if (size.includes(index)) {
-      setSize(size.filter(item => item !== index));
-    } else {
-      setSize([...size, index]);
-    }
+    // if (size.includes(index)) {
+    //   setSize(size.filter(item => item !== index));
+    // } else {
+    //   setSize([...size, index]);
+    // }
+    setSelectedIndex(index);
   };
+  const selectedPrice = resProductData?.variation_arr?.[selectedIndex]?.price;
 
-  const addToCart = async item => {
+  const addToCart = async (item, selectedIndex) => {
     const storedToken = await retrieveToken();
     const data = {
       product_id: item?.id,
       quantity: 1,
-      variant_id: item?.variation_arr?.[0]?.id,
+      variant_id: item?.variation_arr?.[selectedIndex]?.id,
     };
     console.log('item', storedToken);
     setLoader2(true);
@@ -210,7 +213,7 @@ export default function ProductDetails(nav) {
             <View className="flex flex-col my-2">
               <View className="flex flex-row items-center">
                 <Text className="text-[#f96900] font-[Poppins-SemiBold] text-[20px]">
-                  {resProductData?.variation_arr?.[0]?.price}
+                  {selectedPrice}
                 </Text>
                 <Text className="text-[#f96900] font-[Poppins-SemiBold] text-[8px]">
                   AED
@@ -284,13 +287,13 @@ export default function ProductDetails(nav) {
                   key={index}
                   onPress={() => handleSelect(index)}
                   className={
-                    size.includes(index)
+                    selectedIndex === index
                       ? ' w-14 text-center py-2 bg-[#f96900] text-white rounded-lg'
                       : ' w-14 text-center py-2 border border-[#7e84a3] bg-white rounded-lg'
                   }>
                   <Text
                     className={
-                      size.includes(index)
+                      selectedIndex === index
                         ? 'text-white text-center'
                         : 'text-[#cbcbcb] text-center'
                     }>
@@ -385,7 +388,8 @@ export default function ProductDetails(nav) {
           </View>
           <View className="flex flex-row items-center justify-between w-full px-4 mt-5">
             <View className="w-[20%] border flex border-[#7e84a3] items-center text-center p-1.5 rounded-lg">
-              <TouchableOpacity onPress={() => addToCart(resProductData)}>
+              <TouchableOpacity
+                onPress={() => addToCart(resProductData, selectedIndex)}>
                 {loader2 ? (
                   <ActivityIndicator />
                 ) : (

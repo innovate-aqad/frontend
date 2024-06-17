@@ -45,12 +45,37 @@ export default function Cart(nav) {
     } catch (error) {
       setLoader(false);
       setResCartData([]);
-      console.log(error?.response?.data?.message, error?.message, 'eroorr11');
+      console.log(error?.response?.data?.message, error?.message, 'eroorr113');
     }
   };
   useEffect(() => {
     getCartData();
   }, []);
+
+  const handleIncrement = index => {
+    const updatedCartData = [...resCartData];
+    console.log(updatedCartData, 'updatedCartData');
+    updatedCartData[index].quantity =
+      parseInt(updatedCartData[index].quantity, 10) + 1;
+    setResCartData(updatedCartData);
+  };
+
+  const handleDecrement = index => {
+    const updatedCartData = [...resCartData];
+    if (updatedCartData[index].quantity > 1) {
+      // updatedCartData[index].quantity -= 1;
+      updatedCartData[index].quantity =
+        parseInt(updatedCartData[index].quantity, 10) - 1;
+      setResCartData(updatedCartData);
+    }
+  };
+
+  const calculateTotal = () => {
+    return resCartData.reduce(
+      (total, item) => total + item.variantObj.price * item.quantity,
+      0,
+    );
+  };
 
   return (
     <View className="w-full h-full" style={{backgroundColor: screenBackground}}>
@@ -108,7 +133,9 @@ export default function Cart(nav) {
                   <View className="w-[25%]">
                     <Image
                       style={{height: 80, width: 80}}
-                      source={require('../../../Assets/image/drawable-xhdpi/mask_group_2.png')}
+                      source={{
+                        uri: `${environmentVariables?.apiUrl}/uploads/vendor/product/${item?.variantObj?.product_images_arr?.[0]?.image}`,
+                      }}
                     />
                   </View>
                   <View className="flex w-[75%]  flex-row items-center justify-around">
@@ -129,7 +156,9 @@ export default function Cart(nav) {
                         </Text>
                       </View>
                       <View className="flex flex-row items-center gap-x-1.5 ">
-                        <TouchableOpacity className="bg-[#f7dcc8] h-[18px] w-[18px] flex items-center justify-center rounded-full">
+                        <TouchableOpacity
+                          className="bg-[#f7dcc8] h-[18px] w-[18px] flex items-center justify-center rounded-full"
+                          onPress={() => handleDecrement(index)}>
                           <Text className="text-[#f9e4d5] ">
                             <Entypo name="minus" size={14} color="#f96900" />
                           </Text>
@@ -137,9 +166,11 @@ export default function Cart(nav) {
                         <Text
                           className="text-[#00274d] text-[15px]"
                           style={{fontFamily: POPPINS.PoppinsRegular}}>
-                          3
+                          {item.quantity}
                         </Text>
-                        <TouchableOpacity className="bg-[#f7dcc8] h-[18px] w-[18px] flex items-center justify-center rounded-full">
+                        <TouchableOpacity
+                          className="bg-[#f7dcc8] h-[18px] w-[18px] flex items-center justify-center rounded-full"
+                          onPress={() => handleIncrement(index)}>
                           <Text className="text-[#f9e4d5] ">
                             <Entypo name="plus" size={14} color="#f96900" />
                           </Text>
@@ -150,7 +181,7 @@ export default function Cart(nav) {
                       <Text
                         className="text-[#f96900] pb-3 text-[15px]"
                         style={{fontFamily: ROBOTO.RobotoMedium}}>
-                        {item?.variantObj?.price} AED
+                        {item.variantObj.price * item.quantity} AED
                       </Text>
                     </View>
                     <View>
@@ -192,7 +223,7 @@ export default function Cart(nav) {
                   letterSpacing: 0.08,
                   fontFamily: POPPINS.PoppinsRegular,
                 }}>
-                5000 AED
+                {calculateTotal()} AED
               </Text>
             </View>
             <View className="flex flex-row justify-between">
@@ -207,7 +238,7 @@ export default function Cart(nav) {
               <Text
                 className="text-[#7e84a3] text-[13px]"
                 style={{letterSpacing: 0.08}}>
-                5000 AED
+                0 AED
               </Text>
             </View>
             <View className="flex flex-row justify-between">
@@ -219,7 +250,7 @@ export default function Cart(nav) {
               <Text
                 className="text-[#7e84a3] text-[13px]"
                 style={{letterSpacing: 0.08}}>
-                5000 AED
+                0 AED
               </Text>
             </View>
           </View>
@@ -234,7 +265,7 @@ export default function Cart(nav) {
           <Text
             className="text-[#f96900] font-[Poppins-Medium]"
             style={{fontSize: 20}}>
-            4900 AED
+            {calculateTotal()} AED
           </Text>
         </View>
 
