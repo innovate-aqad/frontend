@@ -20,6 +20,7 @@ export default function Cart(nav) {
   const [loader, setLoader] = useState(false);
   const [resCartData, setResCartData] = useState([]);
   const [value, setValue] = React.useState('left');
+  const [quantities, setQuantities] = useState({});
 
   const getCartData = async () => {
     const storedToken = await retrieveToken();
@@ -34,9 +35,18 @@ export default function Cart(nav) {
           },
         },
       );
-      console.log('9999999', getData?.data?.data);
+      // console.log('9999999', getData?.data?.data);
       if (getData?.data?.success) {
-        setResCartData(getData?.data?.data);
+        const cartData = getData?.data?.data;
+
+        setResCartData(cartData);
+
+        setQuantities(
+          cartData.reduce((acc, item) => {
+            acc[item.id] = item.quantity;
+            return acc;
+          }, {}),
+        );
         setLoader(false);
       } else {
         setResCartData([]);
@@ -52,29 +62,54 @@ export default function Cart(nav) {
     getCartData();
   }, []);
 
-  const handleIncrement = index => {
-    const updatedCartData = [...resCartData];
-    console.log(updatedCartData, 'updatedCartData');
-    updatedCartData[index].quantity =
-      parseInt(updatedCartData[index].quantity, 10) + 1;
-    setResCartData(updatedCartData);
+  // const handleIncrement = index => {
+  //   const updatedCartData = [...resCartData];
+  //   console.log(updatedCartData, 'updatedCartData');
+  //   updatedCartData[index].quantity =
+  //     parseInt(updatedCartData[index].quantity, 10) + 1;
+  //   setResCartData(updatedCartData);
+  // };
+
+  // const handleDecrement = index => {
+  //   const updatedCartData = [...resCartData];
+  //   if (updatedCartData[index].quantity > 1) {
+  //     updatedCartData[index].quantity =
+  //       parseInt(updatedCartData[index].quantity, 10) - 1;
+  //     setResCartData(updatedCartData);
+  //   }
+  // };
+
+  const handleIncrement = item => {
+    setQuantities(prev => {
+      const newQuantities = {...prev};
+      const availableQuantity = item.variantObj.warehouse_arr.reduce(
+        (sum, warehouse) => sum + Number(warehouse.quantity),
+        0,
+      );
+      const currentQuantity = Number(newQuantities[item.id]); // Convert to number
+      if (currentQuantity < availableQuantity) {
+        newQuantities[item.id] = currentQuantity + 1; // Increment by 1
+      }
+      return newQuantities;
+    });
   };
 
-  const handleDecrement = index => {
-    const updatedCartData = [...resCartData];
-    if (updatedCartData[index].quantity > 1) {
-      // updatedCartData[index].quantity -= 1;
-      updatedCartData[index].quantity =
-        parseInt(updatedCartData[index].quantity, 10) - 1;
-      setResCartData(updatedCartData);
-    }
+  const handleDecrement = item => {
+    setQuantities(prev => {
+      const newQuantities = {...prev};
+      const currentQuantity = Number(newQuantities[item.id]); // Convert to number
+      if (currentQuantity > 1) {
+        newQuantities[item.id] = currentQuantity - 1; // Decrement by 1
+      }
+      return newQuantities;
+    });
   };
 
   const calculateTotal = () => {
-    return resCartData.reduce(
-      (total, item) => total + item.variantObj.price * item.quantity,
-      0,
-    );
+    return resCartData.reduce((sum, item) => {
+      const quantity = Number(quantities[item.id]) || 1; // Convert to number
+      return sum + item.variantObj.price * quantity;
+    }, 0);
   };
 
   return (
@@ -93,7 +128,7 @@ export default function Cart(nav) {
             <Text
               className={value === 'left' ? 'text-white' : 'text-[#00274D]'}
               style={{fontFamily: 'Poppins-SemiBold', fontSize: 14}}>
-              All (4)
+              All ({resCartData.length})
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -126,6 +161,12 @@ export default function Cart(nav) {
             </View>
           ) : (
             resCartData?.map((item, index) => {
+              const availableQuantity = item.variantObj.warehouse_arr.reduce(
+                (sum, warehouse) => sum + Number(warehouse.quantity),
+                0,
+              );
+              const currentQuantity = quantities[item.id] || 1;
+              console.log('343434', availableQuantity, currentQuantity);
               return (
                 <View
                   key={index}
@@ -158,7 +199,9 @@ export default function Cart(nav) {
                       <View className="flex flex-row items-center gap-x-1.5 ">
                         <TouchableOpacity
                           className="bg-[#f7dcc8] h-[18px] w-[18px] flex items-center justify-center rounded-full"
-                          onPress={() => handleDecrement(index)}>
+                          onPress={() => handleDecrement(item)}
+                          disabled={currentQuantity == 1}
+                          style={{opacity: currentQuantity == '1' ? 0.5 : 1}}>
                           <Text className="text-[#f9e4d5] ">
                             <Entypo name="minus" size={14} color="#f96900" />
                           </Text>
@@ -166,11 +209,16 @@ export default function Cart(nav) {
                         <Text
                           className="text-[#00274d] text-[15px]"
                           style={{fontFamily: POPPINS.PoppinsRegular}}>
-                          {item.quantity}
+                          {currentQuantity}
                         </Text>
                         <TouchableOpacity
                           className="bg-[#f7dcc8] h-[18px] w-[18px] flex items-center justify-center rounded-full"
-                          onPress={() => handleIncrement(index)}>
+                          onPress={() => handleIncrement(item)}
+                          disabled={currentQuantity >= availableQuantity}
+                          style={{
+                            opacity:
+                              currentQuantity >= availableQuantity ? 0.5 : 1,
+                          }}>
                           <Text className="text-[#f9e4d5] ">
                             <Entypo name="plus" size={14} color="#f96900" />
                           </Text>
@@ -181,7 +229,7 @@ export default function Cart(nav) {
                       <Text
                         className="text-[#f96900] pb-3 text-[15px]"
                         style={{fontFamily: ROBOTO.RobotoMedium}}>
-                        {item.variantObj.price * item.quantity} AED
+                        {item.variantObj.price * currentQuantity} AED
                       </Text>
                     </View>
                     <View>
@@ -215,7 +263,7 @@ export default function Cart(nav) {
                   letterSpacing: 0.08,
                   fontFamily: POPPINS.PoppinsRegular,
                 }}>
-                Subtotal (4)
+                Subtotal ({resCartData.length})
               </Text>
               <Text
                 className="text-[#7e84a3] text-[13px]"
@@ -271,7 +319,12 @@ export default function Cart(nav) {
 
         <TouchableOpacity
           className="z-50 mt-10 rounded-xl "
-          onPress={() => nav.navigation.navigate('checkout')}
+          onPress={() =>
+            nav.navigation.navigate('checkout', {
+              overAllAmount: calculateTotal(),
+              cartData: resCartData,
+            })
+          }
           style={{
             backgroundColor: btnBackround,
             padding: 10,

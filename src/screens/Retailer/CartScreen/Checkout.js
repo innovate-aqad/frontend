@@ -13,6 +13,9 @@ import {Divider} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function Checkout(nav) {
+  const overAllAmount = nav.route.params.overAllAmount;
+  const cartData = nav.route.params.cartData;
+  // console.log(overAllAmount, 'checkout', cartData?.length);
   return (
     <SafeAreaView>
       <ScrollView>
@@ -26,12 +29,12 @@ export default function Checkout(nav) {
                 <Text
                   className="text-[#7e84a3] text-[13px]"
                   style={{letterSpacing: 0.08}}>
-                  Subtotal (4)
+                  Subtotal ({cartData?.length})
                 </Text>
                 <Text
                   className="text-[#7e84a3] text-[13px]"
                   style={{letterSpacing: 0.08}}>
-                  5000 AED
+                  {overAllAmount} AED
                 </Text>
               </View>
               <View className="flex flex-row justify-between">
@@ -43,7 +46,7 @@ export default function Checkout(nav) {
                 <Text
                   className="text-[#7e84a3] text-[13px]"
                   style={{letterSpacing: 0.08}}>
-                  5000 AED
+                  0 AED
                 </Text>
               </View>
               <View className="flex flex-row justify-between">
@@ -55,7 +58,7 @@ export default function Checkout(nav) {
                 <Text
                   className="text-[#7e84a3] text-[13px]"
                   style={{letterSpacing: 0.08}}>
-                  5000 AED
+                  0 AED
                 </Text>
               </View>
               <View className="flex flex-row justify-between mt-3">
@@ -63,7 +66,7 @@ export default function Checkout(nav) {
                   TOTAL
                 </Text>
                 <Text className="text-[#f96900] text[20px] font-[Poppins-Medium]">
-                  4900 AED
+                  {overAllAmount} AED
                 </Text>
               </View>
             </View>

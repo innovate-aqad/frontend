@@ -17,6 +17,8 @@ import {retrieveToken} from '../../../Shared/EncryptionDecryption/Token';
 
 export default function Wholesales(nav) {
   const [tab, setTab] = useState('All');
+  const [searchText, setSearchText] = useState('');
+
   const [loader, setLoader] = useState(false);
   const [loader1, setLoader1] = useState(false);
   const [resCatData, setResCatData] = useState([]);
@@ -25,6 +27,19 @@ export default function Wholesales(nav) {
   const [contentWidth, setContentWidth] = useState(0);
   const scrollWidth = Dimensions.get('window').width;
   let scrollOffset = 0;
+
+  const tabNavigatePage = value => {
+    // console.log(value, 'ramsasalsklaalskfalk');
+    if (value === 'Top Sales') {
+      setTab('Top Sales');
+    } else if (value === 'Features') {
+      setTab('Features');
+    } else if (value === 'Popular') {
+      setTab('Popular');
+    } else {
+      setTab('All');
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -40,22 +55,9 @@ export default function Wholesales(nav) {
     return () => clearInterval(interval);
   }, [contentWidth, scrollWidth]);
 
-  const tabNavigatePage = value => {
-    // console.log(value, 'ramsasalsklaalskfalk');
-    if (value === 'Top Sales') {
-      setTab('Top Sales');
-    } else if (value === 'Features') {
-      setTab('Features');
-    } else if (value === 'Popular') {
-      setTab('Popular');
-    } else {
-      setTab('All');
-    }
-  };
-
-  useEffect(async () => {
-    const storedToken = await retrieveToken();
-    const getCategoryData = async () => {
+  useEffect(() => {
+    async function getCategoryData() {
+      const storedToken = await retrieveToken();
       try {
         setLoader(true);
         const getData = await axios.get(
@@ -78,13 +80,18 @@ export default function Wholesales(nav) {
         setResCatData([]);
         console.log(error?.response?.data?.message, 'eroorr');
       }
-    };
+    }
 
-    const getProductsData = async () => {
+    getCategoryData();
+  }, []);
+
+  useEffect(() => {
+    async function getProductsData() {
+      const storedToken = await retrieveToken();
       try {
         setLoader1(true);
         const getData = await axios.get(
-          `${environmentVariables?.apiUrl}/api/product/get`,
+          `${environmentVariables?.apiUrl}/api/product/get?search=${searchText}`,
           {
             headers: {
               _token: storedToken,
@@ -92,7 +99,7 @@ export default function Wholesales(nav) {
           },
         );
 
-        console.log('111111111112222222', getData?.data?.data);
+        // console.log('111111111112222222', getData?.data?.data);
 
         if (getData?.data?.success) {
           setResProductData(getData?.data?.data);
@@ -111,18 +118,24 @@ export default function Wholesales(nav) {
           error?.message,
         );
       }
-    };
+    }
 
     getProductsData();
+  }, [searchText]);
 
-    getCategoryData();
-  }, []);
+  const handleSearchValueChange = async value => {
+    if (value.length > 2) {
+      setSearchText(value);
+    } else {
+      setSearchText('');
+    }
+  };
 
   // console.log(resProductData, 'resCatData');
   return (
     <View className="w-full h-full bg-[#f5f5f5]">
       <View className="px-3">
-        <Search />
+        <Search onSearchValueChange={handleSearchValueChange} />
       </View>
 
       <View className="mt-3">
@@ -264,7 +277,6 @@ export default function Wholesales(nav) {
                     ? 'bg-white relative !mt-[-125px] shadow rounded-[12px]'
                     : 'flex flex-col bg-white shadow rounded-[12px]'
                 }>
-                {console.log('item', item)}
                 <TouchableOpacity
                   className=""
                   onPress={() => {
