@@ -9,6 +9,7 @@ import headset from '../../../Assets/image/myaccount/headset.svg';
 import language from '../../../Assets/image/myaccount/language.svg';
 import assept_document from '../../../Assets/image/myaccount/assept_document.svg';
 import greater from '../../../Assets/image/myaccount/greater.svg';
+import integrationSettings from '../../../Assets/image/vendor/integrationSettings.svg';
 
 import angle from '../../../Assets/image/angle-small-right.png';
 import SvgUri from 'react-native-svg-uri';
@@ -114,7 +115,7 @@ export default function MyAccount(nav) {
             <Text
               className="text-[#00274d] text-[13px]"
               style={{fontFamily: 'Roboto-Regular'}}>
-              Payment
+              Payment Details
             </Text>
           </View>
 
@@ -124,7 +125,7 @@ export default function MyAccount(nav) {
           />
         </View>
       </TouchableOpacity>
-      <TouchableOpacity className="">
+      {/* <TouchableOpacity className="">
         <View className="flex flex-row items-center justify-between p-2 pl-6 pr-4 bg-white rounded-lg">
           <View className="flex flex-row items-center rounded-full gap-x-4 pr-7 ">
             <SvgUri width={24} height={24} source={language} />
@@ -137,6 +138,25 @@ export default function MyAccount(nav) {
 
           <View className="flex flex-row items-center gap-x-5">
             <Text className="text-[#f96900] text-[13px]">English</Text>
+            <Image
+              style={{height: 25, width: 13, tintColor: '#7e84a3'}}
+              source={require('../../../Assets/image/angle-small-right.png')}
+            />
+          </View>
+        </View>
+      </TouchableOpacity> */}
+      <TouchableOpacity onPress={()=>nav.navigation.navigate("integrationSettings")}>
+        <View className="flex flex-row items-center justify-between p-2 pl-6 pr-4 bg-white rounded-lg">
+          <View className="flex flex-row items-center rounded-full gap-x-4 pr-7 ">
+            <SvgUri width={24} height={24} source={integrationSettings} />
+            <Text
+              className="text-[#00274d] text-[13px]"
+              style={{fontFamily: 'Roboto-Regular'}}>
+              Integration Settings
+            </Text>
+          </View>
+
+          <View className="flex flex-row items-center gap-x-5">
             <Image
               style={{height: 25, width: 13, tintColor: '#7e84a3'}}
               source={require('../../../Assets/image/angle-small-right.png')}

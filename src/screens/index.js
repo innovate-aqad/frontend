@@ -53,6 +53,7 @@ import VendorDrawer from './Vendor/vendorDrawer/VendorDrawer';
 import Support from '../RemainingPageSetup/Support';
 import RattingReview from '../RemainingPageSetup/RattingReview';
 import Appearance from '../Shared/settings/Appearane';
+import Notification from '../pages/Notification';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -129,6 +130,12 @@ export default function Index() {
       <Stack.Screen name="support" component={Support} />
       <Stack.Screen name="rattingReview" component={RattingReview} />
       {/* remaining page end Support */}
+
+
+      {/* Notification screen start */}
+    
+      <Stack.Screen name="notification" component={Notification} />
+      {/* Notification screen end */}
     </Stack.Navigator>
   );
 }

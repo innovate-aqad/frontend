@@ -9,7 +9,7 @@ import OrderRoutes from './Order';
 
 const Tab = createBottomTabNavigator();
 const product = 'Products';
-const trade = 'Dashboard';
+const dashboard = 'Dashboard';
 const account = 'MyAccount';
 const insights = 'Insights';
 const order = 'Orders';
@@ -18,14 +18,14 @@ export default function ProductIndex() {
   
   return (
     <Tab.Navigator
-      initialRouteName={trade}
+      initialRouteName={dashboard}
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
           let rn = route.name;
           if (rn === product) {
             iconName = focused ? 'home' : 'home';
-          } else if (rn === trade) {
+          } else if (rn === dashboard) {
             iconName = focused ? 'list' : 'apps';
           } else if (rn === insights) {
             iconName = focused ? 'list' : 'calendar-outline';
@@ -42,7 +42,7 @@ export default function ProductIndex() {
               />
             );
             
-          } else if (rn === trade) {
+          } else if (rn === dashboard) {
             return (
               <Image
                 style={{height: 23, width: 22,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
@@ -100,7 +100,7 @@ export default function ProductIndex() {
       
       // screenOptions={{headerShown: false}}
     >
-      <Tab.Screen name={trade} component={Dashboard} />
+      <Tab.Screen name={dashboard} component={Dashboard} />
       <Tab.Screen name={product} component={ProductRoutes} />
       
       <Tab.Screen name={account} component={AccountIndex} />

@@ -18,10 +18,12 @@ import {POPPINS, ROBOTO} from '../../../constants/CustomFontFamily';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Checkbox from '../../../Shared/Checkbox';
 import InventoryProductList from '../../../pages/InventoryProductList';
+import { useNavigation } from '@react-navigation/native';
 
 // MaterialCommunityIcons
 
 export default function InventoryList(nav) {
+  const navigation=useNavigation()
 
   return (
     <View className="flex flex-col" style={{backgroundColor: screenBackground}}>

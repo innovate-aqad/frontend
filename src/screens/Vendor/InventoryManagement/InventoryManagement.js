@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import SvgUri from 'react-native-svg-uri';
-import inventory from '../../../Assets/image/vendor/inventory.svg';
+// import inventory from '../../../Assets/image/vendor/inventory.svg';
 import {
   blue,
   screenBackground,

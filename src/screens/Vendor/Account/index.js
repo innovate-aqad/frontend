@@ -6,6 +6,7 @@ import MyAccount from './MyAccount';
 import PersonalInformation from './PersonalInformation';
 import WareHouseDetails from '../../WareHouseDetails/WareHouseDetails';
 import CompanyDetail from './CompanyDetail';
+import IntegrationSettings from './IntegrationSettings';
 
 const stack = createNativeStackNavigator();
 
@@ -84,6 +85,26 @@ export default function AccountIndex() {
           },
         }}
       />
+      <stack.Screen
+        name="integrationSettings"
+        component={IntegrationSettings}
+        options={{
+          headerShown: false,
+          title: 'Integration Settings',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+            borderRadius:20
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+          },
+        }}
+      />
     </stack.Navigator>
   );
 }
+
+// IntegrationSettings

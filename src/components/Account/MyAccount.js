@@ -61,8 +61,8 @@ export default function MyAccount(nav) {
             style={{backgroundColor: '#e6e9f4'}}
             className="p-3 w-[48%] rounded-full"
             onPress={() => {
-              nav.navigation.navigate('setting');
-              // navigation.replace('VendorDrawer')
+              // nav.navigation.navigate('VendorDrawer');
+              navigation.replace('retailerIndex')
             }}>
             <Text
               className="text-center text-[13px]"
@@ -86,4 +86,4 @@ const styles = StyleSheet.create({
     color: white,
     backgroundColor: btnBackround,
   },
-});
+}); 
