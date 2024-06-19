@@ -18,6 +18,7 @@ import {retrieveToken} from '../../../Shared/EncryptionDecryption/Token';
 export default function Wholesales(nav) {
   const [tab, setTab] = useState('All');
   const [searchText, setSearchText] = useState('');
+  const [filterValue, setFilterValue] = useState('');
 
   const [loader, setLoader] = useState(false);
   const [loader1, setLoader1] = useState(false);
@@ -28,13 +29,14 @@ export default function Wholesales(nav) {
   const scrollWidth = Dimensions.get('window').width;
   let scrollOffset = 0;
 
-  const tabNavigatePage = value => {
-    // console.log(value, 'ramsasalsklaalskfalk');
-    if (value === 'Top Sales') {
+  const tabNavigatePage = item => {
+    console.log(item, 'ramsasalsklaalskfalk');
+    setFilterValue(item?.value);
+    if (item?.name === 'Top Sales') {
       setTab('Top Sales');
-    } else if (value === 'Features') {
+    } else if (item?.name === 'Features') {
       setTab('Features');
-    } else if (value === 'Popular') {
+    } else if (item?.name === 'Popular') {
       setTab('Popular');
     } else {
       setTab('All');
@@ -91,7 +93,7 @@ export default function Wholesales(nav) {
       try {
         setLoader1(true);
         const getData = await axios.get(
-          `${environmentVariables?.apiUrl}/api/product/get?search=${searchText}`,
+          `${environmentVariables?.apiUrl}/api/product/get?search=${searchText}&filter=${filterValue}`,
           {
             headers: {
               _token: storedToken,
@@ -121,7 +123,7 @@ export default function Wholesales(nav) {
     }
 
     getProductsData();
-  }, [searchText]);
+  }, [searchText, filterValue]);
 
   const handleSearchValueChange = async value => {
     if (value.length > 2) {
@@ -219,14 +221,14 @@ export default function Wholesales(nav) {
 
       <View className="flex flex-row justify-around px-3 gap-x-3">
         {[
-          {name: 'All'},
-          {name: 'Top Sales'},
-          {name: 'Features'},
-          {name: 'Popular'},
+          {name: 'All', value: ''},
+          {name: 'Top Sales', value: 'top_sales'},
+          {name: 'Features', value: 'features'},
+          {name: 'Popular', value: 'popular'},
         ].map((item, index) => (
           <TouchableOpacity
             key={index}
-            onPress={() => tabNavigatePage(item.name)}
+            onPress={() => tabNavigatePage(item)}
             className={
               tab == item.name
                 ? 'bg-[#f96900] p-1.5 px-3 rounded-lg w-[82px]'
