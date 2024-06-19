@@ -9,10 +9,12 @@ import {
 } from '../../../constants/Theme';
 import {POPPINS} from '../../../constants/CustomFontFamily';
 import CustomButton from '../../../Shared/CustomButton';
+import { useNavigation } from '@react-navigation/native';
 
 // c:\Users\RAM\Downloads\drawable\inventory.svg
 
 export default function InventoryManagement(nav) {
+  const navigation=useNavigation()
   return (
     <View className="flex flex-col" style={{backgroundColor: screenBackground}}>
       <View className="flex-row rounded-b-xl bg-[#f96900] px-4 pb-2 pt-7 items-center">

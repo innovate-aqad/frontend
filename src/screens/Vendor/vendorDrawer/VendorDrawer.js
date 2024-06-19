@@ -36,6 +36,8 @@ import point_of_sale_bill from "../../../Assets/image/vendor/point_of_sale_bill.
 
 
 import UpcommingScreen from '../../../Shared/UpcommingScreen';
+import userManagement from './UserManagement';
+import SettingHome from '../../../Shared/settings/SettingHome';
 
 const Drawer = createDrawerNavigator();
 
@@ -164,7 +166,7 @@ export default function VendorDrawer() {
       />
       <Drawer.Screen
         name="userManagement"
-        component={UpcommingScreen}
+        component={userManagement}
         options={{
           drawerIcon: () => <SvgUri source={users}></SvgUri>,
           title: 'User Management',
@@ -218,8 +220,8 @@ export default function VendorDrawer() {
         }}
       />
       <Drawer.Screen
-        name="settings"
-        component={UpcommingScreen}
+        name="setting"
+        component={SettingHome}
         options={{
           drawerIcon: () => <SvgUri source={settings}></SvgUri>,
           title: 'Settings',

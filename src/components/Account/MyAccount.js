@@ -61,8 +61,8 @@ export default function MyAccount(nav) {
             style={{backgroundColor: '#e6e9f4'}}
             className="p-3 w-[48%] rounded-full"
             onPress={() => {
-              // nav.navigation.navigate('VendorDrawer');
-              navigation.replace('retailerIndex')
+              nav.navigation.navigate('VendorDrawer');
+              // navigation.replace('addUserInfo')
             }}>
             <Text
               className="text-center text-[13px]"

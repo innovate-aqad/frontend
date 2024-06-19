@@ -27,8 +27,11 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import {Avatar, RadioButton} from 'react-native-paper';
 import InputTextField from '../../../Shared/InputTextField';
 import CountryPicker from 'react-native-country-picker-modal';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function AddUserInfo(nav) {
+  const navigation=useNavigation()
   const [image, setImage] = useState('');
   const [country, setCountry] = useState();
   const [countryCode, setCountryCode] = useState('AE');

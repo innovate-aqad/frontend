@@ -77,6 +77,7 @@ export default function VendorInfo(nav) {
     initialValues,
     validationSchema: RetailerRegisterSchema,
     onSubmit: async values => {
+      
       setToggle(false);
       const formdata = new FormData();
       formdata.append('name', values.fullName);
@@ -155,6 +156,7 @@ export default function VendorInfo(nav) {
   };
 
   const sendOtp = async email => {
+    console.log("sdlfkjjjjjjjjjjjjjjj");
     try {
       await SendOtpSchema.validate({email});
       // console.log('oooo', responseData);
