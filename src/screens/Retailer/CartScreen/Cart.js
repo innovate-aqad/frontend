@@ -15,6 +15,7 @@ import {POPPINS, ROBOTO} from '../../../constants/CustomFontFamily';
 import {retrieveToken} from '../../../Shared/EncryptionDecryption/Token';
 import axios from 'axios';
 import {environmentVariables} from '../../../../config/Config';
+import {success} from '../../../constants/ToastMessage';
 
 export default function Cart(nav) {
   const [loader, setLoader] = useState(false);
@@ -79,27 +80,81 @@ export default function Cart(nav) {
   //   }
   // };
 
+  const updateData = (id, newQuantity) => {
+    let newData = [...resCartData];
+    newData.forEach(val => {
+      if (val.id == id) {
+        val.quantity = newQuantity;
+      }
+    });
+    setResCartData(newData);
+  };
+
+  const updateQuantity = async (quantity, product_id, variant_id, id) => {
+    const storedToken = await retrieveToken();
+    const config = {
+      method: 'post',
+      url: `${environmentVariables?.apiUrl}/api/cart/add`,
+      headers: {
+        _token: storedToken,
+      },
+      data: {
+        product_id: product_id,
+        variant_id: variant_id,
+        quantity: quantity,
+      },
+    };
+
+    axios
+      .request(config)
+      .then(response => {
+        updateData(id, quantity);
+        console.log('dddd', response?.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
   const handleIncrement = item => {
+    console.log(item?.product_id, item?.variant_id);
     setQuantities(prev => {
       const newQuantities = {...prev};
       const availableQuantity = item.variantObj.warehouse_arr.reduce(
         (sum, warehouse) => sum + Number(warehouse.quantity),
         0,
       );
-      const currentQuantity = Number(newQuantities[item.id]); // Convert to number
+      const currentQuantity = Number(newQuantities[item.id]);
       if (currentQuantity < availableQuantity) {
-        newQuantities[item.id] = currentQuantity + 1; // Increment by 1
+        newQuantities[item.id] = currentQuantity + 1;
+        updateQuantity(
+          newQuantities[item.id],
+          item.product_id,
+          item.variant_id,
+          item?.id,
+        );
+      } else {
+        success({
+          type: 'success',
+          text: 'You have exceeded the available stock.',
+        });
       }
       return newQuantities;
     });
   };
 
   const handleDecrement = item => {
+    console.log(item?.product_id, item?.variant_id);
     setQuantities(prev => {
       const newQuantities = {...prev};
-      const currentQuantity = Number(newQuantities[item.id]); // Convert to number
+      const currentQuantity = Number(newQuantities[item.id]);
       if (currentQuantity > 1) {
-        newQuantities[item.id] = currentQuantity - 1; // Decrement by 1
+        newQuantities[item.id] = currentQuantity - 1;
+        updateQuantity(
+          newQuantities[item.id],
+          item.product_id,
+          item.variant_id,
+          item?.id,
+        );
       }
       return newQuantities;
     });
