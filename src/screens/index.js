@@ -63,9 +63,9 @@ export default function Index() {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
-      {/* <Stack.Screen name="mainapp" component={MainApp} /> */}
-      {/* <Stack.Screen name="VendorDrawer" component={VendorDrawer} /> */}
+      <Stack.Screen name="SplashScreen" component={SplashScreen} />
+      <Stack.Screen name="mainapp" component={MainApp} />
+      <Stack.Screen name="VendorDrawer" component={VendorDrawer} />
 
       <Stack.Screen name="universalButtomtab" component={UniversalButtomtab} />
       <Stack.Screen name="Login" component={Login} />
