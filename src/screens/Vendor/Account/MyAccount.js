@@ -164,7 +164,7 @@ export default function MyAccount(nav) {
           </View>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity className="">
+      <TouchableOpacity onPress={()=>nav.navigation.navigate("setting")}>
         <View className="flex flex-row justify-between p-2 pl-6 pr-4 mt-2 bg-white rounded-lg">
           <View className="flex flex-row items-center rounded-full gap-x-4 pr-7 ">
             <SvgUri width={24} height={21.6} source={setting} />

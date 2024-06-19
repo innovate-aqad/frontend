@@ -100,10 +100,6 @@ export default function Index() {
 
 
       {/* Inventory Management start */}
-      {/* <Stack.Screen name="inventoryManagement" component={InventoryManagement} />
-      <Stack.Screen name="addUserInfo" component={AddUserInfo} />
-      <Stack.Screen name="userList" component={UserList} />
-      <Stack.Screen name="editUser" component={EditUser} /> */}
       <Stack.Screen name="inventoryLists" component={InventoryLists} />
       <Stack.Screen name="textLine" component={TextLine} />
       {/* Inventory Management end */}
