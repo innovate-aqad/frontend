@@ -48,21 +48,21 @@ export default function Login(nav) {
       onSubmit: async (values, action) => {
         NetInfo.fetch().then(state => {
           console.log(state, 'statestate');
-          if (state.isConnected) {
-            if (state.type === 'wifi' && state.isInternetReachable) {
-              Alert.alert('Connection Info', 'You are connected to WiFi');
-            } else if (state.type === 'cellular' && state.isInternetReachable) {
-              Alert.alert(
-                'Connection Info',
-                'You are connected to Mobile Data',
-              );
-            } else {
-              Alert.alert('Connection Info', 'No internet connection');
-            }
+          // if (state.isConnected) {
+          //   if (state.type === 'wifi' && state.isInternetReachable) {
+          //     Alert.alert('Connection Info', 'You are connected to WiFi');
+          //   } else if (state.type === 'cellular' && state.isInternetReachable) {
+          //     Alert.alert(
+          //       'Connection Info',
+          //       'You are connected to Mobile Data',
+          //     );
+          //   } else {
+          //     Alert.alert('Connection Info', 'No internet connection');
+          //   }
             handleOnlineLogin(values, action);
-          } else {
-            Alert.alert('Connection Info', 'No internet connection');
-          }
+          // } else {
+          //   Alert.alert('Connection Info', 'No internet connection');
+          // }
         });
       },
     });

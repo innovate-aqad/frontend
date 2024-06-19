@@ -36,7 +36,7 @@ import AddUserInfo from './Vendor/InventoryManagement/AddUserInfo';
 import UserList from './Vendor/InventoryManagement/UserList';
 import EditUser from './Vendor/InventoryManagement/EditUser';
 import UniversalButtomtab from '../components';
-import InventoryLists from "./Vendor/InventoryManagement/InventoryList"
+import InventoryLists from './Vendor/InventoryManagement/InventoryList';
 import TextLine from '../Shared/TextLine';
 import SettingHome from '../Shared/settings/SettingHome';
 import ChangePassword from '../Shared/settings/ChangePassword';
@@ -54,15 +54,19 @@ import Support from '../RemainingPageSetup/Support';
 import RattingReview from '../RemainingPageSetup/RattingReview';
 import Appearance from '../Shared/settings/Appearane';
 import Notification from '../pages/Notification';
+import VerifyPassword from './VerifyPassword/VerifyPassword';
+import EditProduct from './EditProduct/EditProduct';
+import EditProductVariant from './EditProductVariant/EditProductVariant';
+import OtpScreen from './otp_screen/OtpScreen';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="SplashScreen" component={SplashScreen} />
-      <Stack.Screen name="mainapp" component={MainApp} />
-      <Stack.Screen name="VendorDrawer" component={VendorDrawer} />
-      
+      {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
+      {/* <Stack.Screen name="mainapp" component={MainApp} /> */}
+      {/* <Stack.Screen name="VendorDrawer" component={VendorDrawer} /> */}
+
       <Stack.Screen name="universalButtomtab" component={UniversalButtomtab} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="signup" component={Signup} />
@@ -79,7 +83,7 @@ export default function Index() {
       <Stack.Screen name="logisbusiness" component={Logisticbusiness} />
       <Stack.Screen name="logisdocument" component={Logisticdocument} />
       <Stack.Screen name="addbutton" component={Addbutton} />
-      <Stack.Screen name="otpscreen" component={OtpVerify} />
+      <Stack.Screen name="otpscreen" component={OtpScreen} />
       <Stack.Screen name="retailerIndex" component={RetailerIndex} />
       <Stack.Screen name="logisticIndex" component={LogisticIndex} />
       <Stack.Screen name="logidrivdetail" component={Logidriverdetails} />
@@ -113,23 +117,22 @@ export default function Index() {
       <Stack.Screen name="getStarted" component={GetStarted} />
       <Stack.Screen name="continue" component={Continue} />
       <Stack.Screen name="verifyEnable" component={VerifyEnable} />
-      <Stack.Screen name="successAuthontication" component={SuccessAuthontication} />
-
+      <Stack.Screen
+        name="successAuthontication"
+        component={SuccessAuthontication}
+      />
 
       <Stack.Screen name="appearance" component={Appearance} />
-      
+
       {/* setting page end */}
-
-
 
       {/* remaining page start */}
       <Stack.Screen name="support" component={Support} />
       <Stack.Screen name="rattingReview" component={RattingReview} />
       {/* remaining page end Support */}
 
-
       {/* Notification screen start */}
-    
+
       <Stack.Screen name="notification" component={Notification} />
       {/* Notification screen end */}
     </Stack.Navigator>
