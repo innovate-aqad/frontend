@@ -1,30 +1,33 @@
 import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ROBOTO} from '../../constants/CustomFontFamily';
 import {
   blue,
+  btnBackround,
   flexTradButtonColor,
   screenBackground,
-  textColorCustom,
   white,
 } from '../../constants/Theme';
 import RetailFeatures from './RetailFeatures';
 import VendorFeatures from './VendorFeatures';
+import CustomStyle from '../../Styles';
+
+// const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default function FeatureMain() {
   const [value, setValue] = React.useState('left');
   return (
     <View
       className="flex flex-col h-full p-5 py-8 mb-20 gap-y-2"
-      style={{backgroundColor: screenBackground}}>
+      style={{backgroundColor: screenBackground, height:windowHeight-75}}>
       <View className="flex flex-row w-full bg-white rounded-full ">
         <TouchableOpacity
           onPress={() => setValue('left')}
           className="w-[50%] h-[39px]"
-          //  style={styles.button}
 
           style={[
-            styles.button,
+            CustomStyle.invactiveButton,
             value === 'left' && styles.selectedToggleButton,
           ]}>
           <Text
@@ -39,7 +42,7 @@ export default function FeatureMain() {
           className="w-[50%] h-[39px]"
           onPress={() => setValue('right')}
           style={[
-            styles.button1,
+            CustomStyle.invactiveButton,
             value === 'right' && styles.selectedToggleButton,
           ]}>
           <Text
@@ -73,23 +76,9 @@ const styles = StyleSheet.create({
     height: 15,
     width: 23.3,
   },
-
-  button: {
-    padding: 10,
-    borderRadius: 30,
-    alignItems: 'center',
-    color: 'red',
-  },
-  button1: {
-    backgroundColor: 'transparent',
-    padding: 10,
-    borderRadius: 30,
-    alignItems: 'center',
-    color: 'red',
-  },
   selectedToggleButton: {
-    backgroundColor: '#F96900',
-    borderColor: '#F96900',
-    color: 'white',
+    backgroundColor: btnBackround,
+    borderColor: btnBackround,
+    color: white,
   },
 });

@@ -9,6 +9,13 @@ export const headerColor = '#f96900';
 export const grayColor = '#7e84a3';
 export const btnBackround = '#f96900';
 export const lightGray = '#cbcbcb';
+export const toggleButton = '#ececec';
+export const skyBlue = '#0058ff';
+export const lowGray = '#7c7c7c';
+export const customGreen = '#21d59b';
+export const customRed = '#f0142f';
+export const customLightState = '#e6e9f4';
+
 
 
 

@@ -65,8 +65,7 @@ export default function PersonalInfo() {
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <View
-        className="flex flex-col p-4   h-full bg-gray-100 !text-black
-        ">
+        className="flex flex-col h-full p-4 bg-gray-100">
         <View className="" style={styles.user}>
           <TouchableOpacity onPress={() => selectPhoto()}>
             <Avatar.Image

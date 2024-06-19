@@ -23,6 +23,9 @@ import {useFormik} from 'formik';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import {success} from '../../constants/ToastMessage';
+import {blue, screenBackground, textColorCustom} from '../../constants/Theme';
+import CustomStyle from '../../Styles';
+import {POPPINS} from '../../constants/CustomFontFamily';
 
 const vehicleTypeList = [
   {key: '1', value: 'Mini Truck'},
@@ -245,23 +248,17 @@ export default function VendorInfo(nav) {
   return (
     <ScrollView>
       <View
-        className="flex flex-col p-4   h-full bg-gray-100 !text-black
-        ">
+        style={{backgroundColor: screenBackground}}
+        className="flex flex-col h-full p-4 ">
         <View className="relative flex flex-row items-center top-3 ">
           <Image
-            style={styles.topNavigation}
+            style={CustomStyle.topNavigation}
             source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
           />
         </View>
         <View className="mt-8">
-          <Text
-            className="text-[35px] text-[#00274D]"
-            style={{fontFamily: 'Roboto-Bold'}}>
-            Logistic Partner Info
-          </Text>
-          <Text
-            className="pt-2 text-xs text-gray-400"
-            style={{fontFamily: 'Poppins-Light'}}>
+          <Text style={CustomStyle.signupHeading}>Logistic Partner Info</Text>
+          <Text style={CustomStyle.signupSubDec}>
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
@@ -269,13 +266,17 @@ export default function VendorInfo(nav) {
           <View className="flex flex-col">
             <View className="flex flex-row justify-between ">
               <Text
-                className="text-[#F96900]"
-                style={{fontFamily: 'Poppins-Regular'}}>
+                style={{
+                  fontFamily: POPPINS.PoppinsRegular,
+                  color: textColorCustom,
+                }}>
                 Profile Upload (4/4)
               </Text>
               <Text
-                className="text-[#F96900]"
-                style={{fontFamily: 'Poppins-Regular'}}>
+                style={{
+                  fontFamily: POPPINS.PoppinsRegular,
+                  color: textColorCustom,
+                }}>
                 100%
               </Text>
             </View>
@@ -287,8 +288,8 @@ export default function VendorInfo(nav) {
 
           <View>
             <Text
-              className="text-[20px] text-[#00274D] pt-3"
-              style={{fontFamily: 'Poppins-Medium'}}>
+              className="text-[20px] pt-3"
+              style={{fontFamily: POPPINS.PoppinsMedium, color: blue}}>
               Driver Details
             </Text>
           </View>
@@ -335,7 +336,7 @@ export default function VendorInfo(nav) {
                       </Text>
                     )}
                 </View>
-                <Text className="mt-3 " style={styles.textStyle}>
+                <Text className="mt-3 " style={CustomStyle.inputLabel}>
                   Driver Name
                 </Text>
                 <TextInput
@@ -355,7 +356,9 @@ export default function VendorInfo(nav) {
                       {errors.drivers[index].name}
                     </Text>
                   )}
-                <Text style={styles.textStyle}>Driver License Number</Text>
+                <Text style={CustomStyle.inputLabel}>
+                  Driver License Number
+                </Text>
                 <TextInput
                   style={styles.input}
                   placeholderTextColor="rgb(210, 210, 210)"
@@ -374,7 +377,7 @@ export default function VendorInfo(nav) {
                     </Text>
                   )}
                 <View className="mt-3">
-                  <Text style={styles.textStyle}>Driving Licence</Text>
+                  <Text style={CustomStyle.inputLabel}>Driving Licence</Text>
                   <TouchableOpacity
                     className="h-[76px]"
                     onPress={() => selectDoc(index)}

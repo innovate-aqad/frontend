@@ -25,8 +25,11 @@ import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import OtpPopup from '../OtpPopup/OtpPopup';
 import {SendOtpSchema} from '../../schemas/SendOtpSchema';
-import { success } from '../../constants/ToastMessage';
+import {success} from '../../constants/ToastMessage';
 import VelidationSymbol from '../../constants/VelidationSymbol';
+import CustomStyle from '../../Styles';
+import {POPPINS} from '../../constants/CustomFontFamily';
+import {textColorCustom} from '../../constants/Theme';
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [image, setImage] = useState('');
@@ -74,6 +77,7 @@ export default function VendorInfo(nav) {
     initialValues,
     validationSchema: RetailerRegisterSchema,
     onSubmit: async values => {
+      
       setToggle(false);
       const formdata = new FormData();
       formdata.append('name', values.fullName);
@@ -101,13 +105,16 @@ export default function VendorInfo(nav) {
       })
         .then(response => {
           setToggle(true);
-          success({type: 'success', text: response.data.message})
-          
+          success({type: 'success', text: response.data.message});
+
           nav.navigation.navigate('retailerbusi', {id: response.data.data.id});
         })
         .catch(error => {
           setToggle(true);
-          success({type: 'error', text: error?.response?.data?.message || error?.message})
+          success({
+            type: 'error',
+            text: error?.response?.data?.message || error?.message,
+          });
         });
     },
   });
@@ -149,6 +156,7 @@ export default function VendorInfo(nav) {
   };
 
   const sendOtp = async email => {
+    console.log("sdlfkjjjjjjjjjjjjjjj");
     try {
       await SendOtpSchema.validate({email});
       // console.log('oooo', responseData);
@@ -195,14 +203,8 @@ export default function VendorInfo(nav) {
         </View>
 
         <View className="mt-8">
-          <Text
-            className="text-[35px] text-[#00274D]"
-            style={{fontFamily: 'Roboto-Bold'}}>
-            Retailer Info
-          </Text>
-          <Text
-            className="pt-2 text-xs text-gray-400"
-            style={{fontFamily: 'Poppins-Light'}}>
+          <Text style={CustomStyle.signupHeading}>Retailer Info</Text>
+          <Text style={CustomStyle.signupSubDec}>
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
@@ -273,10 +275,8 @@ export default function VendorInfo(nav) {
           </View>
           {/* input fields */}
           <SafeAreaView>
-            <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Full Name <VelidationSymbol/>
+            <Text className="px-3" style={CustomStyle.inputLabel}>
+              Full Name <VelidationSymbol />
             </Text>
             <TextInput
               style={styles.input}
@@ -293,33 +293,44 @@ export default function VendorInfo(nav) {
               <Text style={styles.errorHandle}>{errors.fullName}</Text>
             )}
 
-            <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Email <VelidationSymbol/>
+            <Text className="px-3" style={CustomStyle.inputLabel}>
+              Email <VelidationSymbol />
             </Text>
             <View className="flex flex-row items-center pr-1.5 justify-between w-full bg-white rounded-[10px] py-0">
-              <View className="w-[90%]">
-              <TextInput
-                style={styles.input}
-                placeholderTextColor="rgb(210, 210, 210)"
-                placeholder="Example@gmail.com"
-                className="!border-none pl-4 !border-white"
-                borderRadius={10}
-                name="email"
-                value={values.email}
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-              />
+              <View className="w-[88%]">
+                <TextInput
+                  style={styles.input}
+                  placeholderTextColor="rgb(210, 210, 210)"
+                  placeholder="Example@gmail.com"
+                  className="!border-none pl-4 !border-white"
+                  borderRadius={10}
+                  name="email"
+                  
+                  value={values.email}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                />
               </View>
               {verified ? (
-                <Text className="text-[10px] text-[#21d59b]">Verified</Text>
-              ) : (
                 <Text
-                  className="text-[10px] text-[#f96900]"
-                  onPress={() => sendOtp(values.email)}>
-                  Verify
+                  style={{
+                    color: '#21d59b',
+                    fontSize: 10,
+                    fontFamily: POPPINS.PoppinsSemiBold,
+                  }}>
+                  Verified
                 </Text>
+              ) : (
+                <TouchableOpacity onPress={() => sendOtp(values.email)}>
+                  <Text
+                    style={{
+                      color: textColorCustom,
+                      fontFamily: POPPINS.PoppinsSemiBold,
+                      fontSize: 10,
+                    }}>
+                    Verify
+                  </Text>
+                </TouchableOpacity>
               )}
             </View>
             {errorValue ? (
@@ -331,10 +342,8 @@ export default function VendorInfo(nav) {
               )
             )}
 
-            <Text
-              className="text-[#00274D] px-3"
-              style={{fontFamily: 'Poppins-SemiBold'}}>
-              Phone Number <VelidationSymbol/>
+            <Text className="px-3 " style={CustomStyle.inputLabel}>
+              Phone Number <VelidationSymbol />
             </Text>
 
             <View className="flex flex-row items-center pl-2 w-full bg-white rounded-[10px] py-0">
@@ -359,15 +368,24 @@ export default function VendorInfo(nav) {
                   className="!border-none py-1.5 pl-2  !border-white text-[#cbcbcb]"
                   name="number"
                   value={values.number}
+                  keyboardType='phone-pad'
                   onChangeText={handleNumberChange}
                   onBlur={handleBlur('number')}
                   maxLength={14}
                 />
                 <Text
-                  className={
+                  style={
                     values.number.length >= 10
-                      ? 'text-[10px] text-[#21d59b]'
-                      : 'text-[10px] text-[#f96900]'
+                      ? {
+                          color: '#21d59b',
+                          fontSize: 10,
+                          fontFamily: POPPINS.PoppinsSemiBold,
+                        }
+                      : {
+                          color: '#f96900',
+                          fontSize: 10,
+                          fontFamily: POPPINS.PoppinsSemiBold,
+                        }
                   }>
                   {values.number.length >= 10 ? 'Verified' : 'Invalid'}
                 </Text>
@@ -381,7 +399,7 @@ export default function VendorInfo(nav) {
             <Text
               className="text-[#00274D] px-3 mt-2"
               style={{fontFamily: 'Poppins-SemiBold'}}>
-              Date of Birth <VelidationSymbol/>
+              Date of Birth <VelidationSymbol />
             </Text>
 
             <View className="w-full ">
@@ -424,23 +442,22 @@ export default function VendorInfo(nav) {
           </SafeAreaView>
         </View>
         <View className="mt-5">
-        <TouchableOpacity
-          onPress={() => {
-            toggle ? handleSubmit() : null;
-          }}
-          disabled={!verified || !isValid}
-          style={[
-            styles.button,
-            (!verified || !isValid) && styles.button1,
-          ]}
-          className="flex flex-row items-center justify-center mt-8">
-          <Text
-            className="text-white flex flex-row  text-[19px]"
-            style={{fontFamily: 'Roboto-Regular'}}>
-            SUBMIT
-          </Text>
-          {toggle ? null : <ActivityIndicator size="small" className="pl-2" color="#fff" />}
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              toggle ? handleSubmit() : null;
+            }}
+            disabled={!verified || !isValid}
+            style={[styles.button, (!verified || !isValid) && styles.button1]}
+            className="flex flex-row items-center justify-center mt-8">
+            <Text
+              className="text-white flex flex-row  text-[19px]"
+              style={{fontFamily: 'Roboto-Regular'}}>
+              SUBMIT
+            </Text>
+            {toggle ? null : (
+              <ActivityIndicator size="small" className="pl-2" color="#fff" />
+            )}
+          </TouchableOpacity>
         </View>
         {openPopup && (
           <OtpPopup

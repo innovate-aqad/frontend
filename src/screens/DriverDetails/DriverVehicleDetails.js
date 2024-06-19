@@ -14,14 +14,14 @@ const initialData = [
     id: '1',
     title: 'Card Title 1',
     subtitle: 'Card Subtitle 1',
-    imageUrl: 'https://via.placeholder.com/100',
+    imageUrl: 'https://png.pngtree.com/png-vector/20230928/ourmid/pngtree-young-indian-man-png-image_10149659.png',
     verified: true,
   },
   {
     id: '2',
     title: 'Card Title 2',
     subtitle: 'Card Subtitle 2',
-    imageUrl: 'https://via.placeholder.com/100',
+    imageUrl: 'https://png.pngtree.com/png-vector/20230928/ourmid/pngtree-young-indian-man-png-image_10149659.png',
     verified: false,
   },
   // Add more items as needed

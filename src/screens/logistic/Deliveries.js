@@ -1,24 +1,17 @@
 import React, {useState} from 'react';
 import {
   Image,
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
-import SelectDropDown from '../../Shared/SelectDropDown';
 import {Divider} from 'react-native-paper';
-
-
-
-
-
+import CustomStyle from '../../Styles';
+import { screenBackground } from '../../constants/Theme';
+import Search from '../../Shared/Search';
 const tanList = [
   {tabName: 'All Orders'},
   {tabName: 'Pending'},
@@ -46,19 +39,12 @@ export default function Deliveries() {
     }
   };
 
-  const showMenu = index => {
-    if (show === index) {
-      setShow();
-    } else {
-      setShow(index);
-    }
-  };
   return (
-    <View className="w-full h-full bg-[#f5f5f5]">
+    <View className="w-full h-full" style={{backgroundColor:screenBackground}}>
       <View className="flex-row rounded-b-xl bg-[#f96900] px-4 pb-2 pt-7 items-center">
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
-            style={styles.topNavigation}
+            style={CustomStyle.topNavigation}
             source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
           />
         </TouchableOpacity>
@@ -69,24 +55,7 @@ export default function Deliveries() {
         </Text>
       </View>
       <View className="p-4 gap-y-3">
-        <View style={styles.container}>
-          <TextInput
-            style={styles.input}
-            placeholder="Search..."
-            underlineColorAndroid="transparent"
-            value={searchText}
-            // textColor='#cbcbcb'
-            placeholderTextColor={'#cbcbcb'}
-            keyboardType="default"
-            disableFullscreenUI={true}
-            onChangeText={text => setSearchText(text)}
-            onSubmitEditing={handleSearch}
-          />
-
-          <TouchableOpacity className="pr-2" onPress={handleSearch}>
-            <AntDesign name="search1" size={24} color="#cbcbcb" />
-          </TouchableOpacity>
-        </View>
+        <Search/>
         <View className="flex flex-row justify-around gap-x-3">
           {tanList.map((item, index) => (
             <TouchableOpacity

@@ -7,9 +7,9 @@ import {
   View,
   ScrollView,
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
+import {POPPINS, ROBOTO} from '../constants/CustomFontFamily';
+import {blue, textColorCustom} from '../constants/Theme';
 
 export default function Signup(nav) {
   const [bgColor, setBgColor] = useState('bg-white');
@@ -21,7 +21,6 @@ export default function Signup(nav) {
   };
 
   const redirectVendor = () => {
-    nav.navigation.navigate('piechart');
     nav.navigation.navigate('vendor');
     // nav.navigation.navigate('pmain');
   };
@@ -37,8 +36,6 @@ export default function Signup(nav) {
     const timer = setTimeout(() => {
       setBgColor('bg-white');
     }, 100);
-
-    // Clear the timeout if the component unmounts or bgColor changes before the timeout is reached
     return () => clearTimeout(timer);
   }, [bgColor]);
 
@@ -62,12 +59,12 @@ export default function Signup(nav) {
         <View>
           <Text
             className="text-3xl text-[#00274D]"
-            style={{fontFamily: 'Roboto-Bold'}}>
+            style={{fontFamily: ROBOTO.RobotoBold}}>
             Get Started As
           </Text>
           <Text
-            className="text-xs text-gray-400"
-            style={{fontFamily: 'Poppins-Light'}}>
+            className="text-[13px] text-[#7c7c7c]"
+            style={{fontFamily: POPPINS.PoppinsLight}}>
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
@@ -76,7 +73,7 @@ export default function Signup(nav) {
           <TouchableOpacity
             activeOpacity={0.1}
             onPress={() => {
-              redirectVendor();
+              nav.navigation.navigate('vendor');
               toggleColor();
             }}>
             <View
@@ -88,12 +85,8 @@ export default function Signup(nav) {
                 />
               </View>
               <View className="w-[88%] px-3">
-                <Text
-                  className="text-xl text-[#00274D]"
-                  style={styles.fontFamily}>
-                  Vendor
-                </Text>
-                <Text className="pt-2 text-xs text-gray-300">
+                <Text style={styles.fontFamily}>Vendor</Text>
+                <Text style={styles.description}>
                   Contrary to popular belief, Lorem Ipsum is not simply random
                   text. It has roots in a piece of classical Latin literature
                   from 45 BC, making it over 2000 years old.
@@ -105,7 +98,7 @@ export default function Signup(nav) {
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => {
-              redirectRetailer();
+              nav.navigation.navigate('retailer');
               toggleColor();
             }}>
             <View className="flex flex-row items-center w-full p-2 bg-white rounded-lg">
@@ -116,12 +109,8 @@ export default function Signup(nav) {
                 />
               </View>
               <View className="w-[88%] px-3">
-                <Text
-                  className="text-xl text-[#00274D]"
-                  style={styles.fontFamily}>
-                  Retail
-                </Text>
-                <Text className="pt-2 text-xs text-gray-300">
+                <Text style={styles.fontFamily}>Retail</Text>
+                <Text style={styles.description}>
                   Contrary to popular belief, Lorem Ipsum is not simply random
                   text. It has roots in a piece of classical Latin literature
                   from 45 BC, making it over 2000 years old.
@@ -129,7 +118,9 @@ export default function Signup(nav) {
               </View>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.5} onPress={redirectLogistic}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => nav.navigation.navigate('logistic')}>
             <View className="flex flex-row items-center w-full p-2 bg-white rounded-lg">
               <View className="w-[12%] flex flex-row items-center justify-center rounded-full">
                 <Image
@@ -138,12 +129,8 @@ export default function Signup(nav) {
                 />
               </View>
               <View className="w-[88%] px-3">
-                <Text
-                  className="text-xl text-[#00274D]"
-                  style={styles.fontFamily}>
-                  Logistic Partner
-                </Text>
-                <Text className="pt-2 text-xs text-gray-300">
+                <Text style={styles.fontFamily}>Logistic Partner</Text>
+                <Text style={styles.description}>
                   Contrary to popular belief, Lorem Ipsum is not simply random
                   text. It has roots in a piece of classical Latin literature
                   from 45 BC, making it over 2000 years old.
@@ -155,7 +142,6 @@ export default function Signup(nav) {
             indicatorStyle={'green'}
             className="flex flex-row items-center w-full p-2 bg-white rounded-lg"
             activeOpacity={0.5}>
-            {/* <View className="flex flex-row items-center w-full p-2 rounded-lg"> */}
             <View className="w-[12%]  flex flex-row items-center justify-center rounded-full">
               <Image
                 style={styles.tinyLogo}
@@ -163,12 +149,8 @@ export default function Signup(nav) {
               />
             </View>
             <View className="w-[88%] px-3">
-              <Text
-                className="text-xl text-[#00274D]"
-                style={styles.fontFamily}>
-                Employee
-              </Text>
-              <Text className="pt-2 text-xs text-gray-300">
+              <Text style={styles.fontFamily}>Employee</Text>
+              <Text style={styles.description}>
                 Contrary to popular belief, Lorem Ipsum is not simply random
                 text. It has roots in a piece of classical Latin literature from
                 45 BC, making it over 2000 years old.
@@ -179,11 +161,11 @@ export default function Signup(nav) {
         </View>
 
         <View className="flex flex-row items-center justify-center mt-8">
-          <Text className="text-[#00274D] font-[Roboto-Regular]">
+          <Text style={{fontFamily:ROBOTO.RobotoRegular,fontSize:13,color:blue}}>
             Already Signed Up ?
           </Text>
           <Text
-            className="px-5 text-[#F96900] font-[Roboto-Regular]"
+          style={{fontFamily:ROBOTO.RobotoRegular,fontSize:13,color:textColorCustom,marginLeft:10}}
             onPress={() => nav.navigation.navigate('Login')}>
             Login
           </Text>
@@ -200,11 +182,19 @@ const styles = StyleSheet.create({
     borderRadius: 11.5,
   },
   fontFamily: {
-    fontFamily: 'Roboto-Regular',
+    fontFamily: ROBOTO.RobotoRegular,
+    fontSize: 20,
+    color: blue,
   },
   topNavigation: {
     height: 15,
     width: 23.3,
     marginBottom: 15,
+  },
+  description: {
+    fontFamily: POPPINS.PoppinsExtraLight,
+    fontSize: 10,
+    color: '#7c7c7c',
+    paddingTop: 8,
   },
 });

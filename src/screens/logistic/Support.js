@@ -2,9 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
-  TextInput,
   View,
-  ScrollView,
   Animated,
   Image,
   TouchableOpacity,
@@ -16,7 +14,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {markers, mapDarkStyle, mapStandardStyle} from './MapData';
-import StarRating from './StartRating';
 import {useTheme} from '@react-navigation/native';
 import {Divider} from 'react-native-paper';
 import phone from '../../Assets/image/google_map/phone_flip.svg';
@@ -258,7 +255,6 @@ export default function Support() {
           {useNativeDriver: true},
         )}>
         {state.markers.map((marker, index) => (
-          // <View style={styles.card1} key={index}>
             <View key={index} className="p-3 my-3 bg-white rounded-lg shadow">
             <View className="flex flex-row items-center justify-between">
               <Text className="text-[#00274d]  font-[Poppins-SemiBold]">

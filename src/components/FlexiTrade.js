@@ -6,19 +6,21 @@ import {
   Text,
   Image,
   ScrollView,
-  Dimensions,
 } from 'react-native';
 
-import {Checkbox} from 'react-native-paper';
+// import {Checkbox} from 'react-native-paper';
 import {POPPINS, ROBOTO} from '../constants/CustomFontFamily';
 import {
   blue,
   flexTradButtonColor,
+  grayColor,
   screenBackground,
   textColorCustom,
   white,
 } from '../constants/Theme';
-import { success } from '../constants/ToastMessage';
+import {success} from '../constants/ToastMessage';
+import CustomStyle from '../Styles';
+import Checkbox from '../Shared/Checkbox';
 
 const HighlightsData = [
   {dec: 'Instant encashment of sale invoices to enhance cash flow'},
@@ -44,25 +46,24 @@ const MyComponent = () => {
         style={{backgroundColor: screenBackground}}>
         <View className="flex-row items-center pb-3">
           <Image
-            style={styles.topNavigation}
+            style={CustomStyle.topNavigation}
             source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
           />
           <Text
-            className="flex-1 text-[20px] text-center text-[#00274d]"
+            className="flex-1 text-[20px] text-center "
             style={{
               fontFamily: ROBOTO.RobotoBold,
               letterSpacing: 1,
               textTransform: 'uppercase',
+              color: blue,
             }}>
-            Flexi tRADE
+            Flexi TRADE
           </Text>
         </View>
         <View className="flex flex-row w-full bg-white rounded-full ">
           <TouchableOpacity
             onPress={() => setValue('left')}
             className="w-[50%] h-[39px]"
-            //  style={styles.button}
-
             style={[
               styles.button,
               value === 'left' && styles.selectedToggleButton,
@@ -207,22 +208,14 @@ const MyComponent = () => {
             <Text style={styles.heading} className="mb-0">
               Conditions :
             </Text>
-            <View className="flex flex-row mr-6">
-              <Checkbox
-                color="#f96900"
-                status={checked ? 'checked' : 'unchecked'}
-                onPress={() => {
-                  setChecked(!checked);
-                }}
-                
-                
-              />
+            <View className="flex flex-row mt-2 mr-6">
+              <Checkbox />
               <Text
                 style={{
                   fontSize: 10,
                   fontFamily: POPPINS.PoppinsMedium,
                   color: blue,
-                  marginTop:6
+                  marginTop: 0,
                 }}>
                 Both vendors and retailers must transact through the AQAD
                 platform.Both parties must be registered and approved on AQAD
@@ -231,11 +224,13 @@ const MyComponent = () => {
           </View>
           <View className="pt-5 mb-8">
             <TouchableOpacity
-              onPress={() => success({type:"success",text:"Lets Go For Flexi Trade"})}
+              onPress={() =>
+                success({type: 'success', text: 'Lets Go For Flexi Trade'})
+              }
               style={styles.buttonsub}>
               <Text
                 className="text-white "
-                style={{fontFamily: 'Roboto-Regular', fontSize: 20}}>
+                style={{fontFamily: ROBOTO.RobotoRegular, fontSize: 20}}>
                 Let's Go
               </Text>
             </TouchableOpacity>
@@ -247,10 +242,6 @@ const MyComponent = () => {
 };
 
 const styles = StyleSheet.create({
-  topNavigation: {
-    height: 15,
-    width: 23.3,
-  },
   heading: {
     color: textColorCustom,
     fontFamily: POPPINS.PoppinsSemiBold,
@@ -261,14 +252,6 @@ const styles = StyleSheet.create({
     fontFamily: POPPINS.PoppinsRegular,
     lineHeight: 18,
     fontSize: 10,
-  },
-  borderContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: 'black',
-    padding: 10,
-    flex: 1,
   },
   subHeading: {
     color: blue,
@@ -297,36 +280,11 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   selectedToggleButton: {
-    backgroundColor: '#F96900',
-    borderColor: '#F96900',
+    backgroundColor: textColorCustom,
+    borderColor: textColorCustom,
     color: 'white',
   },
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderColor: 'white',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    // marginHorizontal: 10,
-    borderBottomWidth: 0,
-    marginTop: 10,
-  },
-  input: {
-    flex: 1,
-    height: 40,
-    backgroundColor: 'white',
-    borderColor: 'white',
-    paddingRight: 5,
-    color: '#cbcbcb',
-    borderWidth: 2,
-    marginLeft: 5,
-  },
-  imagecentre: {
-    height: 210.5,
-    width: 218.8,
-    alignItems: 'centre',
-  },
+
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -334,19 +292,15 @@ const styles = StyleSheet.create({
   },
 
   listItem: {
-    color: '#7e84a3', 
+    color: grayColor,
     fontFamily: POPPINS.PoppinsRegular,
     fontSize: 10,
     letterSpacing: 0.08,
     marginBottom: 4,
     paddingLeft: 10,
   },
-
-  checkbox: {
-    color: 'red',
-  },
   buttonsub: {
-    backgroundColor: '#F96900', 
+    backgroundColor: textColorCustom,
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -354,7 +308,6 @@ const styles = StyleSheet.create({
   },
   containerimage: {
     paddingTop: 20,
-    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },

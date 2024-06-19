@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import SvgUri from 'react-native-svg-uri';
-import inventory from '../../../Assets/image/vendor/inventory.svg';
+// import inventory from '../../../Assets/image/vendor/inventory.svg';
 import {
   blue,
   screenBackground,
@@ -9,10 +9,12 @@ import {
 } from '../../../constants/Theme';
 import {POPPINS} from '../../../constants/CustomFontFamily';
 import CustomButton from '../../../Shared/CustomButton';
+import { useNavigation } from '@react-navigation/native';
 
 // c:\Users\RAM\Downloads\drawable\inventory.svg
 
 export default function InventoryManagement(nav) {
+  const navigation=useNavigation()
   return (
     <View className="flex flex-col" style={{backgroundColor: screenBackground}}>
       <View className="flex-row rounded-b-xl bg-[#f96900] px-4 pb-2 pt-7 items-center">

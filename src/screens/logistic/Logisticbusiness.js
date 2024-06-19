@@ -17,7 +17,16 @@ import {useFormik} from 'formik';
 import {LogisticRegisterSchema2} from '../../schemas/LogisticRegisterSchema2';
 import {environmentVariables} from '../../config/Config';
 import axios from 'axios';
-import { success } from '../../constants/ToastMessage';
+import {success} from '../../constants/ToastMessage';
+import VelidationSymbol from '../../constants/VelidationSymbol';
+import CustomStyle from '../../Styles';
+import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
+import {
+  blue,
+  screenBackground,
+  textColorCustom,
+  white,
+} from '../../constants/Theme';
 export default function VendorBusiness(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [countryCode, setCountryCode] = useState('AE');
@@ -96,26 +105,19 @@ export default function VendorBusiness(nav) {
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <View
-        className="flex flex-col p-4   h-full bg-gray-100 !text-black
-        ">
+        className="flex flex-col h-full p-4 "
+        style={{backgroundColor: screenBackground}}>
         <View className="relative flex flex-row items-center top-3 ">
           <TouchableOpacity onPress={() => nav.navigation.navigate('logistic')}>
             <Image
-              style={styles.topNavigation}
+              style={CustomStyle.topNavigation}
               source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
             />
           </TouchableOpacity>
         </View>
-
         <View className="mt-8">
-          <Text
-            className="text-[35px] text-[#00274D]"
-            style={{fontFamily: 'Roboto-Bold'}}>
-            Logistic Business
-          </Text>
-          <Text
-            className="pt-2 text-xs text-gray-400"
-            style={{fontFamily: 'Poppins-Light'}}>
+          <Text style={CustomStyle.signupHeading}>Logistic Partner Info</Text>
+          <Text style={CustomStyle.signupSubDec}>
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
@@ -124,13 +126,17 @@ export default function VendorBusiness(nav) {
           <View className="flex flex-col">
             <View className="flex flex-row justify-between ">
               <Text
-                className="text-[#F96900]"
-                style={{fontFamily: 'Poppins-Regular'}}>
+                style={{
+                  fontFamily: POPPINS.PoppinsRegular,
+                  color: textColorCustom,
+                }}>
                 Profile Upload (2/4)
               </Text>
               <Text
-                className="text-[#F96900]"
-                style={{fontFamily: 'Poppins-Regular'}}>
+                style={{
+                  fontFamily: POPPINS.PoppinsRegular,
+                  color: textColorCustom,
+                }}>
                 66%
               </Text>
             </View>
@@ -140,13 +146,15 @@ export default function VendorBusiness(nav) {
             </View>
           </View>
           <Text
-            className="text-[20px] text-[#00274D] pt-5"
-            style={{fontFamily: 'Roboto-Medium'}}>
+            className="text-[20px] pt-5"
+            style={{fontFamily: ROBOTO.RobotoMedium, color: blue}}>
             Business Information
           </Text>
 
           <SafeAreaView className="mt-2.5">
-            <Text style={styles.textStyle}>Company Name</Text>
+            <Text style={CustomStyle.inputLabel}>
+              Company Name <VelidationSymbol />
+            </Text>
             <TextInput
               style={styles.input}
               placeholderTextColor="rgb(210, 210, 210)"
@@ -162,7 +170,9 @@ export default function VendorBusiness(nav) {
               <Text style={styles.errorHandle}>{errors.companyName}</Text>
             )}
 
-            <Text style={styles.textStyle}>Designation</Text>
+            <Text style={CustomStyle.inputLabel}>
+              Designation <VelidationSymbol />
+            </Text>
             <TextInput
               style={styles.input}
               placeholderTextColor="rgb(210, 210, 210)"
@@ -178,7 +188,7 @@ export default function VendorBusiness(nav) {
               <Text style={styles.errorHandle}>{errors.designation}</Text>
             )}
 
-            <Text style={styles.textStyle}>Trade Licence Number</Text>
+            <Text style={CustomStyle.inputLabel}>Trade Licence Number</Text>
             <TextInput
               style={styles.input}
               placeholderTextColor="rgb(210, 210, 210)"
@@ -190,7 +200,9 @@ export default function VendorBusiness(nav) {
               onChangeText={handleChange('tradeLicenseNo')}
               onBlur={handleBlur('tradeLicenseNo')}
             />
-            <Text style={styles.textStyle}>Company Address Line 1</Text>
+            <Text style={CustomStyle.inputLabel}>
+              Company Address Line 1 <VelidationSymbol />
+            </Text>
             <TextInput
               style={styles.input}
               placeholderTextColor="rgb(210, 210, 210)"
@@ -206,7 +218,7 @@ export default function VendorBusiness(nav) {
               <Text style={styles.errorHandle}>{errors.companyAddress}</Text>
             )}
 
-            <Text style={styles.textStyle}>Company Address Line 2</Text>
+            <Text style={CustomStyle.inputLabel}>Company Address Line 2</Text>
             <TextInput
               style={styles.input}
               placeholderTextColor="rgb(210, 210, 210)"
@@ -226,11 +238,7 @@ export default function VendorBusiness(nav) {
 
             <View className="flex flex-row justify-between w-full">
               <View style={styles.inputContainer}>
-                <Text
-                  className="text-[#00274D] pl-1"
-                  style={{fontFamily: 'Poppins-Medium'}}>
-                  Country
-                </Text>
+                <Text style={CustomStyle.inputLabel}>Country</Text>
                 <View className="p-1.5 bg-white rounded-[10px]">
                   <CountryPicker
                     countryCode={countryCode}
@@ -252,10 +260,8 @@ export default function VendorBusiness(nav) {
               </View>
 
               <View style={styles.inputContainer} className="ml-2">
-                <Text
-                  className="text-[#00274D]"
-                  style={{fontFamily: 'Poppins-Medium'}}>
-                  PO Box
+                <Text style={CustomStyle.inputLabel}>
+                  PO Box <VelidationSymbol />
                 </Text>
                 <TextInput
                   style={[
@@ -290,11 +296,13 @@ export default function VendorBusiness(nav) {
             style={toggle ? styles.button : styles.button1}
             className="flex flex-row items-center justify-center gap-x-2">
             <Text
-              className="text-white flex flex-row  text-[19px]"
-              style={{fontFamily: 'Roboto-Regular'}}>
+              className="flex flex-row  text-[19px]"
+              style={{fontFamily: ROBOTO.RobotoRegular, color: white}}>
               PROCEED
             </Text>
-            {toggle ? null : <ActivityIndicator size="small" className="pl-2" color="#fff" />}
+            {toggle ? null : (
+              <ActivityIndicator size="small" className="pl-2" color={white} />
+            )}
           </TouchableOpacity>
         </View>
       </View>
@@ -311,13 +319,13 @@ const styles = StyleSheet.create({
   },
   errorHandle: {
     color: 'red',
-    fontFamily: 'Poppins-Medium',
+    fontFamily: POPPINS.PoppinsMedium,
     paddingLeft: 15,
     fontSize: 12,
   },
   textStyle: {
-    color: '#00274D',
-    fontFamily: 'Poppins-Medium',
+    color: blue,
+    fontFamily: POPPINS.PoppinsMedium,
     paddingLeft: 4,
     marginTop: 4,
   },
@@ -331,10 +339,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     color: 'gray',
     backgroundColor: 'white',
-    fontFamily: 'Poppins-Light',
+    fontFamily: POPPINS.PoppinsLight,
   },
   button: {
-    backgroundColor: '#F96900',
+    backgroundColor: textColorCustom,
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -342,7 +350,7 @@ const styles = StyleSheet.create({
   },
   bar: {
     height: 5,
-    backgroundColor: '#F96900',
+    backgroundColor: textColorCustom,
     borderRadius: 10,
   },
   inputContainer: {

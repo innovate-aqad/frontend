@@ -16,7 +16,15 @@ import {useFormik} from 'formik';
 import {RetailerRegisterSchema3} from '../../schemas/RetailerRegisterSchema3';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
-import { success } from '../../constants/ToastMessage';
+import {success} from '../../constants/ToastMessage';
+import {
+  blue,
+  screenBackground,
+  textColorCustom,
+  white,
+} from '../../constants/Theme';
+import CustomStyle from '../../Styles';
+import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
 
 export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -75,7 +83,7 @@ export default function VendorDocument(nav) {
       })
         .then(response => {
           setToggle(true);
-          success({type: 'success', text: response.data.message})
+          success({type: 'success', text: response.data.message});
           nav.navigation.navigate('Login');
         })
         .catch(error => {
@@ -113,23 +121,18 @@ export default function VendorDocument(nav) {
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <View
-        className="flex flex-col justify-center p-4   h-full bg-gray-100 !text-black
-        ">
+        className="flex flex-col justify-center p-4 h-full !text-black
+        "
+        style={{backgroundColor: screenBackground}}>
         <View className="relative flex flex-row items-center top-3 ">
           <Image
-            style={styles.topNavigation}
+            style={CustomStyle.topNavigation}
             source={require('../../Assets/image/drawable-xhdpi/arrow_left.png')}
           />
         </View>
         <View className="mt-8">
-          <Text
-            className="text-[35px] text-[#00274D]"
-            style={{fontFamily: 'Roboto-Bold'}}>
-            Retailer Info
-          </Text>
-          <Text
-            className="pt-2 text-xs text-gray-400"
-            style={{fontFamily: 'Poppins-Light'}}>
+          <Text style={CustomStyle.signupHeading}>Retailer Info</Text>
+          <Text style={CustomStyle.signupSubDec}>
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
@@ -138,13 +141,17 @@ export default function VendorDocument(nav) {
           <View className="flex flex-col">
             <View className="flex flex-row justify-between ">
               <Text
-                className="text-[#F96900]"
-                style={{fontFamily: 'Poppins-Regular'}}>
+                style={{
+                  fontFamily: POPPINS.PoppinsRegular,
+                  color: textColorCustom,
+                }}>
                 Profile Upload (3/3)
               </Text>
               <Text
-                className="text-[#F96900]"
-                style={{fontFamily: 'Poppins-Regular'}}>
+                style={{
+                  fontFamily: POPPINS.PoppinsRegular,
+                  color: textColorCustom,
+                }}>
                 100%
               </Text>
             </View>
@@ -154,15 +161,13 @@ export default function VendorDocument(nav) {
           {/* text */}
           <View>
             <Text
-              className="text-2xl text-[#00274D] pt-3"
-              style={{fontFamily: 'Roboto-Medium'}}>
+              className="pt-3 text-2xl"
+              style={{fontFamily: 'Roboto-Medium', color: blue}}>
               Document Verification
             </Text>
           </View>
           <View className="mt-3">
-            <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
-              Trade Licence
-            </Text>
+            <Text style={CustomStyle.inputLabel}>Trade Licence</Text>
             <TouchableOpacity
               className="h-[76px]"
               onPress={() => selectDocument('trade_license', 'trade_license')}>
@@ -189,7 +194,7 @@ export default function VendorDocument(nav) {
             </TouchableOpacity>
           </View>
           <View className="mt-3">
-            <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
+            <Text style={CustomStyle.inputLabel}>
               Cancelled Cheque / IBAN sdksdf
             </Text>
             <TouchableOpacity
@@ -232,9 +237,7 @@ export default function VendorDocument(nav) {
             />
           </View>
           <View className="mt-3">
-            <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
-              VAT Certificate
-            </Text>
+            <Text style={CustomStyle.inputLabel}>VAT Certificate</Text>
             <TouchableOpacity
               className="h-[76px]"
               onPress={() =>
@@ -271,9 +274,7 @@ export default function VendorDocument(nav) {
               )}
           </View>
           <View className="mt-3">
-            <Text className="text-[#00274d] text-[13px] font-[Poppins-Medium]">
-              Emirates ID
-            </Text>
+            <Text style={CustomStyle.inputLabel}>Emirates ID</Text>
             <TouchableOpacity
               className="h-[76px]"
               onPress={() =>
@@ -321,8 +322,8 @@ export default function VendorDocument(nav) {
           style={toggle ? styles.button : styles.button1}
           className="flex flex-row items-center justify-center mt-5">
           <Text
-            className="text-white flex flex-row  text-[19px]"
-            style={{fontFamily: 'Roboto-Regular'}}>
+            className=" flex flex-row  text-[19px]"
+            style={{fontFamily: ROBOTO.RobotoRegular, color: white}}>
             SUBMIT
           </Text>
           {toggle ? null : (
@@ -344,11 +345,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingLeft: 12,
     color: 'gray',
-    backgroundColor: 'white',
-    fontFamily: 'Poppins-Light',
+    backgroundColor: white,
+    fontFamily: POPPINS.PoppinsLight,
   },
   button: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: textColorCustom, // Default button color
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -363,11 +364,11 @@ const styles = StyleSheet.create({
   },
   bar: {
     height: 5,
-    backgroundColor: '#F96900',
+    backgroundColor: textColorCustom,
     borderRadius: 10,
   },
   button: {
-    backgroundColor: '#F96900', // Default button color
+    backgroundColor: textColorCustom, // Default button color
     padding: 12,
     paddingHorizontal: 40,
     borderRadius: 10,

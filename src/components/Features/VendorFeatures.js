@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {FlatList, View, Text, StyleSheet} from 'react-native';
 import {Card, IconButton} from 'react-native-paper';
-import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
-import {blue, flexTradButtonColor, white} from '../../constants/Theme';
+import {POPPINS} from '../../constants/CustomFontFamily';
+import {blue, flexTradButtonColor, grayColor, white} from '../../constants/Theme';
 
 export default function VendorFeatures() {
   const [openCards, setOpenCards] = useState({});
@@ -58,7 +58,6 @@ export default function VendorFeatures() {
   ];
 
   const toggleCard = id => {
-    console.log('Toggling card id:', id);
     setOpenCards(prevState => {
       const newState = {
         ...prevState,
@@ -125,14 +124,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   heading: {
-    color: '#00274d',
-    fontFamily: 'Poppins-Medium',
+    color: blue,
+    fontFamily: POPPINS.PoppinsMedium,
     fontSize: 13,
   },
   content: {
     marginTop: -10,
-    color: '#7e84a3',
-    fontFamily: 'Poppins-Regular',
+    color: grayColor,
+    fontFamily: POPPINS.PoppinsRegulars,
     fontSize: 10,
   },
 });

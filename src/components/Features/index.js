@@ -27,7 +27,7 @@ export default function FeatureRoutes() {
           },
         }}
       />
-      <stack.Screen
+      {/* <stack.Screen
         name="retailer"
         component={RetailFeatures}
         options={{
@@ -62,7 +62,7 @@ export default function FeatureRoutes() {
             color: 'white',
           },
         }}
-      />
+      /> */}
 
      
     </stack.Navigator>

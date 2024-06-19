@@ -7,6 +7,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {Image} from 'react-native';
 import MyAccountRoutes from './Account';
 import FeatureRoutes from './Features';
+import {black, lightGray, textColorCustom} from '../constants/Theme';
 
 const Tab = createBottomTabNavigator();
 const home = 'Home';
@@ -15,7 +16,7 @@ const account = 'MyAccount';
 const insights = 'Insights';
 const place = 'Features';
 
-export default function Buttomtab() {
+export default function UniversalButtomtab() {
   return (
     <Tab.Navigator
       initialRouteName={home}
@@ -39,37 +40,51 @@ export default function Buttomtab() {
               <Entypo
                 name={iconName}
                 size={size}
-                color={(iconName = focused ? '#F96900' : color)}
+                color={(iconName = focused ? textColorCustom : color)}
               />
             );
-            
           } else if (rn === trade) {
             return (
               <Image
-                style={{height: 24, width: 24,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
+                style={{
+                  height: 24,
+                  width: 24,
+                  tintColor: (iconName = focused ? textColorCustom : lightGray),
+                }}
                 source={require('../Assets/image/drawable-hdpi/boxes.png')}
               />
             );
-          }
-          else if (rn === account) {
+          } else if (rn === account) {
             return (
               <Image
-                style={{height: 23, width: 17.3,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
+                style={{
+                  height: 23,
+                  width: 17.3,
+                  tintColor: (iconName = focused ? textColorCustom : lightGray),
+                }}
                 source={require('../Assets/image/drawable-hdpi/user.png')}
               />
             );
           } else if (rn === insights) {
             return (
               <Image
-                style={{height: 24, width: 24,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
+                style={{
+                  height: 24,
+                  width: 24,
+                  tintColor: (iconName = focused ? textColorCustom : lightGray),
+                }}
                 source={require('../Assets/image/drawable-hdpi/chart_histogram.png')}
               />
             );
           } else {
             return (
-              <Image
-                style={{height: 24, width: 24,tintColor:iconName = focused ?"#f96900" :"#cbcbcb"}}
-                source={require('../Assets/image/drawable-hdpi/marketplace.png')}
+            <Image
+                style={{
+                  height: 24,
+                  width: 24,
+                  tintColor: (iconName = focused ? textColorCustom : lightGray),
+                }}
+                source={require('../Assets/image/universal/circle-star.png')}
               />
             );
           }
@@ -80,7 +95,6 @@ export default function Buttomtab() {
         headerTitleStyle: {
           fontSize: 30,
         },
-
         tabBarStyle: {
           height: 60,
           position: 'absolute',
@@ -88,13 +102,12 @@ export default function Buttomtab() {
           justifyContent: 'center',
           paddingBottom: 5,
           paddingEnd: 7,
-          color: 'black',
-          shadowColor: 'black',
+          color: black,
+          shadowColor: black,
         },
-        tabBarActiveTintColor: '#F96900',
+        tabBarActiveTintColor: textColorCustom,
 
-        headerShadowVisible:false
-        
+        headerShadowVisible: false,
       })}
       // screenOptions={{headerShown: false}}
     >
