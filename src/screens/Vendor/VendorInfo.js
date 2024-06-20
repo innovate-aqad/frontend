@@ -74,6 +74,8 @@ export default function VendorInfo(nav) {
     initialValues,
     validationSchema: VendorRegisterSchema,
     onSubmit: async (values, action) => {
+
+      console.log("skldf====================>");
       setToggle(false);
       const formdata = new FormData();
       formdata.append('name', values.fullName);
@@ -159,7 +161,13 @@ export default function VendorInfo(nav) {
 
   const sendOtp = async email => {
     try {
+      success({
+        type: 'error',
+        text: "jjjjjjjjjjjjjj",
+      });
+      console.log("kkkkkkkkkkkkkkkkkkkkkkk==============>",environmentVariables?.apiUrl,email);
       await SendOtpSchema.validate({email});
+      
       setErrorValue('');
       const response = await axios.get(
         `${environmentVariables?.apiUrl}/api/user/send_otp_to_email?email=${email}`,
@@ -174,7 +182,7 @@ export default function VendorInfo(nav) {
       setErrorValue(validationError.message);
       success({
         type: 'error',
-        text: error?.response?.data?.message || error?.message,
+        text: validationError?.response?.data?.message || validationError?.message,
       });
     }
   };

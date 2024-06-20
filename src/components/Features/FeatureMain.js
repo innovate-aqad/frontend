@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {ROBOTO} from '../../constants/CustomFontFamily';
 import {
   blue,
@@ -12,12 +12,15 @@ import RetailFeatures from './RetailFeatures';
 import VendorFeatures from './VendorFeatures';
 import CustomStyle from '../../Styles';
 
+// const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 export default function FeatureMain() {
   const [value, setValue] = React.useState('left');
   return (
     <View
       className="flex flex-col h-full p-5 py-8 mb-20 gap-y-2"
-      style={{backgroundColor: screenBackground}}>
+      style={{backgroundColor: screenBackground, height:windowHeight-75}}>
       <View className="flex flex-row w-full bg-white rounded-full ">
         <TouchableOpacity
           onPress={() => setValue('left')}

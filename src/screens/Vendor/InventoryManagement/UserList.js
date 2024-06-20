@@ -213,7 +213,7 @@ export default function UserList(nav) {
         </View>
       </ScrollView>
       <View className="px-4">
-        <CustomButton text={"ADD USER"} />
+        <CustomButton onPress={()=>nav.navigation.navigate("addUserInfo")} text={"ADD USER"} />
       </View>
     </View>
   );

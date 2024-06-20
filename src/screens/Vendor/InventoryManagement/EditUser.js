@@ -25,8 +25,10 @@ import {Avatar, RadioButton} from 'react-native-paper';
 import InputTextField from '../../../Shared/InputTextField';
 import CountryPicker from 'react-native-country-picker-modal';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function EditUser(nav) {
+  const navigate=useNavigation()
   const [image, setImage] = useState('');
   const [country, setCountry] = useState();
   const [countryCode, setCountryCode] = useState('AE');
@@ -66,7 +68,7 @@ export default function EditUser(nav) {
       className="flex flex-col h-full mb-12"
       style={{backgroundColor: screenBackground}}>
       <View className="flex-row rounded-b-xl bg-[#f96900] px-4 pb-2 pt-7 items-center">
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigate.goBack()}>
           <Image
             style={{height: 15, width: 23.3, tintColor: 'white'}}
             source={require('../../../Assets/image/drawable-xhdpi/arrow_left.png')}

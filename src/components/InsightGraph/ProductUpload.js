@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Dimensions, View, Text, StyleSheet} from 'react-native';
 import {LineChart} from 'react-native-chart-kit';
-import { blue, grayColor, lightGray, white } from '../../constants/Theme';
-import { POPPINS, ROBOTO } from '../../constants/CustomFontFamily';
+import {blue, grayColor, lightGray, white} from '../../constants/Theme';
+import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -11,15 +11,19 @@ const chartConfig = {
   backgroundGradientFromOpacity: 0,
   backgroundGradientTo: '#fff',
   backgroundGradientToOpacity: 0.5,
-  color: (opacity = 1) => `rgba(3, 138, 255, ${opacity})`,
+  color: (opacity = 1) => `rgba(0, 88, 255, ${opacity})`,
   strokeWidth: 2, // optional, default 3
   barPercentage: 0.5,
   labelColor: (opacity = 1) => grayColor,
-  decimalPlaces: 0, // Remove decimal values on y-axis
+  decimalPlaces: 0,
   propsForBackgroundLines: {
-    stroke: "#f1f1f5", // Background lines color
-    strokeDasharray: '', // Remove dashed background lines
-    
+    stroke: '#f1f1f5',
+    strokeDasharray: '',
+  },
+  propsForDots: {
+    r: '0',
+    strokeWidth: '0',
+    stroke: 'white',
   },
 };
 
@@ -89,8 +93,8 @@ const ProductUpload = () => {
       </View>
       <LineChart
         data={chartData}
-        width={screenWidth - 44} // Adjusting width to fit within the container padding
-        height={220}
+        width={screenWidth - 44}
+        height={180}
         chartConfig={chartConfig}
         style={styles.chartStyle}
         yAxisSuffix=" "
@@ -113,6 +117,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     width: '90%', // Adjusting width to reduce the size
     alignSelf: 'center',
+    paddingBottom: 5,
   },
   headerContainer: {
     position: 'absolute',

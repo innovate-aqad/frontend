@@ -1,12 +1,8 @@
-import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {Provider as PaperProvider} from 'react-native-paper';
-import {MenuProvider} from 'react-native-popup-menu';
-import Toast from 'react-native-toast-message';
-import Index from './src/screens';
+import React from 'react';
 
-// const Stack=createNativeStackNavigator()
+import {NavigationContainer} from '@react-navigation/native';
+import {MenuProvider} from 'react-native-popup-menu';
+import Index from './src/screens';
 export default function App() {
   const [isEnabled, setIsEnabled] = React.useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
@@ -14,7 +10,6 @@ export default function App() {
     <NavigationContainer>
       <MenuProvider>
         <Index />
-        <Toast />
       </MenuProvider>
     </NavigationContainer>
   );
