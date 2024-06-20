@@ -136,8 +136,6 @@ export default function Index() {
       <Stack.Screen name="notification" component={Notification} />
       {/* Notification screen end */}
 
-
-
       {/* search and filter start screen */}
       {/* SearchFilter */}
       <Stack.Screen name="searchFilter" component={SearchFilter} />

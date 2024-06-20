@@ -28,6 +28,7 @@ export default function ProductDetails(nav) {
   const [loader, setLoader] = useState(false);
   const [loader1, setLoader1] = useState(false);
   const [loader2, setLoader2] = useState(false);
+  const [loader3, setLoader3] = useState(false);
   const [resProductData, setResProductData] = useState();
   const [resRelatedProductData, setResRelatedProductData] = useState([]);
 
@@ -36,33 +37,38 @@ export default function ProductDetails(nav) {
   const scrollWidth = Dimensions.get('window').width;
   let scrollOffset = 0;
 
-  const getProductsById = async () => {
-    const storedToken = await retrieveToken();
-    console.log('000000000', mainId);
+  useEffect(() => {
+    async function getProductsById() {
+      const storedToken = await retrieveToken();
+      console.log('000000000', mainId);
 
-    try {
-      setLoader(true);
-      const getData = await axios.get(
-        `${environmentVariables?.apiUrl}/api/product/get_by_id?product_id=${mainId}`,
-        {
-          headers: {
-            _token: storedToken,
+      try {
+        setLoader(true);
+        const getData = await axios.get(
+          `${environmentVariables?.apiUrl}/api/product/get_by_id?product_id=${mainId}`,
+          {
+            headers: {
+              _token: storedToken,
+            },
           },
-        },
-      );
+        );
 
-      if (getData?.data?.success) {
-        setResProductData(getData?.data?.data?.productObj);
+        if (getData?.data?.success) {
+          setResProductData(getData?.data?.data?.productObj);
+          setLoader(false);
+        } else {
+          setResProductData({});
+          setLoader(false);
+        }
+      } catch (error) {
         setLoader(false);
-      } else {
         setResProductData({});
-        setLoader(false);
       }
-    } catch (error) {
-      setLoader(false);
-      setResProductData({});
     }
-  };
+
+    getProductsById();
+  }, []);
+
   const getRelatedProducts = async () => {
     const storedToken = await retrieveToken();
 
@@ -101,7 +107,6 @@ export default function ProductDetails(nav) {
       }
     }, 2000); // Adjust the interval as needed
 
-    getProductsById();
     getRelatedProducts();
 
     return () => clearInterval(interval);
@@ -142,18 +147,68 @@ export default function ProductDetails(nav) {
       console.log(response?.data, 'q112');
       if (response?.data?.success) {
         success({type: 'success', text: response.data.message});
-        nav.navigation.navigate('Cart');
-        // setResProductData(getData?.data?.data);
         setLoader2(false);
+        nav.navigation.navigate('Cart');
       } else {
-        setResProductData([]);
         success({type: 'success', text: response.data.message});
         setLoader2(false);
       }
     } catch (error) {
-      // setLoader1(false);
-      // setResProductData([]);
       setLoader2(false);
+
+      success({
+        type: 'error',
+        text: error?.response?.data?.message || error?.message,
+      });
+      console.log(
+        error,
+        'eroorr12123',
+        error?.response?.data?.message,
+        error?.message,
+      );
+    }
+  };
+  const buyNowAction = async (item, selectedIndex) => {
+    const storedToken = await retrieveToken();
+    const data = {
+      product_id: item?.id,
+      quantity: 1,
+      variant_id: item?.variation_arr?.[selectedIndex]?.id,
+    };
+    console.log('item', storedToken);
+    setLoader3(true);
+    try {
+      const response = await axios.post(
+        `${environmentVariables?.apiUrl}/api/cart/add`,
+        data,
+        {
+          headers: {
+            _token: storedToken,
+          },
+        },
+      );
+
+      // console.log(
+      //   response?.data,
+      //   'q112',
+      //   item?.variation_arr?.[selectedIndex]?.price,
+      //   'popopopoppoppopopo',
+      // );
+      if (response?.data?.success) {
+        console.log('Tanuj');
+        success({type: 'success', text: response.data.message});
+        setLoader3(false);
+        nav.navigation.navigate('checkout', {
+          overAllAmount: item?.variation_arr?.[selectedIndex]?.price * 1,
+          cartData: resProductData,
+          type: 'buynow',
+        });
+      } else {
+        success({type: 'success', text: response.data.message});
+        setLoader3(false);
+      }
+    } catch (error) {
+      setLoader3(false);
 
       success({
         type: 'error',
@@ -404,11 +459,12 @@ export default function ProductDetails(nav) {
 
             <TouchableOpacity
               className="z-50 w-[75%] rounded-xl "
-              style={styles.button}>
+              style={styles.button}
+              onPress={() => buyNowAction(resProductData, selectedIndex)}>
               <Text
                 className="text-white text-[20px]"
                 style={{fontFamily: 'Roboto-Regular'}}>
-                BUY NOW
+                {loader3 ? <ActivityIndicator /> : 'BUY NOW'}
               </Text>
             </TouchableOpacity>
           </View>
