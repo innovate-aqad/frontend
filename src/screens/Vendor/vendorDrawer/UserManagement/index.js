@@ -7,7 +7,7 @@ import EditUser from '../../InventoryManagement/EditUser';
 
 const stack = createNativeStackNavigator();
 
-export default function userManagement() {
+export default function UserManagement() {
   return (
     <stack.Navigator>
       <stack.Screen

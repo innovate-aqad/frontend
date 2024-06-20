@@ -58,6 +58,7 @@ import VerifyPassword from './VerifyPassword/VerifyPassword';
 import EditProduct from './EditProduct/EditProduct';
 import EditProductVariant from './EditProductVariant/EditProductVariant';
 import OtpScreen from './otp_screen/OtpScreen';
+import SearchFilter from './Vendor/SearchFilter';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -132,9 +133,15 @@ export default function Index() {
       {/* remaining page end Support */}
 
       {/* Notification screen start */}
-
       <Stack.Screen name="notification" component={Notification} />
       {/* Notification screen end */}
+
+
+
+      {/* search and filter start screen */}
+      {/* SearchFilter */}
+      <Stack.Screen name="searchFilter" component={SearchFilter} />
+      {/* search and filter end screen */}
     </Stack.Navigator>
   );
 }
