@@ -202,6 +202,9 @@ export default function ProductDetails(nav) {
           overAllAmount: item?.variation_arr?.[selectedIndex]?.price * 1,
           cartData: resProductData,
           type: 'buynow',
+          quantity: 1,
+          stock: item?.variation_arr?.[selectedIndex]?.quantity,
+          variationDetails: item?.variation_arr?.[selectedIndex],
         });
       } else {
         success({type: 'success', text: response.data.message});

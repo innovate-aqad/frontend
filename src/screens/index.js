@@ -59,6 +59,7 @@ import EditProduct from './EditProduct/EditProduct';
 import EditProductVariant from './EditProductVariant/EditProductVariant';
 import OtpScreen from './otp_screen/OtpScreen';
 import SearchFilter from './Vendor/SearchFilter';
+import Checkout from './Retailer/CartScreen/Checkout';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -101,6 +102,7 @@ export default function Index() {
       <Stack.Screen name="warehousedetails" component={WareHouseDetails} />
       <Stack.Screen name="pending" component={PendingOrder} />
       <Stack.Screen name="pmain" component={PMain} />
+      <Stack.Screen name="checkout" component={Checkout} />
       <Stack.Screen name="editProduct" component={EditProduct} />
       <Stack.Screen name="editProductVariant" component={EditProductVariant} />
 

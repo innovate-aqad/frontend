@@ -21,12 +21,28 @@ import axios from 'axios';
 import {success} from '../../../constants/ToastMessage';
 
 export default function Checkout(nav) {
-  const overAllAmount = nav.route.params.overAllAmount;
-  const cartData = nav.route.params.cartData;
-  const type = nav.route.params.type;
+  const overAllAmount = nav?.route?.params?.overAllAmount;
+  const cartData = nav?.route?.params?.cartData;
+  const type = nav?.route?.params?.type;
+  // const individialQuantity = nav?.route?.params?.quantity;
+  // const stock = nav?.route?.params?.stock;
+  const variationDetails = nav?.route?.params?.variationDetails;
   const [quantities, setQuantities] = useState({});
   const [resCartData, setResCartData] = useState([]);
-  console.log(overAllAmount, 'checkout', cartData);
+  const [stock, setStock] = useState(nav?.route?.params?.stock);
+  const [individialQuantity, setIndividialQuantity] = useState(
+    nav?.route?.params?.quantity,
+  );
+  const [buyNowAmount, setBuyNowAmount] = useState(overAllAmount);
+  // console.log(
+  //   overAllAmount,
+  //   'checkout',
+  //   cartData,
+  //   'quantity',
+  //   individialQuantity,
+  //   'variationDetails_variationDetails_variationDetails_variationDetails_variationDetails_variationDetails',
+  //   variationDetails,
+  // );
 
   const getCartData = async () => {
     const storedToken = await retrieveToken();
@@ -102,60 +118,92 @@ export default function Checkout(nav) {
         console.log(error);
       });
   };
-  const handleIncrement = item => {
-    // console.log(item?.product_id, item?.variant_id);
-    setQuantities(prev => {
-      const newQuantities = {...prev};
-      const availableQuantity = item.variantObj.warehouse_arr.reduce(
-        (sum, warehouse) => sum + Number(warehouse.quantity),
-        0,
-      );
-      const currentQuantity = Number(newQuantities[item.id]);
-      if (currentQuantity < availableQuantity) {
-        newQuantities[item.id] = currentQuantity + 1;
-        updateQuantity(
-          newQuantities[item.id],
-          item.product_id,
-          item.variant_id,
-          item?.id,
-        );
+  const handleIncrement = (item, type) => {
+    if (type == 'buynow') {
+      console.log(item, individialQuantity + 1, type, 'iii');
+      const availableQuantity = item?.quantity;
+      if (individialQuantity < availableQuantity) {
+        setIndividialQuantity(prev => {
+          const newQuantity = prev + 1;
+          updateQuantity(newQuantity, item.product_id, item.variation, item.id);
+          return newQuantity;
+        });
       } else {
-        success({
-          type: 'success',
-          text: 'You have exceeded the available stock.',
+        Toast.show({
+          type: 'error',
+          text1: 'Stock Exceeded',
+          text2: 'You have exceeded the available stock.',
         });
       }
-      return newQuantities;
-    });
+    } else {
+      setQuantities(prev => {
+        const newQuantities = {...prev};
+        const availableQuantity = item.variantObj.warehouse_arr.reduce(
+          (sum, warehouse) => sum + Number(warehouse.quantity),
+          0,
+        );
+        const currentQuantity = Number(newQuantities[item.id]);
+        if (currentQuantity < availableQuantity) {
+          newQuantities[item.id] = currentQuantity + 1;
+          updateQuantity(
+            newQuantities[item.id],
+            item.product_id,
+            item.variant_id,
+            item?.id,
+          );
+        } else {
+          success({
+            type: 'success',
+            text: 'You have exceeded the available stock.',
+          });
+        }
+        return newQuantities;
+      });
+    }
   };
 
   const handleDecrement = item => {
     // console.log(item?.product_id, item?.variant_id);
-    setQuantities(prev => {
-      const newQuantities = {...prev};
-      const currentQuantity = Number(newQuantities[item.id]);
-      if (currentQuantity > 1) {
-        newQuantities[item.id] = currentQuantity - 1;
-        updateQuantity(
-          newQuantities[item.id],
-          item.product_id,
-          item.variant_id,
-          item?.id,
-        );
+    if (type == 'buynow') {
+      console.log(item?.product_id, item?.variant_id);
+      if (individialQuantity > 1) {
+        setIndividialQuantity(prev => {
+          const newQuantity = prev - 1;
+          updateQuantity(newQuantity, item.product_id, item.variation, item.id);
+          return newQuantity;
+        });
       }
-      return newQuantities;
-    });
+    } else {
+      setQuantities(prev => {
+        const newQuantities = {...prev};
+        const currentQuantity = Number(newQuantities[item.id]);
+        if (currentQuantity > 1) {
+          newQuantities[item.id] = currentQuantity - 1;
+          updateQuantity(
+            newQuantities[item.id],
+            item.product_id,
+            item.variant_id,
+            item?.id,
+          );
+        }
+        return newQuantities;
+      });
+    }
   };
-  const calculateTotal = () => {
-    return resCartData.reduce((sum, item) => {
-      const quantity = Number(quantities[item.id]) || 1; // Convert to number
-      return sum + item.variantObj.price * quantity;
-    }, 0);
+  const calculateTotal = type => {
+    if (type == 'buynow') {
+      return individialQuantity * buyNowAmount;
+    } else {
+      return resCartData.reduce((sum, item) => {
+        const quantity = Number(quantities[item.id]) || 1; // Convert to number
+        return sum + item.variantObj.price * quantity;
+      }, 0);
+    }
   };
-  console.log(
-    'rrrrrrrrrrwwwwwwww',
-    cartData?.variation_arr?.[0]?.product_images_arr?.[0]?.image,
-  );
+  // console.log(
+  //   'rrrrrrrrrrwwwwwwww',
+  //   cartData?.variation_arr?.[0]?.product_images_arr?.[0]?.image,
+  // );
 
   return (
     <SafeAreaView>
@@ -192,10 +240,9 @@ export default function Checkout(nav) {
                 <View className="flex flex-row items-center gap-x-1.5 ">
                   <TouchableOpacity
                     className="bg-[#f7dcc8] h-[18px] w-[18px] flex items-center justify-center rounded-full"
-                    // onPress={() => handleDecrement(item)}
-                    // disabled={currentQuantity == 1}
-                    // style={{opacity: currentQuantity == '1' ? 0.5 : 1}}
-                  >
+                    onPress={() => handleDecrement(variationDetails, 'buynow')}
+                    disabled={individialQuantity == 1}
+                    style={{opacity: individialQuantity == 1 ? 0.5 : 1}}>
                     <Text className="text-[#f9e4d5] ">
                       <Entypo name="minus" size={14} color="#f96900" />
                     </Text>
@@ -203,17 +250,15 @@ export default function Checkout(nav) {
                   <Text
                     className="text-[#00274d] text-[15px]"
                     style={{fontFamily: POPPINS.PoppinsRegular}}>
-                    {/* {currentQuantity} */}
-                    currentQuantity
+                    {individialQuantity}
                   </Text>
                   <TouchableOpacity
                     className="bg-[#f7dcc8] h-[18px] w-[18px] flex items-center justify-center rounded-full"
-                    // onPress={() => handleIncrement(item)}
-                    // disabled={currentQuantity >= availableQuantity}
-                    // style={{
-                    //   opacity: currentQuantity >= availableQuantity ? 0.5 : 1,
-                    // }}
-                  >
+                    onPress={() => handleIncrement(variationDetails, 'buynow')}
+                    disabled={individialQuantity >= stock}
+                    style={{
+                      opacity: individialQuantity >= stock ? 0.5 : 1,
+                    }}>
                     <Text className="text-[#f9e4d5] ">
                       <Entypo name="plus" size={14} color="#f96900" />
                     </Text>
@@ -224,7 +269,7 @@ export default function Checkout(nav) {
                 <Text
                   className="text-[#f96900] pb-3 text-[15px]"
                   style={{fontFamily: ROBOTO.RobotoMedium}}>
-                  {/* {item.variantObj.price * currentQuantity} */}1 AED
+                  {calculateTotal(type)} AED
                 </Text>
               </View>
               <View>
@@ -341,7 +386,7 @@ export default function Checkout(nav) {
                 <Text
                   className="text-[#7e84a3] text-[13px]"
                   style={{letterSpacing: 0.08}}>
-                  {calculateTotal()} AED
+                  {calculateTotal(type)} AED
                 </Text>
               </View>
               <View className="flex flex-row justify-between">
@@ -373,7 +418,7 @@ export default function Checkout(nav) {
                   TOTAL
                 </Text>
                 <Text className="text-[#f96900] text[20px] font-[Poppins-Medium]">
-                  {calculateTotal()} AED
+                  {calculateTotal(type)} AED
                 </Text>
               </View>
             </View>
