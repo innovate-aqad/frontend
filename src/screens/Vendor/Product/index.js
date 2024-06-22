@@ -3,12 +3,36 @@ import React from 'react';
 import Products from './Products';
 import AddProduct from './AddProduct';
 import AddVariation from './AddVariation';
+import ProductVariantAdd from './VariantScreen';
 
 const stack = createNativeStackNavigator();
 
 export default function ProductRoutes() {
   return (
     <stack.Navigator>
+
+{/* testing  */}
+<stack.Screen
+        name="productVariantAdd"
+        component={ProductVariantAdd}
+        options={{
+          headerShown: true,
+          title: 'ADD VARIATIONS',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+            borderRadius: 20,
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+          },
+        }}
+      />
+{/* testing  */}
+
+
       <stack.Screen
         name="Product"
         component={Products}
@@ -64,8 +88,10 @@ export default function ProductRoutes() {
           },
         }}
       />
+
+
     </stack.Navigator>
   );
 }
 
-//
+//ProductVariantAdd

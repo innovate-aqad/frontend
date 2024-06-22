@@ -311,7 +311,7 @@ export default function Products(nav) {
             <Text
               className="text-white"
               style={{fontFamily: 'Poppins-SemiBold'}}>
-              ADD PRODUCT
+              ADD PRODUCT ddd
             </Text>
           </TouchableOpacity>
         </View>
