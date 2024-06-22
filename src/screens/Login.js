@@ -19,8 +19,16 @@ import {environmentVariables} from '../config/Config';
 import {success} from '../constants/ToastMessage';
 import {useNavigation} from '@react-navigation/native';
 import VelidationSymbol from '../constants/VelidationSymbol';
-import { POPPINS, ROBOTO } from '../constants/CustomFontFamily';
-import { black, blue, grayColor, lightGray, screenBackground, textColorCustom, white } from '../constants/Theme';
+import {POPPINS, ROBOTO} from '../constants/CustomFontFamily';
+import {
+  black,
+  blue,
+  grayColor,
+  lightGray,
+  screenBackground,
+  textColorCustom,
+  white,
+} from '../constants/Theme';
 import CustomButton from '../Shared/CustomButton';
 import NetInfo from '@react-native-community/netinfo';
 
@@ -59,7 +67,7 @@ export default function Login(nav) {
           //   } else {
           //     Alert.alert('Connection Info', 'No internet connection');
           //   }
-            handleOnlineLogin(values, action);
+          handleOnlineLogin(values, action);
           // } else {
           //   Alert.alert('Connection Info', 'No internet connection');
           // }
@@ -112,21 +120,24 @@ export default function Login(nav) {
       showsVerticalScrollIndicator={false}>
       <View
         className="flex flex-col justify-center h-full p-5"
-        style={{backgroundColor:screenBackground}}
-        >
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image
-              style={styles.topNavigation}
-              source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
-            />
-          </TouchableOpacity>
+        style={{backgroundColor: screenBackground}}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            style={styles.topNavigation}
+            source={require('../Assets/image/drawable-xhdpi/arrow_left.png')}
+          />
+        </TouchableOpacity>
         <View>
           <Text
-            style={{fontFamily: ROBOTO.RobotoBold,color:blue,fontSize:35}}>
+            style={{fontFamily: ROBOTO.RobotoBold, color: blue, fontSize: 35}}>
             Welcome Back
           </Text>
           <Text
-            style={{fontFamily: POPPINS.PoppinsLight,fontSize:13,color:"#7c7c7c"}}>
+            style={{
+              fontFamily: POPPINS.PoppinsLight,
+              fontSize: 13,
+              color: '#7c7c7c',
+            }}>
             Please enter your email and password for login
           </Text>
         </View>
@@ -134,8 +145,12 @@ export default function Login(nav) {
           <SafeAreaView>
             <Text
               className="px-1"
-              style={{fontFamily: POPPINS.PoppinsMedium,fontSize:13,color:blue}}>
-              Your Email <VelidationSymbol/>
+              style={{
+                fontFamily: POPPINS.PoppinsMedium,
+                fontSize: 13,
+                color: blue,
+              }}>
+              Your Email <VelidationSymbol />
             </Text>
             <View>
               <TextInput
@@ -164,8 +179,12 @@ export default function Login(nav) {
 
             <Text
               className="px-3 mt-3"
-              style={{fontFamily: POPPINS.PoppinsMedium,fontSize:13,color:blue}}>
-              Password <VelidationSymbol/>
+              style={{
+                fontFamily: POPPINS.PoppinsMedium,
+                fontSize: 13,
+                color: blue,
+              }}>
+              Password <VelidationSymbol />
             </Text>
 
             <View>
@@ -222,9 +241,7 @@ export default function Login(nav) {
                 />
               </View>
 
-              <Text style={styles.label1}>
-                Remember me
-              </Text>
+              <Text style={styles.label1}>Remember me</Text>
             </View>
             <Text
               className="text-[#00274D]"
@@ -236,24 +253,24 @@ export default function Login(nav) {
         </View>
         <View className="w-full">
           <View>
-            <CustomButton onPress={() => handleSubmit()} text={"LOGIN"} />
+            <CustomButton onPress={() => handleSubmit()} text={'LOGIN'} />
           </View>
 
           <View
             className="py-5"
             style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View style={{flex: 1, height: 1,backgroundColor:lightGray}} />
-            
-              <Text
-                style={{
-                  width: 50,
-                  textAlign: 'center',
-                  fontFamily: POPPINS.PoppinsMedium,
-                  color:lightGray
-                }}>
-                OR
-              </Text>
-            <View style={{flex: 1, height: 1,backgroundColor:lightGray}} />
+            <View style={{flex: 1, height: 1, backgroundColor: lightGray}} />
+
+            <Text
+              style={{
+                width: 50,
+                textAlign: 'center',
+                fontFamily: POPPINS.PoppinsMedium,
+                color: lightGray,
+              }}>
+              OR
+            </Text>
+            <View style={{flex: 1, height: 1, backgroundColor: lightGray}} />
           </View>
         </View>
         <View className="flex flex-col gap-y-2">
@@ -267,7 +284,7 @@ export default function Login(nav) {
             <View>
               <AntDesign name="apple1" color={blue} size={22} />
             </View>
-            <Text className="flex-1" style={styles.socialText} >
+            <Text className="flex-1" style={styles.socialText}>
               Sign up with Apple
             </Text>
           </TouchableOpacity>
@@ -279,20 +296,33 @@ export default function Login(nav) {
           </TouchableOpacity>
         </View>
         <View className="flex flex-row items-center justify-center mt-8">
-          <Text style={{fontFamily:ROBOTO.RobotoRegular,fontSize:13,color:blue}}>
+          <Text
+            style={{
+              fontFamily: ROBOTO.RobotoRegular,
+              fontSize: 13,
+              color: blue,
+            }}>
             New to AQAD ?
           </Text>
           <TouchableOpacity
             className="px-5 "
             onPress={() => {
-              // nav.navigation.navigate('signup');
+              // nav.navigation.navigate('retailerbusi', {
+              //   id: 'e01413aa369c45c28728abdd41939f4b',
+              // });
               // nav.navigation.navigate('logidrivdetail', {
               //   id: 'd3c410d0a9c54ee39f1a70057cb6df6d',
               // });
               // nav.navigation.navigate('productIndex');
               nav.navigation.navigate('retailerIndex');
+              // nav.navigation.navigate('signup');
             }}>
-            <Text style={{fontFamily:ROBOTO.RobotoRegular,fontSize:13,color:textColorCustom}}>
+            <Text
+              style={{
+                fontFamily: ROBOTO.RobotoRegular,
+                fontSize: 13,
+                color: textColorCustom,
+              }}>
               Sign Up
             </Text>
           </TouchableOpacity>
@@ -321,7 +351,7 @@ const styles = StyleSheet.create({
   label1: {
     margin: 8,
     fontFamily: POPPINS.PoppinsMedium,
-    color:blue
+    color: blue,
   },
   passwordContainer: {
     flexDirection: 'row',
@@ -341,11 +371,11 @@ const styles = StyleSheet.create({
     color: lightGray,
     borderWidth: 2,
   },
-  socialText:{
-    fontFamily:ROBOTO.RobotoRegular,
-    fontSize:13,
-    color:blue,
-    alignItems:"center",
-    textAlign:"center"
-  }
+  socialText: {
+    fontFamily: ROBOTO.RobotoRegular,
+    fontSize: 13,
+    color: blue,
+    alignItems: 'center',
+    textAlign: 'center',
+  },
 });

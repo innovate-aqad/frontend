@@ -29,6 +29,7 @@ export default function Checkout(nav) {
   const variationDetails = nav?.route?.params?.variationDetails;
   const [quantities, setQuantities] = useState({});
   const [resCartData, setResCartData] = useState([]);
+  const [resOutletData, setOutletData] = useState();
   const [stock, setStock] = useState(nav?.route?.params?.stock);
   const [individialQuantity, setIndividialQuantity] = useState(
     nav?.route?.params?.quantity,
@@ -80,8 +81,37 @@ export default function Checkout(nav) {
       // console.log(error?.response?.data?.message, error?.message, 'eroorr113');
     }
   };
+  const getOutletData = async () => {
+    const storedToken = await retrieveToken();
+
+    try {
+      // setLoader(true);
+      const getData = await axios.get(
+        `${environmentVariables?.apiUrl}/api/user/get_warehouse_or_retailer_address`,
+        {
+          headers: {
+            _token: storedToken,
+          },
+        },
+      );
+      if (getData?.data?.success) {
+        const outletDataRes = getData?.data?.data;
+        const defaultAddress = outletDataRes.find(
+          address => address.is_default,
+        );
+
+        setOutletData(defaultAddress);
+      } else {
+        setOutletData();
+      }
+    } catch (error) {
+      setOutletData();
+    }
+  };
+
   useEffect(() => {
     getCartData();
+    getOutletData();
   }, []);
   const updateData = (id, newQuantity) => {
     let newData = [...resCartData];
@@ -434,26 +464,16 @@ export default function Checkout(nav) {
               <View className="w-[90%]">
                 <View className="flex flex-row">
                   <Text
-                    className="text-[#7e84a3] font-[Poppins-Light] text-[13px]"
+                    className="text-[#7e84a3] font-[Poppins-Bold] text-[13px]"
                     style={{letterSpacing: 0.08}}>
-                    Name
-                  </Text>
-                  <Text
-                    className="text-[#7e84a3] pl-6 pr-3 font-[Poppins-Light] text-[13px]"
-                    style={{letterSpacing: 0.08}}>
-                    :
-                  </Text>
-                  <Text
-                    className="text-[#00274d] font-[Poppins-Regular] text-[13px]"
-                    style={{letterSpacing: 0.08}}>
-                    Jane Deo
+                    Outlet 1
                   </Text>
                 </View>
                 <View className="flex flex-row">
                   <Text
                     className="text-[#7e84a3] font-[Poppins-Light] text-[13px]"
                     style={{letterSpacing: 0.08}}>
-                    Phone
+                    Po Box
                   </Text>
                   <Text
                     className="text-[#7e84a3] pl-6 pr-3 font-[Poppins-Light] text-[13px]"
@@ -463,7 +483,7 @@ export default function Checkout(nav) {
                   <Text
                     className="text-[#00274d] font-[Poppins-Regular] text-[13px]"
                     style={{letterSpacing: 0.08}}>
-                    1-444-239-8092
+                    {resOutletData?.po_box}
                   </Text>
                 </View>
                 <View className="flex flex-row">
@@ -480,7 +500,7 @@ export default function Checkout(nav) {
                   <Text
                     className="text-[#00274d] w-2/3 font-[Poppins-Regular] text-[13px]"
                     style={{letterSpacing: 0.08}}>
-                    Apt. 961 Leffler Green Veronica Unions Licensed Plastic Fish
+                    {resOutletData?.address}
                   </Text>
                 </View>
               </View>
@@ -488,9 +508,13 @@ export default function Checkout(nav) {
             <View>
               <Divider className="bg-[#e6e9f4] my-2"></Divider>
               <View className="flex flex-row items-center">
-                <Text className="text-[#f96900] px-2 text-[10px] font-[Poppins-Medium]">
-                  Select Outlet
-                </Text>
+                <TouchableOpacity
+                  onPress={() => nav.navigation.navigate('outlet')}>
+                  <Text className="text-[#f96900] px-2 text-[10px] font-[Poppins-Medium]">
+                    Select Outlet
+                  </Text>
+                </TouchableOpacity>
+
                 <MaterialCommunityIcons
                   name="greater-than"
                   size={14}

@@ -37,13 +37,23 @@ export default function VendorBusiness(nav) {
     companyAddressline2: '',
     vendorPoBox: '',
     country: 'AE',
-    outlet_addresses: [{address: '', po_box: ''}],
+    outlet_addresses: [{address: '', po_box: '', is_default: false}],
   };
 
   let formik = useFormik({
     initialValues,
     validationSchema: RetailerRegisterSchema2,
     onSubmit: async values => {
+      const hasDefault = values.outlet_addresses.some(pair => pair.is_default);
+
+      if (!hasDefault) {
+        formik.setErrors({
+          outlet_addresses:
+            'At least one outlet address must be set as default.......',
+        });
+        return;
+      }
+
       setToggle(false);
       const formdata = {
         company_name: values.companyName,
@@ -85,10 +95,19 @@ export default function VendorBusiness(nav) {
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     formik;
 
+  console.log(
+    '888888',
+    errors?.outlet_addresses,
+    'values?.outlet_addresses',
+    values?.outlet_addresses,
+  );
   const handleAddPair = () => {
     formik.setValues({
       ...values,
-      outlet_addresses: [...values.outlet_addresses, {address: '', po_box: ''}],
+      outlet_addresses: [
+        ...values.outlet_addresses,
+        {address: '', po_box: '', is_default: false},
+      ],
     });
   };
 
@@ -104,6 +123,17 @@ export default function VendorBusiness(nav) {
   const handlePairInputChange = (text, index, field) => {
     const updatedPairs = [...values.outlet_addresses];
     updatedPairs[index][field] = text;
+    formik.setValues({
+      ...values,
+      outlet_addresses: updatedPairs,
+    });
+  };
+
+  const handleRadioButtonChange = index => {
+    const updatedPairs = values.outlet_addresses.map((address, i) => ({
+      ...address,
+      is_default: i === index,
+    }));
     formik.setValues({
       ...values,
       outlet_addresses: updatedPairs,
@@ -327,7 +357,14 @@ export default function VendorBusiness(nav) {
                 handleDeletePair={handleDeletePair}
                 handlePairInputChange={handlePairInputChange}
                 values={values}
+                handleRadioButtonChange={handleRadioButtonChange}
               />
+
+              {/* {errors?.outlet_addresses && touched?.outlet_addresses && (
+                <Text style={styles.errorHandle}>
+                  {errors?.outlet_addresses}
+                </Text>
+              )} */}
             </SafeAreaView>
           </View>
           <View className="pt-5">
@@ -340,11 +377,16 @@ export default function VendorBusiness(nav) {
               <Text
                 className="flex flex-row  text-[19px]"
                 style={{fontFamily: ROBOTO.RobotoRegular, color: white}}>
-                PROCEED
+                {toggle ? (
+                  'PROCEED'
+                ) : (
+                  <ActivityIndicator
+                    size="small"
+                    className="pl-2"
+                    color="#fff"
+                  />
+                )}
               </Text>
-              {toggle ? null : (
-                <ActivityIndicator size="small" className="pl-2" color="#fff" />
-              )}
             </TouchableOpacity>
           </View>
         </View>

@@ -12,7 +12,7 @@ import phone_call from '../../Assets/image/phone_call.svg';
 import angle_small_down from '../../Assets/image/angle_small_down.png';
 
 export default function CustomDrawerContent(props) {
-  console.log(props, 'props====');
+  // console.log(props, 'props====');
   const [isChatExpanded, setIsChatExpanded] = useState(false);
   const [isRequestExpanded, setIsRequestExpened] = useState(false);
 
