@@ -153,8 +153,8 @@ const data2 = [
   },
 ];
 const SearchValueItemList = () => {
-  const renderItem = ({item}) => (
-    <View>
+  const renderItem = ({item,index}) => (
+    <View key={index}>
       <View className="flex flex-row items-center justify-between mt-3.5 ">
         <View className="flex flex-row items-center">
           <Text
@@ -205,13 +205,6 @@ const renderItem = ({item, index}) => (
             <Text style={{color:grayColor,fontFamily:POPPINS.PoppinsRegular,fontSize:10,letterSpacing:0.3}}>GenieElectro</Text>
             <Text style={[styles.productName,{lineHeight:15}]}>{item.productName}</Text>
             <View>
-              {/* <View style={styles.infoRow}>
-                <Text style={styles.orderNumber}>Color : Mate Black</Text>
-                <View style={styles.timeContainer}>
-                  <View style={styles.dot} />
-                  <Text style={styles.timeText}>Unit : 500 </Text>
-                </View>
-              </View> */}
               <View className="flex flex-row justify-between">
               <Text style={styles.unitPrice}>5945 AED</Text>
               
@@ -246,7 +239,7 @@ return (
 
 
 
-export default function SearchFilter() {
+export default function SearchFilter(nav) {
   const [searchText, setSearchText] = useState('');
 
   const handleSearch = () => {};
@@ -299,13 +292,16 @@ export default function SearchFilter() {
         <SearchValueItemList/>
         <Divider style={{marginTop: 15, backgroundColor: '#e6e9f4'}} />
         <View>
-          <Text style={{color:blue,fontFamily:ROBOTO.RobotoBold,fontSize:13,marginVertical:10}}>Products</Text>
+        <TouchableOpacity onPress={()=>nav.navigation.navigate("productFilter")}>
+          <Text style={{color:blue,fontFamily:ROBOTO.RobotoBold,fontSize:13,marginVertical:10}}>Products kk</Text>
+          </TouchableOpacity>
         <CartList/>
         </View>
          </View>
       : (
         <View>
           <View className="mt-5">
+            
             <Text style={styles.heading}>History</Text>
             <HistoryList />
             <View className="flex flex-row items-center justify-center mx-auto mt-3">

@@ -62,7 +62,7 @@ export default function MyAccount(nav) {
             className="p-3 w-[48%] rounded-full"
             onPress={() => {
               nav.navigation.navigate('VendorDrawer');
-              // navigation.replace('addUserInfo')
+              // navigation.replace('productFilter')
             }}>
             <Text
               className="text-center text-[13px]"

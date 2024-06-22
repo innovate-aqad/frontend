@@ -59,6 +59,7 @@ import EditProduct from './EditProduct/EditProduct';
 import EditProductVariant from './EditProductVariant/EditProductVariant';
 import OtpScreen from './otp_screen/OtpScreen';
 import SearchFilter from './Vendor/SearchFilter';
+import ProductFilter from './Vendor/SearchFilter/ProductFilter';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -141,6 +142,7 @@ export default function Index() {
       {/* search and filter start screen */}
       {/* SearchFilter */}
       <Stack.Screen name="searchFilter" component={SearchFilter} />
+      <Stack.Screen name="productFilter" component={ProductFilter} />
       {/* search and filter end screen */}
     </Stack.Navigator>
   );
