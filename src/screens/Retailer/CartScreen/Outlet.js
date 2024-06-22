@@ -47,7 +47,6 @@ export default function Outlet(nav) {
           },
         },
       );
-    
     } catch (error) {
       console.log('ksssssssss', error);
     }
@@ -406,7 +405,7 @@ export default function Outlet(nav) {
 
           <TouchableOpacity
             className="z-50 mt-10 rounded-xl "
-            onPress={() => console.warn('No any action bottons')}
+            onPress={() => nav.navigation.navigate('outletDetails')}
             style={styles.button}>
             <Text
               className="text-white text-[20px]"

@@ -27,7 +27,7 @@ import OrderDetails from './OrderDetails/OrderDetails';
 import OrderSummary from './OrderDetails/OrderSummary';
 import DriverDetails from './DriverDetails/DriverDetails';
 import AddVendor from './FlexiFlat/AddVendor';
-import WareHouseDetails from '../screens/WareHouseDetails/WareHouseDetails';
+// import WareHouseDetails from '../screens/WareHouseDetails/WareHouseDetails';
 import PendingOrder from './PendingOrder/PendingOrder';
 import PMain from '../screens/PendingOrder/PMain';
 import SplashScreen from './SplashScreen';
@@ -60,6 +60,7 @@ import EditProductVariant from './EditProductVariant/EditProductVariant';
 import OtpScreen from './otp_screen/OtpScreen';
 import SearchFilter from './Vendor/SearchFilter';
 import Checkout from './Retailer/CartScreen/Checkout';
+import WareHouseDetails from '../Shared/MyAccoount/WareHouseDetails/WareHouseDetails';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -99,10 +100,11 @@ export default function Index() {
       <Stack.Screen name="ordersummarycard" component={OrderSummary} />
       <Stack.Screen name="driverdetails" component={DriverDetails} />
       <Stack.Screen name="flexiadd" component={AddVendor} />
-      <Stack.Screen name="warehousedetails" component={WareHouseDetails} />
+      {/* <Stack.Screen name="warehousedetails" component={WareHouseDetails} /> */}
       <Stack.Screen name="pending" component={PendingOrder} />
       <Stack.Screen name="pmain" component={PMain} />
       <Stack.Screen name="checkout" component={Checkout} />
+      <Stack.Screen name="outletDetails" component={WareHouseDetails} />
       <Stack.Screen name="editProduct" component={EditProduct} />
       <Stack.Screen name="editProductVariant" component={EditProductVariant} />
 
