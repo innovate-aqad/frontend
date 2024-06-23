@@ -81,7 +81,6 @@ export default function Outlet(nav) {
     getOutletData();
   }, []);
 
-  console.log('reeeeeeeeee', resOutletData);
 
   return (
     <SafeAreaView>

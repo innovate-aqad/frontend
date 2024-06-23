@@ -10,23 +10,23 @@ import {
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import OutletList from './WareHouseCard';
-import { screenBackground } from '../../../constants/Theme';
+import {screenBackground} from '../../../constants/Theme';
 
 const WareHouseDetails = () => {
   return (
     <ScrollView>
       <View style={{backgroundColor: screenBackground}}>
         <View className="flex flex-col p-3 mb-24">
-          <OutletList/>
-          <TouchableOpacity>
+          <OutletList />
+          {/* <TouchableOpacity>
             <View className="w-24 p-2 text-center bg-[#f96900] items-center justify-center flex flex-row rounded-[5px] mt-2">
               <MaterialIcons name="add" size={18} color="white" />
               <Text className="ml-2 text-center text-white font-[Roboto-Regular] text-[12px]">
                 Add
               </Text>
             </View>
-          </TouchableOpacity>
-          <View className="pt-5">
+          </TouchableOpacity> */}
+          {/* <View className="pt-5">
             <TouchableOpacity
               onPress={() => handleSubmit()}
               style={styles.buttonAddVendor}>
@@ -39,7 +39,7 @@ const WareHouseDetails = () => {
                 Save changes
               </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
       </View>
     </ScrollView>
@@ -75,15 +75,6 @@ const styles = StyleSheet.create({
     height: 15,
     width: 23.3,
     tintColor: 'white',
-  },
-  buttonAddVendor: {
-    backgroundColor: '#F96900', // Default button color
-    padding: 12,
-    borderRadius: 5,
-    alignItems: 'center',
-    color: 'red',
-    font: 'Roboto-Regular',
-    fontSize: 20,
   },
   button1: {
     backgroundColor: 'transparent',
