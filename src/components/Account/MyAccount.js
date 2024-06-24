@@ -2,12 +2,19 @@ import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import CustomStyle from '../../Styles';
-import { blue, btnBackround, screenBackground, white } from '../../constants/Theme';
-import { POPPINS, ROBOTO } from '../../constants/CustomFontFamily';
+import {
+  blue,
+  btnBackround,
+  screenBackground,
+  white,
+} from '../../constants/Theme';
+import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
 export default function MyAccount(nav) {
   const navigation = useNavigation();
   return (
-    <View className="flex flex-col h-full p-5 py-8" style={{backgroundColor:screenBackground}}>
+    <View
+      className="flex flex-col h-full p-5 py-8"
+      style={{backgroundColor: screenBackground}}>
       <View className="flex-row items-center">
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
@@ -17,7 +24,7 @@ export default function MyAccount(nav) {
         </TouchableOpacity>
         <Text
           className="flex-1 text-[20px] text-center"
-          style={{fontFamily: ROBOTO.RobotoBold,color:blue}}>
+          style={{fontFamily: ROBOTO.RobotoBold, color: blue}}>
           MY ACCOUNT
         </Text>
       </View>
@@ -29,7 +36,9 @@ export default function MyAccount(nav) {
           />
         </View>
         <View className="mt-4">
-          <Text className="text-[10px] px-1 text-center" style={{fontFamily:POPPINS.PoppinsLight,color:blue}}>
+          <Text
+            className="text-[10px] px-1 text-center"
+            style={{fontFamily: POPPINS.PoppinsLight, color: blue}}>
             Lorem Ipsum is simply dummy text of the printing and industry. Lorem
             Ipsum has been the industry's standard dummy text ever since ever
             since ever since
@@ -40,20 +49,23 @@ export default function MyAccount(nav) {
           <TouchableOpacity
             style={styles.btn}
             className="p-3 w-[48%] rounded-full"
-            onPress={() => nav.navigation.navigate('Login')}>
+            onPress={() => nav.navigation.navigate('privacyRoute')}>
             <Text
               className="text-center text-[13px]"
-              style={{fontFamily: POPPINS.PoppinsRegular,color:white}}>
+              style={{fontFamily: POPPINS.PoppinsRegular, color: white}}>
               Login
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{backgroundColor: '#e6e9f4'}}
             className="p-3 w-[48%] rounded-full"
-            onPress={() => nav.navigation.navigate('productIndex')}>
+            onPress={() => {
+              nav.navigation.navigate('mainapp');
+              navigation.replace('VendorDrawer');
+            }}>
             <Text
               className="text-center text-[13px]"
-              style={{fontFamily: POPPINS.PoppinsRegular,color:blue}}>
+              style={{fontFamily: POPPINS.PoppinsRegular, color: blue}}>
               Sign Up
             </Text>
           </TouchableOpacity>

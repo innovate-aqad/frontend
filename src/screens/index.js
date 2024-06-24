@@ -36,7 +36,7 @@ import AddUserInfo from './Vendor/InventoryManagement/AddUserInfo';
 import UserList from './Vendor/InventoryManagement/UserList';
 import EditUser from './Vendor/InventoryManagement/EditUser';
 import UniversalButtomtab from '../components';
-import InventoryLists from "./Vendor/InventoryManagement/InventoryList"
+import InventoryLists from './Vendor/InventoryManagement/InventoryList';
 import TextLine from '../Shared/TextLine';
 import SettingHome from '../Shared/settings/SettingHome';
 import ChangePassword from '../Shared/settings/ChangePassword';
@@ -50,7 +50,9 @@ import SuccessAuthontication from '../Shared/settings/twoFactors/SuccessAuthonti
 import MainApp from '../components/drawerNavigation/MainApp';
 import OtpVerify from './OtpVerify';
 import VendorDrawer from './Vendor/vendorDrawer/VendorDrawer';
-
+import PrivacyPolicy from '../Shared/settings/privacySecurity/PrivacyPolicy';
+import PolicyRoutes from '../Shared/settings/privacySecurity/index';
+import TermsCondition from '../Shared/settings/privacySecurity/TermsCondition';
 export default function Index() {
   const Stack = createNativeStackNavigator();
   return (
@@ -58,7 +60,7 @@ export default function Index() {
       <Stack.Screen name="SplashScreen" component={SplashScreen} />
       <Stack.Screen name="mainapp" component={MainApp} />
       <Stack.Screen name="VendorDrawer" component={VendorDrawer} />
-      
+
       <Stack.Screen name="universalButtomtab" component={UniversalButtomtab} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="signup" component={Signup} />
@@ -92,11 +94,11 @@ export default function Index() {
       <Stack.Screen name="pending" component={PendingOrder} />
       <Stack.Screen name="pmain" component={PMain} />
 
-
-
-
       {/* Inventory Management start */}
-      <Stack.Screen name="inventoryManagement" component={InventoryManagement} />
+      <Stack.Screen
+        name="inventoryManagement"
+        component={InventoryManagement}
+      />
       <Stack.Screen name="addUserInfo" component={AddUserInfo} />
       <Stack.Screen name="userList" component={UserList} />
       <Stack.Screen name="editUser" component={EditUser} />
@@ -113,8 +115,13 @@ export default function Index() {
       <Stack.Screen name="getStarted" component={GetStarted} />
       <Stack.Screen name="continue" component={Continue} />
       <Stack.Screen name="verifyEnable" component={VerifyEnable} />
-      <Stack.Screen name="successAuthontication" component={SuccessAuthontication} />
-      
+      <Stack.Screen
+        name="successAuthontication"
+        component={SuccessAuthontication}
+      />
+      <Stack.Screen name="privacyPolicy" component={PrivacyPolicy} />
+      <Stack.Screen name="privacyRoute" component={PolicyRoutes} />
+      <Stack.Screen name="termsCondition" component={TermsCondition} />
       {/* setting page end */}
     </Stack.Navigator>
   );
