@@ -10,8 +10,13 @@ import {
 } from '../../constants/Theme';
 import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
 import TermCondition from '../../Shared/TermCondition';
+import { success } from '../../constants/ToastMessage';
 export default function MyAccount(nav) {
   const navigation = useNavigation();
+
+  const showPopupMEssage=()=>{
+    success({text:"hello boy this message",type:"success"})
+  }
   return (
     <View
       className="flex flex-col h-full p-5 py-8"
@@ -63,7 +68,7 @@ export default function MyAccount(nav) {
             onPress={() => {
               nav.navigation.navigate('VendorDrawer');
               // navigation.replace('productFilter')
-            }}>
+             } }>
             <Text
               className="text-center text-[13px]"
               style={{fontFamily: POPPINS.PoppinsRegular, color: blue}}>

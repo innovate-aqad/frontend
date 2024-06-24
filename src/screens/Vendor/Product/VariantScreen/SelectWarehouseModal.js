@@ -22,6 +22,9 @@ import {SelectWarehouse} from '../../../../Shared/SelectInput';
 import CustomStyle from '../../../../Styles';
 import {ROBOTO} from '../../../../constants/CustomFontFamily';
 import InputTextField from '../../../../Shared/InputTextField';
+
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const SelectWarehouseModal = () => {
@@ -159,7 +162,11 @@ const SelectWarehouseModal = () => {
           </View>
         </View>
       </Modal>
-      <CustomAddButton onPress={() => setModalVisible(true)} />
+      {/* <CustomAddButton onPress={() => setModalVisible(true)} /> */}
+      <TouchableOpacity onPress={() => setModalVisible(true)} className="flex flex-row">
+      <MaterialIcons name="add" size={18} color={textColorCustom} />
+      <Text style={{fontFamily:ROBOTO.RobotoRegular,color:textColorCustom,fontSize:13}}>Add</Text>
+      </TouchableOpacity>
     </View>
   );
 };

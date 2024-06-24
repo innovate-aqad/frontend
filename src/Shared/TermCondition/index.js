@@ -55,7 +55,8 @@ const TermCondition = () => {
       //     setIsVisible(!isVisible)
       // }}
       animationType="slide"
-      style={{width: width - 40, marginVertical: 50}}>
+      style={{width: width - 40, marginVertical: 50}}
+      >
       <View style={{backgroundColor: white, borderRadius: 25}}>
         <ScrollView>
           <View className="flex-row items-center px-4 pt-4 pb-2 rounded-b-xl">

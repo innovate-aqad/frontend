@@ -3,9 +3,10 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
 import { blue, flexTradButtonColor, grayColor } from '../constants/Theme';
 import { POPPINS } from '../constants/CustomFontFamily';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Header({navigation}) {
-  console.log(navigation,"navigationnavigation====>");
+  const customNavigation=useNavigation()
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -22,7 +23,7 @@ export default function Header({navigation}) {
         />
         <Text className="text-[#050605]" style={styles.fontFamily}>AL QUTUB Al DHAHABI</Text>
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={()=>customNavigation.navigate("notification")}>
         <Octicons name="bell" size={12.5} color={blue} />
         <Text className="absolute text-center flex flex-col justify-center pt-0.2 items-center w-[17px] h-[15px] text-[10px] text-white bg-[#f96900] rounded-full right-1 top-1">
           10

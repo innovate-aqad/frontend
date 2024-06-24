@@ -20,7 +20,7 @@ import {environmentVariables} from '../../config/Config';
 import {success} from '../../constants/ToastMessage';
 import VelidationSymbol from '../../constants/VelidationSymbol';
 import { POPPINS, ROBOTO } from '../../constants/CustomFontFamily';
-import { textColorCustom, white } from '../../constants/Theme';
+import { blue, textColorCustom, white } from '../../constants/Theme';
 import CustomStyle from '../../Styles';
 
 export default function VendorDocument(nav) {

@@ -35,6 +35,7 @@ import {
 } from '../../constants/Theme';
 import CustomStyle from '../../Styles';
 import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
+import VerificationSuccessfully from '../../Shared/VerificationSuccessfully';
 
 export default function VendorInfo(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
@@ -45,6 +46,7 @@ export default function VendorInfo(nav) {
   const [verified, setVerified] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(false);
   const [dateSelected, setDateSelected] = useState('');
   const [toggle, setToggle] = useState(true);
   const showDatePicker = () => {
@@ -161,11 +163,6 @@ export default function VendorInfo(nav) {
 
   const sendOtp = async email => {
     try {
-      success({
-        type: 'error',
-        text: "jjjjjjjjjjjjjj",
-      });
-      console.log("kkkkkkkkkkkkkkkkkkkkkkk==============>",environmentVariables?.apiUrl,email);
       await SendOtpSchema.validate({email});
       
       setErrorValue('');
@@ -199,6 +196,11 @@ export default function VendorInfo(nav) {
       formik.setFieldValue('number', text);
     }
   };
+  useEffect(() => {
+    setTimeout(() => {
+      setSuccessMessage(false);
+    }, 2000);
+  }, [successMessage == true]);
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <View
@@ -473,9 +475,11 @@ export default function VendorInfo(nav) {
             setOpenPopup={setOpenPopup}
             setVerified={setVerified}
             email={values?.email}
+            setSuccessMessage={setSuccessMessage}
           />
         )}
       </View>
+      {successMessage && <VerificationSuccessfully />}
     </ScrollView>
   );
 }

@@ -1,30 +1,20 @@
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  SafeAreaView,
-  View,
-  Animated,
-  ScrollView,
-  ToastAndroid,
-  Modal,
-  Button,
-} from 'react-native';
-import React, {useRef, useState} from 'react';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {StyleSheet, Text, TouchableOpacity, View, Modal} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
 import {useFormik} from 'formik';
 import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import {OtpSchema} from '../../schemas/OtpSchema';
 
 import OTPTextInput from 'react-native-otp-textinput';
-import { success } from '../../constants/ToastMessage';
+import {success} from '../../constants/ToastMessage';
+import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
+import {blue, textColorCustom, white} from '../../constants/Theme';
+import VerificationSuccessfully from '../../Shared/VerificationSuccessfully';
 
-const OtpPopup = ({openPopup, setOpenPopup, setVerified, email}) => {
+const OtpPopup = ({openPopup, setOpenPopup, setVerified, email,setSuccessMessage}) => {
   const otpInputRef = useRef(null);
-  const [num1,setNum1]=useState()
+  const [num1, setNum1] = useState();
+  
   const handleSubmitPopup = () => {
     // Your submit logic here
     setVerified(true);
@@ -35,7 +25,7 @@ const OtpPopup = ({openPopup, setOpenPopup, setVerified, email}) => {
     otp: '',
   };
 
-  console.log(num1,"num1num1num1")
+  console.log(num1, 'num1num1num1');
 
   let formik = useFormik({
     initialValues,
@@ -51,9 +41,11 @@ const OtpPopup = ({openPopup, setOpenPopup, setVerified, email}) => {
       })
         .then(response => {
           success({type: 'success', text: response.data.message});
+          setSuccessMessage(true);
           if (response?.data?.success) {
             setVerified(true);
             setOpenPopup(false);
+            
           } else {
             setVerified(false);
             action.setFieldError(
@@ -69,127 +61,149 @@ const OtpPopup = ({openPopup, setOpenPopup, setVerified, email}) => {
             'otp',
             error.response?.data?.message || 'OTP verification failed',
           );
-
-          
         });
     },
   });
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     formik;
 
+  
 
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={openPopup}
-      onRequestClose={() => {
-        setOpenPopup(!openPopup);
-      }}>
-      <View style={styles.modalContainer}>
-        <View style={styles.modalView}>
-          <TouchableOpacity
-            style={styles.closeIcon}
-            onPress={() => setOpenPopup(false)}>
-            <Icon name="close" size={16} color="red" />
-          </TouchableOpacity>
-          
-          <View className="w-full mb-6">
-            {/* <TextInput
-            style={styles.input}
-            value={values.otp}
-            onChangeText={handleChange('otp')}
-            onBlur={handleBlur('otp')}
-            placeholderTextColor="rgb(210, 210, 210)"
-            placeholder="Enter OTP"
-            className="!border-none pl-4 py-1.5 !border-white"
-            borderRadius={18}
-          /> */}
-          <View className="flex flex-col items-center justify-center w-full">
-            <Text className="text-[#00274d] font-[Roboto-Bold]">Enter OTP Code</Text>
-          </View>
-            <OTPTextInput
-              ref={otpInputRef}
-              handleTextChange={text => formik.setFieldValue('otp', text)}
-              onBlur={handleBlur('otp')}
-              tintColor={'red'}
-              textInputStyle={{
-                color: '#00274d',
-                fontFamily: 'Roboto-ExtraBold',
-              }}
-            />
-            {errors.otp && touched.otp && (
-              <Text style={{color: 'red', paddingLeft: 5, fontSize: 12}}>
-                {errors.otp}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={openPopup}
+        onRequestClose={() => {
+          setOpenPopup(!openPopup);
+        }}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalView}>
+            <View>
+              <Text
+                style={{
+                  fontFamily: ROBOTO.RobotoMedium,
+                  color: blue,
+                  fontSize: 20,
+                  textAlign: 'center',
+                }}>
+                Check Your Email
               </Text>
-            )}
-          </View>
+              <Text
+                style={{
+                  fontFamily: POPPINS.PoppinsLight,
+                  color: blue,
+                  fontSize: 10,
+                  textAlign: 'center',
+                  marginTop: 2,
+                }}>
+                We've sent OTP on your registered Email no
+              </Text>
+            </View>
 
-          <TouchableOpacity onPress={handleSubmit}>
-            <Text style={styles.closeText}>Verify OTP</Text>
-          </TouchableOpacity>
+            <View className="w-full my-4">
+              <Text
+                style={{
+                  fontFamily: POPPINS.PoppinsMedium,
+                  color: textColorCustom,
+                  fontSize: 13,
+                  textAlign: 'center',
+                }}>
+                {email}
+              </Text>
+              <View className="flex flex-col items-center justify-center w-full mt-3 mb-4">
+                <Text
+                  style={{
+                    fontFamily: POPPINS.PoppinsMedium,
+                    color: blue,
+                    fontSize: 13,
+                  }}>
+                  Enter OTP
+                </Text>
+              </View>
+              <OTPTextInput
+                ref={otpInputRef}
+                handleTextChange={text => formik.setFieldValue('otp', text)}
+                onBlur={handleBlur('otp')}
+                tintColor={'red'}
+                textInputStyle={styles.inputOTP}
+              />
+              {errors.otp && touched.otp && (
+                <Text style={{color: 'red', paddingLeft: 5, fontSize: 12}}>
+                  {errors.otp}
+                </Text>
+              )}
+            </View>
+            <View className="flex flex-row items-center gap-2">
+              <Text
+                style={{
+                  color: blue,
+                  fontSize: 13,
+                  fontFamily: ROBOTO.RobotoRegular,
+                }}>
+                Didn't receive OTPP ?
+              </Text>
+              <Text
+                style={{
+                  color: textColorCustom,
+                  fontSize: 13,
+                  fontFamily: ROBOTO.RobotoRegular,
+                }}>
+                Resend
+              </Text>
+            </View>
+
+            <View className="flex flex-row mt-4 gap-x-2">
+              <TouchableOpacity
+                onPress={() => setOpenPopup(false)}
+                style={styles.closeText}>
+                <Text
+                  style={{
+                    fontFamily: ROBOTO.RobotoRegular,
+                    fontSize: 13,
+                    color: textColorCustom,
+                    textAlign: 'center',
+                  }}>
+                  Close
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={handleSubmit}
+                style={{
+                  height: 35,
+                  width: 100,
+                  borderRadius: 5,
+                  backgroundColor: textColorCustom,
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    fontFamily: ROBOTO.RobotoRegular,
+                    fontSize: 13,
+                    color: white,
+                    textAlign: 'center',
+                  }}>
+                  Verify
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-      </View>
-    </Modal>
+      </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  input: {
-    paddingVertical: 4,
-    marginTop: 40,
+  inputOTP: {
+    color: '#00274d',
+    fontFamily: 'Roboto-ExtraBold',
+    borderRadius: 10,
     borderWidth: 1,
-    borderColor: 'gray',
-    color: 'gray',
-    backgroundColor: 'white',
-    fontFamily: 'Poppins-Light',
-
-    width: '100%',
-    padding: 10,
     borderBottomWidth: 1,
-    marginBottom: 5,
-  },
-  button: {
-    backgroundColor: '#F96900',
-    padding: 12,
-    borderRadius: 5,
-    alignItems: 'center',
-    color: 'red',
-  },
-  user: {
-    alignSelf: 'center',
-  },
-  container: {
-    height: 15,
-    backgroundColor: '#ccc',
-    borderRadius: 10,
-  },
-  bar: {
-    height: 5,
-    backgroundColor: '#F96900',
-    borderRadius: 10,
-  },
-  containerDate: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 250,
-    height: 250,
-  },
-  datePicker: {
-    backgroundColor: 'red',
-    borderRadius: 10,
-    width: 250,
-    height: 250,
-  },
-  datePickerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  errorHandle: {
-    color: 'red',
-    paddingLeft: 20,
-    fontSize: 12,
+    borderColor: '#00274d',
+    width: 45,
+    height: 50,
+    textAlign: 'center',
   },
   modalContainer: {
     flex: 1,
@@ -204,31 +218,13 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
   },
-  modalInput: {
-    width: '100%',
-    padding: 10,
-    borderBottomWidth: 1,
-    marginBottom: 20,
-  },
   closeText: {
-    backgroundColor: '#F96900',
-    marginTop: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 50,
-    color: 'white',
-    fontFamily: 'Roboto-Regular',
-    borderRadius: 10,
-    fontSize: 18,
-    marginTop: 10,
-    
-  },
-  closeIcon: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    backgroundColor:"#cbcbcb",
-    borderRadius:15,
-    padding:2
+    height: 35,
+    width: 100,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: textColorCustom,
+    justifyContent: 'center',
   },
 });
 

@@ -45,7 +45,7 @@ import {
             action.resetForm();
             success({type: 'success', text: response.data.message});
             if (response.data.data.user_type === 'vendor') {
-              navigation.navigate('productIndex');
+              navigation.navigate('VendorDrawer');
             } else if (response.data.data.user_type === 'retailer') {
               navigation.navigate('retailerIndex');
             } else {
@@ -102,7 +102,7 @@ import {
             <Text
               className="px-3 text-lg text-black"
               style={{fontFamily: 'Poppins-SemiBold'}}>
-              Please Enter OTP 
+              Please Enter OTP
               {/* <VelidationSymbol/> */}
             </Text>
             </View>
@@ -131,9 +131,6 @@ import {
                 </Text>
               </TouchableOpacity>
             </View>
-            {/* <TouchableOpacity className="mt-5 w-14" onPress={()=>resend()}>
-              <Text className="text-blue-600 ">resend</Text>
-            </TouchableOpacity> */}
           </View>
         </View>
       </ScrollView>
