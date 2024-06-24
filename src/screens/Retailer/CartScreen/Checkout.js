@@ -230,6 +230,72 @@ export default function Checkout(nav) {
       }, 0);
     }
   };
+
+  const proceedToPayment = () => {
+    if (type && type == 'buynow') {
+      console.log('cartData', variationDetails?.id, cartData);
+      const data = {
+        address: 2,
+        po_box: 11222,
+        order_detail: [
+          {
+            variant_id: variationDetails?.id,
+            product_id: cartData?.id,
+            product_price: variationDetails?.price,
+            variant_name: variationDetails?.title,
+            quantity: individialQuantity,
+            thumbnail_url: variationDetails?.product_images_arr?.[0]?.image,
+          },
+        ],
+        sub_total: calculateTotal(type),
+        delivery_charges: 10,
+        payment_method: 'Cash on Delivery',
+        country_code: 'UAE',
+      };
+
+      console.log('data', data);
+    } else {
+      // console.log('resCartDataresCartData', resCartData);
+      const variantQuantityArray = resCartData?.map(product => {
+        console.log('12121212', product?.product_id,product?.variant_id,);
+        // const price =
+        //   product?.variants?.[0]?.variant_price_details[0].price;
+
+        // const discountedPrice = price - (price * discount) / 100;
+
+        // return {
+        //   variant_id: product.product_variant_id?.toString(),
+        //   quantity: product.quantity,
+        //   variant_name: product?.variants?.[0]?.variant_name,
+        //   thumbnail_url: product?.variants?.[0]?.thumbnail_url,
+        //   product_id: product?.product_id,
+        //   is_student: product?.is_student,
+        //   product_price: discountedPrice,
+        // };
+      });
+
+      // const data = {
+      //   address: 2,
+      //   po_box: 11222,
+      //   order_detail: [
+      //     {
+      //       variant_id: variationDetails?.id,
+      //       product_id: cartData?.id,
+      //       product_price: variationDetails?.price,
+      //       variant_name: variationDetails?.title,
+      //       quantity: individialQuantity,
+      //       thumbnail_url: variationDetails?.product_images_arr?.[0]?.image,
+      //     },
+      //   ],
+      //   sub_total: calculateTotal(type),
+      //   delivery_charges: 10,
+      //   payment_method: 'Cash on Delivery',
+      //   country_code: 'UAE',
+      // };
+
+      // console.log('cart', data);
+    }
+  };
   // console.log(
   //   'rrrrrrrrrrwwwwwwww',
   //   cartData?.variation_arr?.[0]?.product_images_arr?.[0]?.image,
@@ -563,7 +629,7 @@ export default function Checkout(nav) {
 
           <TouchableOpacity
             className="z-50 mt-10 rounded-xl "
-            onPress={() => nav.navigation.navigate('outlet')}
+            onPress={() => proceedToPayment()}
             style={styles.button}>
             <Text
               className="text-white text-[20px]"
