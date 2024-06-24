@@ -24,6 +24,7 @@ import {blue, screenBackground} from '../../../constants/Theme';
 import {retrieveToken} from '../../EncryptionDecryption/Token';
 import {environmentVariables} from '../../../../config/Config';
 import axios from 'axios';
+import {success} from '../../../constants/ToastMessage';
 
 const OutletCard = ({
   index,
@@ -43,18 +44,18 @@ const OutletCard = ({
             style={styles.input}
             placeholderTextColor="#7e84a3"
             placeholder="Enter Outlet Address"
-            value={data.outletAddress}
-            onChangeText={handleChange(`outletAddress${index}`)}
-            onBlur={handleBlur(`outletAddress${index}`)}
+            value={data.address}
+            onChangeText={handleChange(`address${index}`)}
+            onBlur={handleBlur(`address${index}`)}
           />
           <Text style={styles.label}>PO Box_098</Text>
           <TextInput
             style={styles.input}
             placeholderTextColor="#7e84a3"
             placeholder="Enter PO Box"
-            value={data.poBox}
-            onChangeText={handleChange(`poBox${index}`)}
-            onBlur={handleBlur(`poBox${index}`)}
+            value={data.po_box}
+            onChangeText={handleChange(`po_box${index}`)}
+            onBlur={handleBlur(`po_box${index}`)}
           />
           <View style={styles.iconContainer}>
             <View style={styles.iconEditdel}>
@@ -194,18 +195,26 @@ const styles = StyleSheet.create({
 });
 
 const MainComponent = () => {
-  const data = [{outletAddress: '', poBox: ''}];
+  const data = [{address: '', po_box: '', is_default: false}];
   const [outlets, setOutlets] = useState(data);
 
+  // const handleChange = name => text => {
+  //   const [field, index] = name.match(/[a-zA-Z]+|[0-9]+/g);
+  //   setOutlets(prevOutlets => {
+  //     const newOutlets = [...prevOutlets];
+  //     newOutlets[index][field] = text;
+  //     return newOutlets;
+  //   });
+  // };
+
   const handleChange = name => text => {
-    const [field, index] = name.match(/[a-zA-Z]+|[0-9]+/g);
+    const [field, index] = name.split(/(\d+)/).filter(Boolean);
     setOutlets(prevOutlets => {
       const newOutlets = [...prevOutlets];
       newOutlets[index][field] = text;
       return newOutlets;
     });
   };
-
   const handleBlur = name => () => {
     // Handle blur event if needed
   };
@@ -219,7 +228,10 @@ const MainComponent = () => {
   };
 
   const handleAdd = () => {
-    setOutlets(prevOutlets => [...prevOutlets, {outletAddress: '', poBox: ''}]);
+    setOutlets(prevOutlets => [
+      ...prevOutlets,
+      {address: '', po_box: '', is_default: false},
+    ]);
   };
 
   const [resOutletData, setOutletData] = useState([]);
@@ -270,9 +282,47 @@ const MainComponent = () => {
     getOutletData();
   }, []);
 
-  const handleSubmit = () => {
-    console.log('Submitted Data:', outlets);
-    // You can process the data here, e.g., send it to a server or further manipulate it
+  const handleSubmit = async () => {
+    const storedToken = await retrieveToken();
+    console.log('Submitted Data:', outlets, storedToken);
+    let data = JSON.stringify({
+      arr: outlets,
+    });
+    try {
+      let config = {
+        method: 'post',
+        url: `${environmentVariables?.apiUrl}/api/user/add_edit_warehouse_or_retailer_address_data`,
+        headers: {
+          _token: storedToken,
+          'Content-Type': 'application/json',
+        },
+        data: data,
+      };
+
+      axios
+        .request(config)
+        .then(response => {
+          console.log(response.data, 'popopop');
+          getOutletData();
+          setOutlets([{address: '', po_box: '', is_default: false}]);
+          success({
+            type: 'success',
+            text: response?.data?.message,
+          });
+        })
+        .catch(error => {
+          success({
+            type: 'error',
+            text: error?.response?.data?.message || error?.message,
+          });
+        });
+    } catch (error) {
+      console.log('123123123', error?.response?.data?.message, error?.message);
+      success({
+        type: 'error',
+        text: error?.response?.data?.message || error?.message,
+      });
+    }
   };
 
   return (

@@ -19,8 +19,8 @@ import axios from 'axios';
 import {environmentVariables} from '../../config/Config';
 import {success} from '../../constants/ToastMessage';
 import VelidationSymbol from '../../constants/VelidationSymbol';
-import { POPPINS, ROBOTO } from '../../constants/CustomFontFamily';
-import { textColorCustom, white } from '../../constants/Theme';
+import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
+import {textColorCustom, white} from '../../constants/Theme';
 import CustomStyle from '../../Styles';
 
 export default function VendorDocument(nav) {
@@ -94,7 +94,7 @@ export default function VendorDocument(nav) {
         })
         .catch(error => {
           setToggle(true);
-          console.log(error,"errorerrorerror");
+          console.log(error, 'errorerrorerror');
           success({
             type: 'error',
             text: error?.response?.data?.message || error?.message,
@@ -142,12 +142,8 @@ export default function VendorDocument(nav) {
           </TouchableOpacity>
         </View>
         <View className="mt-5">
-          <Text
-            style={CustomStyle.signupHeading}>
-            Vendor Info
-          </Text>
-          <Text
-            style={CustomStyle.signupSubDec}>
+          <Text style={CustomStyle.signupHeading}>Vendor Info</Text>
+          <Text style={CustomStyle.signupSubDec}>
             Pick the type of account that suits your business or personal needs.
           </Text>
         </View>
@@ -156,11 +152,17 @@ export default function VendorDocument(nav) {
           <View className="flex flex-col">
             <View className="flex flex-row justify-between ">
               <Text
-                style={{fontFamily: POPPINS.PoppinsRegular,color:textColorCustom}}>
+                style={{
+                  fontFamily: POPPINS.PoppinsRegular,
+                  color: textColorCustom,
+                }}>
                 Profile Upload (3/3)
               </Text>
               <Text
-                style={{fontFamily: POPPINS.PoppinsRegular,color:textColorCustom}}>
+                style={{
+                  fontFamily: POPPINS.PoppinsRegular,
+                  color: textColorCustom,
+                }}>
                 100%
               </Text>
             </View>
@@ -171,14 +173,12 @@ export default function VendorDocument(nav) {
           <View>
             <Text
               className="pt-3 text-2xl"
-              style={{fontFamily: ROBOTO.RobotoMedium,color:blue}}>
+              style={{fontFamily: ROBOTO.RobotoMedium, color: 'blue'}}>
               Document Verification
             </Text>
           </View>
           <View className="mt-3">
-            <Text style={CustomStyle.inputLabel}>
-              Trade Licence
-            </Text>
+            <Text style={CustomStyle.inputLabel}>Trade Licence</Text>
             <TouchableOpacity
               className="h-[76px]"
               onPress={() => selectDocument('trade_license', 'trade_license')}>
@@ -282,9 +282,7 @@ export default function VendorDocument(nav) {
             )}
           </View>
           <View className="mt-3">
-            <Text style={CustomStyle.inputLabel}>
-              Emirates ID
-            </Text>
+            <Text style={CustomStyle.inputLabel}>Emirates ID</Text>
             <TouchableOpacity
               className="h-[76px]"
               onPress={() =>
@@ -331,7 +329,7 @@ export default function VendorDocument(nav) {
           className="flex flex-row items-center justify-center mt-8">
           <Text
             className=" flex flex-row  text-[19px]"
-            style={{fontFamily: ROBOTO.RobotoRegular,color:white}}>
+            style={{fontFamily: ROBOTO.RobotoRegular, color: white}}>
             SUBMIT
           </Text>
           {toggle ? null : (
@@ -343,7 +341,6 @@ export default function VendorDocument(nav) {
   );
 }
 const styles = StyleSheet.create({
-
   input: {
     margin: 3,
     borderWidth: 0,

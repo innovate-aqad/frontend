@@ -314,8 +314,8 @@ export default function Login(nav) {
               //   id: 'd3c410d0a9c54ee39f1a70057cb6df6d',
               // });
               // nav.navigation.navigate('productIndex');
-              nav.navigation.navigate('retailerIndex');
-              // nav.navigation.navigate('signup');
+              // nav.navigation.navigate('retailerIndex');
+              nav.navigation.navigate('signup');
             }}>
             <Text
               style={{
