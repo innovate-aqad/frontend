@@ -48,7 +48,7 @@ const OutletCard = ({
             onChangeText={handleChange(`address${index}`)}
             onBlur={handleBlur(`address${index}`)}
           />
-          <Text style={styles.label}>PO Box_098</Text>
+          <Text style={styles.label}>PO Box</Text>
           <TextInput
             style={styles.input}
             placeholderTextColor="#7e84a3"
@@ -325,6 +325,34 @@ const MainComponent = () => {
     }
   };
 
+  const DeleteOutlet = async item => {
+    const storedToken = await retrieveToken();
+
+    try {
+      const response = await axios.delete(
+        `${environmentVariables?.apiUrl}/api/user/delete_warehouse_or_retailer_address`,
+        {
+          headers: {
+            _token: storedToken,
+          },
+          data: {
+            po_box: item?.po_box,
+          },
+        },
+      );
+      getOutletData();
+      success({
+        type: 'success',
+        text: response?.data?.message,
+      });
+      console.log('rrrrrrr', response?.data);
+    } catch (error) {
+      success({
+        type: 'error',
+        text: error?.response?.data?.message || error?.message,
+      });
+    }
+  };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#F5F5F5'}}>
       <View>

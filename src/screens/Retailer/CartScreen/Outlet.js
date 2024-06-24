@@ -17,6 +17,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {retrieveToken} from '../../../Shared/EncryptionDecryption/Token';
 import axios from 'axios';
 import {environmentVariables} from '../../../../config/Config';
+import {success} from '../../../constants/ToastMessage';
 
 export default function Outlet(nav) {
   const [select, setSelect] = useState(0);
@@ -81,6 +82,57 @@ export default function Outlet(nav) {
     getOutletData();
   }, []);
 
+  const changeStatusToDefault = async item => {
+    const storedToken = await retrieveToken();
+    let data = JSON.stringify({
+      po_box: item?.po_box,
+      is_default: true,
+    });
+
+    let config = {
+      method: 'put',
+      url: `${environmentVariables?.apiUrl}/api/user/change_warehouse_or_retailer`,
+      headers: {
+        _token: storedToken,
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then(response => {
+        console.log(response.data, 'hfhfhffh');
+        getOutletData();
+        success({
+          type: 'success',
+          text: response?.data?.message,
+        });
+      })
+      .catch(error => {
+        console.log('errrrr', error?.response?.data?.message);
+
+        success({
+          type: 'error',
+          text: error?.response?.data?.message || error?.message,
+        });
+      });
+
+    try {
+      const response = await axios.put(
+        `${environmentVariables?.apiUrl}/api/user/change_warehouse_or_retailer`,
+        {
+          headers: {
+            _token: storedToken,
+          },
+          data: {
+            po_box: item?.po_box,
+            is_default: true,
+          },
+        },
+      );
+    } catch (error) {}
+  };
 
   return (
     <SafeAreaView>
@@ -296,12 +348,7 @@ export default function Outlet(nav) {
               return (
                 <TouchableOpacity
                   key={index}
-                  // className={
-                  //   !(show == index)
-                  //     ? 'flex flex-row mx-0 items-center justify-center'
-                  //     : 'flex flex-row items-center justify-center'
-                  // }
-                >
+                  onPress={() => changeStatusToDefault(item)}>
                   <View className="p-2.5 mt-2 bg-[#f96900] rounded-lg">
                     <View className="flex flex-row">
                       <View className="w-[10%] text-blue-500">
@@ -353,35 +400,7 @@ export default function Outlet(nav) {
                             style={{letterSpacing: 0.08}}>
                             {item?.address}
                           </Text>
-                          <TouchableOpacity
-                            onPress={() => showMenu(index)}
-                            className="mt-3">
-                            <Entypo
-                              name="dots-three-vertical"
-                              size={20}
-                              color="#cbcbcb"
-                            />
-                          </TouchableOpacity>
                         </View>
-                      </View>
-                    </View>
-                    <View
-                      className={
-                        !(show == index) ? 'hidden' : 'flex flex-row mr-[80px] '
-                      }>
-                      <View className="flex flex-row items-center gap-2 ml-2">
-                        <TouchableOpacity
-                          className="p-3 bg-red-100 rounded-xl"
-                          onPress={() => DeleteOutlet(item)}>
-                          <Image
-                            style={{
-                              tintColor: '#df6886',
-                              height: 17,
-                              width: 17,
-                            }}
-                            source={require('../../../Assets/image/trash.png')}
-                          />
-                        </TouchableOpacity>
                       </View>
                     </View>
                     <View>
