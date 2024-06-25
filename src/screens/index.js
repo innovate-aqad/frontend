@@ -61,6 +61,9 @@ import OtpScreen from './otp_screen/OtpScreen';
 import SearchFilter from './Vendor/SearchFilter';
 import ProductFilter from './Vendor/SearchFilter/ProductFilter';
 
+import PrivacyPolicy from '../Shared/settings/privacySecurity/PrivacyPolicy';
+import PolicyRoutes from '../Shared/settings/privacySecurity/index';
+import TermsCondition from '../Shared/settings/privacySecurity/TermsCondition';
 export default function Index() {
   const Stack = createNativeStackNavigator();
   return (
@@ -106,6 +109,15 @@ export default function Index() {
       <Stack.Screen name="editProductVariant" component={EditProductVariant} />
 
       {/* Inventory Management start */}
+
+      {/* Inventory Management start */}
+      <Stack.Screen
+        name="inventoryManagement"
+        component={InventoryManagement}
+      />
+      <Stack.Screen name="addUserInfo" component={AddUserInfo} />
+      <Stack.Screen name="userList" component={UserList} />
+      <Stack.Screen name="editUser" component={EditUser} />
       <Stack.Screen name="inventoryLists" component={InventoryLists} />
       <Stack.Screen name="textLine" component={TextLine} />
       {/* Inventory Management end */}
@@ -126,6 +138,9 @@ export default function Index() {
 
       <Stack.Screen name="appearance" component={Appearance} />
 
+      <Stack.Screen name="privacyPolicy" component={PrivacyPolicy} />
+      <Stack.Screen name="privacyRoute" component={PolicyRoutes} />
+      <Stack.Screen name="termsCondition" component={TermsCondition} />
       {/* setting page end */}
 
       {/* remaining page start */}
@@ -136,8 +151,6 @@ export default function Index() {
       {/* Notification screen start */}
       <Stack.Screen name="notification" component={Notification} />
       {/* Notification screen end */}
-
-
 
       {/* search and filter start screen */}
       {/* SearchFilter */}

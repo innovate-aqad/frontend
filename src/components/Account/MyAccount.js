@@ -10,13 +10,13 @@ import {
 } from '../../constants/Theme';
 import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
 import TermCondition from '../../Shared/TermCondition';
-import { success } from '../../constants/ToastMessage';
+import {success} from '../../constants/ToastMessage';
 export default function MyAccount(nav) {
   const navigation = useNavigation();
 
-  const showPopupMEssage=()=>{
-    success({text:"hello boy this message",type:"success"})
-  }
+  const showPopupMEssage = () => {
+    success({text: 'hello boy this message', type: 'success'});
+  };
   return (
     <View
       className="flex flex-col h-full p-5 py-8"
@@ -55,7 +55,7 @@ export default function MyAccount(nav) {
           <TouchableOpacity
             style={styles.btn}
             className="p-3 w-[48%] rounded-full"
-            onPress={() => nav.navigation.navigate('Login')}>
+            onPress={() => nav.navigation.navigate('privacyRoute')}>
             <Text
               className="text-center text-[13px]"
               style={{fontFamily: POPPINS.PoppinsRegular, color: white}}>
@@ -67,8 +67,8 @@ export default function MyAccount(nav) {
             className="p-3 w-[48%] rounded-full"
             onPress={() => {
               // nav.navigation.navigate('VendorDrawer');
-              navigation.replace('signup')
-             } }>
+              navigation.replace('signup');
+            }}>
             <Text
               className="text-center text-[13px]"
               style={{fontFamily: POPPINS.PoppinsRegular, color: blue}}>
@@ -91,4 +91,4 @@ const styles = StyleSheet.create({
     color: white,
     backgroundColor: btnBackround,
   },
-}); 
+});
