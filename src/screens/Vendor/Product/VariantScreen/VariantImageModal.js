@@ -24,7 +24,7 @@ import SelectMultiple from '../../../../Shared/MultiSelect';
 import CustomButton from '../../../../Shared/CustomButton';
 import {POPPINS, ROBOTO} from '../../../../constants/CustomFontFamily';
 import Modal from 'react-native-modal';
-import { Card } from 'react-native-paper';
+import {Card} from 'react-native-paper';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const VariantImageModal = () => {
@@ -40,10 +40,9 @@ const VariantImageModal = () => {
         //   setModalVisible(!modalVisible);
         // }}
         isVisible={modalVisible}
-        backdropColor='#00274D'
+        backdropColor="#00274D"
         backdropOpacity={0.6}
-        animationType="slide"
-        >
+        animationType="slide">
         <View style={[styles.centeredView]}>
           <View style={styles.modalView}>
             <View className="flex flex-row justify-between p-2">
@@ -54,44 +53,45 @@ const VariantImageModal = () => {
             </View>
             <View className="m-2">
               <Text style={CustomStyle.inputLabel}>Product Variant Image</Text>
-             
+
               <TouchableOpacity
-              className="h-[76px]"
-            //   onPress={() => selectDocument('trade_license', 'trade_license')}
+                className="h-[76px]"
+                //   onPress={() => selectDocument('trade_license', 'trade_license')}
               >
-              <Card.Title
-                className="bg-white shadow rounded-xl"
-                style={{shadowColor:grayColor}}
-                // title={selectedDocuments.trade_license || 'Click to Upload'}
-                titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
-                subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
-                subtitleStyle={{
-                  color: 'black',
-                  paddingBottom: 4.5,
-                  color: '#7e84a3',
-                  fontSize: 10,
-                }}
-                left={props => (
-                  <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#D0DFFF] bg-[#E6EEFF]">
-                    <Image
-                      style={{height: 24, width: 20}}
-                      source={require('../../../../Assets/image/file_upload.png')}
-                    />
-                  </View>
-                )}
-              />
-            </TouchableOpacity>
+                <Card.Title
+                  className="bg-white shadow rounded-xl"
+                  style={{shadowColor: grayColor}}
+                  // title={selectedDocuments.trade_license || 'Click to Upload'}
+                  titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
+                  subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
+                  subtitleStyle={{
+                    color: 'black',
+                    paddingBottom: 4.5,
+                    color: '#7e84a3',
+                    fontSize: 10,
+                  }}
+                  left={props => (
+                    <View className="flex flex-row items-center pt-2 pb-2.5 pl-3 border rounded-full pr-7 border-[#D0DFFF] bg-[#E6EEFF]">
+                      <Image
+                        style={{height: 24, width: 20}}
+                        source={require('../../../../Assets/image/file_upload.png')}
+                      />
+                    </View>
+                  )}
+                />
+              </TouchableOpacity>
 
-            <View className="mt-4">
-                <Text style={{fontFamily:POPPINS.PoppinsMedium,fontSize:10,color:grayColor}}>
-                Uploaded Images
+              <View className="mt-4">
+                <Text
+                  style={{
+                    fontFamily: POPPINS.PoppinsMedium,
+                    fontSize: 10,
+                    color: grayColor,
+                  }}>
+                  Uploaded Images
                 </Text>
-                <View>
-
-                </View>
-            </View>
-
-
+                <View></View>
+              </View>
 
               <View className="flex flex-row mx-auto mt-3">
                 <TouchableOpacity
@@ -137,7 +137,19 @@ const VariantImageModal = () => {
           </View>
         </View>
       </Modal>
-      <CustomAddButton onPress={() => setModalVisible(true)} />
+      {/* <CustomAddButton onPress={() => setModalVisible(true)} /> */}
+      <TouchableOpacity
+        onPress={() => setModalVisible(true)}
+        style={{
+          backgroundColor: '#E6EEFF',
+          padding: 7,
+          borderRadius: 10,
+        }}>
+        <Image
+          style={{height: 15, width: 15, tintColor: '#0058ff'}}
+          source={require('../../../../Assets/image/vendor/add-image.png')}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -147,7 +159,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    margin:"auto"
+    margin: 'auto',
   },
   modalView: {
     marginRight: 40,

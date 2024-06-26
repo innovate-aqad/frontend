@@ -13,6 +13,7 @@ import downArrow from '../../../../Assets/image/vendor/downArrow.svg';
 import SvgUri from 'react-native-svg-uri';
 import CollapseTable from './CollapseTable';
 import InputTextField from '../../../../Shared/InputTextField';
+import VariantImageModal from './VariantImageModal';
 
 const TableVariation = () => {
   const [page, setPage] = React.useState(0);
@@ -95,17 +96,7 @@ const TableVariation = () => {
             <DataTable.Cell style={{minWidth: 125}}>
               <View className="flex flex-row items-center">
                 <Checkbox />
-                <View
-                  style={{
-                    backgroundColor: '#E6EEFF',
-                    padding: 7,
-                    borderRadius: 10,
-                  }}>
-                  <Image
-                    style={{height: 15, width: 15, tintColor: '#0058ff'}}
-                    source={require('../../../../Assets/image/vendor/add-image.png')}
-                  />
-                </View>
+                  <VariantImageModal/>
                 <Text style={styles.td}>{item.name}</Text>
               </View>
             </DataTable.Cell>

@@ -12,6 +12,7 @@ import {POPPINS} from '../../../../constants/CustomFontFamily';
 import downArrow from '../../../../Assets/image/vendor/downArrow.svg';
 import SvgUri from 'react-native-svg-uri';
 import SelectWarehouseModal from './SelectWarehouseModal';
+import VariantImageModal from './VariantImageModal';
 
 const CollapseTable = ({openCollapse}) => {
   const [page, setPage] = React.useState(0);
@@ -49,7 +50,7 @@ const CollapseTable = ({openCollapse}) => {
           <DataTable.Cell style={{minWidth: 125}}>
             <View className="flex flex-row items-center">
               <Checkbox />
-              <View
+              {/* <View
                 style={{
                   backgroundColor: '#E6EEFF',
                   padding: 7,
@@ -59,7 +60,8 @@ const CollapseTable = ({openCollapse}) => {
                   style={{height: 15, width: 15, tintColor: '#0058ff'}}
                   source={require('../../../../Assets/image/vendor/add-image.png')}
                 />
-              </View>
+              </View> */}
+              <VariantImageModal/>
               <Text style={styles.td}>name</Text>
             </View>
           </DataTable.Cell>

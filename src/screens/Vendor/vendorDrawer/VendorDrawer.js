@@ -26,15 +26,6 @@ import usd_circle from "../../../Assets/image/vendor/usd_circle.svg"
 import heart_partner_handshake from "../../../Assets/image/vendor/heart_partner_handshake.svg"
 import point_of_sale_bill from "../../../Assets/image/vendor/point_of_sale_bill.svg"
 
-
-
-
-
-
-
-
-
-
 import UpcommingScreen from '../../../Shared/UpcommingScreen';
 import userManagement from './UserManagement';
 import SettingHome from '../../../Shared/settings/SettingHome';
@@ -45,16 +36,12 @@ const userContact = 'user@example.com';
 
 const shouldShowHeader = route => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? route.name;
-  console.log(route.name, 'nameeee======>');
-  console.log('Current route:', routeName);
   return (
     routeName === 'productIndex' ||
     routeName === 'Dashboard' ||
     routeName === 'vendordash'
   );
 };
-
-// const showHeader = shouldShowHeader(route);
 
 export default function VendorDrawer() {
   return (
@@ -86,6 +73,8 @@ export default function VendorDrawer() {
           drawerItemStyle: {height: 0},
         }}
       />
+
+      
       <Drawer.Screen
         name="vendordash"
         component={Dashboard}

@@ -16,6 +16,8 @@ import SelectWarehouseModal from './SelectWarehouseModal';
 import VariantImageModal from './VariantImageModal';
 import Checkbox from '../../../../Shared/Checkbox';
 import TableVariation from './TableVariation';
+import SelectMultiple, { WarehouseMultiSelect } from '../../../../Shared/MultiSelect';
+import CustomButton from '../../../../Shared/CustomButton';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -25,11 +27,11 @@ export default function ProductVariantAdd() {
     <View
       style={{
         width: windowWidth,
-        height: windowHeight,
+        // height: windowHeight,
         backgroundColor: screenBackground,
         paddingVertical: 12,
         // paddingHorizontal: 25,
-        // marginBottom:50
+        marginBottom:100
       }}>
       <View style={{paddingHorizontal: 25}}>
         <Text
@@ -135,13 +137,21 @@ export default function ProductVariantAdd() {
         <VariantImageModal/> */}
         </View>
       </View>
+      
       <ScrollView showsHorizontalScrollIndicator={true} horizontal>
         <TableVariation/>
       </ScrollView>
 
-      {/* <View className="relative bg-green-500 bottom-24">
+      <View className="relative bottom-0 h-40 p-2 mx-5">
         <Text style={{color:blue,fontFamily:ROBOTO.RobotoBold,fontSize:13}}>Select Warehouse</Text>
-      </View> */}
+        <View style={{backgroundColor:white,height:200,marginTop:8,borderRadius:15,padding:10}}>
+        <Text style={{color:blue,fontFamily:POPPINS.PoppinsMedium,fontSize:13}}>Warehouse Address</Text>
+            <WarehouseMultiSelect/>
+        </View>
+      </View>
+      <View className="m-5 mt-24">
+        <CustomButton text={"SUBMIT"}/>
+      </View>
     </View>
     </ScrollView>
   );

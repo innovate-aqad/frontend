@@ -60,6 +60,7 @@ import EditProductVariant from './EditProductVariant/EditProductVariant';
 import OtpScreen from './otp_screen/OtpScreen';
 import SearchFilter from './Vendor/SearchFilter';
 import ProductFilter from './Vendor/SearchFilter/ProductFilter';
+import RetailerDrawer from './retailer_drawer/RetailerDrawer';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -68,6 +69,7 @@ export default function Index() {
       <Stack.Screen name="SplashScreen" component={SplashScreen} />
       <Stack.Screen name="mainapp" component={MainApp} />
       <Stack.Screen name="VendorDrawer" component={VendorDrawer} />
+      <Stack.Screen name="retailerDrawer" component={RetailerDrawer} />
 
       <Stack.Screen name="universalButtomtab" component={UniversalButtomtab} />
       <Stack.Screen name="Login" component={Login} />
@@ -77,7 +79,7 @@ export default function Index() {
       <Stack.Screen name="forgot" component={Forgot} />
       <Stack.Screen name="verifypassword" component={VerifyPassword} />
       <Stack.Screen name="dashboard" component={Dashboard} />
-      <Stack.Screen name="productIndex" component={ProductIndex} />
+      {/* <Stack.Screen name="productIndex" component={ProductIndex} /> */}
       <Stack.Screen name="vendor" component={VendorInfo} />
       <Stack.Screen name="business" component={VendorBusiness} />
       <Stack.Screen name="document" component={VendorDocumet} />
@@ -86,7 +88,7 @@ export default function Index() {
       <Stack.Screen name="logisdocument" component={Logisticdocument} />
       <Stack.Screen name="addbutton" component={Addbutton} />
       <Stack.Screen name="otpscreen" component={OtpScreen} />
-      <Stack.Screen name="retailerIndex" component={RetailerIndex} />
+      {/* <Stack.Screen name="retailerIndex" component={RetailerIndex} /> */}
       <Stack.Screen name="logisticIndex" component={LogisticIndex} />
       <Stack.Screen name="logidrivdetail" component={Logidriverdetails} />
       <Stack.Screen name="retailer" component={Retailerinfo} />

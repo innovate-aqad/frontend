@@ -77,6 +77,70 @@ const SelectMultiple = () => {
 
 export default SelectMultiple;
 
+
+export const WarehouseMultiSelect = () => {
+  const [selected, setSelected] = useState([]);
+
+  console.log(selected,"selectedselectedselected");
+
+  const renderItem = (item,index) => {
+    return (
+      <View style={styles.item} key={index}>
+        <Text style={styles.selectedTextStyle}>{item.label}</Text>
+        <Entypo
+          style={styles.icon}
+          color="#cbcbcb"
+          name="chevron-small-down"
+          size={30}
+        />
+      </View>
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      <MultiSelect
+        style={styles.dropdown}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={[styles.selectedTextStyle,{color:"red"}]}
+        inputSearchStyle={[styles.inputSearchStyle,{color:"green"}]}
+        iconStyle={styles.iconStyle}
+        data={data}
+        itemTextStyle={{color:"black"}}
+        labelField="label"
+        valueField="value"
+        placeholder="Select Types"
+        value={selected}
+        search
+        searchPlaceholder="Search..."
+        onChange={item => {
+          setSelected(item);
+        }}
+        renderRightIcon={() => (
+          <Entypo
+            style={styles.icon}
+            color="#cbcbcb"
+            name="chevron-small-down"
+            size={30}
+          />
+        )}
+        renderItem={renderItem}
+        renderSelectedItem={(item, unSelect) => (
+          <TouchableOpacity className="flex flex-col w-full" onPress={() => unSelect && unSelect(item)}>
+            <View style={[styles.selectedStyle1]}>
+              <View>
+              <Text style={{color:blue,fontSize:10,fontFamily:POPPINS.PoppinsMedium}}>Warehouse 1</Text>
+              <Text style={{fontFamily:POPPINS.PoppinsLight,fontSize:10,color:grayColor}}>{item.label}</Text>
+              </View>
+              <AntDesign name="close" size={16} color={lightGray} />
+            </View>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {padding: 0},
   dropdown: {
@@ -122,6 +186,26 @@ const styles = StyleSheet.create({
     marginTop: 8,
     height:30,
     width:83,
+    marginRight: 3,
+    paddingHorizontal: 7,
+    paddingVertical: 2,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+  },
+  selectedStyle1: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderRadius: 10,
+    backgroundColor: '#E6EEFF',
+    shadowColor: '#000',
+    marginTop: 8,
+    height:45,
+    width:"100%",
     marginRight: 3,
     paddingHorizontal: 7,
     paddingVertical: 2,
