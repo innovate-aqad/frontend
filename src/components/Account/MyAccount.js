@@ -66,14 +66,14 @@ export default function MyAccount(nav) {
             style={{backgroundColor: '#e6e9f4'}}
             className="p-3 w-[48%] rounded-full"
             onPress={() => {
-              // nav.navigation.navigate('VendorDrawer');
-              nav.navigation.navigate('retailerDrawer');
+              nav.navigation.navigate('VendorDrawer');
+              // nav.navigation.navigate('retailerDrawer');
               // navigation.replace('productFilter')
              } }>
             <Text
               className="text-center text-[13px]"
               style={{fontFamily: POPPINS.PoppinsRegular, color: blue}}>
-              Sign Up
+              Sign Up  
             </Text>
           </TouchableOpacity>
         </View>

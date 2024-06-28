@@ -29,33 +29,33 @@ const shouldShowHeader = route => {
 export default function RetailerDrawer() {
   return (
     <Drawer.Navigator
-    // initialRouteName="retailerIndex"
-    // drawerContent={props => (
-    //   <CustomDrawerContent {...props} userContact={userContact} />
-    // )}
-    // screenOptions={({navigation}) => ({
-    //   header: () => <Header navigation={navigation} />,
-    //   drawerStyle: {
-    //     width: '80%',
-    //   },
-    //   // drawerActiveTintColor: '#6200EE', // Customize this to your preferred active color
-    //   // drawerInactiveTintColor: '#000000',
-    // })}
     initialRouteName="retailerIndex"
-      drawerContent={props => (
-        <CustomDrawerContent {...props} userContact={userContact} />
-      )}
-      screenOptions={({route, navigation}) => {
-        const showHeader = shouldShowHeader(route);
+    drawerContent={props => (
+      <CustomDrawerContent {...props} userContact={userContact} />
+    )}
+    screenOptions={({navigation}) => ({
+      header: () => <Header navigation={navigation} />,
+      drawerStyle: {
+        width: '80%',
+      },
+      // drawerActiveTintColor: '#6200EE', // Customize this to your preferred active color
+      // drawerInactiveTintColor: '#000000',
+    })}
+    // initialRouteName="retailerIndex"
+    //   drawerContent={props => (
+    //     <CustomDrawerContent {...props} userContact={userContact} />
+    //   )}
+    //   screenOptions={({route, navigation}) => {
+    //     const showHeader = shouldShowHeader(route);
 
-        return {
-          header: () =>
-            <Header navigation={navigation} /> ,
-          drawerStyle: {
-            width: '80%',
-          },
-        };
-      }}
+    //     return {
+    //       header: () =>
+    //         <Header navigation={navigation} /> ,
+    //       drawerStyle: {
+    //         width: '80%',
+    //       },
+    //     };
+    //   }}
     >
 
 

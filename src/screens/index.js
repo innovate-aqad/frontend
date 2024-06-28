@@ -50,7 +50,7 @@ import SuccessAuthontication from '../Shared/settings/twoFactors/SuccessAuthonti
 import MainApp from '../components/drawerNavigation/MainApp';
 import OtpVerify from './OtpVerify';
 import VendorDrawer from './Vendor/vendorDrawer/VendorDrawer';
-import Support from '../RemainingPageSetup/Support';
+// import Support from '../RemainingPageSetup/Support';
 import RattingReview from '../RemainingPageSetup/RattingReview';
 import Appearance from '../Shared/settings/Appearane';
 import Notification from '../pages/Notification';
@@ -61,6 +61,7 @@ import OtpScreen from './otp_screen/OtpScreen';
 import SearchFilter from './Vendor/SearchFilter';
 import ProductFilter from './Vendor/SearchFilter/ProductFilter';
 import RetailerDrawer from './retailer_drawer/RetailerDrawer';
+import LiveChat from './Vendor/Account/LiveChat';
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -131,7 +132,7 @@ export default function Index() {
       {/* setting page end */}
 
       {/* remaining page start */}
-      <Stack.Screen name="support" component={Support} />
+      {/* <Stack.Screen name="support" component={Support} /> */}
       <Stack.Screen name="rattingReview" component={RattingReview} />
       {/* remaining page end Support */}
 
@@ -146,6 +147,10 @@ export default function Index() {
       <Stack.Screen name="searchFilter" component={SearchFilter} />
       <Stack.Screen name="productFilter" component={ProductFilter} />
       {/* search and filter end screen */}
+
+      {/* support live chat start */}
+      <Stack.Screen name="liveChat" component={LiveChat} />
+      {/* support live chat end  */}
     </Stack.Navigator>
   );
 }

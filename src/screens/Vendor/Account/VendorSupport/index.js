@@ -1,28 +1,23 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {Button, View} from 'react-native';
-import {Text} from 'react-native-svg';
-import MyAccount from './MyAccount';
-import PersonalInformation from './PersonalInformation';
-import WareHouseDetails from '../../WareHouseDetails/WareHouseDetails';
-import CompanyDetail from './CompanyDetail';
-import IntegrationSettings from './IntegrationSettings';
-import VendorSupportRoute from './VendorSupport';
+import EmailUs from './EmailUs';
+import Support from './Support';
+import LiveChat from '../LiveChat';
 
 const stack = createNativeStackNavigator();
 
-export default function AccountIndex() {
+export default function VendorSupportRoute() {
   return (
     <stack.Navigator>
       <stack.Screen
-        name="myAccount"
-        component={MyAccount}
+        name="support"
+        component={Support}
         options={{
           headerShown: false,
-          title: 'MY ACCOUNT',
+          title: 'User Management',
           headerStyle: {
             backgroundColor: '#f4511e',
-            borderRadius:20
+            borderRadius: 20,
           },
           headerTitleAlign: 'center',
           headerTintColor: '#fff',
@@ -33,68 +28,52 @@ export default function AccountIndex() {
         }}
       />
       <stack.Screen
-        name="personalInfo"
-        component={PersonalInformation}
-        options={{
-          headerShown: true,
-          title: 'PERSONAL INFO',
-          headerStyle: {
-            backgroundColor: '#f4511e',
-            borderRadius:20
-          },
-          headerTitleAlign: 'center',
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            color: 'white',
-          },
-        }}
-      />
-       <stack.Screen
-        name="warehouse"
-        component={WareHouseDetails}
-        options={{
-          headerShown: true,
-          title: 'WAREHOUSE DETAILS',
-          headerStyle: {
-            backgroundColor: '#f4511e',
-            borderRadius:20
-          },
-          headerTitleAlign: 'center',
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            color: 'white',
-          },
-        }}
-      />
-      <stack.Screen
-        name="companyDetails"
-        component={CompanyDetail}
-        options={{
-          headerShown: true,
-          title: 'COMPANY DETAILS',
-          headerStyle: {
-            backgroundColor: '#f4511e',
-            borderRadius:20
-          },
-          headerTitleAlign: 'center',
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            color: 'white',
-          },
-        }}
-      />
-      <stack.Screen
-        name="integrationSettings"
-        component={IntegrationSettings}
+        name="emailUs"
+        component={EmailUs}
         options={{
           headerShown: false,
-          title: 'Integration Settings',
+          title: 'User Management',
           headerStyle: {
             backgroundColor: '#f4511e',
-            borderRadius:20
+            borderRadius: 20,
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+          },
+        }}
+      />
+      {/* <stack.Screen
+        name="liveChat"
+        component={LiveChat}
+        options={{
+          headerShown: false,
+          title: 'User Management',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+            borderRadius: 20,
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+          },
+        }}
+      /> */}
+
+      {/* LiveChat */}
+      {/* <stack.Screen
+        name="userList"
+        component={UserList}
+        options={{
+          headerShown: false,
+          title: 'USER LIST',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+            borderRadius: 20,
           },
           headerTitleAlign: 'center',
           headerTintColor: '#fff',
@@ -105,14 +84,14 @@ export default function AccountIndex() {
         }}
       />
       <stack.Screen
-        name="vendorSupportRoute"
-        component={VendorSupportRoute}
+        name="addUserInfo"
+        component={AddUserInfo}
         options={{
           headerShown: false,
-          title: 'Integration Settings',
+          title: 'ADD USER INFO',
           headerStyle: {
             backgroundColor: '#f4511e',
-            borderRadius:20
+            borderRadius: 20,
           },
           headerTitleAlign: 'center',
           headerTintColor: '#fff',
@@ -122,8 +101,28 @@ export default function AccountIndex() {
           },
         }}
       />
+      <stack.Screen
+        name="editUser"
+        component={EditUser}
+        options={{
+          headerShown: false,
+          title: 'EDIT USER',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+            borderRadius: 20,
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+          },
+        }}
+      /> */}
+
+      {/* UserList */}
     </stack.Navigator>
   );
 }
 
-// VendorSupportRoute
+//
