@@ -12,7 +12,7 @@ import { blue, grayColor } from '../../constants/Theme';
 import { POPPINS } from '../../constants/CustomFontFamily';
 
 export default function CustomDrawerContent(props) {
-  console.log(props, 'props====');
+  // console.log(props, 'props====');
   const [isChatExpanded, setIsChatExpanded] = useState(false);
   const [isRequestExpanded, setIsRequestExpened] = useState(false);
 
