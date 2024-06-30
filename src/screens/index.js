@@ -63,6 +63,13 @@ import ProductFilter from './Vendor/SearchFilter/ProductFilter';
 import RetailerDrawer from './retailer_drawer/RetailerDrawer';
 import LiveChat from './Vendor/Account/LiveChat';
 
+import PrivacyPolicy from '../Shared/settings/privacySecurity/PrivacyPolicy';
+import PolicyRoutes from '../Shared/settings/privacySecurity/index';
+import TermsCondition from '../Shared/settings/privacySecurity/TermsCondition';
+import FrequentlyMain from '../components/frequently/FrequentlyMain';
+import AlertMain from '../components/alertNotifications/AlertMain';
+import PosMain from '../components/posIntegration/PosMain';
+import PosQb from '../components/posQb/PosQb';
 export default function Index() {
   const Stack = createNativeStackNavigator();
   return (
@@ -109,6 +116,15 @@ export default function Index() {
       <Stack.Screen name="editProductVariant" component={EditProductVariant} />
 
       {/* Inventory Management start */}
+
+      {/* Inventory Management start */}
+      <Stack.Screen
+        name="inventoryManagement"
+        component={InventoryManagement}
+      />
+      <Stack.Screen name="addUserInfo" component={AddUserInfo} />
+      <Stack.Screen name="userList" component={UserList} />
+      <Stack.Screen name="editUser" component={EditUser} />
       <Stack.Screen name="inventoryLists" component={InventoryLists} />
       <Stack.Screen name="textLine" component={TextLine} />
       {/* Inventory Management end */}
@@ -129,6 +145,9 @@ export default function Index() {
 
       <Stack.Screen name="appearance" component={Appearance} />
 
+      <Stack.Screen name="privacyPolicy" component={PrivacyPolicy} />
+      <Stack.Screen name="privacyRoute" component={PolicyRoutes} />
+      <Stack.Screen name="termsCondition" component={TermsCondition} />
       {/* setting page end */}
 
       {/* remaining page start */}
@@ -140,17 +159,28 @@ export default function Index() {
       <Stack.Screen name="notification" component={Notification} />
       {/* Notification screen end */}
 
-
-
       {/* search and filter start screen */}
       {/* SearchFilter */}
       <Stack.Screen name="searchFilter" component={SearchFilter} />
       <Stack.Screen name="productFilter" component={ProductFilter} />
+
       {/* search and filter end screen */}
 
       {/* support live chat start */}
       <Stack.Screen name="liveChat" component={LiveChat} />
       {/* support live chat end  */}
+      {/* FAQ start*/}
+      <Stack.Screen name="frequently" component={FrequentlyMain} />
+      {/* FAQ end */}
+      {/* Notification and Alert start */}
+      <Stack.Screen name="alert" component={AlertMain} />
+      {/* Notification anf Alert end */}
+      {/* POS  start */}
+      <Stack.Screen name="pos" component={PosMain} />
+      {/*POS end */}
+      {/* POSQB  start */}
+      <Stack.Screen name="posqb" component={PosQb} />
+      {/*POSQB end */}
     </Stack.Navigator>
   );
 }

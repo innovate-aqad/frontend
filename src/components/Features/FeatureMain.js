@@ -25,7 +25,6 @@ export default function FeatureMain() {
         <TouchableOpacity
           onPress={() => setValue('left')}
           className="w-[50%] h-[39px]"
-
           style={[
             CustomStyle.invactiveButton,
             value === 'left' && styles.selectedToggleButton,
