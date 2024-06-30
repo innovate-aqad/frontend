@@ -2,7 +2,6 @@ import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {StyleSheet} from 'react-native';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
-import Aboutus from './Aboutus';
 import FAQ from './FAQ';
 import Rating from './Rating';
 import Settings from './Settings';
@@ -21,6 +20,7 @@ import feedback_review from '../../Assets/image/feedback_review.svg';
 import settings from '../../Assets/image/settings.svg';
 import { POPPINS } from '../../constants/CustomFontFamily';
 import { grayColor } from '../../constants/Theme';
+import AboutUs from './AboutUs';
 
 const Drawer = createDrawerNavigator();
 const userContact = 'user@example.com'; 
@@ -74,7 +74,7 @@ export default function MainApp() {
       />
       <Drawer.Screen
         name="About Us"
-        component={Aboutus}
+        component={AboutUs}
         options={{
           drawerIcon: () => <SvgUri source={info} />,
           title: 'About Us',
