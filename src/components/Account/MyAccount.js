@@ -66,7 +66,7 @@ export default function MyAccount(nav) {
             style={{backgroundColor: '#e6e9f4'}}
             className="p-3 w-[48%] rounded-full"
             onPress={() => {
-              // nav.navigation.navigate('VendorDrawer');
+              //nav.navigation.navigate('vendor');
               navigation.replace('signup');
             }}>
             <Text

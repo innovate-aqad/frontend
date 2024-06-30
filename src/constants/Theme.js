@@ -1,4 +1,3 @@
-
 // use my sceen
 export const screenBackground = '#f5f5f5';
 export const white = '#fff';
@@ -15,13 +14,6 @@ export const lowGray = '#7c7c7c';
 export const customGreen = '#21d59b';
 export const customRed = '#f0142f';
 export const customLightState = '#e6e9f4';
-
-
-
-
-
-
-
 
 // Not Use My screeen
 export const black = '#191622';

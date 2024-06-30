@@ -76,8 +76,7 @@ export default function VendorInfo(nav) {
     initialValues,
     validationSchema: VendorRegisterSchema,
     onSubmit: async (values, action) => {
-
-      console.log("skldf====================>");
+      console.log('skldf====================>');
       setToggle(false);
       const formdata = new FormData();
       formdata.append('name', values.fullName);
@@ -164,10 +163,10 @@ export default function VendorInfo(nav) {
   const sendOtp = async email => {
     try {
       await SendOtpSchema.validate({email});
-      
+
       setErrorValue('');
       const response = await axios.get(
-        `${environmentVariables?.apiUrl}/api/user/send_otp_to_email?email=${email}`,
+        `http://localhost:2000/api/user/send_otp_to_email?email=${email}`,
       );
       success({type: 'success', text: response.data.message});
       if (response?.data?.success) {
@@ -179,7 +178,8 @@ export default function VendorInfo(nav) {
       setErrorValue(validationError.message);
       success({
         type: 'error',
-        text: validationError?.response?.data?.message || validationError?.message,
+        text:
+          validationError?.response?.data?.message || validationError?.message,
       });
     }
   };
@@ -329,7 +329,6 @@ export default function VendorInfo(nav) {
                     color: '#21d59b',
                     fontSize: 10,
                     fontFamily: POPPINS.PoppinsSemiBold,
-                    
                   }}>
                   Verified
                 </Text>
@@ -388,12 +387,19 @@ export default function VendorInfo(nav) {
                   maxLength={14}
                 />
                 <Text
-                  style={values.number.length >= 10 ?{color: '#21d59b',
-                  fontSize: 10,
-                  fontFamily: POPPINS.PoppinsSemiBold,} : {color: '#f96900',
-                  fontSize: 10,
-                  fontFamily: POPPINS.PoppinsSemiBold,}}
-                  >
+                  style={
+                    values.number.length >= 10
+                      ? {
+                          color: '#21d59b',
+                          fontSize: 10,
+                          fontFamily: POPPINS.PoppinsSemiBold,
+                        }
+                      : {
+                          color: '#f96900',
+                          fontSize: 10,
+                          fontFamily: POPPINS.PoppinsSemiBold,
+                        }
+                  }>
                   {values.number.length >= 10 ? 'Verified' : 'Invalid'}
                 </Text>
               </View>

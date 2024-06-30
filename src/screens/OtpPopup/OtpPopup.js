@@ -11,10 +11,16 @@ import {POPPINS, ROBOTO} from '../../constants/CustomFontFamily';
 import {blue, textColorCustom, white} from '../../constants/Theme';
 import VerificationSuccessfully from '../../Shared/VerificationSuccessfully';
 
-const OtpPopup = ({openPopup, setOpenPopup, setVerified, email,setSuccessMessage}) => {
+const OtpPopup = ({
+  openPopup,
+  setOpenPopup,
+  setVerified,
+  email,
+  setSuccessMessage,
+}) => {
   const otpInputRef = useRef(null);
   const [num1, setNum1] = useState();
-  
+
   const handleSubmitPopup = () => {
     // Your submit logic here
     setVerified(true);
@@ -33,7 +39,7 @@ const OtpPopup = ({openPopup, setOpenPopup, setVerified, email,setSuccessMessage
     onSubmit: async (values, action) => {
       await axios({
         method: 'get',
-        url: `${environmentVariables?.apiUrl}/api/user/verfy_otp_with_email?email=${email}&otp=${values?.otp}`,
+        url: `http://localhost:2000/api/user/verfy_otp_with_email?email=${email}&otp=${values?.otp}`,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -45,7 +51,6 @@ const OtpPopup = ({openPopup, setOpenPopup, setVerified, email,setSuccessMessage
           if (response?.data?.success) {
             setVerified(true);
             setOpenPopup(false);
-            
           } else {
             setVerified(false);
             action.setFieldError(
@@ -67,129 +72,128 @@ const OtpPopup = ({openPopup, setOpenPopup, setVerified, email,setSuccessMessage
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     formik;
 
-  
-
   return (
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={openPopup}
-        onRequestClose={() => {
-          setOpenPopup(!openPopup);
-        }}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalView}>
-            <View>
-              <Text
-                style={{
-                  fontFamily: ROBOTO.RobotoMedium,
-                  color: blue,
-                  fontSize: 20,
-                  textAlign: 'center',
-                }}>
-                Check Your Email
-              </Text>
-              <Text
-                style={{
-                  fontFamily: POPPINS.PoppinsLight,
-                  color: blue,
-                  fontSize: 10,
-                  textAlign: 'center',
-                  marginTop: 2,
-                }}>
-                We've sent OTP on your registered Email no
-              </Text>
-            </View>
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={openPopup}
+      onRequestClose={() => {
+        setOpenPopup(!openPopup);
+      }}>
+      <View style={styles.modalContainer}>
+        <View style={styles.modalView}>
+          <View>
+            <Text
+              style={{
+                fontFamily: ROBOTO.RobotoMedium,
+                color: blue,
+                fontSize: 20,
+                textAlign: 'center',
+              }}>
+              Check Your Email
+            </Text>
+            <Text
+              style={{
+                fontFamily: POPPINS.PoppinsLight,
+                color: blue,
+                fontSize: 10,
+                textAlign: 'center',
+                marginTop: 2,
+              }}>
+              We've sent OTP on your registered Email no
+            </Text>
+          </View>
 
-            <View className="w-full my-4">
+          <View className="w-full my-4">
+            <Text
+              style={{
+                fontFamily: POPPINS.PoppinsMedium,
+                color: textColorCustom,
+                fontSize: 13,
+                textAlign: 'center',
+              }}>
+              {email}
+            </Text>
+            <View className="flex flex-col items-center justify-center w-full mt-3 mb-4">
               <Text
                 style={{
                   fontFamily: POPPINS.PoppinsMedium,
-                  color: textColorCustom,
-                  fontSize: 13,
-                  textAlign: 'center',
-                }}>
-                {email}
-              </Text>
-              <View className="flex flex-col items-center justify-center w-full mt-3 mb-4">
-                <Text
-                  style={{
-                    fontFamily: POPPINS.PoppinsMedium,
-                    color: blue,
-                    fontSize: 13,
-                  }}>
-                  Enter OTP
-                </Text>
-              </View>
-              <OTPTextInput
-                ref={otpInputRef}
-                handleTextChange={text => formik.setFieldValue('otp', text)}
-                onBlur={handleBlur('otp')}
-                tintColor={'red'}
-                textInputStyle={styles.inputOTP}
-              />
-              {errors.otp && touched.otp && (
-                <Text style={{color: 'red', paddingLeft: 5, fontSize: 12}}>
-                  {errors.otp}
-                </Text>
-              )}
-            </View>
-            <View className="flex flex-row items-center gap-2">
-              <Text
-                style={{
                   color: blue,
                   fontSize: 13,
-                  fontFamily: ROBOTO.RobotoRegular,
                 }}>
-                Didn't receive OTPP ?
+                Enter OTP
               </Text>
+            </View>
+            <OTPTextInput
+              inputCount={6}
+              ref={otpInputRef}
+              handleTextChange={text => formik.setFieldValue('otp', text)}
+              onBlur={handleBlur('otp')}
+              tintColor={'red'}
+              textInputStyle={styles.inputOTP}
+            />
+            {errors.otp && touched.otp && (
+              <Text style={{color: 'red', paddingLeft: 5, fontSize: 12}}>
+                {errors.otp}
+              </Text>
+            )}
+          </View>
+          <View className="flex flex-row items-center gap-2">
+            <Text
+              style={{
+                color: blue,
+                fontSize: 13,
+                fontFamily: ROBOTO.RobotoRegular,
+              }}>
+              Didn't receive OTP ?
+            </Text>
+            <Text
+              style={{
+                color: textColorCustom,
+                fontSize: 13,
+                fontFamily: ROBOTO.RobotoRegular,
+              }}>
+              Resend
+            </Text>
+          </View>
+
+          <View className="flex flex-row mt-4 gap-x-2">
+            <TouchableOpacity
+              onPress={() => setOpenPopup(false)}
+              style={styles.closeText}>
               <Text
                 style={{
-                  color: textColorCustom,
-                  fontSize: 13,
                   fontFamily: ROBOTO.RobotoRegular,
+                  fontSize: 13,
+                  color: textColorCustom,
+                  textAlign: 'center',
                 }}>
-                Resend
+                Close
               </Text>
-            </View>
-
-            <View className="flex flex-row mt-4 gap-x-2">
-              <TouchableOpacity
-                onPress={() => setOpenPopup(false)}
-                style={styles.closeText}>
-                <Text
-                  style={{
-                    fontFamily: ROBOTO.RobotoRegular,
-                    fontSize: 13,
-                    color: textColorCustom,
-                    textAlign: 'center',
-                  }}>
-                  Close
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={handleSubmit}
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleSubmit}
+              style={{
+                height: 35,
+                width: 100,
+                borderRadius: 5,
+                backgroundColor: textColorCustom,
+                justifyContent: 'center',
+              }}>
+              <Text
                 style={{
-                  height: 35,
-                  width: 100,
-                  borderRadius: 5,
-                  backgroundColor: textColorCustom,
-                  justifyContent: 'center',
+                  fontFamily: ROBOTO.RobotoRegular,
+                  fontSize: 13,
+                  color: white,
+                  textAlign: 'center',
                 }}>
-                <Text
-                  style={{
-                    fontFamily: ROBOTO.RobotoRegular,
-                    fontSize: 13,
-                    color: white,
-                    textAlign: 'center',
-                  }}>
-                  Verify
-                </Text>
-              </TouchableOpacity>
-            </View>
+                Verify
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
-      </Modal>
+      </View>
+    </Modal>
   );
 };
 

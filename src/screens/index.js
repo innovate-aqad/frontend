@@ -64,6 +64,10 @@ import ProductFilter from './Vendor/SearchFilter/ProductFilter';
 import PrivacyPolicy from '../Shared/settings/privacySecurity/PrivacyPolicy';
 import PolicyRoutes from '../Shared/settings/privacySecurity/index';
 import TermsCondition from '../Shared/settings/privacySecurity/TermsCondition';
+import FrequentlyMain from '../components/frequently/FrequentlyMain';
+import AlertMain from '../components/alertNotifications/AlertMain';
+import PosMain from '../components/posIntegration/PosMain';
+import PosQb from '../components/posQb/PosQb';
 export default function Index() {
   const Stack = createNativeStackNavigator();
   return (
@@ -156,7 +160,20 @@ export default function Index() {
       {/* SearchFilter */}
       <Stack.Screen name="searchFilter" component={SearchFilter} />
       <Stack.Screen name="productFilter" component={ProductFilter} />
+
       {/* search and filter end screen */}
+      {/* FAQ start*/}
+      <Stack.Screen name="frequently" component={FrequentlyMain} />
+      {/* FAQ end */}
+      {/* Notification and Alert start */}
+      <Stack.Screen name="alert" component={AlertMain} />
+      {/* Notification anf Alert end */}
+      {/* POS  start */}
+      <Stack.Screen name="pos" component={PosMain} />
+      {/*POS end */}
+      {/* POSQB  start */}
+      <Stack.Screen name="posqb" component={PosQb} />
+      {/*POSQB end */}
     </Stack.Navigator>
   );
 }
