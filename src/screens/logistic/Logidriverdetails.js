@@ -132,6 +132,7 @@ export default function VendorInfo(nav) {
     setInputsVehicle(updatedInputs);
     formik.setFieldValue('vehicles', updatedInputs);
   };
+
   const LogisticRegisterSchema = Yup.object().shape({
     drivers: Yup.array().of(
       Yup.object().shape({
@@ -173,6 +174,7 @@ export default function VendorInfo(nav) {
     onSubmit: async (values, action) => {
       try {
         setToggle(false);
+        console.log('values', values);
         const formData = new FormData();
         formData.append('slide', '4');
         formData.append('user_type', 'logistic');
@@ -223,6 +225,11 @@ export default function VendorInfo(nav) {
           .catch(error => {
             setToggle(true);
 
+            console.log(
+              'fffffff',
+              error?.response?.data?.message,
+              error?.message,
+            );
             success({
               type: 'error',
               text: error?.response?.data?.message || error?.message,
@@ -235,6 +242,8 @@ export default function VendorInfo(nav) {
   });
   const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
     formik;
+
+  console.log(errors.drivers);
 
   return (
     <ScrollView>
@@ -319,6 +328,13 @@ export default function VendorInfo(nav) {
                       />
                     </View>
                   </TouchableOpacity>
+                  {errors.drivers &&
+                    errors.drivers[index] &&
+                    errors.drivers[index].image && (
+                      <Text style={styles.errorHandle}>
+                        {errors.drivers[index].image}
+                      </Text>
+                    )}
                 </View>
                 <Text className="mt-3 " style={CustomStyle.inputLabel}>
                   Driver Name
@@ -393,14 +409,14 @@ export default function VendorInfo(nav) {
                       )}
                     />
                   </TouchableOpacity>
+                  {errors.drivers &&
+                    errors.drivers[index] &&
+                    errors.drivers[index].license && (
+                      <Text style={styles.errorText}>
+                        {errors.drivers[index].license.uri}
+                      </Text>
+                    )}
                 </View>
-                {errors.drivers &&
-                  errors.drivers[index] &&
-                  errors.drivers[index].license && (
-                    <Text style={styles.errorText}>
-                      {errors.drivers[index].license.uri}
-                    </Text>
-                  )}
 
                 {inputs?.length > 1 &&
                   index !== 0 &&

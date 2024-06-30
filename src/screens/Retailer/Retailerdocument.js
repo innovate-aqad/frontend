@@ -30,7 +30,7 @@ export default function VendorDocument(nav) {
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [toggle, setToggle] = useState(true);
   const [selectedDocuments, setSelectedDocuments] = useState({
-    vatCertificateDocument: null,
+    vat_certificate: null,
   });
 
   const mainId = nav.route.params.id;
@@ -44,11 +44,11 @@ export default function VendorDocument(nav) {
   }, []);
 
   const initialValues = {
-    tradeLicense: '',
-    cancelledChequeDocument: '',
+    trade_license: '',
+    cheque_scan: '',
     cancelledChequeIBAN: '',
-    vatCertificateDocument: '',
-    emiratesIDDocument: '',
+    vat_certificate: '',
+    emirate_id_pic: '',
     emiratesIDNumber: '',
   };
   let formik = useFormik({
@@ -170,10 +170,10 @@ export default function VendorDocument(nav) {
             <Text style={CustomStyle.inputLabel}>Trade Licence</Text>
             <TouchableOpacity
               className="h-[76px]"
-              onPress={() => selectDocument('tradeLicense', 'trade_license')}>
+              onPress={() => selectDocument('trade_license', 'trade_license')}>
               <Card.Title
                 className="bg-white shadow rounded-xl"
-                title={selectedDocuments.tradeLicense || 'Click to Upload'}
+                title={selectedDocuments.trade_license || 'Click to Upload'}
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
                 subtitleStyle={{
@@ -200,12 +200,12 @@ export default function VendorDocument(nav) {
             <TouchableOpacity
               className="h-[76px]"
               onPress={() =>
-                selectDocument('cancelledChequeDocument', 'cheque_scan')
+                selectDocument('cheque_scan', 'cheque_scan')
               }>
               <Card.Title
                 className="bg-white shadow rounded-xl"
                 title={
-                  selectedDocuments.cancelledChequeDocument || 'Click to Upload'
+                  selectedDocuments.cheque_scan || 'Click to Upload'
                 }
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
@@ -241,12 +241,12 @@ export default function VendorDocument(nav) {
             <TouchableOpacity
               className="h-[76px]"
               onPress={() =>
-                selectDocument('vatCertificateDocument', 'vat_certificate')
+                selectDocument('vat_certificate', 'vat_certificate')
               }>
               <Card.Title
                 className="bg-white shadow rounded-xl"
                 title={
-                  selectedDocuments.vatCertificateDocument || 'Click to Upload'
+                  selectedDocuments.vat_certificate || 'Click to Upload'
                 }
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"
@@ -266,10 +266,10 @@ export default function VendorDocument(nav) {
                 )}
               />
             </TouchableOpacity>
-            {errors.vatCertificateDocument &&
-              touched.vatCertificateDocument && (
+            {errors.vat_certificate &&
+              touched.vat_certificate && (
                 <Text style={{color: 'red'}}>
-                  {errors.vatCertificateDocument}
+                  {errors.vat_certificate}
                 </Text>
               )}
           </View>
@@ -278,12 +278,12 @@ export default function VendorDocument(nav) {
             <TouchableOpacity
               className="h-[76px]"
               onPress={() =>
-                selectDocument('emiratesIDDocument', 'emirate_id_pic')
+                selectDocument('emirate_id_pic', 'emirate_id_pic')
               }>
               <Card.Title
                 className="bg-white shadow rounded-xl"
                 title={
-                  selectedDocuments.emiratesIDDocument || 'Click to Upload'
+                  selectedDocuments.emirate_id_pic || 'Click to Upload'
                 }
                 titleStyle={{color: '#0058ff', fontSize: 13, paddingTop: 4.5}}
                 subtitle="(Max File Size:MB) File Formate: PDF JPEG, JPG"

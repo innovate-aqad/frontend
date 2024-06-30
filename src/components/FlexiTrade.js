@@ -96,6 +96,9 @@ const MyComponent = () => {
             </Text>
           </TouchableOpacity>
         </View>
+
+
+        
         <View style={styles.containerimage}>
           <Image
             style={styles.imagecentre}

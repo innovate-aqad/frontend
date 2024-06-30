@@ -48,21 +48,21 @@ export default function Login(nav) {
       onSubmit: async (values, action) => {
         NetInfo.fetch().then(state => {
           console.log(state, 'statestate');
-          if (state.isConnected) {
-            if (state.type === 'wifi' && state.isInternetReachable) {
-              Alert.alert('Connection Info', 'You are connected to WiFi');
-            } else if (state.type === 'cellular' && state.isInternetReachable) {
-              Alert.alert(
-                'Connection Info',
-                'You are connected to Mobile Data',
-              );
-            } else {
-              Alert.alert('Connection Info', 'No internet connection');
-            }
+          // if (state.isConnected) {
+          //   if (state.type === 'wifi' && state.isInternetReachable) {
+          //     Alert.alert('Connection Info', 'You are connected to WiFi');
+          //   } else if (state.type === 'cellular' && state.isInternetReachable) {
+          //     Alert.alert(
+          //       'Connection Info',
+          //       'You are connected to Mobile Data',
+          //     );
+          //   } else {
+          //     Alert.alert('Connection Info', 'No internet connection');
+          //   }
             handleOnlineLogin(values, action);
-          } else {
-            Alert.alert('Connection Info', 'No internet connection');
-          }
+          // } else {
+          //   Alert.alert('Connection Info', 'No internet connection');
+          // }
         });
       },
     });
@@ -286,6 +286,11 @@ export default function Login(nav) {
             className="px-5 "
             onPress={() => {
               nav.navigation.navigate('signup');
+              // nav.navigation.navigate('logidrivdetail', {
+              //   id: 'd3c410d0a9c54ee39f1a70057cb6df6d',
+              // });
+              // nav.navigation.navigate('productIndex');
+              // nav.navigation.navigate('retailerIndex');
             }}>
             <Text style={{fontFamily:ROBOTO.RobotoRegular,fontSize:13,color:textColorCustom}}>
               Sign Up

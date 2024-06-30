@@ -1,6 +1,5 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import Header from '../../components/Header';
 import CustomDrawerContent from './CustomDrawerContent';
 import SvgUri from 'react-native-svg-uri';
 import messages_question from '../../Assets/image/messages_question.svg';
@@ -8,19 +7,29 @@ import info from '../../Assets/image/info.svg';
 
 import User_Mnagement from './User_Mnagement';
 import Invent_Mnagement from './Invent_Mnagement';
-import Dashboard from '../../screens/Retailer/Dashboard';
+import Dashboard from '../Retailer/Dashboard';
 
 import {View, TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
 import Index from '..';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import RetailerIndex from '../Retailer';
+import Header from '../../components/Header';
 
 const Drawer = createDrawerNavigator();
 
-const userContact = 'user@example.com'; // Replace with actual contact information
+const userContact = 'user@example.com'; 
 
-export default function Main_App() {
+const shouldShowHeader = route => {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? route.name;
+  return (
+    routeName === 'retailerIndex' || routeName === 'Dashboard'  
+  );
+};
+
+export default function RetailerDrawer() {
   return (
     <Drawer.Navigator
-    initialRouteName="indexPage"
+    initialRouteName="retailerIndex"
     drawerContent={props => (
       <CustomDrawerContent {...props} userContact={userContact} />
     )}
@@ -32,9 +41,43 @@ export default function Main_App() {
       // drawerActiveTintColor: '#6200EE', // Customize this to your preferred active color
       // drawerInactiveTintColor: '#000000',
     })}
+    // initialRouteName="retailerIndex"
+    //   drawerContent={props => (
+    //     <CustomDrawerContent {...props} userContact={userContact} />
+    //   )}
+    //   screenOptions={({route, navigation}) => {
+    //     const showHeader = shouldShowHeader(route);
+
+    //     return {
+    //       header: () =>
+    //         <Header navigation={navigation} /> ,
+    //       drawerStyle: {
+    //         width: '80%',
+    //       },
+    //     };
+    //   }}
     >
+
+
+<Drawer.Screen
+        name="retailerIndex"
+        options={{
+          headerShown: false,
+        }}
+        component={RetailerIndex}
+      />
+
+      {/* <Drawer.Screen
+        name="dashboard"
+        options={{
+          headerShown: false,
+        }}
+        component={Dashboard}
+      /> */}
+
+{/* Dashboard */}
       {/* bottom tab */}
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="indexPage"
         options={{
           headerShown: false,
@@ -50,7 +93,7 @@ export default function Main_App() {
           title: '',
           drawerItemStyle: {height: 0},
         }}
-      />
+      /> */}
       {/* remaining screens */}
       {/* <Drawer.Screen name="Request a Call" component={Requestcall} /> */}
       <Drawer.Screen

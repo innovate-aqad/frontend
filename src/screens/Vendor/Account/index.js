@@ -7,6 +7,7 @@ import PersonalInformation from './PersonalInformation';
 import WareHouseDetails from '../../WareHouseDetails/WareHouseDetails';
 import CompanyDetail from './CompanyDetail';
 import IntegrationSettings from './IntegrationSettings';
+import VendorSupportRoute from './VendorSupport';
 
 const stack = createNativeStackNavigator();
 
@@ -103,8 +104,26 @@ export default function AccountIndex() {
           },
         }}
       />
+      <stack.Screen
+        name="vendorSupportRoute"
+        component={VendorSupportRoute}
+        options={{
+          headerShown: false,
+          title: 'Integration Settings',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+            borderRadius:20
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+          },
+        }}
+      />
     </stack.Navigator>
   );
 }
 
-// IntegrationSettings
+// VendorSupportRoute

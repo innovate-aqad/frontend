@@ -23,8 +23,6 @@ import {environmentVariables} from '../../../config/Config';
 import {useNavigation} from '@react-navigation/native';
 
 export default function AddProduct(nav) {
-  const [size, setSize] = useState([]);
-  const [selectedFiles, setSelectedFiles] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
   const [subCategoryData, setSubCategoryData] = useState([]);
   const [brandData, setBrandData] = useState([]);
@@ -100,6 +98,7 @@ export default function AddProduct(nav) {
         sub_category_id: values?.valueSubCategory,
       };
       const storedToken = await retrieveToken();
+      console.log('55555', storedToken);
       await axios({
         method: 'post',
         url: `${environmentVariables?.apiUrl}/api/product/add`,
@@ -169,9 +168,6 @@ export default function AddProduct(nav) {
                   setValue={setValue}
                   value={value}
                   formik={formik}
-                  // name="value"
-                  // onChangeText={handleChange('value')}
-                  // onBlur={handleBlur('value')}
                 />
                 {errors.value && touched.value && (
                   <Text style={styles.errorHandle}>{errors.value}</Text>

@@ -40,4 +40,12 @@ const retrieveToken = async () => {
   }
 };
 
-export {storeToken, retrieveToken};
+const removeToken = async () => {
+  try {
+    await AsyncStorage.removeItem(STORAGE_KEY);
+  } catch (error) {
+    console.error('Error removing token:', error);
+  }
+};
+
+export {storeToken, retrieveToken, removeToken};

@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-export default function Search() {
+export default function Search({onSearchValueChange}) {
   const [searchText, setSearchText] = useState('');
+
   const handleSearch = () => {};
+
+  const handleTextChange = text => {
+    setSearchText(text);
+    onSearchValueChange(text);
+  };
   return (
     <View style={styles.container}>
       <TextInput
@@ -15,7 +27,7 @@ export default function Search() {
         placeholderTextColor={'#cbcbcb'}
         keyboardType="default"
         disableFullscreenUI={true}
-        onChangeText={text => setSearchText(text)}
+        onChangeText={handleTextChange}
         onSubmitEditing={handleSearch}
       />
 

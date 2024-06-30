@@ -1,40 +1,47 @@
-import {View, Text, TouchableOpacity, Button, Switch, ToastAndroid} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Button,
+  Switch,
+  ToastAndroid,
+} from 'react-native';
 import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ToggleSwitch from 'toggle-switch-react-native';
 import axios from 'axios';
+import {useFormik} from 'formik';
+import {environmentVariables} from '../../config/Config';
+import {ForgetPasswordSchema} from '../schemas/ForgetPasswordSchema';
+import {success} from '../constants/ToastMessage';
 
 // Make a request for a user with a given ID
 
 export default function Forgot(nav) {
   const [isEnabled, setIsEnabled] = React.useState(false);
   const rememberMe = () => setIsEnabled(previousState => !previousState);
-  const [email,setEmail] = useState();
-  const [password,setPassword] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
 
   const redirect = () => {
     // nav.navigation.navigate('productIndex')
 
-    console.log(email,"emailemailemail")
-    console.log(password,"passwordpasswordpasswordpassword")
+    // ToastAndroid.showWithGravityAndOffset(
+    //   'A wild toast appeared!',
+    //   ToastAndroid.LONG,
+    //   ToastAndroid.BOTTOM,
+    //   25,
+    //   50,
+    // );
 
-    ToastAndroid.showWithGravityAndOffset(
-      'A wild toast appeared!',
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50,
-    );
-
-
-    axios.get('/user?ID=12345')
+    axios
+      .get('/user?ID=12345')
       .then(function (response) {
         // handle success
         console.log(response);
         // nav.navigation.navigate('productIndex')
-        
       })
       .catch(function (error) {
         // handle error
@@ -43,8 +50,53 @@ export default function Forgot(nav) {
       .finally(function () {
         // always executed
       });
+  };
 
-    };
+  const initialValues = {
+    email: '',
+  };
+  const {values, errors, touched, handleBlur, handleChange, handleSubmit} =
+    useFormik({
+      initialValues,
+      validationSchema: ForgetPasswordSchema,
+      onSubmit: async (values, action) => {
+        console.log('values', values);
+        await axios({
+          method: 'put',
+          url: `${environmentVariables?.apiUrl}/api/user/forgot_password`,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          data: {
+            email: values.email,
+          },
+        })
+          .then(response => {
+            console.log('response', response);
+
+            // action.resetForm();
+            success({type: 'success', text: response.data.message});
+            nav.navigation.navigate('otpscreen', {
+              email: values.email,
+              type:"forget",
+              handleSubmit,
+            });
+          })
+          .catch(error => {
+            console.log(
+              'error',
+              error?.response?.data?.message,
+              error?.message,
+              environmentVariables?.apiUrl,
+            );
+            success({
+              type: 'error',
+              text: error?.response?.data?.message || error?.message,
+            });
+          });
+      },
+    });
 
   return (
     <View
@@ -70,39 +122,34 @@ export default function Forgot(nav) {
             Your Email
           </Text>
           <TextInput
-            name="temail"
-            onChangeText={setEmail}
+            name="email"
             style={styles.input}
             placeholderTextColor="rgb(210, 210, 210)"
             placeholder="example@gmail.com"
             className="!border-none pl-4 !border-white"
             borderRadius={18}
+            value={values.email}
+            onChangeText={handleChange('email')}
+            onBlur={handleBlur('email')}
           />
-          <Text
-            className="text-[#00274D] px-3 mt-3"
-            style={{fontFamily: 'Poppins-SemiBold'}}>
-            Password
-          </Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setPassword}
-            // value={number}
-            secureTextEntry={true}
-            type="password"
-            name="tpassword"
-            placeholder="Enter your password"
-            keyboardType="default"
-            placeholderTextColor="rgb(210, 210, 210)"
-            className="!border-none pl-4 border-white"
-            borderRadius={18}
-          />
+          {errors.email && touched.email && (
+            <Text
+              style={{
+                color: 'red',
+                paddingLeft: 20,
+                paddingTop: 2,
+                fontSize: 12,
+              }}>
+              {errors.email}
+            </Text>
+          )}
         </SafeAreaView>
         <View
           style={styles.checkboxContainer}
           className="flex flex-row items-center justify-between">
           <View className="flex flex-row items-center">
             <View style={{borderWidth: 0, borderColor: 'transparent'}}>
-              <ToggleSwitch
+              {/* <ToggleSwitch
                 isOn={isEnabled}
                 onColor="#00274D"
                 offColor="gray"
@@ -110,32 +157,34 @@ export default function Forgot(nav) {
                 labelStyle={{color: 'black', fontWeight: '900'}}
                 size="small"
                 onToggle={isOn => rememberMe(isOn)}
-              />
+              /> */}
             </View>
 
-            <Text style={styles.label1} className="text-[#00274D]">
+            {/* <Text style={styles.label1} className="text-[#00274D]">
               Remember me
-            </Text>
+            </Text> */}
           </View>
-          <Text
+          {/* <Text
             className="text-[#00274D]"
             style={{fontFamily: 'Poppins-SemiBold'}}>
             Forget Password ?
-          </Text>
+          </Text> */}
         </View>
       </View>
       <View className="w-full">
         <View>
-          <TouchableOpacity onPress={() => redirect()} style={styles.button}>
+          <TouchableOpacity
+            onPress={() => handleSubmit()}
+            style={styles.button}>
             <Text
               className="text-white"
               style={{fontFamily: 'Poppins-SemiBold'}}>
-              LOGIN
+              SUBMIT
             </Text>
           </TouchableOpacity>
         </View>
 
-        <View
+        {/* <View
           className="py-5"
           style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={{flex: 1, height: 1}} className="bg-gray-300" />
@@ -151,9 +200,9 @@ export default function Forgot(nav) {
             </Text>
           </View>
           <View style={{flex: 1, height: 1}} className="bg-gray-300" />
-        </View>
+        </View> */}
       </View>
-      <View className="flex flex-col gap-y-2">
+      {/* <View className="flex flex-col gap-y-2">
         <TouchableOpacity className="flex-row items-center p-2 my-1 bg-white border border-white rounded-2xl">
           <AntDesign name="google" color={'black'} size={22} />
           <Text className="pl-10 text-center text-[#00274D] flex-1">
@@ -174,15 +223,15 @@ export default function Forgot(nav) {
             Sign up with UEA Pass
           </Text>
         </TouchableOpacity>
-      </View>
-      <View className="flex flex-row items-center justify-center mt-8">
+      </View> */}
+      {/* <View className="flex flex-row items-center justify-center mt-8">
         <Text className="text-gray-400">New to AQAD ?</Text>
         <Text
           className="px-5 text-[#F96900]"
           onPress={() => nav.navigation.navigate('signup')}>
           Sign Up
         </Text>
-      </View>
+      </View> */}
     </View>
   );
 }

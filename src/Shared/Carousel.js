@@ -23,7 +23,6 @@ export default function CarouselHome() {
       height={100}
       contentContainerStyle={{paddingHorizontal: 30}}
       separatorWidth={10}
-      // indicatorContainerStyle={{position:'absolute', bottom: 20}}
       indicatorActiveWidth={10}
       data={images}
       imageKey={'banner'}
