@@ -6,17 +6,19 @@ export default function InputTextField({
   onPress,
   placeholderTextColor,
   numberOfLines,
+  customCss,
+  className,
 }) {
   return (
     <View>
       <TextInput
-        style={styles.input}
+        style={[styles.input,customCss]}
         onPress={onPress}
         placeholderTextColor={grayColor}
         placeholder={placeholderTextColor ? placeholderTextColor : 'search'}
-        className="!border-none pl-4 !border-white"
+        className={className ? className : "!border-none pl-4 !border-white"}
         borderRadius={10}
-        multiline={true}
+        multiline={true} 
         numberOfLines={numberOfLines ? numberOfLines : 1}
       />
     </View>
