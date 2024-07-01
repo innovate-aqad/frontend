@@ -70,6 +70,7 @@ import FrequentlyMain from '../components/frequently/FrequentlyMain';
 import AlertMain from '../components/alertNotifications/AlertMain';
 import PosMain from '../components/posIntegration/PosMain';
 import PosQb from '../components/posQb/PosQb';
+import WhatsApp from '../screens/Vendor/Account/LiveChat/WhatsApp';
 export default function Index() {
   const Stack = createNativeStackNavigator();
   return (
@@ -180,7 +181,11 @@ export default function Index() {
       {/*POS end */}
       {/* POSQB  start */}
       <Stack.Screen name="posqb" component={PosQb} />
+
       {/*POSQB end */}
+      {/* live-chat  start */}
+      <Stack.Screen name="whatsapp" component={WhatsApp} />
+      {/*live-chat end */}
     </Stack.Navigator>
   );
 }
